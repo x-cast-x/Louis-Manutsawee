@@ -115,14 +115,32 @@ local function OnPocket(inst, owner)
     end
 end
 
+local has_broken = {
+    "hitokiri",
+    "shirasaya",
+    "raikiri",
+    "koshirae",
+    "kurokatana",
+    "tokishin"
+}
+
 local function OnFinished(inst)
     if inst:HasTag("mortalblade") then
         inst.StopFx(inst)
     end
 
-    local katana_broken = SpawnPrefab(inst.build .. "_broken")
-    local x,y,z = inst.Transform:GetWorldPosition()
-    katana_broken.Transform:SetPosition(x,y,z)
+    if has_broken[inst.prefab] then
+        local katana_broken = SpawnPrefab(inst.build .. "_broken")
+        local x,y,z = inst.Transform:GetWorldPosition()
+        katana_broken.Transform:SetPosition(x,y,z)    
+    end
+
+    local owner = inst.components.inventoryitem:GetGrandOwner()
+
+    if owner ~= nil and not owner:HasTag("notshowscabbard") then
+        owner.AnimState:ClearOverrideSymbol("swap_body_tall")
+    end
+
     inst:Remove()
 end
 
@@ -281,6 +299,13 @@ local MakeKatana = function(data)
         return inst
     end
     return Prefab(name, fn, assets, prefabs)
+end
+
+-- No one will use it, but I wrote it anyway
+AddHasBrokenKatana = function(katana)
+    if type(katana) == "string" then
+        table.insert(has_broken, katana)
+    end
 end
 
 return MakeKatana

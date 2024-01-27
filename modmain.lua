@@ -1,7 +1,6 @@
 local modimport = modimport
 
 local modules = {
-    "modrequirer",
     "config",
     "mutil",
     "assets",
@@ -15,7 +14,7 @@ local modules = {
     "containers",
     "commands",
     "characters",
-    "rpc",
+    "RPC",
     "prefabskin",
 }
 
@@ -34,7 +33,3 @@ end
 for i = 1, #modules do
     modimport("main/" .. modules[i])
 end
-
-Mmodimport("chatinputscreen")
-Mmodimport("consolescreen")
-Mmodimport("textedit")

@@ -21,19 +21,19 @@ AddPrefabPostInit("fissure", function(inst)
     function inst.components.workable.onfinish(inst, worker)
         _OnFissureMinedFinished(inst, worker)
         local pt = inst:GetPosition()
-        if katanaspawner ~= nil and not katanaspawner:GetTheWorldHasTomb() then
+        if katanaspawner ~= nil and not katanaspawner:GetHasKatana("mortalblade") then
             inst.components.lootdropper:SpawnLootPrefab("mortalblade", pt)
-            katanaspawner:SetHasTomb(true)
+            katanaspawner:SetHasKatana("mortalblade", true)
         end
     end
 
     local _OnNightmarePhaseChanged = inst.OnNightmarePhaseChanged
-    local ShowPhaseState = M_Util.GetUpvalue(_OnNightmarePhaseChanged, "ShowPhaseState")
-    local states = M_Util.GetUpvalue(ShowPhaseState, "states")
-    local controlled = states.controlled
+    local _ShowPhaseState = M_Util.GetUpvalue(_OnNightmarePhaseChanged, "ShowPhaseState")
+    local _states = M_Util.GetUpvalue(_ShowPhaseState, "states")
+    local _controlled = _states.controlled
     function states.controlled(inst, instant, oldstate)
-        controlled(inst, instant, oldstate)
-        if katanaspawner ~= nil and not katanaspawner:GetTheWorldHasTomb() and inst.AnimState:IsCurrentAnimation("idle_open_rift") then
+        _controlled(inst, instant, oldstate)
+        if katanaspawner ~= nil and not not katanaspawner:GetHasKatana("mortalblade") and inst.AnimState:IsCurrentAnimation("idle_open_rift") then
             local fx = SpawnPrefab("dreadstone_spawn_fx")
             fx.entity:SetParent(inst.entity)
             inst.AnimState:SetBank("nightmare_crack_upper_tomb")

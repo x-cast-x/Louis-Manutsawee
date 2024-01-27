@@ -240,12 +240,12 @@ if IA_ENABLED then
         -- },
     }
 
-    M_Util.AddShipwreckedRecipe(shipwrecked_recipes_data, recipes_data)
+    M_Util.AddShipwreckedRecipes(shipwrecked_recipes_data, recipes_data)
 end
 
 
 -- if PL_ENABLED then
 --     local porkland_recipes_data = {}
 
---     M_Util.AddPorklandRecipe(porkland_recipes_data, recipes_data)
+--     M_Util.AddPorklandRecipes(porkland_recipes_data, recipes_data)
 -- end

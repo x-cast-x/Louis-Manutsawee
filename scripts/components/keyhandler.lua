@@ -77,7 +77,7 @@ function KeyHandler:AddActionListener(namespace, key, action, event)
 				if data.key == key then
                     if CanCastSkill(inst) then
                         if TheWorld.ismastersim then
-                            ThePlayer:PushEvent("keyaction"..namespace..action, { Namespace = namespace, Action = action, Fn = MOD_RPC_HANDLERS[namespace][MOD_RPC[namespace][action].id]})
+                            ThePlayer:PushEvent("keyaction"..namespace..action, { namespace = namespace, action = action, fn = MOD_RPC_HANDLERS[namespace][MOD_RPC[namespace][action].id]})
                         else
                             SendModRPCToServer(MOD_RPC[namespace][action])
                         end
@@ -91,7 +91,7 @@ function KeyHandler:AddActionListener(namespace, key, action, event)
 				if data.key == key then
                     if CanCastSkill(inst) then
                         if TheWorld.ismastersim then
-                            ThePlayer:PushEvent("keyaction".. namespace .. action, { Namespace = namespace, Action = action, Fn = MOD_RPC_HANDLERS[namespace][MOD_RPC[namespace][action].id]})
+                            ThePlayer:PushEvent("keyaction".. namespace .. action, { namespace = namespace, action = action, fn = MOD_RPC_HANDLERS[namespace][MOD_RPC[namespace][action].id]})
                         else
                             SendModRPCToServer(MOD_RPC[namespace][action])
                         end
@@ -103,10 +103,12 @@ function KeyHandler:AddActionListener(namespace, key, action, event)
 
 	if TheWorld.ismastersim then
 		self.inst:ListenForEvent("keyaction".. namespace .. action, function(inst, data)
-			if not data.Action == action and not data.Namespace == namespace then
-				return
+			if CanCastSkill(inst) then
+				if not data.action == action and not data.namespace == namespace then
+					return
+				end
+				data.fn(inst)
 			end
-            data.Fn(inst)
 		end, self.inst)
 	end
 end

@@ -8,13 +8,12 @@ local assets = {
 
 local mitemlist = {"maid_hb_swap","m_hb","m_oni","m_nohat"}
 
-local function MItemmode(inst)
-	local owner = inst.components.inventoryitem.owner
+local function SwitchMode(inst, owner)
 	owner.AnimState:OverrideSymbol("swap_hat", mitemlist[inst.mitemstatus], "swap_hat")
 end
 
 local function OnEquip(inst, owner)
-	MItemmode(inst)
+	SwitchMode(inst, owner)
     owner.AnimState:Show("HAT")
 
 	if inst.components.fueled ~= nil then
@@ -36,7 +35,7 @@ local function CastFn(inst, target)
 		inst.mitemstatus = 1
 	end
 
-	MItemmode(inst)
+	SwitchMode(inst)
 end
 
 local function onSave(inst, data)
@@ -107,6 +106,7 @@ local function fn()
 	inst.mitemstatus = 1
 	inst.OnSave = onSave
     inst.OnLoad = onLoad
+    inst.SwitchMode = SwitchMode
 
 	MakeHauntableLaunch(inst)
 

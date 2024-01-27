@@ -1,9 +1,13 @@
 local skilltime = .05
 
-local function _SkillRemove(inst)
+local function SkillRemove(inst)
     inst.components.skillreleaser:SkillRemove()
 
-    inst.mafterskillndm = nil
+    if inst.mafterskillndm ~= nil then
+        inst.mafterskillndm:Cancel()
+        inst.mafterskillndm = nil
+    end
+    
     inst.inspskill = nil
     inst.components.combat:SetRange(inst._range)
     inst.components.combat:EnableAreaDamage(false)
@@ -15,13 +19,13 @@ end
 
 local function CancelSkill(inst)
     inst.sg:GoToState("idle")
-    _SkillRemove(inst)
+    SkillRemove(inst)
 end
 
 local Ichimonji = function(inst, target, weapon)
     inst.components.skillreleaser:CanUseSkill(target)
 
-    if inst.mcanskill then
+    if inst.components.skillreleaser.canskill then
         CancelSkill(inst)
         return
     end
@@ -65,7 +69,7 @@ local Flip = function(inst, target, weapon)
     inst.components.skillreleaser:CanUseSkill(target)
     skilltime = .1
 
-    if inst.mcanskill then
+    if inst.components.skillreleaser.canskill then
         CancelSkill(inst)
         return
     end
@@ -102,7 +106,7 @@ local Thrust = function(inst, target, weapon)
     inst.components.skillreleaser:CanUseSkill(target)
     skilltime = .1
 
-    if inst.mcanskill then
+    if inst.components.skillreleaser.canskill then
         CancelSkill(inst)
         return
     end
@@ -163,7 +167,7 @@ end
 local Isshin = function(inst, target, weapon)
         inst.components.skillreleaser:CanUseSkill(target)
 
-        if inst.mcanskill then
+        if inst.components.skillreleaser.canskill then
             CancelSkill(inst)
             return
         end
@@ -264,7 +268,7 @@ end
 local HeavenlyStrike = function(inst, target)
     inst.components.skillreleaser:CanUseSkill(target)
 
-    if inst.mcanskill then
+    if inst.components.skillreleaser.canskill then
         CancelSkill(inst)
         return
     end
@@ -312,7 +316,7 @@ end
 local Ryusen = function(inst, target)
     inst.components.skillreleaser:CanUseSkill(target)
 
-    if inst.mcanskill then
+    if inst.components.skillreleaser.canskill then
         CancelSkill(inst)
         return
     end
@@ -363,7 +367,7 @@ end
 local Susanoo = function(inst, target, weapon)
     inst.components.skillreleaser:CanUseSkill(target)
 
-    if inst.mcanskill then
+    if inst.components.skillreleaser.canskill then
         CancelSkill(inst)
         return
     end
@@ -474,7 +478,18 @@ end
 
 -- 苍龙破
 local Soryuha = function(inst, target, weapon)
+    inst.components.skillreleaser:CanUseSkill(target)
 
+    if inst.components.skillreleaser.canskill then
+        CancelSkill(inst)
+        return
+    end
+
+
+    inst.mindpower = (inst.mindpower - 20)
+    inst.components.timer:StartTimer("soryuha_cd", M_CONFIG.SKILL3_COOLDOWN)
+
+    inst:RemoveTag("soryuha")
 end
 
 return {

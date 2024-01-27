@@ -201,7 +201,7 @@ end
 local shipwrecked_recipes = {}
 
 ---@param recipes table
-function M_Util.AddShipwreckedRecipe(recipes)
+function M_Util.AddShipwreckedRecipes(recipes)
     assert(type(recipes) == "table")
 
     for k,v in pairs(recipes) do
@@ -216,7 +216,7 @@ end
 local porkland_recipes = {}
 
 ---@param recipes table
-function M_Util.AddPorklandRecipe(recipes)
+function M_Util.AddPorklandRecipes(recipes)
     assert(type(recipes) == "table")
 
     for k,v in pairs(recipes) do
@@ -257,7 +257,7 @@ local function ChangeRecipe(name, ingredients, tech)
     if recipe then
         recipe.ingredients = ingredients
         if tech then
-            recipe.level = TechTree.Create(tech)
+            recipe.level = tech
         end
     end
 end

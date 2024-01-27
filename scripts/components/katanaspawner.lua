@@ -9,16 +9,13 @@ return Class(function(self, inst)
     self.inst = inst
 
     local katanas = {
-        has_mortalblade = false,
-        has_muramasa = false,
+        mortalblade = false,
+        muramasa = false,
+        tenseiga = false,
+        bakusaiga = false,
+        tessaiga = false,
+        tokishin = false, -- In Japan, there is no difference between a sword and a sword
     }
-
-    local has_mortalblade = false
-    local has_tenseiga = false
-    local has_bakusaiga = false
-    local has_tessaiga = false
-    local has_muramasa = false
-    local has_tokishin = false
 
     function self.AddKatana(name, katana)
         katanas[name] = katana

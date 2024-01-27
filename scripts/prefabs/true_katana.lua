@@ -1,7 +1,7 @@
 local MakeKatana = require "prefabs/katana_def"
 
 local shockeffect = nil
-local function OnRaining(inst, israining)
+local function OnIsRaining(inst, israining)
     if israining then
         shockeffect = true
     else
@@ -40,6 +40,9 @@ local function raikiri_onattack(inst, owner, target)
     if target ~= nil and target:IsValid() then
         onattack_common(inst, owner, target)
 
+        local electricchargedfx = SpawnPrefab("electricchargedfx")
+        electricchargedfx:SetTarget(target)
+
         if shockeffect then
             local electrichitsparks = SpawnPrefab("electrichitsparks")
             if electrichitsparks ~= nil and target ~= nil and target:IsValid() and owner ~= nil and owner:IsValid() then
@@ -71,13 +74,29 @@ local function hitokiri_master_postinit(inst)
     inst.components.equippable.is_magic_dapperness = true
 end
 
+local function shirasaya_common_postinit(inst)
+
+end
+
+local function shirasaya_master_postinit(inst)
+
+end
+
 local function raikiri_common_postinit(inst)
     inst:AddTag("lightningcutter")
 end
 
 local function raikiri_master_postinit(inst)
-    inst:WatchWorldState("israining", OnRaining)
-    OnRaining(inst, TheWorld.state.israining)
+    inst:WatchWorldState("israining", OnIsRaining)
+    OnIsRaining(inst, TheWorld.state.israining)
+end
+
+local function koshirae_common_postinit(inst)
+
+end
+
+local function koshirae_master_postinit(inst)
+
 end
 
 local katana_data = {
@@ -88,8 +107,8 @@ local katana_data = {
     },
     shirasaya = {
         onattack = shirasaya_onattack,
-        -- common_postinit = ,
-        -- master_postinit = ,
+        common_postinit = shirasaya_common_postinit,
+        master_postinit = shirasaya_master_postinit,
     },
     raikiri = {
         onattack = raikiri_onattack,
@@ -98,8 +117,8 @@ local katana_data = {
     },
     koshirae = {
         onattack = koshirae_onattack,
-        -- common_postinit = ,
-        -- master_postinit = ,
+        common_postinit = koshirae_common_postinit,
+        master_postinit = koshirae_master_postinit,
     },
 }
 

@@ -12,13 +12,7 @@ local nskill7 = 8
 local ncountskill = 2
 
 local function SkillRemove(inst)
-	inst:RemoveTag("michimonji")
-	inst:RemoveTag("mflipskill")
-	inst:RemoveTag("mthrustskill")
-	inst:RemoveTag("misshin")
-	inst:RemoveTag("heavenlystrike")
-	inst:RemoveTag("ryusen")
-	inst:RemoveTag("susanoo")
+    inst.components.skillreleaser:SkillRemove()
 
 	inst.mafterskillndm = nil
 	inst.inspskill = nil
@@ -27,39 +21,20 @@ local function SkillRemove(inst)
 	inst.AnimState:SetDeltaTimeMultiplier(1)
 end
 
-local function CanUseSkill(inst, weapon)
-    inst.canuseskill = false
-    if inst.mafterskillndm ~= nil then
-        inst.mafterskillndm:Cancel()
-        inst.mafterskillndm = nil
-    end
-
-    if inst.components.health ~= nil and inst.components.health:IsDead() and (inst.sg:HasStateTag("dead") or inst:HasTag("playerghost")) or (inst.components.sleeper and inst.components.sleeper:IsAsleep()) or (inst.components.freezable and inst.components.freezable:IsFrozen()) then
-        return
-    end
-
-    if (inst.components.rider:IsRiding() or inst.components.inventory:IsHeavyLifting()) then
-        return
-    end
-
-    if weapon ~= nil then
-        if ( weapon:HasTag("projectile") or weapon:HasTag("whip") or weapon:HasTag("rangedweapon") or not (weapon:HasTag("tool") or  weapon:HasTag("sharp") or  weapon:HasTag("weapon") or  weapon:HasTag("katanaskill")) ) then
-            return
-        end
-    else
-        return
-    end
-
-    inst.canuseskill = true
-end
-
 local function LevelCheckFn(inst)
-	if not inst.components.timer:TimerExists("checkCD") then
-        inst.components.timer:StartTimer("checkCD",.8)
-		if inst.kenjutsulevel < 10 then
-			inst.components.talker:Say("󰀍: "..inst.kenjutsulevel.." :"..inst.kenjutsuexp.."/"..inst.kenjutsumaxexp.."\n󰀈: "..inst.mindpower.."/"..inst.max_mindpower.."\n", 2, true)
+    local kenjutsuka = inst.components.kenjutsuka
+    local kenjutsuexp = kenjutsuka.kenjutsuexp
+    local kenjutsumaxexp = kenjutsuka.kenjutsumaxexp
+	local kenjutsulevel = kenjutsuka.kenjutsulevel
+    local mindpower = kenjutsuka.mindpower
+    local max_mindpower = kenjutsuka.max_mindpower
+
+    if not inst.components.timer:TimerExists("levelcheck_cd") then
+        inst.components.timer:StartTimer("levelcheck_cd",.8)
+		if kenjutsulevel < 10 then
+			inst.components.talker:Say("󰀍: ".. kenjutsulevel .." :" .. kenjutsuexp .. "/" .. kenjutsumaxexp .. "\n󰀈: " .. mindpower .."/" .. max_mindpower .. "\n", 2, true)
 		else
-			inst.components.talker:Say("\n󰀈: "..inst.mindpower.."/"..inst.max_mindpower.."\n", 2, true)
+			inst.components.talker:Say("\n󰀈: ".. mindpower .. "/" .. max_mindpower.."\n", 2, true)
 		end
 	end
 end
@@ -69,8 +44,7 @@ local function Skill1Fn(inst)
         return
     end
 
-    local equip = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
-    CanUseSkill(inst, equip)
+    CanUseSkill(inst)
 
     if not inst.canuseskill then
         return
@@ -130,7 +104,7 @@ local function Skill2Fn(inst)
     end
 
     local equip = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
-    CanUseSkill(inst, equip)
+    CanUseSkill(inst)
 
     if not inst.canuseskill then
         return
@@ -209,7 +183,8 @@ local function Skill3Fn(inst) ----------  T
     end
 
     local equip = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
-    CanUseSkill(inst, equip)
+    CanUseSkill(inst)
+
     if not inst.canuseskill then
         return
     end
@@ -249,7 +224,8 @@ local function Skill3Fn(inst) ----------  T
             end
 		elseif not inst:HasTag("mthrustskill") then
             if inst.components.timer:TimerExists("skill3cd") then
-                inst.components.talker:Say("Cooldown", 1, true) SkillRemove(inst)
+                inst.components.talker:Say("Cooldown", 1, true) 
+                SkillRemove(inst)
                 return
             end
 			SkillRemove(inst)
@@ -263,17 +239,16 @@ local function Skill3Fn(inst) ----------  T
     end
 end
 
-local function SkillCounterAttackFn(inst)
-    if inst.components.timer:TimerExists("skillcountercd") then
+local function CounterAttackFn(inst)
+    if inst.components.timer:TimerExists("counter_attack_cd") then
         inst.components.talker:Say("Cooldown", 1, true)
         SkillRemove(inst)
         return
     end
 
-    local equip = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
-    CanUseSkill(inst, equip)
+    CanUseSkill(inst)
 
-    if not inst.canuseskill then
+    if not inst.components.skillreleaser.canuseskill then
         return
     end
 
@@ -282,50 +257,49 @@ local function SkillCounterAttackFn(inst)
         return
     end
 
-    if not inst.components.timer:TimerExists("counterCD") then
-        inst.components.timer:StartTimer("counterCD",.63)
+    if not inst.components.timer:TimerExists("counter_attack_cd") then
+        inst.components.timer:StartTimer("counter_attack_cd",.63)
         SkillRemove(inst)
         inst.sg:GoToState("counterstart")
     end
 end
 
 local function SkillCancelFn(inst)
-    if inst.components.timer:TimerExists("cancelskillcd") then
+    if inst.components.timer:TimerExists("skillcancel_cd") then
         return
     end
 
-    local equip = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
-    CanUseSkill(inst, equip)
+    CanUseSkill(inst)
 
-    if not inst.canuseskill then
+    if not inst.components.skillreleaser.canuseskill then
         return
     end
 
-    inst.components.timer:StartTimer("cancelskillcd",1)
+    inst.components.timer:StartTimer("skillcancel_cd",1)
     SkillRemove(inst)
     inst.components.talker:Say("Maybe next time.", 1, true)
 end
 
 local function QuickSheathFn(inst)
-    if inst.kenjutsulevel < ncountskill then
-        inst.components.talker:Say("[UNLOCK] 󰀍: "..ncountskill, 1, true)
+    if inst.components.skillreleaser.kenjutsulevel < ncountskill then
+        inst.components.talker:Say("[UNLOCK] 󰀍: ".. ncountskill , 1, true)
         return
     end
 
-    if inst.components.timer:TimerExists("mQSCd") then
+    if inst.components.timer:TimerExists("quicksheath_cd") then
+        return
+    end
+
+    CanUseSkill(inst)
+
+    if not inst.components.skillreleaser.canuseskill then
         return
     end
 
     local equip = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
-    CanUseSkill(inst, equip)
-
-    if not inst.canuseskill then
-        return
-    end
-
 	if equip ~= nil and equip.wpstatus ~= nil and equip:HasTag("katanaskill") then
-		inst.components.timer:StartTimer("mQSCd",.4)
-		inst.sg:GoToState("mquicksheath")
+		inst.components.timer:StartTimer("quicksheath_cd",.4)
+		inst.sg:GoToState("quicksheath")
 	end
 end
 
@@ -362,7 +336,8 @@ local function HairsFn(inst, skinname)
     end
 
     if not (inst.sg:HasStateTag("doing") or inst.components.inventory:IsHeavyLifting()) then
-        if inst.hairlong == 1 then inst.components.talker:Say("My hair isn't long enough for this.")
+        if inst.hair_bit == 1 then 
+            inst.components.talker:Say("My hair isn't long enough for this.")
             return
         end
 
@@ -374,11 +349,11 @@ local function HairsFn(inst, skinname)
             end)
 
 			inst:DoTaskInTime(1, function()
-                if inst.hairtype < #HAIR_TYPES then
-                    inst.hairtype = inst.hairtype + 1
+                if inst.hair_type < #HAIR_TYPES then
+                    inst.hair_type = inst.hair_type + 1
                     inst.OnChangeHair(inst, skinname)
                 else
-                    inst.hairtype = 1
+                    inst.hair_type = 1
                     inst.OnChangeHair(inst, skinname)
                 end
 			end)
@@ -390,8 +365,8 @@ AddModRPCHandler("manutsawee", "levelcheck", LevelCheckFn)
 AddModRPCHandler("manutsawee", "skill1", Skill1Fn)
 AddModRPCHandler("manutsawee", "skill2", Skill2Fn)
 AddModRPCHandler("manutsawee", "skill3", Skill3Fn)
-AddModRPCHandler("manutsawee", "skillcounterattack", SkillCounterAttackFn)
+AddModRPCHandler("manutsawee", "counterattack", CounterAttackFn)
 AddModRPCHandler("manutsawee", "quicksheath", QuickSheathFn)
 AddModRPCHandler("manutsawee", "skillcancel", SkillCancelFn)
 AddModRPCHandler("manutsawee", "glasses", GlassesFn)
-AddModRPCHandler("manutsawee", "Hairs", HairsFn)
+AddModRPCHandler("manutsawee", "hairs", HairsFn)

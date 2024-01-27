@@ -9,8 +9,10 @@ TUNING.MANUTSAWEE_SANITY = 200
 
 local katana = KATANA[M_CONFIG.START_ITEM]
 
-if katana ~= 0 and katana ~= nil then
+if katana then
     TUNING.GAMEMODE_STARTING_ITEMS.DEFAULT.MANUTSAWEE = {katana}
+else
+    TUNING.GAMEMODE_STARTING_ITEMS.DEFAULT.MANUTSAWEE = {}
 end
 
 --Stop here if MiM

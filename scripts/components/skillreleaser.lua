@@ -12,8 +12,7 @@ local function DoCombatPostInit(self, inst)
             inst:ForceFacePoint(attacker.Transform:GetWorldPosition())
         end
 
-        local pweapon = combat:GetWeapon()
-        if pweapon ~= nil and (inst.mafterskillndm ~= nil and not inst.sg:HasStateTag("mdashing")) then
+        if weapon ~= nil and (inst.mafterskillndm ~= nil and not inst.sg:HasStateTag("mdashing")) then
             inst.mafterskillndm = inst:DoTaskInTime(1.5, function()
                 inst.mafterskillndm = nil
             end)
@@ -69,14 +68,15 @@ local function DoCombatPostInit(self, inst)
     local _StartAttack = combat.StartAttack
     function combat:StartAttack(...)
         _StartAttack(combat, ...)
-        if combat.target ~= nil then
+        if self.inst:HasTag("kenjutsu") and combat.target ~= nil then
             local target = combat.target
             local weapon = combat:GetWeapon()
 
             if weapon ~= nil and weapon.components.weapon ~= nil then
                 for _, v in pairs(M_SKILLS) do
                     if inst:HasTag(v) then
-                        self.skills[v](inst, target, weapon)
+                        local fn = self.skills[v]
+                        fn(inst, target, weapon)
                         break
                     end
                 end
@@ -85,13 +85,54 @@ local function DoCombatPostInit(self, inst)
     end
 end
 
+local function CooldownSkillFx(inst, fxnum)
+    local fxlist = {
+        "ghostlyelixir_retaliation_dripfx",
+        "ghostlyelixir_shield_dripfx",
+        "ghostlyelixir_speed_dripfx",
+        "battlesong_instant_panic_fx",
+        "monkey_deform_pre_fx",
+        "fx_book_birds",
+    }
+    local fx = SpawnPrefab(fxlist[fxnum])
+    fx.Transform:SetScale(.9, .9, .9)
+    fx.entity:AddFollower()
+    fx.Follower:FollowSymbol(inst.GUID, "swap_body", 0, 0, 0)
+end
+
+local function OnTimerDone(inst, data)
+	if data.name ~= nil then
+        local name = data.name
+        local fxnum
+
+        local fx_data = {
+            ["skill1cd"] = 1,
+            ["skill2cd"] = 2,
+            ["skill3cd"] = 3,
+            ["skillcountercd"] = 4,
+            ["skillT2cd"] = 5,
+            ["skillT3cd"] = 6,
+        }
+
+        for i, v in ipairs(fx_data) do
+            if name == i then
+                fxnum = v
+                CooldownSkillFx(inst, fxnum)
+                return
+                break
+            end
+        end
+	end
+end
+
 local SkillReleaser = Class(function(self, inst)
     self.inst = inst
 
-    self.mindpower = 0
-    self.max_mindpower = M_CONFIG.MIND_MAX
+    self.canskill = nil
     self.canuseskill = nil
     self.skills = {}
+
+    self.inst:ListenForEvent("timerdone", OnTimerDone)
 end)
 
 function SkillReleaser:AddSkill(skill_name, fn)
@@ -111,11 +152,42 @@ function SkillReleaser:SkillRemove()
     end
 end
 
-function SkillReleaser:CanUseSkill(target)
-    if (target:HasTag("prey") or target:HasTag("bird") or target:HasTag("buzzard") or target:HasTag("butterfly")) and not target:HasTag("hostile") then
-        self.inst.mcanskill = true
+function SkillReleaser:CanUseSkill(target, inrpc)
+    if inrpc then
+        local inst = self.inst
+        self.canuseskill = false
+
+        local isdead = inst.components.health ~= nil and inst.components.health:IsDead() and (inst.sg:HasStateTag("dead") or inst:HasTag("playerghost"))
+        local isasleep = inst.components.sleeper ~= nil and inst.components.sleeper:IsAsleep()
+        local isfrozen = inst.components.freezable ~= nil and inst.components.freezable:IsFrozen()
+        local isriding = inst.components.rider ~= nil and inst.components.rider:IsRiding()
+        local isheavylifting = inst.components.inventory ~= nil and inst.components.inventory:IsHeavyLifting()
+
+        if inst.mafterskillndm ~= nil then
+            inst.mafterskillndm:Cancel()
+            inst.mafterskillndm = nil
+        end
+    
+        if isdead or isasleep or isfrozen or isriding or isheavylifting then
+            return
+        end
+    
+        local weapon = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
+        local weapon_has_tags = weapon:HasOneOfTags({"projectile", "whip", "rangedweapon"})
+        local weapon_not_has_tags = not weapon:HasOneOfTags({"tool", "sharp", "weapon", "katanaskill"})
+    
+        if weapon ~= nil then
+            if weapon_has_tags or weapon_not_has_tags then
+                return
+            end
+        else
+            return
+        end
+    
+        self.canuseskill = true
     else
-        self.inst.mcanskill = nil
+        local is_vaild_target = target:HasOneOfTags({"prey", "bird", "buzzard", "butterfly"})
+        self.canskill = (is_vaild_target and not target:HasTag("hostile") and true) or nil 
     end
 end
 

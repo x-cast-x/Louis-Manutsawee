@@ -38,25 +38,15 @@ local assets = {
     Asset("ANIM", "anim/player_idles_wanda.zip"),
 }
 
-local MANUTSAWEE_DAMAGE = 1
-local MANUTSAWEE_CRIDMG = 0.1
-local hitcount = 0
-local criticalrate = 5
-
 local start_inv = {}
-if M_CONFIG.START_ITEM > 0 then
-    TUNING.GAMEMODE_STARTING_ITEMS.DEFAULT.MANUTSAWEE = {KATANA[M_CONFIG.START_ITEM]}
-else
-    TUNING.GAMEMODE_STARTING_ITEMS.DEFAULT.MANUTSAWEE = {}
-end
 
 for k, v in pairs(TUNING.GAMEMODE_STARTING_ITEMS) do
     start_inv[string.lower(k)] = v.MANUTSAWEE
 end
 local prefabs = FlattenTree(start_inv, true)
 
-local function _SkillRemove(inst)
-    SkillRemove(inst)
+local function SkillRemove(inst)
+    inst.components.skillreleaser:SkillRemove()
 
 	inst.mafterskillndm = nil
 	inst.inspskill = nil
@@ -65,47 +55,41 @@ local function _SkillRemove(inst)
 	inst.AnimState:SetDeltaTimeMultiplier(1)
 end
 
-local function MindRegenFn(inst)
-	inst.mindpower = inst.mindpower + 1
+local function OnMindPowerRegen(inst, self)
+	self.mindpower = self.mindpower + 1
 	local mindregenfx = SpawnPrefab("battlesong_instant_electric_fx")
 	mindregenfx.Transform:SetScale(.7, .7, .7)
 	mindregenfx.Transform:SetPosition(inst:GetPosition():Get())
 	mindregenfx.entity:AddFollower()
     mindregenfx.Follower:FollowSymbol(inst.GUID, "swap_body", 0, 0, 0)
-	if inst.mindpower >= 3 then
-        inst.components.talker:Say("󰀈: "..inst.mindpower.."\n", 2, true)
+	if self.mindpower >= 3 then
+        inst.components.talker:Say("󰀈: ".. self.mindpower .."\n", 2, true)
     end
 end
 
-local function mindregen(inst)
-	if inst.mindpower < inst.max_mindpower/2 then
-		 MindRegenFn(inst)
-	end
-	inst:DoTaskInTime(M_CONFIG.MINDREGEN_RATE, mindregen)
-end
-
-local HAIR_BITS = { "_cut", "_short", "_medium",  "_long" }
-local HAIR_TYPES = { "", "_yoto", "_ronin", "_pony", "_twin", "_htwin","_ball"}
+local HAIR_BITS = {"cut", "short", "medium", "long"}
+local HAIR_TYPES = {"", "yoto", "ronin", "pony", "twin", "htwin", "ball"}
 local function OnChangeHair(inst, skinname)
-    if inst.hairlong == 1 and inst.hairtype > 1 then
-        inst.hairtype = 1
+    if inst.hair_bit == "cut" and not (inst.hair_type == HAIR_TYPES[""]) then
+        inst.hair_type = HAIR_TYPES[""]
     end
 
     if skinname == nil then
-        inst.AnimState:OverrideSymbol("hairpigtails", "hair"..HAIR_BITS[inst.hairlong]..HAIR_TYPES[inst.hairtype], "hairpigtails")
-        inst.AnimState:OverrideSymbol("hair", "hair"..HAIR_BITS[inst.hairlong]..HAIR_TYPES[inst.hairtype], "hair")
-        inst.AnimState:OverrideSymbol("hair_hat", "hair"..HAIR_BITS[inst.hairlong]..HAIR_TYPES[inst.hairtype], "hair_hat")
-        inst.AnimState:OverrideSymbol("headbase", "hair"..HAIR_BITS[inst.hairlong]..HAIR_TYPES[inst.hairtype], "headbase")
-        inst.AnimState:OverrideSymbol("headbase_hat", "hair"..HAIR_BITS[inst.hairlong]..HAIR_TYPES[inst.hairtype], "headbase_hat")
+        local over_build = "hair_" .. HAIR_BITS[inst.hair_bit] .. "_" .. HAIR_TYPES[inst.hair_type]
+        inst.AnimState:OverrideSymbol("hairpigtails", over_build, "hairpigtails")
+        inst.AnimState:OverrideSymbol("hair", over_build, "hair")
+        inst.AnimState:OverrideSymbol("hair_hat", over_build, "hair_hat")
+        inst.AnimState:OverrideSymbol("headbase", over_build, "headbase")
+        inst.AnimState:OverrideSymbol("headbase_hat", over_build, "headbase_hat")
     else
-        inst.AnimState:OverrideSkinSymbol("hairpigtails", skinname, "hairpigtails" )
-        inst.AnimState:OverrideSkinSymbol("hair", skinname, "hair" )
-        inst.AnimState:OverrideSkinSymbol("hair_hat", skinname, "hair_hat" )
-        inst.AnimState:OverrideSkinSymbol("headbase", skinname, "headbase" )
-        inst.AnimState:OverrideSkinSymbol("headbase_hat", skinname, "headbase_hat" )
+        inst.AnimState:OverrideSkinSymbol("hairpigtails", skinname, "hairpigtails")
+        inst.AnimState:OverrideSkinSymbol("hair", skinname, "hair")
+        inst.AnimState:OverrideSkinSymbol("hair_hat", skinname, "hair_hat")
+        inst.AnimState:OverrideSkinSymbol("headbase", skinname, "headbase")
+        inst.AnimState:OverrideSkinSymbol("headbase_hat", skinname, "headbase_hat")
     end
 
-    if inst.hairtype <= 2 then
+    if inst.hair_type <= 2 then
         inst.components.beard.insulation_factor = 1
     else
         inst.components.beard.insulation_factor = .1
@@ -120,61 +104,57 @@ local function PutGlasses(inst, skinname)
     end
 end
 
-local function kenjutsuupgrades(inst)
-	if inst.kenjutsulevel >= 2 and not inst:HasTag("kenjutsu") then
-        inst:AddTag("kenjutsu")
-    end
-
-    if inst.kenjutsulevel >= 4 and inst.startregen == nil then
-        inst.startregen = inst:DoTaskInTime(M_CONFIG.MINDREGEN_RATE, mindregen)
-    end
-
-    if inst.kenjutsulevel >= 5 and not inst:HasTag("manutsaweecraft2") then
-        inst:AddTag("manutsaweecraft2")
-    end
-
-	if inst.kenjutsulevel >= 1 then
-		inst.components.sanity.neg_aura_mult = 1 - ((inst.kenjutsulevel / 2) / 10)
-		inst.kenjutsumaxexp = 500 * inst.kenjutsulevel
+local function OnUpgrades(inst, kenjutsulevel, kenjutsuexp)
+	if kenjutsulevel >= 1 then
+		inst.components.sanity.neg_aura_mult = 1 - ((kenjutsulevel / 2) / 10)
+		inst.components.kenjutsuka.kenjutsumaxexp = 500 * kenjutsulevel
 
 		local hunger_percent = inst.components.hunger:GetPercent()
 		local health_percent = inst.components.health:GetPercent()
 		local sanity_percent = inst.components.sanity:GetPercent()
 
 		if M_CONFIG.HEALTH_MAX > 0 then
-            inst.components.health.maxhealth = math.ceil(TUNING.MANUTSAWEE.HEALTH + inst.kenjutsulevel * M_CONFIG.HEALTH_MAX)
+            inst.components.health.maxhealth = math.ceil(TUNING.MANUTSAWEE.HEALTH + kenjutsulevel * M_CONFIG.HEALTH_MAX)
             inst.components.health:SetPercent(health_percent)
 		end
 		if M_CONFIG.HUNGER_MAX > 0 then
-            inst.components.hunger.max = math.ceil(TUNING.MANUTSAWEE.HUNGER + inst.kenjutsulevel * M_CONFIG.HUNGER_MAX)
+            inst.components.hunger.max = math.ceil(TUNING.MANUTSAWEE.HUNGER + kenjutsulevel * M_CONFIG.HUNGER_MAX)
             inst.components.hunger:SetPercent(hunger_percent)
 		end
 		if M_CONFIG.SANITY_MAX > 0 then
-            inst.components.sanity.max = math.ceil(TUNING.MANUTSAWEE.SANITY + inst.kenjutsulevel * M_CONFIG.SANITY_MAX)
+            inst.components.sanity.max = math.ceil(TUNING.MANUTSAWEE.SANITY + kenjutsulevel * M_CONFIG.SANITY_MAX)
             inst.components.sanity:SetPercent(sanity_percent)
 		end
 	end
 
-	if inst.kenjutsulevel >= 5 then
-		inst.components.sanity:AddSanityAuraImmunity("ghost")
+	if kenjutsulevel >= 2 and not inst:HasTag("kenjutsu") then
+        inst:AddTag("kenjutsu")
+    end
+
+    if kenjutsulevel >= 4 then
+        inst.components.kenjutsuka:StartRegenMindPower()
+    end
+
+    if kenjutsulevel >= 5 and not inst:HasTag("manutsaweecraft2") then
+        inst:AddTag("manutsaweecraft2")
+        inst.components.sanity:AddSanityAuraImmunity("ghost")
 		inst.components.workmultiplier:AddMultiplier(ACTIONS.CHOP,   1, inst)
 		inst.components.workmultiplier:AddMultiplier(ACTIONS.MINE,  1, inst)
 		inst.components.workmultiplier:AddMultiplier(ACTIONS.HAMMER, 1, inst)
     end
 
-	if inst.kenjutsulevel >= 6 then
+	if kenjutsulevel >= 6 then
 		inst.components.temperature.inherentinsulation = TUNING.INSULATION_TINY /2
 		inst.components.temperature.inherentsummerinsulation = TUNING.INSULATION_TINY /2
 		inst.components.sanity:SetPlayerGhostImmunity(true)
     end
 
-    if inst.kenjutsulevel >= 10 then
-        inst.kenjutsuexp = 0
+    if kenjutsulevel >= 10 then
+        inst:AddTag("kenjutsu_master")
+        kenjutsuexp = 0
     end
 
-	MANUTSAWEE_CRIDMG = 0.1 + ((inst.kenjutsulevel / 2) / 10)
-
-	inst.max_mindpower = M_CONFIG.MIND_MAX + inst.kenjutsulevel
+	inst.components.kenjutsuka.max_mindpower = M_CONFIG.MIND_MAX + kenjutsulevel
 
 	local fx = SpawnPrefab("fx_book_light_upgraded")
     fx.Transform:SetScale(.9, 2.5, 1)
@@ -182,17 +162,9 @@ local function kenjutsuupgrades(inst)
     fx.Follower:FollowSymbol(inst.GUID, "swap_body", 0, 0, 0)
 end
 
-local function KenjutsuLevelUp(inst)
-	inst.kenjutsulevel = inst.kenjutsulevel + 1
-	kenjutsuupgrades(inst)
-end
-
-local smallScale = 1
-local medScale = 2
-local largeScale = 4
 local function OnKilled(inst, data)
 	local target = data.victim
-	local scale = (target:HasTag("smallcreature") and smallScale) or (target:HasTag("largecreature") and largeScale) or medScale
+	local scale = (target:HasTag("smallcreature") and 1) or (target:HasTag("largecreature") and 4) or 2
 
     if target ~= nil and scale ~= nil then
 		if not ((target:HasTag("prey")or target:HasTag("bird")or target:HasTag("insect")) and not target:HasTag("hostile")) and inst.components.sanity:GetPercent() <= .8  then
@@ -201,109 +173,29 @@ local function OnKilled(inst, data)
 	end
 end
 
-local function OnAttack(inst, data)
-    if inst.components.rider:IsRiding() then
-        return
-    end
-    local target = data.target
-    local equip = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
-    local tx, ty, tz = target.Transform:GetWorldPosition()
-
-    if equip ~= nil and not equip:HasTag("projectile") and not equip:HasTag("rangedweapon") then
-        if equip:HasTag("katanaskill") and not inst.components.timer:TimerExists("HitCD") and
-            not inst.sg:HasStateTag("skilling") then -- GainKenExp
-            if inst.kenjutsulevel < 10 then
-                inst.kenjutsuexp = inst.kenjutsuexp + (1 * M_CONFIG.KEXPMTP)
-            end
-            inst.components.timer:StartTimer("HitCD", .5)
-        end
-
-        if inst.kenjutsuexp >= inst.kenjutsumaxexp then
-            inst.kenjutsuexp = inst.kenjutsuexp - inst.kenjutsumaxexp
-            KenjutsuLevelUp(inst)
-        end
-
-        if not ((target:HasTag("prey") or target:HasTag("bird") or target:HasTag("insect") or target:HasTag("wall")) and
-            not target:HasTag("hostile")) then
-            if math.random(1, 100) <= criticalrate + inst.kenjutsulevel and
-                not inst.components.timer:TimerExists("CriCD") and not inst.sg:HasStateTag("skilling") then
-                inst.components.timer:StartTimer("CriCD", 15 - (inst.kenjutsulevel / 2)) -- critical
-                local hitfx = SpawnPrefab("slingshotammo_hitfx_rock")
-                if hitfx then
-                    hitfx.Transform:SetScale(.8, .8, .8)
-                    hitfx.Transform:SetPosition(tx, ty, tz)
-                end
-                inst.SoundEmitter:PlaySound("turnoftides/common/together/moon_glass/mine")
-                inst.components.combat.damagemultiplier = (MANUTSAWEE_DAMAGE + MANUTSAWEE_CRIDMG)
-                inst:DoTaskInTime(.1, function(inst)
-                    inst.components.combat.damagemultiplier = MANUTSAWEE_DAMAGE
-                end)
-            end
-        end
-
-        if not ((target:HasTag("prey") or target:HasTag("bird") or target:HasTag("insect") or target:HasTag("wall")) and
-            not target:HasTag("hostile")) then
-            if not inst.components.timer:TimerExists("HeartCD") and not inst.sg:HasStateTag("skilling") and
-                not inst.inspskill then
-                inst.components.timer:StartTimer("HeartCD", .3) -- mind gain
-                hitcount = hitcount + 1
-                if hitcount >= M_CONFIG.MINDREGEN_COUNT and inst.kenjutsulevel >= 1 then
-                    if inst.mindpower < inst.max_mindpower then
-                        MindRegenFn(inst)
-                    else
-                        inst.components.sanity:DoDelta(1)
-                    end
-                    hitcount = 0
-                end
-            end
-        end
-    end
-end
-
-local function OnDeath(inst)
-	_SkillRemove(inst)
-end
-
 local function OnSave(inst, data)
-	data.kenjutsulevel = inst.kenjutsulevel
-	data.kenjutsuexp = inst.kenjutsuexp
-	data.mindpower = inst.mindpower
-	data._mlouis_health = inst.components.health.currenthealth
-    data._mlouis_sanity = inst.components.sanity.current
-    data._mlouis_hunger = inst.components.hunger.current
-	data.hairlong = inst.hairlong
-	data.hairtype = inst.hairtype
+	data._louis_health = inst.components.health.currenthealth
+    data._louis_sanity = inst.components.sanity.current
+    data._louis_hunger = inst.components.hunger.current
+	data.hair_bit = inst.hair_bit
+	data.hair_type = inst.hair_type
     data.glassesstatus = inst.glassesstatus
 end
 
 local function OnLoad(inst, data)
 	if data ~= nil then
-		if data.kenjutsulevel ~= nil then
-            inst.kenjutsulevel = data.kenjutsulevel
-        end
-
-        if data.kenjutsuexp  ~= nil then
-            inst.kenjutsuexp = data.kenjutsuexp
-        end
-
-		if data.mindpower  ~= nil then
-            inst.mindpower = data.mindpower
-        end
-
-		kenjutsuupgrades(inst)
-
-		if inst.kenjutsulevel > 0 and data._mlouis_health ~= nil and data._mlouis_sanity ~= nil and data._mlouis_hunger ~= nil then
-			inst.components.health:SetCurrentHealth(data._mlouis_health)
-			inst.components.sanity.current = data._mlouis_sanity
-			inst.components.hunger.current = data._mlouis_hunger
+		if inst.components.kenjutsuka.kenjutsulevel > 0 and data._louis_health ~= nil and data._mlouis_sanity ~= nil and data._louis_hunger ~= nil then
+			inst.components.health:SetCurrentHealth(data._louis_health)
+			inst.components.sanity.current = data._louis_sanity
+			inst.components.hunger.current = data._louis_hunger
 		end
 
-		if data.hairlong ~= nil then
-            inst.hairlong = data.hairlong
+		if data.hair_bit ~= nil then
+            inst.hair_bit = data.hair_bit
         end
 
-        if data.hairtype ~= nil then
-            inst.hairtype = data.hairtype
+        if data.hair_type ~= nil then
+            inst.hair_type = data.hair_type
         end
 
         if data.glassesstatus ~= nil then
@@ -319,81 +211,12 @@ local function OnLoad(inst, data)
 	end
 end
 
-local function CooldownSkillFx(inst, fxnum)
-    local fxlist = {
-        "ghostlyelixir_retaliation_dripfx",
-        "ghostlyelixir_shield_dripfx",
-        "ghostlyelixir_speed_dripfx",
-        "battlesong_instant_panic_fx",
-        "monkey_deform_pre_fx",
-        "fx_book_birds",
-    }
-    local fx = SpawnPrefab(fxlist[fxnum])
-    fx.Transform:SetScale(.9, .9, .9)
-    fx.entity:AddFollower()
-    fx.Follower:FollowSymbol(inst.GUID, "swap_body", 0, 0, 0)
-end
-
-local function OnTimerDone(inst, data)
-	if data.name ~= nil then
-        local name = data.name
-        local fxnum
-
-        local fx_data = {
-            ["skill1cd"] = 1,
-            ["skill2cd"] = 2,
-            ["skill3cd"] = 3,
-            ["skillcountercd"] = 4,
-            ["skillT2cd"] = 5,
-            ["skillT3cd"] = 6,
-        }
-
-        for i, v in ipairs(fx_data) do
-            if name == i then
-                fxnum = v
-                CooldownSkillFx(inst, fxnum)
-                return
-                break
-            end
-        end
-	end
-end
-
-local function OnChangeChar(inst)
-	_SkillRemove(inst)
-    if inst.kenjutsulevel > 0 then
-        local x, y, z = inst.Transform:GetWorldPosition()
-        for i = 1, inst.kenjutsulevel do
-            local fruit = SpawnPrefab("mfruit")
-            if fruit ~= nil then
-                if fruit.Physics ~= nil then
-                    local speed = 2 + math.random()
-                    local angle = math.random() * 2 * PI
-                    fruit.Physics:Teleport(x, y + 1, z)
-                    fruit.Physics:SetVel(speed * math.cos(angle), speed * 3, speed * math.sin(angle))
-                else
-                    fruit.Transform:SetPosition(x, y, z)
-                end
-
-                if fruit.components.propagator ~= nil then
-                    fruit.components.propagator:Delay(5)
-                end
-            end
-        end
-        inst.kenjutsulevel = 0
-    end
-end
-
 local function OnEat(inst, food)
     if food ~= nil and food.components.edible ~= nil then
         if food.prefab == "mfruit" and inst.kenjutsulevel < 10 then
-            KenjutsuLevelUp(inst)
+            inst.components.kenjutsuka:KenjutsuLevelUp(inst)
         end
     end
-end
-
-local function OnMounted(inst)
-    _SkillRemove(inst)
 end
 
 local function GetPointSpecialActions(inst, pos, useitem, right)
@@ -421,7 +244,11 @@ local common_postinit = function(inst)
 	inst.MiniMapEntity:SetIcon("manutsawee.tex")
 
     if M_CONFIG.IDLE_ANIM then
+        inst.AnimState:AddOverrideBuild("player_idles_wes")
+        inst.AnimState:AddOverrideBuild("player_idles_wendy")
         inst.AnimState:AddOverrideBuild("player_idles_wanda")
+        inst.AnimState:AddOverrideBuild("player_idles_waxwell")
+        inst.AnimState:AddOverrideBuild("player_idles_waxwell")
     end
 
 	inst:AddTag("bearded")
@@ -470,33 +297,33 @@ local BEARD_DAYS = {3, 7, 16}
 local BEARD_BITS = {2, 3, 3}
 
 local function OnGrowShortHair(inst, skinname)
-	inst.hairlong = 2
+	inst.hair_bit = "short"
 	inst.components.beard.bits = BEARD_BITS[1]
     OnChangeHair(inst, skinname)
 end
 
 local function OnGrowMediumHair(inst, skinname)
-	inst.hairlong = 3
+	inst.hair_bit = "medium"
 	inst.components.beard.bits = BEARD_BITS[2]
 	OnChangeHair(inst, skinname)
 end
 
 local function OnGrowLongHair(inst, skinname)
-	inst.hairlong = 4
+	inst.hair_bit = "long"
 	inst.components.beard.bits = BEARD_BITS[3]
 	OnChangeHair(inst, skinname)
 end
 
 local function OnResetHair(inst, skinname)
-	if inst.hairlong == 4 then
+	if inst.hair_bit == "long" then
 		inst.components.beard.daysgrowth = BEARD_DAYS[2]
 		OnGrowMediumHair(inst, skinname)
-	elseif inst.hairlong == 3 then
+	elseif inst.hair_bit == "medium" then
 		inst.components.beard.daysgrowth = BEARD_DAYS[1]
 		OnGrowShortHair(inst, skinname)
 	else
-        inst.hairlong = 1
-        inst.hairtype = 1
+        inst.hair_bit = "cut"
+        inst.hair_type = ""
         inst.AnimState:ClearOverrideSymbol("hairpigtails")
         inst.AnimState:ClearOverrideSymbol("hair")
         inst.AnimState:ClearOverrideSymbol("hair_hat")
@@ -525,7 +352,7 @@ local function OnUnEquip(inst, data)
     end
 
     if inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS) == nil then
-        _SkillRemove(inst)
+        SkillRemove(inst)
     end
 end
 
@@ -539,13 +366,18 @@ local function OnDroped(inst, data)
     end
 end
 
+local function CustomIdleAnimFn(inst)
+    return nil
+end
+
+local function CustomIdleState(inst)
+    return
+end
+
 local function RegisterEventListeners(inst)
-    inst:ListenForEvent("death", OnDeath)
-    inst:ListenForEvent("ms_playerreroll", OnChangeChar)
-    inst:ListenForEvent("timerdone", OnTimerDone)
-    inst:ListenForEvent("onattackother", OnAttack)
+    inst:ListenForEvent("death", SkillRemove)
     inst:ListenForEvent("killed", OnKilled)
-    inst:ListenForEvent("mounted", OnMounted)
+    inst:ListenForEvent("mounted", SkillRemove)
     inst:ListenForEvent("unequip", OnUnEquip)
     inst:ListenForEvent("equip", OnEquip)
     inst:ListenForEvent("dropitem", OnDroped)
@@ -563,22 +395,17 @@ end
 local master_postinit = function(inst)
 	inst.starting_inventory = start_inv[TheNet:GetServerGameMode()] or start_inv.default
 
-    if M_CONFIG.IDLE_ANIM then
-        inst.customidleanim = "idle_wanda"
-    end
-
-	--custom start level
-	if M_CONFIG.IS_MASTER then
-        inst:DoTaskInTime(2, function()
-            if inst.kenjutsulevel < M_CONFIG.MASTER_VALUE then
-                inst.kenjutsulevel = M_CONFIG.MASTER_VALUE
-                kenjutsuupgrades(inst)
-            end
-        end)
+    if M_CONFIG.RANDOM_IDLE_ANIMATION then
+        inst.customidleanim = CustomIdleAnimFn
+        inst.customidlestate = CustomIdleState
     end
 
 	--small character
-    inst.AnimState:SetScale(0.88, 0.90, 1)
+    inst.AnimState:SetScale(0.88, 0.9, 1)
+
+    inst:AddComponent("kenjutsuka")
+    inst.components.kenjutsuka:SetOnUpgradeFn(OnUpgrades)
+    inst.components.kenjutsuka:SetOnMindPowerRegenFn(OnMindPowerRegen)
 
     inst:AddComponent("skillreleaser")
     inst.components.skillreleaser:OnPostInit()
@@ -623,7 +450,7 @@ local master_postinit = function(inst)
     inst.components.hunger:SetRate(TUNING.WILSON_HUNGER_RATE * 1.5)
 
 	-- Damage multiplier (optional)
-    inst.components.combat.damagemultiplier = MANUTSAWEE_DAMAGE
+    inst.components.combat.damagemultiplier = 1
 	-- grogginess rate (optional)
 	inst.components.grogginess.decayrate = TUNING.WES_GROGGINESS_DECAY_RATE
 	-- clothing is less effective
@@ -632,6 +459,7 @@ local master_postinit = function(inst)
 
     if inst.components.eater ~= nil then
         inst.components.eater:SetCanEatMfruit()
+        inst.components.eater:SetOnEatFn(OnEat)
     end
 
 	-- Slow Worker
@@ -647,18 +475,12 @@ local master_postinit = function(inst)
 
     inst.soundsname = "wortox"
 
-	inst.kenjutsulevel = 0
-	inst.kenjutsuexp = 0
-	inst.kenjutsumaxexp = 250
-
-	inst.mindpower = 0
-	inst.max_mindpower = M_CONFIG.MIND_MAX
-
 	inst.glassesstatus = false
-	inst.hairlong = 1
-	inst.hairtype = 1
+	inst.hair_bit = ""
+	inst.hair_type = "cut"
 	inst._range = inst.components.combat.hitrange
 
+    inst.SkillRemove = SkillRemove
     inst.PutGlasses = PutGlasses
     inst.OnChangeHair = OnChangeHair
 	inst.OnLoad = OnLoad

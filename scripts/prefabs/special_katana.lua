@@ -1,23 +1,5 @@
 local MakeKatana = require "prefabs/katana_def"
 
-local shusui_assets = {
-    Asset("ANIM", "anim/shusui.zip"),
-    Asset("ANIM", "anim/Sshusui.zip"),
-    Asset("ANIM", "anim/swap_shusui.zip"),
-    Asset("ANIM", "anim/swap_Sshusui.zip"),
-    Asset("ANIM", "anim/sc_shusui.zip"),
-    Asset("ANIM", "anim/sc_shusui2.zip"),
-}
-
-local mortalblade_assets = {
-	Asset("ANIM", "anim/mortalblade.zip"),
-	Asset("ANIM", "anim/Smortalblade.zip"),
-	Asset("ANIM", "anim/swap_mortalblade.zip"),
-	Asset("ANIM", "anim/swap_Smortalblade.zip"),
-	Asset("ANIM", "anim/sc_mortalblade.zip"),
-	Asset("ANIM", "anim/sc_mortalblade2.zip"),
-}
-
 local function TryStartFx(inst, owner)
 	owner = owner
 		or inst.components.equippable:IsEquipped() and inst.components.inventoryitem.owner
@@ -125,10 +107,10 @@ local function OnIsNightmareWild(inst, isnightmarewild)
     end
 end
 
-local function OnRemove()
+local function OnRemove(inst)
     local katanaspawner = TheWorld.components.katanaspawner
-    if katanaspawner ~= nil and katanaspawner:GetTheWorldHasTomb() then
-        katanaspawner:SetHasTomb(false)
+    if katanaspawner ~= nil and katanaspawner:GetHasKatana(inst.prefab) then
+        katanaspawner:SetHasKatana(inst.prefab, true)
     end
 end
 
@@ -177,7 +159,7 @@ local tenseiga_master_postinit = function(inst)
     local onhaunt = inst.components.hauntable.onhaunt
     function inst.components.hauntable.onhaunt(inst, player)
         if player ~= nil and player:HasTag("playerghost") then
-            inst:PushEvent("respawnfromghost", { source = inst, user = inst })
+            player:PushEvent("respawnfromghost", { source = inst, user = inst })
             local fx = SpawnPrefab("fx_book_light_upgraded")
             fx.Transform:SetScale(.9, 2.5, 1)
             fx.entity:AddFollower()

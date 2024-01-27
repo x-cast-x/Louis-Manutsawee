@@ -6,7 +6,6 @@ local function OnHauntFn(inst, haunter)
         if inst.components.inventoryitem ~= nil and inst.components.inventoryitem.is_landed then
             inst.components.inventoryitem:SetLanded(false, true)
         end
-
     end
     return false
 end
@@ -28,6 +27,8 @@ local function MakeBroKenKatana(name)
         inst.AnimState:SetBank("broken_katana")
         inst.AnimState:SetBuild(name)
         inst.AnimState:PlayAnimation("idle")
+
+        inst:AddTag("broken_" .. name)
 
         MakeInventoryFloatable(inst)
 

@@ -5,8 +5,7 @@ local assets= {
     Asset("ANIM", "anim/m_sfoxmask_swap.zip"),
 }
 
-local function Maskmode(inst)
-	local owner = inst.components.inventoryitem.owner
+local function SwitchMode(inst, owner)
 	if inst.maskstatus == 0 then
 	   owner.AnimState:OverrideSymbol("swap_hat", "m_foxmask_swap", "swap_hat")
 	elseif inst.maskstatus == 1 then
@@ -17,7 +16,7 @@ local function Maskmode(inst)
 end
 
 local function OnEquip(inst, owner)
-    Maskmode(inst)
+    SwitchMode(inst, owner)
     owner.AnimState:Show("HAT")
 
     if inst.components.fueled ~= nil then
@@ -39,7 +38,7 @@ local function CastFn(inst, target)
         inst.maskstatus = inst.maskstatus + 1
     end
 
-	Maskmode(inst)
+	SwitchMode(inst)
 end
 
 local function onSave(inst, data)
