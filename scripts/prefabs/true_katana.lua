@@ -72,6 +72,10 @@ end
 
 local function hitokiri_master_postinit(inst)
     inst.components.equippable.is_magic_dapperness = true
+
+    inst:AddComponent("damagetypebonus")
+    inst.components.damagetypebonus:AddBonus("shadow_aligned", inst, TUNING.WEAPONS_LUNARPLANT_VS_SHADOW_BONUS)
+    inst.components.damagetypebonus:AddBonus("lunar_aligned", inst, TUNING.WEAPONS_LUNARPLANT_VS_SHADOW_BONUS * 1.5)
 end
 
 local function shirasaya_common_postinit(inst)
@@ -79,7 +83,9 @@ local function shirasaya_common_postinit(inst)
 end
 
 local function shirasaya_master_postinit(inst)
-
+    inst:AddComponent("damagetypebonus")
+    inst.components.damagetypebonus:AddBonus("shadow_aligned", inst, TUNING.WEAPONS_LUNARPLANT_VS_SHADOW_BONUS*2)
+    inst.components.damagetypebonus:AddBonus("lunar_aligned", inst, TUNING.WEAPONS_LUNARPLANT_VS_SHADOW_BONUS*1.5)
 end
 
 local function raikiri_common_postinit(inst)
@@ -87,6 +93,10 @@ local function raikiri_common_postinit(inst)
 end
 
 local function raikiri_master_postinit(inst)
+    inst:AddComponent("damagetypebonus")
+    inst.components.damagetypebonus:AddBonus("shadow_aligned", inst, TUNING.WEAPONS_LUNARPLANT_VS_SHADOW_BONUS)
+    inst.components.damagetypebonus:AddBonus("lunar_aligned", inst, TUNING.WEAPONS_LUNARPLANT_VS_SHADOW_BONUS * 1.5)
+
     inst:WatchWorldState("israining", OnIsRaining)
     OnIsRaining(inst, TheWorld.state.israining)
 end
@@ -96,7 +106,10 @@ local function koshirae_common_postinit(inst)
 end
 
 local function koshirae_master_postinit(inst)
-
+    inst:AddComponent("damagetypebonus")
+    inst.components.damagetypebonus:AddBonus("shadow_aligned", inst, TUNING.WEAPONS_LUNARPLANT_VS_SHADOW_BONUS)
+    inst.components.damagetypebonus:AddBonus("lunar_aligned", inst, TUNING.WEAPONS_LUNARPLANT_VS_SHADOW_BONUS * 1.5)
+    inst.components.damagetypebonus:AddBonus("epic", inst, TUNING.WEAPONS_LUNARPLANT_VS_SHADOW_BONUS)
 end
 
 local katana_data = {

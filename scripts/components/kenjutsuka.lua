@@ -130,6 +130,10 @@ local Kenjutsuka = Class(function(self, inst)
     inst:DoTaskInTime(2, OnPostInit, self)
 end)
 
+function Kenjutsuka:OnRemoveFromEntity()
+    -- body
+end
+
 function Kenjutsuka:SetOnUpgradeFn(fn)
     self.onupgradefn = fn
 end

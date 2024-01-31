@@ -204,4 +204,9 @@ function SkillReleaser:OnLoad(inst, data)
 
 end
 
+function SkillReleaser:OnRemoveFromEntity()
+    self.skills = nil
+    self.inst:RemoveEventCallback("timerdone", OnTimerDone)
+end
+
 return SkillReleaser

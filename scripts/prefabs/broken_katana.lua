@@ -1,5 +1,5 @@
 local function OnHauntFn(inst, haunter)
-    if math.random() <= launchchance then
+    if math.random() <= TUNING.HAUNT_CHANCE_ALWAYS then
         Launch(inst, haunter, TUNING.LAUNCH_SPEED_SMALL)
         inst.components.hauntable.hauntvalue = TUNING.HAUNT_TINY
 

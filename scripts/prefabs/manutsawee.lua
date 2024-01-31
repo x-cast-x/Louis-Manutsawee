@@ -35,7 +35,9 @@ local assets = {
 
 	Asset("ANIM", "anim/eyeglasses.zip"),
 
-    Asset("ANIM", "anim/player_idles_wanda.zip"),
+
+    Asset("ANIM", "anim/wurt_peruse.zip"),
+    Asset("ANIM", "anim/wurt_mount_peruse.zip"),
 }
 
 local start_inv = {}
@@ -75,12 +77,12 @@ local function OnChangeHair(inst, skinname)
     end
 
     if skinname == nil then
-        local over_build = "hair_" .. HAIR_BITS[inst.hair_bit] .. "_" .. HAIR_TYPES[inst.hair_type]
-        inst.AnimState:OverrideSymbol("hairpigtails", over_build, "hairpigtails")
-        inst.AnimState:OverrideSymbol("hair", over_build, "hair")
-        inst.AnimState:OverrideSymbol("hair_hat", over_build, "hair_hat")
-        inst.AnimState:OverrideSymbol("headbase", over_build, "headbase")
-        inst.AnimState:OverrideSymbol("headbase_hat", over_build, "headbase_hat")
+        local override_build = "hair_" .. HAIR_BITS[inst.hair_bit] .. "_" .. HAIR_TYPES[inst.hair_type]
+        inst.AnimState:OverrideSymbol("hairpigtails", override_build, "hairpigtails")
+        inst.AnimState:OverrideSymbol("hair", override_build, "hair")
+        inst.AnimState:OverrideSymbol("hair_hat", override_build, "hair_hat")
+        inst.AnimState:OverrideSymbol("headbase", override_build, "headbase")
+        inst.AnimState:OverrideSymbol("headbase_hat", override_build, "headbase_hat")
     else
         inst.AnimState:OverrideSkinSymbol("hairpigtails", skinname, "hairpigtails")
         inst.AnimState:OverrideSkinSymbol("hair", skinname, "hair")
@@ -243,11 +245,12 @@ end
 local common_postinit = function(inst)
 	inst.MiniMapEntity:SetIcon("manutsawee.tex")
 
+    inst.AnimState:AddOverrideBuild("wurt_peruse")
+
     if M_CONFIG.IDLE_ANIM then
         inst.AnimState:AddOverrideBuild("player_idles_wes")
         inst.AnimState:AddOverrideBuild("player_idles_wendy")
         inst.AnimState:AddOverrideBuild("player_idles_wanda")
-        inst.AnimState:AddOverrideBuild("player_idles_waxwell")
         inst.AnimState:AddOverrideBuild("player_idles_waxwell")
     end
 
@@ -345,7 +348,8 @@ local function OnEquip(inst, data)
 end
 
 local function OnUnEquip(inst, data)
-    if data.item ~= nil and (data.item.prefab == "onemanband" or data.item.prefab == "armorsnurtleshell") then
+    local item = data.item
+    if item ~= nil and (item.prefab == "onemanband" or item.prefab == "armorsnurtleshell") then
         if inst:HasTag("notshowscabbard") then
             inst:RemoveTag("notshowscabbard")
         end
@@ -366,12 +370,49 @@ local function OnDroped(inst, data)
     end
 end
 
+local Funny_Idle_Anim = {
+    waxwell = "idle3_waxwell",
+    wes = "wes_funnyidle",
+    wortox = "idle_wortox",
+    wilson = "idle_wilson",
+    wendy = "idle_wendy",
+    wanda = "idle_wanda",
+    wathgrithr = "idle_wathgrithr",
+    winona = "idle_winona",
+    walter = "idle_walter",
+}
+
+local skin_idle_anim = {
+    ["manutsawee_yukatalong_purple"] = "wendy",
+    ["manutsawee_yukatalong"] = "wendy",
+    ["manutsawee_yukata"] = "wendy",
+    ["manutsawee_shinsengumi"] = "wathgrithr",
+    ["manutsawee_fuka"] = "wathgrithr",
+    ["manutsawee_sailor"] = "wortox",
+    ["manutsawee_jinbei"] = "wortox",
+    ["manutsawee_maid"] = "wanda",
+    ["manutsawee_qipao"] = "wes",
+    ["manutsawee_taohuu"] = "winona",
+    ["manutsawee_miko"] = "waxwell",
+}
+
 local function CustomIdleAnimFn(inst)
-    return nil
+    local skin_build = inst:GetSkinBuild()
+    local skin_name = inst:GetSkinName()
+
+    if skin_build ~= nil then
+        return Funny_Idle_Anim[skin_idle_anim[skin_name]]
+    else
+        return Funny_Idle_Anim["wilson"]
+    end
 end
 
-local function CustomIdleState(inst)
-    return
+local function SetUpCustomIdle(inst)
+    inst.customidleanim = CustomIdleAnimFn
+
+    for k, _ in pairs(Funny_Idle_Anim) do
+        table.insert(assets, Asset("ANIM", "anim/player_idles_" .. k .. ".zip"))
+    end
 end
 
 local function RegisterEventListeners(inst)
@@ -385,8 +426,12 @@ local function RegisterEventListeners(inst)
 end
 
 local function DoPostInit(inst)
-    for i, v in ipairs(Skills) do
-        inst.components.skillreleaser:AddSkill(v)
+    for k, v in ipairs(Skills) do
+        inst.components.skillreleaser:AddSkill(string.lower(k), v)
+    end
+
+    if M_CONFIG.RANDOM_IDLE_ANIMATION then
+        SetUpCustomIdle(inst)
     end
 
     RegisterEventListeners(inst)
@@ -394,11 +439,6 @@ end
 
 local master_postinit = function(inst)
 	inst.starting_inventory = start_inv[TheNet:GetServerGameMode()] or start_inv.default
-
-    if M_CONFIG.RANDOM_IDLE_ANIMATION then
-        inst.customidleanim = CustomIdleAnimFn
-        inst.customidlestate = CustomIdleState
-    end
 
 	--small character
     inst.AnimState:SetScale(0.88, 0.9, 1)

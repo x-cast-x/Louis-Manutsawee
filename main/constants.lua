@@ -22,3 +22,17 @@ M_SKILLS = {
     "susanoo",
     "soryuha",
 }
+
+M_SKIN_NAMES = {
+    "sailor",
+    "yukata",
+    "yukatalong",
+    "yukatalong_purple",
+    "miko",
+    "qipao",
+    "fuka",
+    "maid",
+    "jinbei",
+    "shinsengumi",
+    "taohuu",
+}
