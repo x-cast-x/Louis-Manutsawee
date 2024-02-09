@@ -6,7 +6,7 @@ local Assets = {
 local function OnEquip(inst, owner)
     owner.AnimState:OverrideSymbol("swap_body", "m_scarf", "swap_body")
 
-	if owner.prefab == "manutsawee" then
+	if owner:HasTag("manutsaweecraft") then
         owner.AnimState:OverrideSymbol("beard", "mface_scarf", "beard_short")
 	end
 
@@ -18,7 +18,7 @@ end
 local function OnUnequip(inst, owner)
     owner.AnimState:ClearOverrideSymbol("swap_body")
 
-	if owner.prefab == "manutsawee" then
+	if owner:HasTag("manutsaweecraft") then
         owner.AnimState:ClearOverrideSymbol("beard")
 	end
 

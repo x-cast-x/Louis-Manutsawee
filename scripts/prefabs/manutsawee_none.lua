@@ -18,7 +18,7 @@ table.insert(prefabs, CreatePrefabSkin("manutsawee_none", {
     },
 }))
 
-for k, v in ipairs(M_SKIN_NAMES) do
+for _, v in ipairs(M_SKIN_NAMES) do
     table.insert(prefabs, CreatePrefabSkin("manutsawee_" .. v, {
         base_prefab = "manutsawee",
         build_name_override = "manutsawee_" .. v,

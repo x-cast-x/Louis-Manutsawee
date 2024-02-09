@@ -13,7 +13,10 @@ local postinit = {
         "SGwilson_client",
     },
     components = {
-        "eater"
+        "eater",
+        "sanity",
+        "sanity_replica",
+        "grogginess",
     },
 }
 

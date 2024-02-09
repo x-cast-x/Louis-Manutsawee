@@ -118,8 +118,8 @@ local function OnTimerDone(inst, data)
             if name == i then
                 fxnum = v
                 CooldownSkillFx(inst, fxnum)
-                return
                 break
+                return
             end
         end
 	end
@@ -150,6 +150,16 @@ function SkillReleaser:SkillRemove()
             break
         end
     end
+
+    if self.inst.mafterskillndm ~= nil then
+        self.inst.mafterskillndm:Cancel()
+        self.inst.mafterskillndm = nil
+    end
+    
+    self.inst.inspskill = nil
+    self.inst.components.combat:SetRange(self.inst._range)
+    self.inst.components.combat:EnableAreaDamage(false)
+    self.inst.AnimState:SetDeltaTimeMultiplier(1)
 end
 
 function SkillReleaser:CanUseSkill(target, inrpc)

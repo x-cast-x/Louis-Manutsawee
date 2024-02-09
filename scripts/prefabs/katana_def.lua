@@ -120,7 +120,7 @@ local has_broken = {
     "shirasaya",
     "raikiri",
     "koshirae",
-    "kurokatana",
+    -- "kurokatana",
     "tokishin"
 }
 
@@ -196,19 +196,22 @@ end
 
 local MakeKatana = function(data)
     local name = data.name
+    local build = data.build
     local assets = {
-        Asset("ANIM", "anim/" .. name .. ".zip"),
-        Asset("ANIM", "anim/" .. name .. "2.zip"),
-        Asset("ANIM", "anim/swap_" .. name .. ".zip"),
-        Asset("ANIM", "anim/swap_S" .. name .. ".zip"),
-        Asset("ANIM", "anim/sc_" .. name .. ".zip"),
-        Asset("ANIM", "anim/sc_" .. name .. "2.zip"),
+        Asset("ANIM", "anim/" .. build .. ".zip"),
+        Asset("ANIM", "anim/" .. build .. "2.zip"),
+        Asset("ANIM", "anim/swap_" .. build .. ".zip"),
+        Asset("ANIM", "anim/swap_S" .. build .. ".zip"),
+        Asset("ANIM", "anim/sc_" .. build .. ".zip"),
+        Asset("ANIM", "anim/sc_" .. build .. "2.zip"),
     }
     local prefabs = {}
 
     local function OnAttack(inst, attacker, target)
         M_Util.OnAttackCommonFn(inst, attacker, target)
-        data.onattack(inst, attacker, target)
+        if data.onattack ~= nil then
+            data.onattack(inst, attacker, target)
+        end
     end
 
     local function fn()

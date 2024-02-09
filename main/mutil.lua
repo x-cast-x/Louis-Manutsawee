@@ -166,8 +166,9 @@ function M_Util.SlashFx(inst, target, prefab, scale)
 end
 
 function M_Util.AoeAttack(inst, damage, range)
+    local CANT_TAGS = { "INLIMBO", "flight", "invisible", "notarget", "noattack" }
     local x, y, z = inst.Transform:GetWorldPosition()
-    local ents = TheSim:FindEntities(x, y, z, range)
+    local ents = TheSim:FindEntities(x, y, z, range, nil, CANT_TAGS)
     local weapon = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
 
     for _ ,v in pairs(ents) do
@@ -175,7 +176,7 @@ function M_Util.AoeAttack(inst, damage, range)
             v.sg:GoToState("stunned")
         end
 
-        if v ~= nil and v:IsValid() and v.components.health ~= nil and v.components.combat ~= nil and not v.components.health:IsDead() then
+        if v ~= nil and not v:IsInLimbo() and v:IsValid() and v.components.health ~= nil and v.components.combat ~= nil and not v.components.health:IsDead() then
             if not (v:HasTag("player") or v:HasTag("INLIMBO") or v:HasTag("structure") or v:HasTag("companion") or v:HasTag("abigial") or v:HasTag("wall")) then
                 if weapon ~= nil then
                     v.components.combat:GetAttacked(inst, weapon.components.weapon.damage*damage)

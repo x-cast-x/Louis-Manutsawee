@@ -13,12 +13,10 @@ local ncountskill = 2
 
 local function SkillRemove(inst)
     inst.components.skillreleaser:SkillRemove()
+end
 
-	inst.mafterskillndm = nil
-	inst.inspskill = nil
-	inst.components.combat:SetRange(inst._range)
-	inst.components.combat:EnableAreaDamage(false)
-	inst.AnimState:SetDeltaTimeMultiplier(1)
+local function CanUseSkill(inst)
+    inst.components.skillreleaser:CanUseSkill(nil, true)
 end
 
 local function LevelCheckFn(inst)
@@ -46,7 +44,7 @@ local function Skill1Fn(inst)
 
     CanUseSkill(inst)
 
-    if not inst.canuseskill then
+    if not inst.components.skillreleaser.canuseskill then
         return
     end
 
@@ -58,7 +56,7 @@ local function Skill1Fn(inst)
 	inst.components.timer:StartTimer("sskill1cd",1)
 
 	if inst.mindpower >= 3 then
-        if inst:HasTag("michimonji") or inst:HasTag("misshin") or inst:HasTag("ryusen") then
+        if inst:HasTag("ichimonji") or inst:HasTag("misshin") or inst:HasTag("ryusen") then
             SkillRemove(inst) inst.components.talker:Say("Later...", 1, true)
             return
         elseif inst:HasTag("mflipskill") and equip ~= nil and equip:HasTag("katanaskill") then
@@ -81,14 +79,14 @@ local function Skill1Fn(inst)
                 SkillRemove(inst)
                 return
             end
-        elseif not inst:HasTag("michimonji") then
+        elseif not inst:HasTag("ichimonji") then
             if inst.components.timer:TimerExists("skill1cd") then
                 inst.components.talker:Say("Cooldown", 1, true)
                 SkillRemove(inst)
                 return
             end
             SkillRemove(inst)
-            inst:AddTag("michimonji")
+            inst:AddTag("ichimonji")
             inst.components.combat:SetRange(3.5)
             inst.components.talker:Say(STRINGS.MANUTSAWEESKILLSPEECH.SKILL1START..inst.mindpower.."/3\n ", 1, true)
         end
@@ -103,10 +101,9 @@ local function Skill2Fn(inst)
         return
     end
 
-    local equip = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
     CanUseSkill(inst)
 
-    if not inst.canuseskill then
+    if not inst.components.skillreleaser.canuseskill then
         return
     end
 
@@ -117,10 +114,12 @@ local function Skill2Fn(inst)
 	inst.components.timer:StartTimer("sskill2cd",1)
 
 	if inst.mindpower >= 4 then
-        if inst:HasTag("mflipskill") or inst:HasTag("ryusen") or inst:HasTag("susanoo") then
-            SkillRemove(inst) inst.components.talker:Say("Later...", 1, true)
+        local equip = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
+        if inst:HasTag("flip") or inst:HasTag("ryusen") or inst:HasTag("susanoo") then
+            SkillRemove(inst) 
+            inst.components.talker:Say("Later...", 1, true)
             return
-        elseif inst:HasTag("michimonji") and equip ~= nil and equip:HasTag("katanaskill") then
+        elseif inst:HasTag("ichimonji") and equip ~= nil and equip:HasTag("katanaskill") then
             if inst.kenjutsulevel < nskill6 then
                 inst.components.talker:Say("[UNLOCK] 󰀍: "..nskill6, 1, true)
                 SkillRemove(inst)
@@ -140,7 +139,7 @@ local function Skill2Fn(inst)
                 SkillRemove(inst)
                 return
             end
-        elseif inst:HasTag("mthrustskill") and equip and equip:HasTag("katanaskill") then
+        elseif inst:HasTag("thrust") and equip ~= nil and equip:HasTag("katanaskill") then
             if inst.kenjutsulevel < nskill7 then
                 inst.components.talker:Say("[UNLOCK] 󰀍: "..nskill7, 1, true)
                 SkillRemove(inst)
@@ -160,14 +159,14 @@ local function Skill2Fn(inst)
                 SkillRemove(inst)
                 return
             end
-        elseif not inst:HasTag("mflipskill") then
+        elseif not inst:HasTag("flip") then
             if inst.components.timer:TimerExists("skill2cd") then
                 inst.components.talker:Say("Cooldown", 1, true)
                 SkillRemove(inst)
                 return
             end
             SkillRemove(inst)
-            inst:AddTag("mflipskill")
+            inst:AddTag("flip")
             inst.components.combat:SetRange(3.5)
             inst.components.talker:Say(STRINGS.MANUTSAWEESKILLSPEECH.SKILL2START..inst.mindpower.."/4\n ", 1, true)
         end
@@ -182,10 +181,9 @@ local function Skill3Fn(inst) ----------  T
         return
     end
 
-    local equip = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
     CanUseSkill(inst)
 
-    if not inst.canuseskill then
+    if not inst.components.skillreleaser.canuseskill then
         return
     end
 
@@ -197,11 +195,12 @@ local function Skill3Fn(inst) ----------  T
 	inst.components.timer:StartTimer("sskill3cd",1)
 
     if inst.mindpower >= 4 then
-        if inst:HasTag("heavenlystrike") or inst:HasTag("mthrustskill") or inst:HasTag("susanoo") then
+        local equip = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
+        if inst:HasTag("heavenlystrike") or inst:HasTag("thrust") or inst:HasTag("susanoo") then
 			SkillRemove(inst)
 				inst.components.talker:Say("Later...", 1, true)
 			return
-    	elseif inst:HasTag("mflipskill") and equip and equip:HasTag("katanaskill") then
+    	elseif inst:HasTag("flip") and equip ~= nil and equip:HasTag("katanaskill") then
 			if inst.kenjutsulevel < nskill5 then
                 inst.components.talker:Say("[UNLOCK] 󰀍: "..nskill5, 1, true)
                 SkillRemove(inst)
@@ -222,14 +221,14 @@ local function Skill3Fn(inst) ----------  T
                 SkillRemove(inst)
                 return
             end
-		elseif not inst:HasTag("mthrustskill") then
+		elseif not inst:HasTag("thrust") then
             if inst.components.timer:TimerExists("skill3cd") then
                 inst.components.talker:Say("Cooldown", 1, true) 
                 SkillRemove(inst)
                 return
             end
 			SkillRemove(inst)
-            inst:AddTag("mthrustskill")
+            inst:AddTag("thrust")
             inst.components.combat:SetRange(3)
             inst.components.talker:Say(STRINGS.MANUTSAWEESKILLSPEECH.SKILL3START..inst.mindpower.."/4\n ", 1, true)
 		end
@@ -265,7 +264,7 @@ local function CounterAttackFn(inst)
 end
 
 local function SkillCancelFn(inst)
-    if inst.components.timer:TimerExists("skillcancel_cd") then
+    if inst.components.timer:TimerExists("skill_cancel_cd") then
         return
     end
 
@@ -275,7 +274,7 @@ local function SkillCancelFn(inst)
         return
     end
 
-    inst.components.timer:StartTimer("skillcancel_cd",1)
+    inst.components.timer:StartTimer("skill_cancel_cd",1)
     SkillRemove(inst)
     inst.components.talker:Say("Maybe next time.", 1, true)
 end
@@ -296,10 +295,10 @@ local function QuickSheathFn(inst)
         return
     end
 
-    local equip = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
-	if equip ~= nil and equip.wpstatus ~= nil and equip:HasTag("katanaskill") then
+    local weapon = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
+	if weapon ~= nil and weapon.wpstatus ~= nil and weapon:HasTag("katanaskill") then
 		inst.components.timer:StartTimer("quicksheath_cd",.4)
-		inst.sg:GoToState("quicksheath")
+		inst.sg:GoToState("quicksheath", weapon)
 	end
 end
 
@@ -309,27 +308,27 @@ local function GlassesFn(inst, skinname)
     end
 
 	if not (inst.sg:HasStateTag("doing") or inst.components.inventory:IsHeavyLifting()) then
-		if (inst.sg == nil or inst.sg:HasStateTag("idle") or inst:HasTag("idle")) and not (inst.sg:HasStateTag("moving") or inst:HasTag("moving")) and not inst.components.timer:TimerExists("GlassesCD") then
-			inst.components.timer:StartTimer("GlassesCD",1)
+		if (inst.sg:HasStateTag("idle") or inst:HasTag("idle")) and not (inst.sg:HasStateTag("moving") or inst:HasTag("moving")) and not inst.components.timer:TimerExists("put_glasse_cd") then
+			inst.components.timer:StartTimer("put_glasse_cd",1)
 
             inst:DoTaskInTime(.1, function()
                 inst:PushEvent("putglasses")
             end)
 
             inst:DoTaskInTime(.6, function()
-                if not inst.glassesstatus then
-                    inst.glassesstatus = true
+                if not inst.glasses_status then
+                    inst.glasses_status = true
                     inst.PutGlasses(inst, skinname)
                 else
                     inst.AnimState:ClearOverrideSymbol("face")
-                    inst.glassesstatus = false
+                    inst.glasses_status = false
                 end
 			end)
 		end
 	end
 end
 
-local HAIR_TYPES = { "", "_yoto", "_ronin", "_pony", "_twin", "_htwin","_ball"}
+local change_num = 1
 local function HairsFn(inst, skinname)
     if inst.components.health ~= nil and inst.components.health:IsDead() and inst.sg:HasStateTag("dead") or inst:HasTag("playerghost") then
         return
@@ -341,22 +340,17 @@ local function HairsFn(inst, skinname)
             return
         end
 
-        if (inst.sg == nil or inst.sg:HasStateTag("idle") or inst:HasTag("idle")) and not (inst.sg:HasStateTag("moving") or inst:HasTag("moving")) and not inst.components.timer:TimerExists("HairCD") then
-            inst.components.timer:StartTimer("HairCD",1.4)
+        if (inst.sg:HasStateTag("idle") or inst:HasTag("idle")) and not (inst.sg:HasStateTag("moving") or inst:HasTag("moving")) and not inst.components.timer:TimerExists("change_hair_cd") then
+            inst.components.timer:StartTimer("change_hair_cd",1.4)
 
             inst:DoTaskInTime(.1, function()
                 inst:PushEvent("changehair")
             end)
 
 			inst:DoTaskInTime(1, function()
-                if inst.hair_type < #HAIR_TYPES then
-                    inst.hair_type = inst.hair_type + 1
-                    inst.OnChangeHair(inst, skinname)
-                else
-                    inst.hair_type = 1
-                    inst.OnChangeHair(inst, skinname)
-                end
-			end)
+                inst.hair_type = (inst.hair_type % #inst.HAIR_TYPES) + 1
+                inst.OnChangeHair(inst, skinname)
+            end)
 		end
 	end
 end

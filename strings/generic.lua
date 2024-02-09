@@ -3,8 +3,6 @@ return {
         M_SCARF = "It'll be good for when winter comes.",
         MAID_HB = "It's look good.",
         M_FOXMASK = "What a nice mask!.",
-        MKABUTO = "That should keep me safe.",
-        MKABUTO2 = "That should keep me safe.",
         MMIKO_ARMOR = "Not for me.",
         MFRUIT = "Fruit?",
         MINGOT = "What is this?",

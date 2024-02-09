@@ -1,5 +1,6 @@
 local GetModConfigData = GetModConfigData
 local KnownModIndex = GLOBAL.KnownModIndex
+local ENV = env
 GLOBAL.setfenv(1, GLOBAL)
 
 IA_ENABLED = rawget(_G, "IA_CONFIG") ~= nil
@@ -8,7 +9,7 @@ UM_ENABLED = KnownModIndex:IsModEnabled("workshop-2039181790") or false
 
 M_CONFIG = {
     locale = GetModConfigData("locale"),
-    KEYLEVELCHECK = GetModConfigData("levelcheck"),
+    LEVEL_CHECK_KEY = GetModConfigData("levelcheck"),
     ENABLE_SKILL = GetModConfigData("enable_skill"),
     SKILL1_KEY = GetModConfigData("skill1_key"),
     SKILL2_KEY = GetModConfigData("skill2_key"),

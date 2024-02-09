@@ -1,4 +1,5 @@
 local modimport = modimport
+local ENV = env
 if not GLOBAL.IsInFrontEnd() then return end
 
 PrefabFiles = {
@@ -56,3 +57,7 @@ modimport("main/prefabskin")
 GLOBAL.setfenv(1, GLOBAL)
 
 M_Util.RegisterImageAtlas("images/inventoryimages/m_inventoryimages.xml")
+
+if ENV.is_mim_enabled then
+    modimport("postinit/dst_postinit/widgets/skinspuppet")
+end

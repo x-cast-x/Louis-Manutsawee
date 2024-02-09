@@ -5,12 +5,17 @@ local katana_data = {
     "shirasaya",
     "raikiri",
     "koshirae",
-    "kurokatana"
+    -- "kurokatana"
 }
 
 local katana = {}
 for _, v in pairs(katana_data) do
-    table.insert(katana, MakeKatana({name = v, damage = TUNING.KATANA.DAMAGE}))
+    local data = {
+        name = v,
+        build = v,
+        damage = TUNING.KATANA.DAMAGE
+    }
+    table.insert(katana, MakeKatana(data))
 end
 
 return unpack(katana)

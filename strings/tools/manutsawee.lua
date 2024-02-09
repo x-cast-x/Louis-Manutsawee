@@ -715,8 +715,6 @@ return {
         M_SCARF = "Makes you warm and fuzzy inside. Outside, too.",
         MAID_HB = "Hmmm...",
         M_FOXMASK = "Now I'm a fox!.",
-        MKABUTO = "I'm a Samurai.",
-        MKABUTO2 = "I'm a Samurai.",
         MMIKO_ARMOR = "This robe for miko outfit.",
         MFRUIT = "Restore memory.",
         MINGOT = "Bring it to fire and hit with hammer.",

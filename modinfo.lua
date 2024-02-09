@@ -639,9 +639,9 @@ configuration_options = {
 	Space(),
     Breaker("Other Option", "其它选项"),
     {
-        name = "idle_anim",
-        label = en_zh("Use Wanda idle animation.", "使用旺达的idle动画"),
-        hover = en_zh("Use Wanda idle animation.", "使用旺达的idle动画"),
+        name = "random_idle_animation",
+        label = en_zh("Random idle animation.", "随机idle动画"),
+        hover = en_zh("Random idle animation.", "随机idle动画"),
         options = options_enable,
         default = false,
     },

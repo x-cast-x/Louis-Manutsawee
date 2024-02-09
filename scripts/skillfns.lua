@@ -3,15 +3,6 @@ local skilltime = .05
 local function SkillRemove(inst)
     inst.components.skillreleaser:SkillRemove()
 
-    if inst.mafterskillndm ~= nil then
-        inst.mafterskillndm:Cancel()
-        inst.mafterskillndm = nil
-    end
-    
-    inst.inspskill = nil
-    inst.components.combat:SetRange(inst._range)
-    inst.components.combat:EnableAreaDamage(false)
-    inst.AnimState:SetDeltaTimeMultiplier(1)
     inst:DoTaskInTime(.3, function()
         inst.components.talker:Say("I don't wanna do this.")
     end)

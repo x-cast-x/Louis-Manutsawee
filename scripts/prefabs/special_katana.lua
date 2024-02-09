@@ -183,18 +183,19 @@ local katana_data = {
         onattack = mortalblade_onattack,
         damage = TUNING.KATANA.TRUE_DAMAGE
     },
-    tenseiga = {
-        common_postinit = tenseiga_common_postinit,
-        master_postinit = tenseiga_master_postinit,
-        onattack = tenseiga_onattack,
-        damage = 0,
-    }
+    -- tenseiga = {
+    --     common_postinit = tenseiga_common_postinit,
+    --     master_postinit = tenseiga_master_postinit,
+    --     onattack = tenseiga_onattack,
+    --     damage = 0,
+    -- }
 }
 
 local katana = {}
 for k, v in pairs(katana_data) do
     local data = {
         name = k,
+        build = k,
         onattack = v.onattack,
         common_postinit = v.common_postinit,
         master_postinit = v.master_postinit,

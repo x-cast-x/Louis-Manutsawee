@@ -714,10 +714,10 @@ local states = {
 
 -------------------------------------------mquicksheath------------------------------------
     State{
-        name = "mquicksheath",
+        name = "quicksheath",
         tags = {"busy", "nopredict", "nointerrupt", "nomorph", "doing","notalking","skilling"},
 
-        onenter = function(inst, target)
+        onenter = function(inst)
             inst.components.locomotor:Stop()
             inst.AnimState:PlayAnimation("atk")
             inst.SoundEmitter:PlaySound("dontstarve/wilson/attack_weapon")
@@ -1095,7 +1095,7 @@ local states = {
 
 -------------------------------------------michimonji------------------------------------------
     State{
-        name = "michimonji",
+        name = "ichimonji",
         tags = {"busy", "nopredict", "nointerrupt", "nomorph", "doing","notalking","skilling"},
 
         onenter = function(inst, target)
@@ -1402,7 +1402,7 @@ local states = {
 			SkillCollision(inst, false)
 			inst.components.locomotor:EnableGroundSpeedMultiplier(true)
         end,
-    }
+    },
 }
 
 for _, event in ipairs(events) do
@@ -1413,7 +1413,7 @@ for _, state in ipairs(states) do
     AddStategraphState("wilson", state)
 end
 
-local function postinit_fn(sg)
+local function fn(sg)
     local attack_actionhandler = sg.actionhandlers[ACTIONS.ATTACK].deststate
     sg.actionhandlers[ACTIONS.ATTACK].deststate = function(inst, action, ...)
         local weapon = inst.components.combat ~= nil and inst.components.combat:GetWeapon()
@@ -1432,4 +1432,4 @@ local function postinit_fn(sg)
     end
 end
 
-AddStategraphPostInit("wilson", postinit_fn)
+AddStategraphPostInit("wilson", fn)

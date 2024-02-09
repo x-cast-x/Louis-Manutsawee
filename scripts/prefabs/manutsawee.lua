@@ -1,5 +1,5 @@
 local MakePlayerCharacter = require "prefabs/player_common"
-local Skills = require "skillfns"
+-- local Skills = require "skillfns"
 
 local assets = {
     Asset("SCRIPT", "scripts/prefabs/player_common.lua"),
@@ -35,9 +35,12 @@ local assets = {
 
 	Asset("ANIM", "anim/eyeglasses.zip"),
 
+    Asset("ANIM", "anim/face_controlled.zip")
+}
 
-    Asset("ANIM", "anim/wurt_peruse.zip"),
-    Asset("ANIM", "anim/wurt_mount_peruse.zip"),
+local prefabs = {
+    "battlesong_instant_electric_fx",
+    "fx_book_light_upgraded",
 }
 
 local start_inv = {}
@@ -45,16 +48,11 @@ local start_inv = {}
 for k, v in pairs(TUNING.GAMEMODE_STARTING_ITEMS) do
     start_inv[string.lower(k)] = v.MANUTSAWEE
 end
-local prefabs = FlattenTree(start_inv, true)
+
+prefabs = FlattenTree({prefabs, start_inv}, true)
 
 local function SkillRemove(inst)
-    inst.components.skillreleaser:SkillRemove()
-
-	inst.mafterskillndm = nil
-	inst.inspskill = nil
-	inst.components.combat:SetRange(inst._range)
-	inst.components.combat:EnableAreaDamage(false)
-	inst.AnimState:SetDeltaTimeMultiplier(1)
+    -- inst.components.skillreleaser:SkillRemove()
 end
 
 local function OnMindPowerRegen(inst, self)
@@ -70,14 +68,14 @@ local function OnMindPowerRegen(inst, self)
 end
 
 local HAIR_BITS = {"cut", "short", "medium", "long"}
-local HAIR_TYPES = {"", "yoto", "ronin", "pony", "twin", "htwin", "ball"}
+local HAIR_TYPES = {"", "_yoto", "_ronin", "_pony", "_twin", "_htwin", "_ball"}
 local function OnChangeHair(inst, skinname)
-    if inst.hair_bit == "cut" and not (inst.hair_type == HAIR_TYPES[""]) then
-        inst.hair_type = HAIR_TYPES[""]
+    if inst.hair_long == 1 and inst.hair_type > 1 then
+        inst.hair_type = 1
     end
 
     if skinname == nil then
-        local override_build = "hair_" .. HAIR_BITS[inst.hair_bit] .. "_" .. HAIR_TYPES[inst.hair_type]
+        local override_build = "hair_" .. HAIR_BITS[inst.hair_bit] .. HAIR_TYPES[inst.hair_type]
         inst.AnimState:OverrideSymbol("hairpigtails", override_build, "hairpigtails")
         inst.AnimState:OverrideSymbol("hair", override_build, "hair")
         inst.AnimState:OverrideSymbol("hair_hat", override_build, "hair_hat")
@@ -176,17 +174,18 @@ local function OnKilled(inst, data)
 end
 
 local function OnSave(inst, data)
+    data.iscontrolled = inst:HasTag("controlled") == true
 	data._louis_health = inst.components.health.currenthealth
     data._louis_sanity = inst.components.sanity.current
     data._louis_hunger = inst.components.hunger.current
 	data.hair_bit = inst.hair_bit
 	data.hair_type = inst.hair_type
-    data.glassesstatus = inst.glassesstatus
+    data.glasses_status = inst.glasses_status
 end
 
 local function OnLoad(inst, data)
 	if data ~= nil then
-		if inst.components.kenjutsuka.kenjutsulevel > 0 and data._louis_health ~= nil and data._mlouis_sanity ~= nil and data._louis_hunger ~= nil then
+		if inst.components.kenjutsuka ~= nil and inst.components.kenjutsuka.kenjutsulevel > 0 and data._louis_health ~= nil and data._mlouis_sanity ~= nil and data._louis_hunger ~= nil then
 			inst.components.health:SetCurrentHealth(data._louis_health)
 			inst.components.sanity.current = data._louis_sanity
 			inst.components.hunger.current = data._louis_hunger
@@ -200,13 +199,17 @@ local function OnLoad(inst, data)
             inst.hair_type = data.hair_type
         end
 
-        if data.glassesstatus ~= nil then
-            inst.glassesstatus = data.glassesstatus
-            if inst.glassesstatus then
+        if data.glasses_status ~= nil then
+            inst.glasses_status = data.glasses_status
+            if inst.glasses_status then
                 PutGlasses(inst)
             else
                 inst.AnimState:ClearOverrideSymbol("face")
             end
+        end
+
+        if data.iscontrolled then
+            inst.SwitchControlled(inst, data.iscontrolled)
         end
 
         OnChangeHair(inst)
@@ -245,13 +248,10 @@ end
 local common_postinit = function(inst)
 	inst.MiniMapEntity:SetIcon("manutsawee.tex")
 
-    inst.AnimState:AddOverrideBuild("wurt_peruse")
-
-    if M_CONFIG.IDLE_ANIM then
+    if M_CONFIG.RANDOM_IDLE_ANIMATION then
         inst.AnimState:AddOverrideBuild("player_idles_wes")
         inst.AnimState:AddOverrideBuild("player_idles_wendy")
         inst.AnimState:AddOverrideBuild("player_idles_wanda")
-        inst.AnimState:AddOverrideBuild("player_idles_waxwell")
     end
 
 	inst:AddTag("bearded")
@@ -271,19 +271,19 @@ local common_postinit = function(inst)
         inst:AddTag("pebblemaker")
     end
 
-	inst:AddComponent("keyhandler")
-	inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.KEYLEVELCHECK, "levelcheck")
-	inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.PUT_GLASSES_KEY, "glasses")
-	inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.CHANGE_HAIRS_KEY, "Hairs")
+	-- inst:AddComponent("keyhandler")
+	-- inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.LEVEL_CHECK_KEY, "levelcheck")
+	-- inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.PUT_GLASSES_KEY, "glasses")
+	-- inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.CHANGE_HAIRS_KEY, "Hairs")
 
-	if M_CONFIG.ENABLE_SKILL then
-        inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.SKILL1_KEY, "skill1")
-        inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.SKILL2_KEY, "skill2")
-        inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.SKILL3_KEY, "skill3")
-        inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.SKILL_COUNTER_ATK_KEY, "skillcounterattack")
-        inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.QUICK_SHEATH_KEY, "quicksheath")
-        inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.SKILL_CANCEL_KEY, "skillcancel")
-	end
+	-- if M_CONFIG.ENABLE_SKILL then
+    --     inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.SKILL1_KEY, "skill1")
+    --     inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.SKILL2_KEY, "skill2")
+    --     inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.SKILL3_KEY, "skill3")
+    --     inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.SKILL_COUNTER_ATK_KEY, "skillcounterattack")
+    --     inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.QUICK_SHEATH_KEY, "quicksheath")
+    --     inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.SKILL_CANCEL_KEY, "skillcancel")
+	-- end
 
     if M_CONFIG.ENABLE_DODGE then
     	inst.dodgetime = net_bool(inst.GUID, "player.dodgetime", "dodgetimedirty")
@@ -300,33 +300,33 @@ local BEARD_DAYS = {3, 7, 16}
 local BEARD_BITS = {2, 3, 3}
 
 local function OnGrowShortHair(inst, skinname)
-	inst.hair_bit = "short"
+	inst.hair_long = 2
 	inst.components.beard.bits = BEARD_BITS[1]
     OnChangeHair(inst, skinname)
 end
 
 local function OnGrowMediumHair(inst, skinname)
-	inst.hair_bit = "medium"
+	inst.hair_long = 3
 	inst.components.beard.bits = BEARD_BITS[2]
 	OnChangeHair(inst, skinname)
 end
 
 local function OnGrowLongHair(inst, skinname)
-	inst.hair_bit = "long"
+	inst.hair_long = 4
 	inst.components.beard.bits = BEARD_BITS[3]
 	OnChangeHair(inst, skinname)
 end
 
 local function OnResetHair(inst, skinname)
-	if inst.hair_bit == "long" then
+	if inst.hair_long == 4 then
 		inst.components.beard.daysgrowth = BEARD_DAYS[2]
 		OnGrowMediumHair(inst, skinname)
-	elseif inst.hair_bit == "medium" then
+	elseif inst.hair_long == 3 then
 		inst.components.beard.daysgrowth = BEARD_DAYS[1]
 		OnGrowShortHair(inst, skinname)
 	else
-        inst.hair_bit = "cut"
-        inst.hair_type = ""
+        inst.hair_long = 1
+        inst.hair_type = 1
         inst.AnimState:ClearOverrideSymbol("hairpigtails")
         inst.AnimState:ClearOverrideSymbol("hair")
         inst.AnimState:ClearOverrideSymbol("hair_hat")
@@ -336,7 +336,8 @@ local function OnResetHair(inst, skinname)
 end
 
 local function OnEquip(inst, data)
-    if data.item ~= nil and (data.item.prefab == "onemanband" or data.item.prefab == "armorsnurtleshell") then
+    local item = data.item
+    if item ~= nil and (item.prefab == "onemanband" or item.prefab == "armorsnurtleshell") then
         if not inst:HasTag("notshowscabbard") then
             inst:AddTag("notshowscabbard")
         end
@@ -370,48 +371,67 @@ local function OnDroped(inst, data)
     end
 end
 
-local Funny_Idle_Anim = {
-    waxwell = "idle3_waxwell",
-    wes = "wes_funnyidle",
-    wortox = "idle_wortox",
-    wilson = "idle_wilson",
-    wendy = "idle_wendy",
-    wanda = "idle_wanda",
-    wathgrithr = "idle_wathgrithr",
-    winona = "idle_winona",
-    walter = "idle_walter",
+local function SwitchControlled(inst, enabled)
+    local self = inst.components.grogginess
+
+    if self ~= nil then
+        if enabled then
+            inst:AddTag("groggy")
+            inst:AddTag("controlled")
+            inst.AnimState:OverrideSymbol("face", "face_controlled", "face")
+            local pct = self.grog_amount < self:GetResistance() and self.grog_amount / self:GetResistance() or 1
+            self.speedmod = Remap(pct, 1, 0, TUNING.MIN_GROGGY_SPEED_MOD, TUNING.MAX_GROGGY_SPEED_MOD)
+            inst.components.locomotor:SetExternalSpeedMultiplier(inst, "controlled", self.speedmod)
+        else
+            inst:RemoveTag("groggy")
+            inst:RemoveTag("controlled")
+            inst.AnimState:ClearOverrideSymbol("face")
+            self.speedmod = nil
+            inst.components.locomotor:RemoveExternalSpeedMultiplier(inst, "controlled")
+        end
+    end
+end
+
+local Idle_Anim = {
+    ["manutsawee_yukatalong_purple"] = "idle_wendy",
+    ["manutsawee_yukatalong"] = "idle_wendy",
+    ["manutsawee_yukata"] = "idle_wendy",
+    ["manutsawee_shinsengumi"] = "idle_wathgrithr",
+    ["manutsawee_fuka"] = "idle_wathgrithr",
+    ["manutsawee_sailor"] = "idle_walter",
+    ["manutsawee_jinbei"] = "idle_wortox",
+    ["manutsawee_maid"] = "idle_wanda",
+    ["manutsawee_taohuu"] = "idle_winona",
+    ["manutsawee_miko"] = "emote_impatient",
 }
 
-local skin_idle_anim = {
-    ["manutsawee_yukatalong_purple"] = "wendy",
-    ["manutsawee_yukatalong"] = "wendy",
-    ["manutsawee_yukata"] = "wendy",
-    ["manutsawee_shinsengumi"] = "wathgrithr",
-    ["manutsawee_fuka"] = "wathgrithr",
-    ["manutsawee_sailor"] = "wortox",
-    ["manutsawee_jinbei"] = "wortox",
-    ["manutsawee_maid"] = "wanda",
-    ["manutsawee_qipao"] = "wes",
-    ["manutsawee_taohuu"] = "winona",
-    ["manutsawee_miko"] = "waxwell",
+local Funny_Idle_Anim = {
+    ["manutsawee_qipao"] = "wes_funnyidle",
 }
 
 local function CustomIdleAnimFn(inst)
-    local skin_build = inst:GetSkinBuild()
-    local skin_name = inst:GetSkinName()
+    local build = inst.AnimState:GetBuild()
 
-    if skin_build ~= nil then
-        return Funny_Idle_Anim[skin_idle_anim[skin_name]]
+    if build == "manutsawee" then
+        return "idle_wilson"
     else
-        return Funny_Idle_Anim["wilson"]
+        return Idle_Anim[build] ~= nil and Idle_Anim[build] or nil
     end
+end
+
+local function CustomIdleStateFn(inst)
+    local build = inst.AnimState:GetBuild()
+
+    return Funny_Idle_Anim[build] ~= nil and Funny_Idle_Anim[build] or nil
 end
 
 local function SetUpCustomIdle(inst)
     inst.customidleanim = CustomIdleAnimFn
+    inst.customidlestate = CustomIdleStateFn
 
-    for k, _ in pairs(Funny_Idle_Anim) do
-        table.insert(assets, Asset("ANIM", "anim/player_idles_" .. k .. ".zip"))
+    local characters = {"wes", "wortox", "wilson", "wendy", "wanda", "wathgrithr", "winona", "walter"}
+    for _, v in pairs(characters) do
+        table.insert(assets, Asset("ANIM", "anim/player_idles_" .. v .. ".zip"))
     end
 end
 
@@ -425,30 +445,55 @@ local function RegisterEventListeners(inst)
     inst:ListenForEvent("itemlose", OnDroped)
 end
 
+local function SetInstanceFunctions(inst)
+    inst.SwitchControlled = SwitchControlled
+    inst.SkillRemove = SkillRemove
+    inst.PutGlasses = PutGlasses
+    inst.OnChangeHair = OnChangeHair
+	inst.OnLoad = OnLoad
+	inst.OnSave = OnSave
+end
+
+local function SetInstanceValue(inst)
+    inst.soundsname = "wortox"
+
+	inst.glasses_status = false
+	inst.hair_bit = 1
+	inst.hair_type = 1
+	inst._range = inst.components.combat.hitrange
+
+    inst.HAIR_BITS = HAIR_BITS
+    inst.HAIR_TYPES = HAIR_TYPES
+    inst.Funny_Idle_Anim = Funny_Idle_Anim
+end
+
 local function DoPostInit(inst)
-    for k, v in ipairs(Skills) do
-        inst.components.skillreleaser:AddSkill(string.lower(k), v)
-    end
+    -- for k, v in ipairs(Skills) do
+    --     inst.components.skillreleaser:AddSkill(string.lower(k), v)
+    -- end
 
     if M_CONFIG.RANDOM_IDLE_ANIMATION then
         SetUpCustomIdle(inst)
     end
 
+    SetInstanceFunctions(inst)
+    SetInstanceValue(inst)
     RegisterEventListeners(inst)
 end
 
 local master_postinit = function(inst)
 	inst.starting_inventory = start_inv[TheNet:GetServerGameMode()] or start_inv.default
 
+
 	--small character
     inst.AnimState:SetScale(0.88, 0.9, 1)
 
-    inst:AddComponent("kenjutsuka")
-    inst.components.kenjutsuka:SetOnUpgradeFn(OnUpgrades)
-    inst.components.kenjutsuka:SetOnMindPowerRegenFn(OnMindPowerRegen)
+    -- inst:AddComponent("kenjutsuka")
+    -- inst.components.kenjutsuka:SetOnUpgradeFn(OnUpgrades)
+    -- inst.components.kenjutsuka:SetOnMindPowerRegenFn(OnMindPowerRegen)
 
-    inst:AddComponent("skillreleaser")
-    inst.components.skillreleaser:OnPostInit()
+    -- inst:AddComponent("skillreleaser")
+    -- inst.components.skillreleaser:OnPostInit()
 
 	inst:AddComponent("houndedtarget")
     inst.components.houndedtarget.target_weight_mult:SetModifier(inst, TUNING.WES_HOUND_TARGET_MULT, "misfortune")
@@ -512,19 +557,6 @@ local master_postinit = function(inst)
 	inst.components.efficientuser:AddMultiplier(ACTIONS.MINE,   TUNING.WES_WORKEFFECTIVENESS_MODIFIER, inst)
 	inst.components.efficientuser:AddMultiplier(ACTIONS.HAMMER, TUNING.WES_WORKEFFECTIVENESS_MODIFIER, inst)
 	inst.components.efficientuser:AddMultiplier(ACTIONS.ATTACK, TUNING.WES_WORKEFFECTIVENESS_MODIFIER, inst)
-
-    inst.soundsname = "wortox"
-
-	inst.glassesstatus = false
-	inst.hair_bit = ""
-	inst.hair_type = "cut"
-	inst._range = inst.components.combat.hitrange
-
-    inst.SkillRemove = SkillRemove
-    inst.PutGlasses = PutGlasses
-    inst.OnChangeHair = OnChangeHair
-	inst.OnLoad = OnLoad
-	inst.OnSave = OnSave
 
     DoPostInit(inst)
 end

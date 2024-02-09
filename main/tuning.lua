@@ -18,7 +18,7 @@ end
 --Stop here if MiM
 if ENV.is_mim_enabled then
     return
- end
+end
 
 local wilson_attack = TUNING.BASE_SURVIVOR_ATTACK
 

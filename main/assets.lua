@@ -4,11 +4,8 @@ local TheNet = GLOBAL.TheNet
 PrefabFiles = {
     "manutsawee",
     "manutsawee_none",
-    "yari",
-    "mnaginata",
+    "m_spears",
     "shinai",
-    "mkabuto",
-    "mkabuto2",
     "maid_hb",
     "m_foxmask",
     "m_scarf",
@@ -88,10 +85,10 @@ Assets = {
 M_Util.RegisterImageAtlas("images/inventoryimages/m_inventoryimages.xml")
 M_Util.AddMinimapAtlas("m_minimaps", Assets)
 
-if not TheNet:IsDedicated() then
-	table.insert(Assets, Asset("SOUND", "sound/louis.fsb"))
-	table.insert(Assets, Asset("SOUNDPACKAGE", "sound/louis.fev"))
-end
+-- if not TheNet:IsDedicated() then
+-- 	table.insert(Assets, Asset("SOUND", "sound/louis.fsb"))
+-- 	table.insert(Assets, Asset("SOUNDPACKAGE", "sound/louis.fev"))
+-- end
 
 -- Deprecate
 -- RemapSoundEvent("dontstarve/characters/louis/death_voice", "louis/louis/death_voice")

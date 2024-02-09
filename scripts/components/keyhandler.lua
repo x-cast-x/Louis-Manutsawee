@@ -10,10 +10,6 @@ local function CanCastSkill(inst)
     self.inst.components.playercontroller:IsEnabled()
 end
 
-local function IsMouseKey(key)
-	return key >= 1000 and key <= 1006
-end
-
 local function OnRawKey(self, key, down)
 	local player = ThePlayer
 	if player ~= nil then
@@ -23,17 +19,6 @@ local function OnRawKey(self, key, down)
       		player:PushEvent("keydown", {inst = self.inst, player = player, key = key})
 		end
   	end
-end
-
-local function OnMouseButton(self, button, down)
-	local player = ThePlayer
-	if player ~= nil then
-		if (button and not down) and not self.paused and not self.ignore_ then
-			player:PushEvent("mousebuttonup", {inst = self.inst, player = player, key = button})
-		elseif button and down and not self.paused and not self.ignore_ then
-			player:PushEvent("mousebuttondown", {inst = self.inst, player = player, key = button})
-		end
-	end
 end
 
 local function OnGamePaused(inst, paused)

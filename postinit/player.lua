@@ -188,7 +188,7 @@ local Michimonji_Skill = function(inst, target, weapon)
 
             if weapon ~= nil then
                 inst.skill_target = target
-                inst.sg:GoToState("michimonji", inst.skill_target)
+                inst.sg:GoToState("ichimonji", inst.skill_target)
             end
         end)
     end
@@ -196,7 +196,7 @@ local Michimonji_Skill = function(inst, target, weapon)
     inst.mindpower = (inst.mindpower-3)
     inst.components.timer:StartTimer("skill1cd", M_CONFIG.SKILL1_COOLDOWN)
 
-    inst:RemoveTag("michimonji")
+    inst:RemoveTag("ichimonji")
 end
 
 local Flip_Skill = function(inst, target, weapon)

@@ -139,6 +139,7 @@ local katana = {}
 for k,v in pairs(katana_data) do
     local data = {
         name = "true_" .. k,
+        build = k,
         onattack = v.onattack,
         common_postinit = v.common_postinit,
         master_postinit = v.master_postinit,

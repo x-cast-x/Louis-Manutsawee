@@ -2,7 +2,6 @@ local EQUIPSLOTS = GLOBAL.EQUIPSLOTS
 local FRAMES = GLOBAL.FRAMES
 local TimeEvent = GLOBAL.TimeEvent
 local State = GLOBAL.State
-local EventHandler = EventHandler
 local AddStategraphState = AddStategraphState
 local AddStategraphPostInit = AddStategraphPostInit
 GLOBAL.setfenv(1, GLOBAL)

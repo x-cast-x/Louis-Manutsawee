@@ -44,20 +44,6 @@ local recipes_data = {
         filters = {"CHARACTER", "ARMOUR", "CLOTHING", "WINTER"},
         sort = {after = "armormarble"}
     },
-    mkabuto = {
-        ingredients = {Ingredient("boards", 2), Ingredient("rope", 2)},
-        tech = TECH.SCIENCE_TWO,
-        config = {builder_tag = "manutsaweecraft"},
-        filters = {"CHARACTER", "ARMOUR"},
-        sort = {after = "footballhat"}
-    },
-    mkabuto2 = {
-        ingredients = {Ingredient("boards", 2), Ingredient("rope", 2), Ingredient("goldnugget", 2)},
-        tech = TECH.SCIENCE_TWO,
-        config = {builder_tag = "manutsaweecraft2"},
-        filters = {"CHARACTER", "ARMOUR"},
-        sort = {after = "mkabuto"}
-    },
 
     shinai = {
         ingredients = {Ingredient("rope", 1), Ingredient("boards", 1)},
@@ -89,13 +75,13 @@ local recipes_data = {
         sort = {after = "yari"}
     },
 
-    kurokatana = {
-        ingredients = {Ingredient("katanablade", 1), Ingredient("cane", 1), Ingredient("goldnugget", 2)},
-        tech = TECH.SCIENCE_TWO,
-        config = {builder_tag = "manutsaweecraft"},
-        filters = {"CHARACTER", "WEAPONS"},
-        sort = {after = "mnaginata"}
-    },
+    -- kurokatana = {
+    --     ingredients = {Ingredient("katanablade", 1), Ingredient("cane", 1), Ingredient("goldnugget", 2)},
+    --     tech = TECH.SCIENCE_TWO,
+    --     config = {builder_tag = "manutsaweecraft"},
+    --     filters = {"CHARACTER", "WEAPONS"},
+    --     sort = {after = "mnaginata"}
+    -- },
     katanablade = {
         ingredients = {Ingredient("rope", 1), Ingredient("katanabody", 1), Ingredient("cutstone", 1)},
         tech = TECH.SCIENCE_TWO,

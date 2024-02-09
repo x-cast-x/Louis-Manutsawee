@@ -71,13 +71,12 @@ local function OnFinishCallback(inst, chopper)
 end
 
 local function OnWorkCallback(inst, worker, workleft)
-	local fx = SpawnPrefab("sparks")
-
     if not worker:HasTag("player") then
         inst.components.workable:SetWorkLeft(workleft)
         return
     end
 
+	local fx = SpawnPrefab("sparks")
     fx.Transform:SetPosition(inst.Transform:GetWorldPosition())
     inst.SoundEmitter:PlaySound("dontstarve/impacts/impact_mech_med_sharp")
 end

@@ -12,9 +12,9 @@ local modules = {
     "actions",
     "recipes",
     "containers",
+    "RPC",
     "commands",
     "characters",
-    "RPC",
     "prefabskin",
 }
 

@@ -41,11 +41,11 @@ local function CastFn(inst, target)
 	SwitchMode(inst)
 end
 
-local function onSave(inst, data)
+local function OnSave(inst, data)
     data.maskstatus = inst.maskstatus
 end
 
-local function onLoad(inst, data)
+local function OnLoad(inst, data)
     if data ~= nil then
         inst.maskstatus = data.maskstatus or false
     end
@@ -59,17 +59,16 @@ local function fn()
 
 	inst:AddTag("hat")
 	inst:AddTag("quickcast")
+
 	inst.spelltype = "SCIENCE"
 
     MakeInventoryPhysics(inst)
 
-	inst.AnimState:SetBank("m_foxmask")  --MAKE SURE TO REFERENCE THE RIGHT BANK WHEN MAKING DROPPED ITEMS
+	inst.AnimState:SetBank("m_foxmask")
     inst.AnimState:SetBuild("m_foxmask")
     inst.AnimState:PlayAnimation("idle")
 
-	MakeInventoryFloatable(inst)
-	inst.components.floater:SetSize("med")
-    inst.components.floater:SetVerticalOffset(0.1)
+	MakeInventoryFloatable(inst, "med", 0.1)
 
     inst.entity:SetPristine()
 
@@ -104,8 +103,8 @@ local function fn()
     inst.components.equippable:SetOnUnequip(OnUnequip)
 
 	inst.maskstatus = 0
-	inst.OnSave = onSave
-    inst.OnLoad = onLoad
+	inst.OnSave = OnSave
+    inst.OnLoad = OnLoad
 
 	MakeHauntableLaunch(inst)
 

@@ -29,11 +29,7 @@ local function OnUnequip(inst, owner)
 end
 
 local function CastFn(inst, target)
-	if inst.mitemstatus < #mitemlist then
-		inst.mitemstatus = inst.mitemstatus + 1
-	else
-		inst.mitemstatus = 1
-	end
+    inst.mitemstatus = (inst.mitemstatus % #mitemlist) + 1
 
 	SwitchMode(inst)
 end

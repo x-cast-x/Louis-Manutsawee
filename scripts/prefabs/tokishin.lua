@@ -4,6 +4,7 @@ local assets = {
 	Asset("ANIM", "anim/sc_tokishin.zip"),
 }
 
+
 local function OnAttack(inst, attacker, target)
 
 end
@@ -16,29 +17,27 @@ local function OnEquip(inst, owner)
     owner.AnimState:Show("ARM_carry")
     owner.AnimState:Hide("ARM_normal")
 
-	if owner:HasTag("kenjutsu") then
-		inst.components.weapon:SetDamage(TUNING.TOKISHIN_DAMAGE + (owner.kenjutsulevel * 2))
-        if owner.kenjutsulevel < 6 then
-            inst.components.equippable.dapperness = TUNING.CRAZINESS_MED
-            owner.AnimState:OverrideSymbol("face", "sc_tokishin", "tail")
-        end
-	end
+    inst.components.weapon:SetDamage(TUNING.TOKISHIN_DAMAGE + (owner.kenjutsulevel * 2))
+    if owner.kenjutsulevel < 6 then
+        inst.components.equippable.dapperness = TUNING.CRAZINESS_MED
+        owner.SwitchControlled(inst, true)
+    end
 end
 
 local function OnUnequip(inst, owner)
 	owner.AnimState:Hide("ARM_carry")
     owner.AnimState:Show("ARM_normal")
+    owner.AnimState:ClearOverrideSymbol("face")
 
-    if owner:HasTag("kenjutsu") then
-        inst.components.equippable.dapperness = 0
-    end
-
+    inst.components.equippable.dapperness = 0
 	inst.components.weapon:SetDamage(TUNING.TOKISHIN_DAMAGE)
+
+    owner.SwitchControlled(inst, false)
 end
 
 local function OnPocket(inst, owner)
     if not owner:HasTag("notshowscabbard") and owner:HasTag("player") then
-        owner.AnimState:OverrideSymbol("swap_body_tall", "sc_tokishin", "tail")
+        owner.SwitchControlled(inst, true)
     end
 end
 
@@ -58,8 +57,6 @@ local function fn()
 
     inst:AddTag("nosteal")
     inst:AddTag("sharp")
-    -- inst:AddTag("veryquickcast")
-    -- inst:AddTag("katanaskill")
     inst:AddTag("waterproofer")
 
     --weapon (from weapon component) added to pristine state for optimization
