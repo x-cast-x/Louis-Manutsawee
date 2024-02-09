@@ -29,7 +29,7 @@ mod_dependencies = {
     },
 }
 
-icon_atlas = "modicon.xml"
+icon_atlas = "images/modicon.xml"
 icon = "modicon.tex"
 
 server_filter_tags = {
