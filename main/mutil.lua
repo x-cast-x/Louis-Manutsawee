@@ -166,7 +166,7 @@ function M_Util.SlashFx(inst, target, prefab, scale)
 end
 
 function M_Util.AoeAttack(inst, damage, range)
-    local CANT_TAGS = { "INLIMBO", "flight", "invisible", "notarget", "noattack" }
+    local CANT_TAGS = { "INLIMBO", "invisible", "NOCLICK",  }
     local x, y, z = inst.Transform:GetWorldPosition()
     local ents = TheSim:FindEntities(x, y, z, range, nil, CANT_TAGS)
     local weapon = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
@@ -177,7 +177,7 @@ function M_Util.AoeAttack(inst, damage, range)
         end
 
         if v ~= nil and not v:IsInLimbo() and v:IsValid() and v.components.health ~= nil and v.components.combat ~= nil and not v.components.health:IsDead() then
-            if not (v:HasTag("player") or v:HasTag("INLIMBO") or v:HasTag("structure") or v:HasTag("companion") or v:HasTag("abigial") or v:HasTag("wall")) then
+            if not (v:HasTag("player") or v:HasTag("structure") or v:HasTag("companion") or v:HasTag("abigial") or v:HasTag("wall")) then
                 if weapon ~= nil then
                     v.components.combat:GetAttacked(inst, weapon.components.weapon.damage*damage)
                 end
@@ -193,10 +193,36 @@ function M_Util.AoeAttack(inst, damage, range)
     end
 end
 
-function M_Util.AddFollowerFx(inst, prefab)
+function M_Util.AddFollowerFx(inst, prefab, scale)
     local fx = SpawnPrefab(prefab)
     fx.entity:AddFollower()
     fx.Follower:FollowSymbol(inst.GUID, "swap_body", 0, 0, 0)
+    if scale ~= nil then
+        fx.Transform:SetScale(scale, scale, scale)
+    end
+end
+
+function M_Util.Skill_CommonFn(inst, tag, name, time, mindpower, fn)
+    if inst.components.skillreleaser:CanUseSkill(inst.components.combat.target) then
+        inst.sg:GoToState("idle")
+        inst.components.skillreleaser:SkillRemove()
+        inst:DoTaskInTime(.3, function()
+            inst.components.talker:Say(STRINGS.SKILL.REFUSE_RELEASE)
+        end)
+        return
+    end
+
+    if inst.mafterskillndm ~= nil then
+        inst.mafterskillndm:Cancel()
+        inst.mafterskillndm = nil
+    end
+
+    fn(inst)
+
+    inst.components.kenjutsuka:SetMindpower(inst.components.kenjutsuka:GetMindpower() - mindpower)
+    inst.components.timer:StartTimer(name, time)
+
+    inst:RemoveTag(tag)
 end
 
 local shipwrecked_recipes = {}

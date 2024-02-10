@@ -1177,7 +1177,7 @@ local states = {
             inst.components.combat:EnableAreaDamage(false)
             if inst.doubleichimonji ~= nil then
                 inst.doubleichimonji = nil
-                inst.components.talker:Say(STRINGS.MANUTSAWEESKILLSPEECH.SKILL1ATTACK, 2, true)
+                inst.components.talker:Say(STRINGS.SKILL.SKILL1ATTACK, 2, true)
                 inst.mafterskillndm = inst:DoTaskInTime(2, function() inst.mafterskillndm = nil end)
             end
             if inst.doubleichimonjistart then
@@ -1271,7 +1271,7 @@ local states = {
             end),
 
             TimeEvent(20 * FRAMES, function(inst)
-                inst.components.talker:Say(STRINGS.MANUTSAWEESKILLSPEECH.SKILL2ATTACK, 2, true)
+                inst.components.talker:Say(STRINGS.SKILL.SKILL2ATTACK, 2, true)
             end),
         },
 

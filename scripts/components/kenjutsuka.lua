@@ -17,18 +17,18 @@ local function OnAttackOther(inst, data)
     local cant_tags = not (target:HasOneOfTags({"prey", "bird", "insect", "wall"}) and not target:HasTag("hostile"))
 
     if weapon ~= nil and not weapon:HasTag("projectile") and not weapon:HasTag("rangedweapon") then
-        if weapon:HasTag("katanaskill") and not inst.components.timer:TimerExists("HitCD") and
+        if weapon:HasTag("katanaskill") and not inst.components.timer:TimerExists("hit_cd") and
             not inst.sg:HasStateTag("skilling") then -- GainKenExp
             if kenjutsuka.kenjutsulevel < 10 then
                 kenjutsuka.kenjutsuexp = kenjutsuka.kenjutsuexp + (1 * M_CONFIG.KEXPMTP)
             end
-            inst.components.timer:StartTimer("HitCD", .5)
+            inst.components.timer:StartTimer("hit_cd", .5)
         end
 
         if cant_tags then
             if math.random(1, 100) <= criticalrate + kenjutsuka.kenjutsulevel and
-                not inst.components.timer:TimerExists("CriCD") and not inst.sg:HasStateTag("skilling") then
-                inst.components.timer:StartTimer("CriCD", 15 - (kenjutsuka.kenjutsulevel / 2)) -- critical
+                not inst.components.timer:TimerExists("critical_cd") and not inst.sg:HasStateTag("skilling") then
+                inst.components.timer:StartTimer("critical_cd", 15 - (kenjutsuka.kenjutsulevel / 2)) -- critical
                 local hitfx = SpawnPrefab("slingshotammo_hitfx_rock")
                 if hitfx then
                     hitfx.Transform:SetScale(.8, .8, .8)
@@ -43,12 +43,12 @@ local function OnAttackOther(inst, data)
         end
 
         if cant_tags then
-            if not inst.components.timer:TimerExists("HeartCD") and not inst.sg:HasStateTag("skilling") and
+            if not inst.components.timer:TimerExists("heart_cd") and not inst.sg:HasStateTag("skilling") and
                 not inst.inspskill then
-                inst.components.timer:StartTimer("HeartCD", .3) -- mind gain
+                inst.components.timer:StartTimer("heart_cd", .3) -- mind gain
                 hitcount = hitcount + 1
-                if hitcount >= M_CONFIG.MINDREGEN_COUNT and inst.kenjutsulevel >= 1 then
-                    if kenjutsuka.mindpower < kenjutsuka.max_mindpower then
+                if hitcount >= M_CONFIG.MINDREGEN_COUNT and inst.components.kenjutsuka:GetKenjutsuLevel() >= 1 then
+                    if kenjutsuka:GetMindpower() < kenjutsuka.max_mindpower then
                         kenjutsuka.onmindregenfn(inst, kenjutsuka)
                     else
                         inst.components.sanity:DoDelta(1)
@@ -131,7 +131,26 @@ local Kenjutsuka = Class(function(self, inst)
 end)
 
 function Kenjutsuka:OnRemoveFromEntity()
-    -- body
+    self:StopRegenMindPower()
+
+    self.inst:RemoveEventCallback("onattackother", OnAttackOther)
+    self.inst:RemoveEventCallback("ms_playerreroll", OnPlayerReroll)
+end
+
+function Kenjutsuka:SetKenjutsuExp(exp)
+    self.kenjutsuexp = exp
+end
+
+function Kenjutsuka:SetKenjutsuLevel(exp)
+    self.kenjutsulevel = exp
+end
+
+function Kenjutsuka:SetMindpower(mindpower)
+    self.mindpower = mindpower
+end
+
+function Kenjutsuka:SetMaxMindpower(mindpower)
+    self.max_mindpower = mindpower
 end
 
 function Kenjutsuka:SetOnUpgradeFn(fn)
@@ -140,6 +159,26 @@ end
 
 function Kenjutsuka:SetOnMindPowerRegenFn(fn)
     self.onmindregenfn = fn
+end
+
+function Kenjutsuka:GetKenjutsuExp()
+    return self.kenjutsuexp
+end
+
+function Kenjutsuka:GetKenjutsuLevel()
+    return self.kenjutsulevel
+end
+
+function Kenjutsuka:GetMindpower()
+    return self.mindpower
+end
+
+function Kenjutsuka:GetMaxMindpower()
+    return self.max_mindpower
+end
+
+function Kenjutsuka:GetIsMaster()
+    return self.is_master
 end
 
 function Kenjutsuka:KenjutsuLevelUp()
@@ -157,10 +196,7 @@ end
 
 function Kenjutsuka:StopRegenMindPower()
     if self.regen ~= nil then
-        if self.regen ~= nil then
-            self.regen:Cancel()
-            self.regen = nil
-        end
+        self.regen:Cancel()
         self.regen = nil
     end
 end

@@ -4,7 +4,6 @@ local assets = {
 	Asset("ANIM", "anim/sc_tokishin.zip"),
 }
 
-
 local function OnAttack(inst, attacker, target)
 
 end
@@ -18,9 +17,9 @@ local function OnEquip(inst, owner)
     owner.AnimState:Hide("ARM_normal")
 
     inst.components.weapon:SetDamage(TUNING.TOKISHIN_DAMAGE + (owner.kenjutsulevel * 2))
-    if owner.kenjutsulevel < 6 then
+    if owner.kenjutsulevel < 6 and owner.SwitchControlled ~= nil then
         inst.components.equippable.dapperness = TUNING.CRAZINESS_MED
-        owner.SwitchControlled(inst, true)
+        owner.SwitchControlled(owner, true)
     end
 end
 
@@ -32,12 +31,14 @@ local function OnUnequip(inst, owner)
     inst.components.equippable.dapperness = 0
 	inst.components.weapon:SetDamage(TUNING.TOKISHIN_DAMAGE)
 
-    owner.SwitchControlled(inst, false)
+    if owner.SwitchControlled ~= nil then        
+        owner.SwitchControlled(owner, false)
+    end
 end
 
 local function OnPocket(inst, owner)
-    if not owner:HasTag("notshowscabbard") and owner:HasTag("player") then
-        owner.SwitchControlled(inst, true)
+    if owner.SwitchControlled ~= nil and not owner:HasTag("notshowscabbard") and owner:HasTag("player") then
+        owner.SwitchControlled(owner, true)
     end
 end
 

@@ -7,14 +7,14 @@ table.insert(prefabs, CreatePrefabSkin("manutsawee_none", {
     rarity = "Elegant",
     skip_item_gen = true,
     skip_giftable_gen = true,
-    skin_tags = { "BASE", "MANUTSAWEE", },
+    skin_tags = {"BASE", "MANUTSAWEE", },
     skins = {
         normal_skin = "manutsawee",
         ghost_skin = "ghost_manutsawee_build",
     },
     assets = {
-        Asset( "ANIM", "anim/manutsawee.zip" ),
-        Asset( "ANIM", "anim/ghost_manutsawee_build.zip" ),
+        Asset("ANIM", "anim/manutsawee.zip"),
+        Asset("ANIM", "anim/ghost_manutsawee_build.zip"),
     },
 }))
 

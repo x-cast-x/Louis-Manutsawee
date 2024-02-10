@@ -1,7 +1,6 @@
 local blockcount = 0
 
-local function DoCombatPostInit(self, inst)
-    local combat = inst.components.combat
+local function DoCombatPostInit(self, inst, combat)
     local _GetAttacked = combat.GetAttacked
 
     function combat:GetAttacked(attacker, damage, weapon, stimuli, spdamage)
@@ -48,18 +47,15 @@ local function DoCombatPostInit(self, inst)
         end
 
         if inst.sg:HasStateTag("mdashing") or inst.inspskill ~= nil then
-            local electricfx = SpawnPrefab("electricchargedfx")
-            electricfx.Transform:SetScale(.7, .7, .7)
-            electricfx.entity:AddFollower()
-            electricfx.Follower:FollowSymbol(inst.GUID, "swap_body", 0, 0, 0)
+            M_Util.AddFollowerFx(inst, "electricchargedfx")
         elseif inst.sg:HasStateTag("counteractive") then
             M_Util.GroundPoundFx(inst, .6)
             inst.SoundEmitter:PlaySound("turnoftides/common/together/moon_glass/mine")
             local sparks = SpawnPrefab("sparks")
             sparks.Transform:SetPosition(inst:GetPosition():Get())
             inst.skill_target = attacker
-            inst.sg:GoToState("mcounterattack", inst.skill_target)
-            inst.components.timer:StartTimer("skillcountercd", M_CONFIG.COUNTER_ATK_COOLDOWN)
+            inst.sg:GoToState("counter_acttack", inst.skill_target)
+            inst.components.timer:StartTimer("counter_acttack", M_CONFIG.COUNTER_ATK_COOLDOWN)
         else
             return _GetAttacked(combat, attacker, damage, weapon, stimuli, spdamage)
         end
@@ -85,39 +81,34 @@ local function DoCombatPostInit(self, inst)
     end
 end
 
-local function CooldownSkillFx(inst, fxnum)
-    local fxlist = {
-        "ghostlyelixir_retaliation_dripfx",
-        "ghostlyelixir_shield_dripfx",
-        "ghostlyelixir_speed_dripfx",
-        "battlesong_instant_panic_fx",
-        "monkey_deform_pre_fx",
-        "fx_book_birds",
-    }
-    local fx = SpawnPrefab(fxlist[fxnum])
+local function CooldownSkillFx(inst, fx)
+    if fx == nil then
+        fx = "ghostlyelixir_retaliation_dripfx"
+    end
+    local fx = SpawnPrefab(fx)
     fx.Transform:SetScale(.9, .9, .9)
     fx.entity:AddFollower()
     fx.Follower:FollowSymbol(inst.GUID, "swap_body", 0, 0, 0)
 end
 
+local fxs = {
+    ["ichimonji"] = "ghostlyelixir_retaliation_dripfx",
+    ["flip"] = "ghostlyelixir_shield_dripfx",
+    ["thrust"] = "ghostlyelixir_speed_dripfx",
+    ["counter_attack"] = "battlesong_instant_panic_fx",
+    ["isshin"] = "monkey_deform_pre_fx",
+    ["heavenlystrike"] = "fx_book_birds",
+    ["ryusen"] = "fx_book_birds",
+    ["susanoo"] = "fx_book_birds",
+    ["soryuha"] = "thunderbird_fx_idle",
+}
+
 local function OnTimerDone(inst, data)
-	if data.name ~= nil then
-        local name = data.name
-        local fxnum
-
-        local fx_data = {
-            ["skill1cd"] = 1,
-            ["skill2cd"] = 2,
-            ["skill3cd"] = 3,
-            ["skillcountercd"] = 4,
-            ["skillT2cd"] = 5,
-            ["skillT3cd"] = 6,
-        }
-
-        for i, v in ipairs(fx_data) do
-            if name == i then
-                fxnum = v
-                CooldownSkillFx(inst, fxnum)
+    local name = data.name
+	if name ~= nil then
+        for k, v in pairs(fxs) do
+            if name == k then
+                CooldownSkillFx(inst, v)
                 break
                 return
             end
@@ -135,12 +126,29 @@ local SkillReleaser = Class(function(self, inst)
     self.inst:ListenForEvent("timerdone", OnTimerDone)
 end)
 
+function SkillReleaser:OnRemoveFromEntity()
+    for _, tag in ipairs(M_SKILLS) do
+        if self.inst:HasTag(tag) then
+            self.inst:RemoveTag(tag)
+            break
+        end
+    end
+
+    self.inst:RemoveEventCallback("timerdone", OnTimerDone)
+end
+
+function SkillReleaser:AddCooldownSkillFx(skill, fx)
+    if type(skill) == "string" and type(fx) == "string" then
+        fxs[skill] = fx
+    end
+end
+
 function SkillReleaser:AddSkill(skill_name, fn)
     self.skills[skill_name] = fn
 end
 
 function SkillReleaser:OnPostInit()
-    DoCombatPostInit(self, self.inst)
+    DoCombatPostInit(self, self.inst, self.inst.components.combat)
 end
 
 function SkillReleaser:SkillRemove()
@@ -162,8 +170,8 @@ function SkillReleaser:SkillRemove()
     self.inst.AnimState:SetDeltaTimeMultiplier(1)
 end
 
-function SkillReleaser:CanUseSkill(target, inrpc)
-    if inrpc then
+function SkillReleaser:CanUseSkill(target, rpc)
+    if rpc then
         local inst = self.inst
         self.canuseskill = false
 
@@ -172,32 +180,26 @@ function SkillReleaser:CanUseSkill(target, inrpc)
         local isfrozen = inst.components.freezable ~= nil and inst.components.freezable:IsFrozen()
         local isriding = inst.components.rider ~= nil and inst.components.rider:IsRiding()
         local isheavylifting = inst.components.inventory ~= nil and inst.components.inventory:IsHeavyLifting()
+        local weapon = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
+        local weapon_has_tags = weapon:HasOneOfTags({"projectile", "whip", "rangedweapon"})
+        local weapon_not_has_tags = not weapon:HasOneOfTags({"tool", "sharp", "weapon", "katanaskill"})
 
         if inst.mafterskillndm ~= nil then
             inst.mafterskillndm:Cancel()
             inst.mafterskillndm = nil
         end
-    
-        if isdead or isasleep or isfrozen or isriding or isheavylifting then
-            return
+
+        if (isdead or isasleep or isfrozen or isriding or isheavylifting) or (weapon == nil) or (weapon_has_tags or weapon_not_has_tags) then
+            return false
         end
-    
-        local weapon = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
-        local weapon_has_tags = weapon:HasOneOfTags({"projectile", "whip", "rangedweapon"})
-        local weapon_not_has_tags = not weapon:HasOneOfTags({"tool", "sharp", "weapon", "katanaskill"})
-    
-        if weapon ~= nil then
-            if weapon_has_tags or weapon_not_has_tags then
-                return
-            end
-        else
-            return
-        end
-    
+
         self.canuseskill = true
+        return true
     else
         local is_vaild_target = target:HasOneOfTags({"prey", "bird", "buzzard", "butterfly"})
-        self.canskill = (is_vaild_target and not target:HasTag("hostile") and true) or nil 
+        local canskill = (is_vaild_target and not target:HasTag("hostile") and true) or nil 
+        self.canskill = canskill
+        return canskill
     end
 end
 
@@ -212,11 +214,6 @@ end
 
 function SkillReleaser:OnLoad(inst, data)
 
-end
-
-function SkillReleaser:OnRemoveFromEntity()
-    self.skills = nil
-    self.inst:RemoveEventCallback("timerdone", OnTimerDone)
 end
 
 return SkillReleaser

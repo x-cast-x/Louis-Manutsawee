@@ -148,7 +148,8 @@ return {
         },
     },
 
-    MANUTSAWEESKILLSPEECH = {
+    SKILL = {
+        REFUSE_RELEASE = "I don't wanna do this.",
         -- Skill (1)
         SKILL1START = "ICHI NO KATA!\n󰀈: ",
         SKILL1ATTACK = "ICHIMONJI",

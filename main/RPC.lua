@@ -24,7 +24,7 @@ local function LevelCheckFn(inst)
     local kenjutsuexp = kenjutsuka.kenjutsuexp
     local kenjutsumaxexp = kenjutsuka.kenjutsumaxexp
 	local kenjutsulevel = kenjutsuka.kenjutsulevel
-    local mindpower = kenjutsuka.mindpower
+    local mindpower = kenjutsuka:GetMindpower()
     local max_mindpower = kenjutsuka.max_mindpower
 
     if not inst.components.timer:TimerExists("levelcheck_cd") then
@@ -48,22 +48,22 @@ local function Skill1Fn(inst)
         return
     end
 
-    if inst.kenjutsulevel < nskill1 then
+    if inst.components.kenjutsuka:GetKenjutsuLevel() < nskill1 then
         inst.components.talker:Say("[UNLOCK] 󰀍: "..nskill1, 1, true)
         return
     end
 
 	inst.components.timer:StartTimer("sskill1cd",1)
 
-	if inst.mindpower >= 3 then
+	if inst.components.kenjutsuka:GetMindpower() >= 3 then
         if inst:HasTag("ichimonji") or inst:HasTag("misshin") or inst:HasTag("ryusen") then
             SkillRemove(inst) inst.components.talker:Say("Later...", 1, true)
             return
         elseif inst:HasTag("mflipskill") and equip ~= nil and equip:HasTag("katanaskill") then
-            if inst.kenjutsulevel < nskill4 then
+            if inst.components.kenjutsuka:GetKenjutsuLevel() < nskill4 then
                 inst.components.talker:Say("[UNLOCK] 󰀍: "..nskill4, 1, true)
                 SkillRemove(inst)
-            elseif inst.mindpower >= 7 then
+            elseif inst.components.kenjutsuka:GetMindpower() >= 7 then
                 if inst.components.timer:TimerExists("skillT2cd") then
                     inst.components.talker:Say("Tier2: Cooldown", 1, true)
                     SkillRemove(inst)
@@ -72,10 +72,10 @@ local function Skill1Fn(inst)
                 SkillRemove(inst)
                 inst:AddTag("misshin")
                 inst.components.combat:SetRange(3)
-                inst.components.talker:Say(STRINGS.MANUTSAWEESKILLSPEECH.SKILL4START..inst.mindpower.."/7\n ", 1, true)
+                inst.components.talker:Say(STRINGS.SKILL.SKILL4START..inst.components.kenjutsuka:GetMindpower().."/7\n ", 1, true)
                 return
             else
-                inst.components.talker:Say("Not now!\n󰀈: "..inst.mindpower.."/7\n ", 1, true)
+                inst.components.talker:Say("Not now!\n󰀈: "..inst.components.kenjutsuka:GetMindpower().."/7\n ", 1, true)
                 SkillRemove(inst)
                 return
             end
@@ -88,10 +88,10 @@ local function Skill1Fn(inst)
             SkillRemove(inst)
             inst:AddTag("ichimonji")
             inst.components.combat:SetRange(3.5)
-            inst.components.talker:Say(STRINGS.MANUTSAWEESKILLSPEECH.SKILL1START..inst.mindpower.."/3\n ", 1, true)
+            inst.components.talker:Say(STRINGS.SKILL.SKILL1START..inst.components.kenjutsuka:GetMindpower().."/3\n ", 1, true)
         end
 	else
-        inst.components.talker:Say("Not now!\n󰀈: "..inst.mindpower.."/3\n ", 1, true)
+        inst.components.talker:Say("Not now!\n󰀈: "..inst.components.kenjutsuka:GetMindpower().."/3\n ", 1, true)
         SkillRemove(inst)
     end
 end
@@ -107,23 +107,24 @@ local function Skill2Fn(inst)
         return
     end
 
-    if inst.kenjutsulevel < nskill2 then inst.components.talker:Say("[UNLOCK] 󰀍: "..nskill2, 1, true)
+    if inst.components.kenjutsuka:GetKenjutsuLevel() < nskill2 then 
+        inst.components.talker:Say("[UNLOCK] 󰀍: "..nskill2, 1, true)
         return
     end
 
 	inst.components.timer:StartTimer("sskill2cd",1)
 
-	if inst.mindpower >= 4 then
+	if inst.components.kenjutsuka:GetMindpower() >= 4 then
         local equip = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
         if inst:HasTag("flip") or inst:HasTag("ryusen") or inst:HasTag("susanoo") then
             SkillRemove(inst) 
             inst.components.talker:Say("Later...", 1, true)
             return
         elseif inst:HasTag("ichimonji") and equip ~= nil and equip:HasTag("katanaskill") then
-            if inst.kenjutsulevel < nskill6 then
+            if inst.components.kenjutsuka:GetKenjutsuLevel() < nskill6 then
                 inst.components.talker:Say("[UNLOCK] 󰀍: "..nskill6, 1, true)
                 SkillRemove(inst)
-            elseif inst.mindpower >= 8 then
+            elseif inst.components.kenjutsuka:GetMindpower() >= 8 then
                 if inst.components.timer:TimerExists("skillT3cd") then
                     inst.components.talker:Say("Tier3: Cooldown", 1, true)
                     SkillRemove(inst)
@@ -132,18 +133,18 @@ local function Skill2Fn(inst)
                 SkillRemove(inst)
                 inst:AddTag("ryusen")
                 inst.components.combat:SetRange(10)
-                inst.components.talker:Say(STRINGS.MANUTSAWEESKILLSPEECH.SKILL6START..inst.mindpower.."/8\n ", 1, true)
+                inst.components.talker:Say(STRINGS.SKILL.SKILL6START..inst.components.kenjutsuka:GetMindpower().."/8\n ", 1, true)
                 return
             else
-                inst.components.talker:Say("Not now!\n󰀈: "..inst.mindpower.."/8\n ", 1, true)
+                inst.components.talker:Say("Not now!\n󰀈: "..inst.components.kenjutsuka:GetMindpower().."/8\n ", 1, true)
                 SkillRemove(inst)
                 return
             end
         elseif inst:HasTag("thrust") and equip ~= nil and equip:HasTag("katanaskill") then
-            if inst.kenjutsulevel < nskill7 then
+            if inst.components.kenjutsuka:GetKenjutsuLevel() < nskill7 then
                 inst.components.talker:Say("[UNLOCK] 󰀍: "..nskill7, 1, true)
                 SkillRemove(inst)
-            elseif inst.mindpower >= 10 then
+            elseif inst.components.kenjutsuka:GetMindpower() >= 10 then
                 if inst.components.timer:TimerExists("skillT3cd") then
                     inst.components.talker:Say("Tier3: Cooldown", 1, true)
                     SkillRemove(inst)
@@ -152,10 +153,10 @@ local function Skill2Fn(inst)
                 SkillRemove(inst)
                 inst:AddTag("susanoo")
                 inst.components.combat:SetRange(3)
-                inst.components.talker:Say(STRINGS.MANUTSAWEESKILLSPEECH.SKILL7START..inst.mindpower.."/10\n ", 1, true)
+                inst.components.talker:Say(STRINGS.SKILL.SKILL7START..inst.components.kenjutsuka:GetMindpower().."/10\n ", 1, true)
                 return
             else
-                inst.components.talker:Say("Not now!\n󰀈: "..inst.mindpower.."/10\n ", 1, true)
+                inst.components.talker:Say("Not now!\n󰀈: "..inst.components.kenjutsuka:GetMindpower().."/10\n ", 1, true)
                 SkillRemove(inst)
                 return
             end
@@ -168,10 +169,10 @@ local function Skill2Fn(inst)
             SkillRemove(inst)
             inst:AddTag("flip")
             inst.components.combat:SetRange(3.5)
-            inst.components.talker:Say(STRINGS.MANUTSAWEESKILLSPEECH.SKILL2START..inst.mindpower.."/4\n ", 1, true)
+            inst.components.talker:Say(STRINGS.SKILL.SKILL2START..inst.components.kenjutsuka:GetMindpower().."/4\n ", 1, true)
         end
     else
-        inst.components.talker:Say("Not now!\n󰀈: "..inst.mindpower.."/4\n ", 1, true)
+        inst.components.talker:Say("Not now!\n󰀈: "..inst.components.kenjutsuka:GetMindpower().."/4\n ", 1, true)
         SkillRemove(inst)
     end
 end
@@ -187,24 +188,24 @@ local function Skill3Fn(inst) ----------  T
         return
     end
 
-    if inst.kenjutsulevel < nskill3 then
+    if inst.components.kenjutsuka:GetKenjutsuLevel() < nskill3 then
         inst.components.talker:Say("[UNLOCK] 󰀍: "..nskill3, 1, true)
         return
     end
 
 	inst.components.timer:StartTimer("sskill3cd",1)
 
-    if inst.mindpower >= 4 then
+    if inst.components.kenjutsuka:GetMindpower() >= 4 then
         local equip = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
         if inst:HasTag("heavenlystrike") or inst:HasTag("thrust") or inst:HasTag("susanoo") then
 			SkillRemove(inst)
 				inst.components.talker:Say("Later...", 1, true)
 			return
     	elseif inst:HasTag("flip") and equip ~= nil and equip:HasTag("katanaskill") then
-			if inst.kenjutsulevel < nskill5 then
+			if inst.components.kenjutsuka:GetKenjutsuLevel() < nskill5 then
                 inst.components.talker:Say("[UNLOCK] 󰀍: "..nskill5, 1, true)
                 SkillRemove(inst)
-        	elseif inst.mindpower >= 5 then
+        	elseif inst.components.kenjutsuka:GetMindpower() >= 5 then
                 if inst.components.timer:TimerExists("skillT2cd") then
                     inst.components.talker:Say("Tier2: Cooldown", 1, true)
                     SkillRemove(inst)
@@ -214,10 +215,10 @@ local function Skill3Fn(inst) ----------  T
                 SkillRemove(inst)
                 inst:AddTag("heavenlystrike")
                 inst.components.combat:SetRange(3)
-                inst.components.talker:Say(STRINGS.MANUTSAWEESKILLSPEECH.SKILL5START..inst.mindpower.."/5\n ", 1, true)
+                inst.components.talker:Say(STRINGS.SKILL.SKILL5START..inst.components.kenjutsuka:GetMindpower().."/5\n ", 1, true)
                 return
 			else
-                inst.components.talker:Say("Not now!\n󰀈: "..inst.mindpower.."/5\n ", 1, true)
+                inst.components.talker:Say("Not now!\n󰀈: "..inst.components.kenjutsuka:GetMindpower().."/5\n ", 1, true)
                 SkillRemove(inst)
                 return
             end
@@ -230,16 +231,16 @@ local function Skill3Fn(inst) ----------  T
 			SkillRemove(inst)
             inst:AddTag("thrust")
             inst.components.combat:SetRange(3)
-            inst.components.talker:Say(STRINGS.MANUTSAWEESKILLSPEECH.SKILL3START..inst.mindpower.."/4\n ", 1, true)
+            inst.components.talker:Say(STRINGS.SKILL.SKILL3START..inst.components.kenjutsuka:GetMindpower().."/4\n ", 1, true)
 		end
     else
-        inst.components.talker:Say("Not now!\n󰀈: "..inst.mindpower.."/4\n ", 1, true)
+        inst.components.talker:Say("Not now!\n󰀈: "..inst.components.kenjutsuka:GetMindpower().."/4\n ", 1, true)
         SkillRemove(inst)
     end
 end
 
 local function CounterAttackFn(inst)
-    if inst.components.timer:TimerExists("counter_attack_cd") then
+    if inst.components.timer:TimerExists("prepare_counter_attack") then
         inst.components.talker:Say("Cooldown", 1, true)
         SkillRemove(inst)
         return
@@ -251,13 +252,13 @@ local function CounterAttackFn(inst)
         return
     end
 
-    if inst.kenjutsulevel < ncountskill then
+    if inst.components.kenjutsuka:GetKenjutsuLevel() < ncountskill then
         inst.components.talker:Say("[UNLOCK] 󰀍: "..ncountskill, 1, true)
         return
     end
 
-    if not inst.components.timer:TimerExists("counter_attack_cd") then
-        inst.components.timer:StartTimer("counter_attack_cd",.63)
+    if not inst.components.timer:TimerExists("prepare_counter_attack") then
+        inst.components.timer:StartTimer("prepare_counter_attack", .63)
         SkillRemove(inst)
         inst.sg:GoToState("counterstart")
     end
@@ -285,7 +286,7 @@ local function QuickSheathFn(inst)
         return
     end
 
-    if inst.components.timer:TimerExists("quicksheath_cd") then
+    if inst.components.timer:TimerExists("quick_sheath_cd") then
         return
     end
 
@@ -297,7 +298,7 @@ local function QuickSheathFn(inst)
 
     local weapon = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
 	if weapon ~= nil and weapon.wpstatus ~= nil and weapon:HasTag("katanaskill") then
-		inst.components.timer:StartTimer("quicksheath_cd",.4)
+		inst.components.timer:StartTimer("quick_sheath_cd",.4)
 		inst.sg:GoToState("quicksheath", weapon)
 	end
 end
@@ -328,7 +329,6 @@ local function GlassesFn(inst, skinname)
 	end
 end
 
-local change_num = 1
 local function HairsFn(inst, skinname)
     if inst.components.health ~= nil and inst.components.health:IsDead() and inst.sg:HasStateTag("dead") or inst:HasTag("playerghost") then
         return

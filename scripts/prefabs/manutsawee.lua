@@ -1,5 +1,5 @@
 local MakePlayerCharacter = require "prefabs/player_common"
--- local Skills = require "skillfns"
+local Skill_Data = require "skillfns"
 
 local assets = {
     Asset("SCRIPT", "scripts/prefabs/player_common.lua"),
@@ -185,7 +185,7 @@ end
 
 local function OnLoad(inst, data)
 	if data ~= nil then
-		if inst.components.kenjutsuka ~= nil and inst.components.kenjutsuka.kenjutsulevel > 0 and data._louis_health ~= nil and data._mlouis_sanity ~= nil and data._louis_hunger ~= nil then
+		if inst.components.kenjutsuka ~= nil and inst.components.kenjutsuka:GetKenjutsuLevel() > 0 and data._louis_health ~= nil and data._mlouis_sanity ~= nil and data._louis_hunger ~= nil then
 			inst.components.health:SetCurrentHealth(data._louis_health)
 			inst.components.sanity.current = data._louis_sanity
 			inst.components.hunger.current = data._louis_hunger
@@ -218,7 +218,7 @@ end
 
 local function OnEat(inst, food)
     if food ~= nil and food.components.edible ~= nil then
-        if food.prefab == "mfruit" and inst.kenjutsulevel < 10 then
+        if food.prefab == "mfruit" and inst.components.kenjutsuka:GetKenjutsuLevel() < 10 then
             inst.components.kenjutsuka:KenjutsuLevelUp(inst)
         end
     end
@@ -468,9 +468,10 @@ local function SetInstanceValue(inst)
 end
 
 local function DoPostInit(inst)
-    -- for k, v in ipairs(Skills) do
-    --     inst.components.skillreleaser:AddSkill(string.lower(k), v)
-    -- end
+    for k, v in ipairs(Skill_Data) do
+        local skill_name = string.lower(k)
+        inst.components.skillreleaser:AddSkill(skill_name, M_Util.Skill_CommonFn(inst, v.tag, skill_name, v.time, v.mindpower, v.fn))
+    end
 
     if M_CONFIG.RANDOM_IDLE_ANIMATION then
         SetUpCustomIdle(inst)

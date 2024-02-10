@@ -1,3 +1,7 @@
+local prefabs = {
+    "impact",
+}
+
 local function OnEquip(inst, owner)
     owner.AnimState:Show("ARM_carry")
     owner.AnimState:Hide("ARM_normal")
@@ -52,7 +56,8 @@ local function MakeSpear(name)
         inst.AnimState:PlayAnimation("idle")
     
         inst:AddTag("sharp")
-        inst:AddTag("yarispear")
+
+        inst:AddTag("weapon")
     
         local swap_data = {sym_build = "swap_" .. name, bank = name}
         MakeInventoryFloatable(inst, "med", nil, {1.0, 0.5, 1.0}, true, -13, swap_data)
@@ -85,7 +90,7 @@ local function MakeSpear(name)
         return inst
     end
 
-    return Prefab(name, fn, assets)
+    return Prefab(name, fn, assets, prefabs)
 end
 
 return MakeSpear("yari"),
