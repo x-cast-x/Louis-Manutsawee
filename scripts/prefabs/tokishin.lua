@@ -1,23 +1,31 @@
 local assets = {
 	Asset("ANIM", "anim/tokishin.zip"),
 	Asset("ANIM", "anim/swap_tokishin.zip"),
-	Asset("ANIM", "anim/sc_tokishin.zip"),
+	-- Asset("ANIM", "anim/sc_tokishin.zip"),
 }
 
+local hitsparks_fx_colouroverride = {1, 0, 0}
 local function OnAttack(inst, attacker, target)
-
+    if target ~= nil and target:IsValid() then
+        local spark = SpawnPrefab("hitsparks_fx")
+        spark:Setup(attacker, target, nil, hitsparks_fx_colouroverride)
+        spark.black:set(true)
+    end
 end
 
 local function OnPutInInventory(inst, owner)
-    -- body
+    if (not owner.components.kenjutsuka:GetKenjutsuLevel() < 6) and owner.SwitchControlled ~= nil then
+        owner.components.inventory:DropItem(inst)
+    end
 end
 
 local function OnEquip(inst, owner)
+	owner.AnimState:OverrideSymbol("swap_object", "swap_tokishin" , "swap_tokishin")
     owner.AnimState:Show("ARM_carry")
     owner.AnimState:Hide("ARM_normal")
 
-    inst.components.weapon:SetDamage(TUNING.TOKISHIN_DAMAGE + (owner.kenjutsulevel * 2))
-    if owner.kenjutsulevel < 6 and owner.SwitchControlled ~= nil then
+    if (not owner.components.kenjutsuka:GetKenjutsuLevel() < 6) and owner.SwitchControlled ~= nil then
+        -- inst.components.weapon:SetDamage(TUNING.TOKISHIN_DAMAGE + (owner.components.kenjutsuka:GetKenjutsuLevel() * 2))
         inst.components.equippable.dapperness = TUNING.CRAZINESS_MED
         owner.SwitchControlled(owner, true)
     end
@@ -26,20 +34,26 @@ end
 local function OnUnequip(inst, owner)
 	owner.AnimState:Hide("ARM_carry")
     owner.AnimState:Show("ARM_normal")
-    owner.AnimState:ClearOverrideSymbol("face")
 
     inst.components.equippable.dapperness = 0
-	inst.components.weapon:SetDamage(TUNING.TOKISHIN_DAMAGE)
 
     if owner.SwitchControlled ~= nil then        
+        inst.components.weapon:SetDamage(TUNING.TOKISHIN_DAMAGE)
         owner.SwitchControlled(owner, false)
     end
 end
 
-local function OnPocket(inst, owner)
-    if owner.SwitchControlled ~= nil and not owner:HasTag("notshowscabbard") and owner:HasTag("player") then
-        owner.SwitchControlled(owner, true)
+local function OnLoad(inst)
+    local owner = inst.components.inventoryitem:GetGrandOwner()
+    if owner ~= nil and (not owner.components.kenjutsuka:GetKenjutsuLevel() < 6) and owner.SwitchControlled ~= nil then
+        -- inst.components.weapon:SetDamage(TUNING.TOKISHIN_DAMAGE + (owner.components.kenjutsuka:GetKenjutsuLevel() * 2))
     end
+end
+
+local function OnPocket(inst, owner)
+    -- if owner.SwitchControlled ~= nil and not owner:HasTag("notshowscabbard") and owner:HasTag("player") then
+    --     owner.SwitchControlled(owner, true)
+    -- end
 end
 
 local function fn()
@@ -63,7 +77,8 @@ local function fn()
     --weapon (from weapon component) added to pristine state for optimization
     inst:AddTag("weapon")
 
-    MakeInventoryFloatable(inst, nil, 0.1)
+    local swap_data = {sym_build = "swap_tokishin", bank = "tokishin"}
+    MakeInventoryFloatable(inst, "med", nil, {1.0, 0.5, 1.0}, true, -13, swap_data)
 
     inst.entity:SetPristine()
 
@@ -99,6 +114,8 @@ local function fn()
     inst.components.equippable.is_magic_dapperness = true
 
     MakeHauntableLaunch(inst)
+
+    inst.OnLoad = OnLoad
 
     return inst
 end

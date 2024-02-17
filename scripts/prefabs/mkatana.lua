@@ -63,7 +63,7 @@ local function OnEquip(inst, owner)
     owner.AnimState:Hide("ARM_normal")
 
 	if owner:HasTag("kenjutsu") then --Owner
-		inst.components.weapon:SetDamage(TUNING.YARI_DAMAGE+(owner.kenjutsulevel*2))
+		inst.components.weapon:SetDamage(TUNING.YARI_DAMAGE+(owner.components.kenjutsuka:GetKenjutsuLevel()*2))
 	end
 
 	if inst.wpstatus then

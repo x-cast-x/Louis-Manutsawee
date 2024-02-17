@@ -27,5 +27,6 @@ return {
         KUROKATANA = "It's beautiful.",
         SHUSUI = "It's beautiful.",
         MORTALBLADE = "To cut the immortality.",
+        TOKISHIN = "Don't be evil",
     },
 }

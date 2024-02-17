@@ -11,24 +11,25 @@ local function OnAttackOther(inst, data)
     local target = data.target
     local weapon = data.weapon
     local kenjutsuka = inst.components.kenjutsuka
-    local kenjutsuexp = kenjutsuka.kenjutsuexp
+    local kenjutsuexp = kenjutsuka.GetKenjutsuExp()
     local kenjutsumaxexp = kenjutsuka.kenjutsumaxexp
+    local kenjutsulevel = kenjutsuka:GetKenjutsuLevel()
     local tx, ty, tz = target.Transform:GetWorldPosition()
     local cant_tags = not (target:HasOneOfTags({"prey", "bird", "insect", "wall"}) and not target:HasTag("hostile"))
 
     if weapon ~= nil and not weapon:HasTag("projectile") and not weapon:HasTag("rangedweapon") then
         if weapon:HasTag("katanaskill") and not inst.components.timer:TimerExists("hit_cd") and
             not inst.sg:HasStateTag("skilling") then -- GainKenExp
-            if kenjutsuka.kenjutsulevel < 10 then
-                kenjutsuka.kenjutsuexp = kenjutsuka.kenjutsuexp + (1 * M_CONFIG.KEXPMTP)
+            if kenjutsulevel < 10 then
+                kenjutsuexp = kenjutsuexp + (1 * M_CONFIG.KEXPMTP)
             end
             inst.components.timer:StartTimer("hit_cd", .5)
         end
 
         if cant_tags then
-            if math.random(1, 100) <= criticalrate + kenjutsuka.kenjutsulevel and
+            if math.random(1, 100) <= criticalrate + kenjutsulevel and
                 not inst.components.timer:TimerExists("critical_cd") and not inst.sg:HasStateTag("skilling") then
-                inst.components.timer:StartTimer("critical_cd", 15 - (kenjutsuka.kenjutsulevel / 2)) -- critical
+                inst.components.timer:StartTimer("critical_cd", 15 - (kenjutsulevel / 2)) -- critical
                 local hitfx = SpawnPrefab("slingshotammo_hitfx_rock")
                 if hitfx then
                     hitfx.Transform:SetScale(.8, .8, .8)
@@ -48,7 +49,7 @@ local function OnAttackOther(inst, data)
                 inst.components.timer:StartTimer("heart_cd", .3) -- mind gain
                 hitcount = hitcount + 1
                 if hitcount >= M_CONFIG.MINDREGEN_COUNT and inst.components.kenjutsuka:GetKenjutsuLevel() >= 1 then
-                    if kenjutsuka:GetMindpower() < kenjutsuka.max_mindpower then
+                    if kenjutsuka:GetMindpower() < kenjutsuka.GetMaxMindpower() then
                         kenjutsuka.onmindregenfn(inst, kenjutsuka)
                     else
                         inst.components.sanity:DoDelta(1)
@@ -66,13 +67,13 @@ local function OnAttackOther(inst, data)
 end
 
 local function OnPlayerReroll(inst)
-    local self = inst.components.kenjutsuka
+    local kenjutsulevel = inst.components.kenjutsuka:GetKenjutsuLevel()
 
     inst:SkillRemove()
 
-    if self.kenjutsulevel > 0 then
+    if kenjutsulevel > 0 then
         local x, y, z = inst.Transform:GetWorldPosition()
-        for i = 1, self.kenjutsulevel do
+        for i = 1, kenjutsulevel do
             local fruit = SpawnPrefab("mfruit")
             if fruit ~= nil then
                 if fruit.Physics ~= nil then
@@ -89,7 +90,7 @@ local function OnPlayerReroll(inst)
                 end
             end
         end
-        self.kenjutsulevel = 0
+        kenjutsulevel = 0
     end
 end
 

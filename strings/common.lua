@@ -39,6 +39,7 @@ return {
         KUROKATANA = "Kurokatana",
         SHUSUI = "Shusui",
         MORTALBLADE = "Mortal Blade",
+        TOKISHIN = "Tokishin",
     },
 
     RECIPE_DESC = {

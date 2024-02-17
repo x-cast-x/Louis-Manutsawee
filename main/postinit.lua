@@ -18,6 +18,9 @@ local postinit = {
         "sanity_replica",
         "grogginess",
     },
+    widgets = {
+        "skinspuppet",
+    },
 }
 
 for k, v in pairs(postinit) do

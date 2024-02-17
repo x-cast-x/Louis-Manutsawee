@@ -18,6 +18,7 @@ PrefabFiles = {
     "mingot",
     "mmiko_armor",
     "special_katana",
+    "tokishin",
 }
 
 Assets = {

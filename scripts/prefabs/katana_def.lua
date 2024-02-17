@@ -84,7 +84,7 @@ local function OnEquip(inst, owner)
     owner.AnimState:Hide("ARM_normal")
 
 	if owner:HasTag("kenjutsu") then
-		inst.components.weapon:SetDamage(TUNING.KATANA.DAMAGE + (owner.kenjutsulevel * 2))
+		inst.components.weapon:SetDamage(TUNING.KATANA.DAMAGE + (owner.components.kenjutsuka:GetKenjutsuLevel() * 2))
 	end
 
     if inst:HasTag("mortalblade") then
@@ -110,7 +110,7 @@ local function OnUnequip(inst, owner)
 end
 
 local function OnPocket(inst, owner)
-    if not owner:HasTag("notshowscabbard") and owner:HasTag("player") then
+    if owner ~= nil and not owner:HasTag("notshowscabbard") and owner:HasTag("player") then
         owner.AnimState:OverrideSymbol("swap_body_tall", "sc_" .. inst.build .. "2", "tail")
     end
 end
@@ -144,8 +144,7 @@ local function OnFinished(inst)
     inst:Remove()
 end
 
-local function OnPutInInventory(inst)
-    local owner = inst.components.inventoryitem:GetGrandOwner()
+local function OnPutInInventory(inst, owner)
     local damage = 10
     local fx
 	if owner ~= nil and owner.components.inventory ~= nil and owner:HasTag("player") and not owner:HasTag("manutsaweecraft") then
@@ -182,6 +181,11 @@ local function OnLoad(inst, data)
 
         if inst.first_time_unsheathed ~= nil then
             inst.first_time_unsheathed = data.first_time_unsheathed
+        end
+
+        local owner = inst.components.inventoryitem ~= nil and inst.components.inventoryitem:GetGrandOwner()
+        if owner ~= nil and owner:HasTag("kenjutsu") then
+            inst.components.weapon:SetDamage(TUNING.KATANA.DAMAGE + (owner.components.kenjutsuka:GetKenjutsuLevel() * 2))
         end
     end
 end

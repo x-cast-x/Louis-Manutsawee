@@ -9,10 +9,10 @@ local function OnEquip(inst, owner)
     owner.AnimState:Hide("ARM_normal")
 	owner.AnimState:OverrideSymbol("swap_object", "swap_shinai", "swap_shinai")
 
-	if owner.kenjutsulevel ~= nil then --Owner
+	if owner.components.kenjutsuka:GetKenjutsuLevel() ~= nil then --Owner
     	inst.components.spellcaster.canusefrominventory = true
 
-        if owner.kenjutsulevel >= 1 and not inst:HasTag("mkatana") then
+        if owner.components.kenjutsuka:GetKenjutsuLevel() >= 1 and not inst:HasTag("mkatana") then
             inst:AddTag("mkatana")
         end
     end
@@ -22,7 +22,7 @@ local function OnUnequip(inst, owner)
 	owner.AnimState:Hide("ARM_carry")
     owner.AnimState:Show("ARM_normal")
 
-	if owner.kenjutsulevel ~= nil then --Owner
+	if owner.components.kenjutsuka:GetKenjutsuLevel() ~= nil then --Owner
         inst.components.spellcaster.canusefrominventory = false
         inst:RemoveTag("mkatana")
 	end
@@ -31,8 +31,8 @@ end
 local trainingcount = 0
 local function CastFn(inst, target)
     local owner = inst.components.inventoryitem.owner
-	if owner.kenjutsulevel ~= nil then
-		if owner.kenjutsulevel < 10 and owner.kenjutsuexp < owner.kenjutsumaxexp - (owner.kenjutsumaxexp/2) then
+	if owner.components.kenjutsuka:GetKenjutsuLevel() ~= nil then
+		if owner.components.kenjutsuka:GetKenjutsuLevel() < 10 and owner.kenjutsuexp < owner.kenjutsumaxexp - (owner.kenjutsumaxexp/2) then
             owner.kenjutsuexp = owner.kenjutsuexp + 1
 			trainingcount = trainingcount +1
 			owner.components.hunger:DoDelta(-1)
@@ -51,12 +51,12 @@ local function OnAttack(inst, owner, target)
 	if owner.components.rider:IsRiding() then
         return
     end
-	if owner.kenjutsulevel ~= nil then
-		if owner.kenjutsulevel >= 1 and not inst:HasTag("mkatana") then
+	if owner.components.kenjutsuka:GetKenjutsuLevel() ~= nil then
+		if owner.components.kenjutsuka:GetKenjutsuLevel() >= 1 and not inst:HasTag("mkatana") then
             inst:AddTag("mkatana")
         end
 		if math.random(1, 5) == 1 then
-			if owner.kenjutsulevel < 10 then
+			if owner.components.kenjutsuka:GetKenjutsuLevel() < 10 then
                 owner.kenjutsuexp = owner.kenjutsuexp +  math.random(1, 3)
             end
 			owner.SoundEmitter:PlaySound("dontstarve/common/destroy_wood")
