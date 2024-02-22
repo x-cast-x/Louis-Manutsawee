@@ -5,10 +5,12 @@ local skill_data = {
         tag = "ichimonji",
         time = M_CONFIG.SKILL1_COOLDOWN,
         mindpower = 3,
-        fn = function(inst, target, weapon)
+        fn = function(inst)
+            local weapon = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
+            local target = inst.components.combat.target
             inst.inspskill = true
 
-            if weapon.wpstatus then
+            if weapon ~= nil and weapon.weaponstatus then
                 skilltime = .3
                 if inst.components.kenjutsuka:GetMindpower() >= 5 then
                     inst.components.kenjutsuka:SetMindpower(inst.components.kenjutsuka:GetMindpower() - 2)
@@ -17,15 +19,13 @@ local skill_data = {
             end
 
             inst:DoTaskInTime(skilltime, function()
-                inst.skill_target = target
-                inst.sg:GoToState("ichimonji", inst.skill_target)
+                inst.sg:GoToState("ichimonji", target)
             end)
 
             if inst.doubleichimonjistart then
                 inst:DoTaskInTime(1, function()
                     if weapon ~= nil then
-                        inst.skill_target = target
-                        inst.sg:GoToState("ichimonji", inst.skill_target)
+                        inst.sg:GoToState("ichimonji", target)
                     end
                 end)
             end
@@ -33,23 +33,23 @@ local skill_data = {
     },
     Flip = {
         tag = "flip",
-        time = M_CONFIG.FLIP_COOLDOWN,
+        time = M_CONFIG.SKILL2_COOLDOWN,
         mindpower = 4,
-        fn = function(inst, target, weapon)
+        fn = function(inst)
+            local weapon = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
+            local target = inst.components.combat.target
             skilltime = .1
-            if weapon.wpstatus then
+            if weapon ~= nil and weapon.weaponstatus then
                 skilltime = .05
                 inst:DoTaskInTime(skilltime, function()
                     if weapon ~= nil then
-                        inst.skill_target = target
-                        inst.sg:GoToState("habakiri", inst.skill_target)
+                        inst.sg:GoToState("habakiri", target)
                         M_Util.GroundPoundFx(inst, .6)
                     end
                 end)
             else
                 inst:DoTaskInTime(skilltime, function()
-                    inst.skill_target = target
-                    inst.sg:GoToState("flip", inst.skill_target)
+                    inst.sg:GoToState("flip", target)
                     M_Util.GroundPoundFx(inst, .6)
                 end)
             end
@@ -59,19 +59,20 @@ local skill_data = {
         tag = "thrust",
         time = M_CONFIG.SKILL3_COOLDOWN,
         mindpower = 4,
-        fn = function(inst, target, weapon)
+        fn = function(inst)
+            local weapon = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
+            local target = inst.components.combat.target
             skilltime = .1
-            if weapon.wpstatus then
+            if weapon ~= nil and weapon.weaponstatus then
                 skilltime = .05
                 inst:DoTaskInTime(skilltime, function()
                     if inst.mafterskillndm ~= nil then
                         inst.mafterskillndm:Cancel()
                         inst.mafterskillndm = nil
                     end
-        
+
                     if weapon ~= nil then
-                        inst.skill_target = target
-                        inst.sg:GoToState("thrust", inst.skill_target)
+                        inst.sg:GoToState("thrust", target)
                         M_Util.GroundPoundFx(inst, .6)
         
                         inst:DoTaskInTime(.7, function()
@@ -84,7 +85,7 @@ local skill_data = {
                         end)
         
                         inst:DoTaskInTime(.9, function()
-                            M_Util.SlashFx(inst, inst, 3, "shadowstrike_slash_fx")
+                            M_Util.SlashFx(inst, inst, "shadowstrike_slash_fx", 3)
                             M_Util.AoeAttack(inst, 1,6.5)
                             inst.components.combat:SetRange(inst._range)
                             inst.components.talker:Say(STRINGS.SKILL.SKILL3ATTACK, 2, true)
@@ -96,8 +97,7 @@ local skill_data = {
                 end)
             else
                 inst:DoTaskInTime(skilltime, function()
-                    inst.skill_target = target
-                    inst.sg:GoToState("thrust", inst.skill_target)
+                    inst.sg:GoToState("thrust", target)
                     M_Util.GroundPoundFx(inst, .6)
                 end)
             end
@@ -107,28 +107,29 @@ local skill_data = {
         tag = "isshin",
         time = M_CONFIG.SKILL2_COOLDOWN,
         mindpower = 7,
-        fn = function(inst, target, weapon)
+        fn = function(inst)
+            local weapon = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
+            local target = inst.components.combat.target
             inst:DoTaskInTime(.1, function()
                 inst.components.talker:Say(STRINGS.SKILL.SKILL4ATTACK, 2, true)
                 M_Util.GroundPoundFx(inst, 0.6)
-                M_Util.SlashFx(inst, target, 3, "shadowstrike_slash_fx")
+                M_Util.SlashFx(inst, target, "shadowstrike_slash_fx", 3)
                 inst.inspskill = true
-                inst.skill_target = target
-                inst.sg:GoToState("monemind", inst.skill_target)
+                inst.sg:GoToState("monemind", target)
         
                 inst:DoTaskInTime(.6, function()
                     M_Util.GroundPoundFx(inst, .8)
-                    M_Util.SlashFx(inst, target, 4, "wanda_attack_shadowweapon_old_fx")
+                    M_Util.SlashFx(inst, target, "wanda_attack_shadowweapon_old_fx", 4)
                     M_Util.AoeAttack(inst, 1, 6.5)
                 end)
         
                 inst:DoTaskInTime(.7, function()
-                    M_Util.SlashFx(inst, inst, 3, "wanda_attack_shadowweapon_normal_fx")
+                    M_Util.SlashFx(inst, inst, "wanda_attack_shadowweapon_normal_fx", 3)
                 end)
         
                 inst:DoTaskInTime(.8, function()
                     M_Util.GroundPoundFx(inst, .8)
-                    M_Util.SlashFx(inst, target, 3.5, "wanda_attack_shadowweapon_old_fx")
+                    M_Util.SlashFx(inst, target, "wanda_attack_shadowweapon_old_fx", 3.5)
                     M_Util.AoeAttack(inst, 1, 6.5)
                 end)
         
@@ -139,7 +140,7 @@ local skill_data = {
         
                 inst:DoTaskInTime(1.1, function()
                     M_Util.GroundPoundFx(inst, .8)
-                    SpawnSlashFx4(inst, inst, 4)
+                    M_Util.SlashFx(inst, inst, "wanda_attack_shadowweapon_old_fx", 4)
                     M_Util.AoeAttack(inst, 1, 6.5)
                 end)
         
@@ -195,7 +196,8 @@ local skill_data = {
         tag = "heavenlystrike",
         time = M_CONFIG.SKILL2_COOLDOWN - 30,
         mindpower = 5,
-        fn = function(inst, target, weapon)
+        fn = function(inst)
+            local weapon = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
             inst:DoTaskInTime(.1, function()
                 inst.components.talker:Say(STRINGS.SKILL.SKILL5ATTACK, 2, true)
             end)
@@ -209,18 +211,18 @@ local skill_data = {
                 M_Util.AddFollowerFx(inst, "electricchargedfx")
         
                 M_Util.GroundPoundFx(inst, .8)
-                M_Util.SlashFx(inst, inst, 3, "shadowstrike_slash_fx")
+                M_Util.SlashFx(inst, inst, "shadowstrike_slash_fx", 3)
                 M_Util.AoeAttack(inst, 1, 6.5)
         
                 inst:DoTaskInTime(.2, function()
                     M_Util.AoeAttack(inst, 2.5, 6.5)
-                    M_Util.SlashFx(inst, inst, 3, "shadowstrike_slash2_fx")
+                    M_Util.SlashFx(inst, inst, "shadowstrike_slash2_fx", 3)
                     M_Util.GroundPoundFx(inst, .8)
                 end)
         
                 inst:DoTaskInTime(.3, function()
                     M_Util.AoeAttack(inst, 4, 6.5)
-                    M_Util.SlashFx(inst, inst, 3, "shadowstrike_slash_fx")
+                    M_Util.SlashFx(inst, inst, "shadowstrike_slash_fx", 3)
                     M_Util.GroundPoundFx(inst, .8)
                 end)
             end) 
@@ -230,27 +232,28 @@ local skill_data = {
         tag = "ryusen",
         time = M_CONFIG.SKILL3_COOLDOWN - 60,
         mindpower = 8,
-        fn = function(inst, target, weapon)
+        fn = function(inst)
+            local weapon = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
+            local target = inst.components.combat.target
             inst:DoTaskInTime(.1, function()
                 inst.components.talker:Say(STRINGS.SKILL.SKILL6ATTACK, 2, true)
-                inst.skill_target = target
-                inst.sg:GoToState("ryusen", inst.skill_target)
+                inst.sg:GoToState("ryusen", target)
 
                 inst:DoTaskInTime(.2, function()
-                    M_Util.SlashFx(inst, inst.skill_target, "wanda_attack_shadowweapon_old_fx", 2)
+                    M_Util.SlashFx(inst, target, "wanda_attack_shadowweapon_old_fx", 2)
                 end)
 
                 inst:DoTaskInTime(.4, function()
-                    M_Util.SlashFx(inst, inst.skill_target, "wanda_attack_shadowweapon_normal_fx", 2)
+                    M_Util.SlashFx(inst, target, "wanda_attack_shadowweapon_normal_fx", 2)
                 end)
         
                 inst:DoTaskInTime(.6, function()
-                    M_Util.SlashFx(inst, inst.skill_target, "wanda_attack_shadowweapon_old_fx", 2.5)
+                    M_Util.SlashFx(inst, target, "wanda_attack_shadowweapon_old_fx", 2.5)
                 end)
 
                 inst:DoTaskInTime(.8, function()
-                    M_Util.SlashFx(inst, inst.skill_target, "wanda_attack_shadowweapon_normal_fx", 2.5)
-                    M_Util.GroundPoundFx(inst.skill_target, .7)
+                    M_Util.SlashFx(inst, target, "wanda_attack_shadowweapon_normal_fx", 2.5)
+                    M_Util.GroundPoundFx(target, .7)
                 end)
 
                 inst:DoTaskInTime(1, function()
@@ -258,26 +261,26 @@ local skill_data = {
                 end)
 
                 inst:DoTaskInTime(1.5, function()
-                    M_Util.SlashFx(inst, inst.skill_target, "shadowstrike_slash_fx", 3)
-                    M_Util.GroundPoundFx(inst.skill_target, .7)
+                    M_Util.SlashFx(inst, target, "shadowstrike_slash_fx", 3)
+                    M_Util.GroundPoundFx(target, .7)
                 end)
             end)
         end
     },
-
     Susanoo = {
         tag = "susanoo",
         time = M_CONFIG.SKILL3_COOLDOWN,
         mindpower = 10,
-        fn = function(inst, target, weapon)
+        fn = function(inst)
+            local weapon = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
+            local target = inst.components.combat.target
             inst:DoTaskInTime(.1, function()
                 inst.components.talker:Say(STRINGS.SKILL.SKILL7ATTACK, 2, true)
                 M_Util.GroundPoundFx(inst, .6)
 
                 M_Util.SlashFx(inst, target, "shadowstrike_slash_fx", 3)
                 inst.inspskill = true
-                inst.skill_target = target
-                inst.sg:GoToState("monemind", inst.skill_target)
+                inst.sg:GoToState("monemind", target)
 
                 inst:DoTaskInTime(.6, function()
                     M_Util.GroundPoundFx(inst, .8)
@@ -357,7 +360,7 @@ local skill_data = {
                 end)
 
                 inst:DoTaskInTime(2.1, function()
-                    M_Util.SlashFx(inst, inst, 3, "shadowstrike_slash_fx")
+                    M_Util.SlashFx(inst, inst, "shadowstrike_slash_fx", 3)
                     M_Util.AoeAttack(inst, 2,4)
                     inst.components.combat:SetRange(inst._range)
                 end)
@@ -366,14 +369,14 @@ local skill_data = {
     },
 
     -- 苍龙破
-    Soryuha = {
-        tag = "soryuha",
-        time = M_CONFIG.SKILL3_COOLDOWN,
-        mindpower = 20,
-        fn = function(inst, target, weapon)
+    -- Soryuha = {
+    --     tag = "soryuha",
+    --     time = M_CONFIG.SKILL3_COOLDOWN,
+    --     mindpower = 20,
+    --     fn = function(inst, target, weapon)
             
-        end
-    }
+    --     end
+    -- }
 }
 
 return skill_data

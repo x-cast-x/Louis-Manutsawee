@@ -10,7 +10,6 @@ PrefabFiles = {
     "m_foxmask",
     "m_scarf",
     "harakiri",
-    "mkatana",
     "katanablade",
     "katana",
     "true_katana",
@@ -18,7 +17,7 @@ PrefabFiles = {
     "mingot",
     "mmiko_armor",
     "special_katana",
-    "tokishin",
+    "tokijin",
 }
 
 Assets = {
@@ -54,6 +53,8 @@ Assets = {
     Asset("ATLAS", "images/names_manutsawee.xml"),
     Asset("IMAGE", "images/names_gold_manutsawee.tex"),
     Asset("ATLAS", "images/names_gold_manutsawee.xml"),
+    Asset("IMAGE", "images/names_gold_cn_manutsawee.tex"),
+    Asset("ATLAS", "images/names_gold_cn_manutsawee.xml"),
 
     Asset("IMAGE", "bigportraits/manutsawee.tex"),
     Asset("ATLAS", "bigportraits/manutsawee.xml"),

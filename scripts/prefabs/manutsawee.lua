@@ -52,18 +52,17 @@ end
 prefabs = FlattenTree({prefabs, start_inv}, true)
 
 local function SkillRemove(inst)
-    -- inst.components.skillreleaser:SkillRemove()
+    inst.components.skillreleaser:SkillRemove()
 end
 
-local function OnMindPowerRegen(inst, self)
-	self.mindpower = self.mindpower + 1
-	local mindregenfx = SpawnPrefab("battlesong_instant_electric_fx")
+local function OnMindPowerRegen(inst, mindpower)
+	local mindregenfx = SpawnPrefab("m_battlesong_instant_electric_fx")
 	mindregenfx.Transform:SetScale(.7, .7, .7)
 	mindregenfx.Transform:SetPosition(inst:GetPosition():Get())
 	mindregenfx.entity:AddFollower()
     mindregenfx.Follower:FollowSymbol(inst.GUID, "swap_body", 0, 0, 0)
-	if self.mindpower >= 3 then
-        inst.components.talker:Say("󰀈: ".. self.mindpower .."\n", 2, true)
+	if mindpower >= 3 then
+        inst.components.talker:Say("󰀈: ".. mindpower .."\n", 2, true)
     end
 end
 
@@ -150,11 +149,11 @@ local function OnUpgrades(inst, kenjutsulevel, kenjutsuexp)
     end
 
     if kenjutsulevel >= 10 then
-        inst:AddTag("kenjutsu_master")
+        inst:AddTag("kenjutsumaster")
         kenjutsuexp = 0
     end
 
-	inst.components.kenjutsuka.max_mindpower = M_CONFIG.MIND_MAX + kenjutsulevel
+	inst.components.kenjutsuka:SetMaxMindpower(M_CONFIG.MIND_MAX + kenjutsulevel)
 
 	local fx = SpawnPrefab("fx_book_light_upgraded")
     fx.Transform:SetScale(.9, 2.5, 1)
@@ -174,7 +173,6 @@ local function OnKilled(inst, data)
 end
 
 local function OnSave(inst, data)
-    data.iscontrolled = inst:HasTag("controlled") == true
 	data._louis_health = inst.components.health.currenthealth
     data._louis_sanity = inst.components.sanity.current
     data._louis_hunger = inst.components.hunger.current
@@ -208,10 +206,6 @@ local function OnLoad(inst, data)
             end
         end
 
-        if data.iscontrolled then
-            inst.SwitchControlled(inst, data.iscontrolled)
-        end
-
         OnChangeHair(inst)
 	end
 end
@@ -227,7 +221,7 @@ end
 local function GetPointSpecialActions(inst, pos, useitem, right)
 	local equip = inst.replica.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
     local rider = inst.replica.rider
-    if equip ~= nil and not (equip:HasTag("Iai") or equip:HasTag("katana_quickdraw")) and equip:HasTag("katanaskill") and inst:HasTag("kenjutsu") and right and GetTime() - inst.last_dodge_time > inst.dodge_cooldown then
+    if equip ~= nil and not (equip:HasTag("iai") or equip:HasTag("katana_quickdraw")) and equip:HasTag("katanaskill") and inst:HasTag("kenjutsu") and right and GetTime() - inst.last_dodge_time > inst.dodge_cooldown then
 		if rider == nil or not rider:IsRiding() then
 			return {ACTIONS.MDODGE}
 		end
@@ -271,19 +265,19 @@ local common_postinit = function(inst)
         inst:AddTag("pebblemaker")
     end
 
-	-- inst:AddComponent("keyhandler")
-	-- inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.LEVEL_CHECK_KEY, "levelcheck")
-	-- inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.PUT_GLASSES_KEY, "glasses")
-	-- inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.CHANGE_HAIRS_KEY, "Hairs")
+	inst:AddComponent("keyhandler")
+	inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.LEVEL_CHECK_KEY, "levelcheck")
+	inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.PUT_GLASSES_KEY, "glasses")
+	inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.CHANGE_HAIRS_KEY, "Hairs")
 
-	-- if M_CONFIG.ENABLE_SKILL then
-    --     inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.SKILL1_KEY, "skill1")
-    --     inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.SKILL2_KEY, "skill2")
-    --     inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.SKILL3_KEY, "skill3")
-    --     inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.SKILL_COUNTER_ATK_KEY, "skillcounterattack")
-    --     inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.QUICK_SHEATH_KEY, "quicksheath")
-    --     inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.SKILL_CANCEL_KEY, "skillcancel")
-	-- end
+	if M_CONFIG.ENABLE_SKILL then
+        inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.SKILL1_KEY, "skill1")
+        inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.SKILL2_KEY, "skill2")
+        inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.SKILL3_KEY, "skill3")
+        inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.SKILL_COUNTER_ATK_KEY, "counterattack")
+        inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.QUICK_SHEATH_KEY, "quicksheath")
+        inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.SKILL_CANCEL_KEY, "skillcancel")
+	end
 
     if M_CONFIG.ENABLE_DODGE then
     	inst.dodgetime = net_bool(inst.GUID, "player.dodgetime", "dodgetimedirty")
@@ -372,22 +366,28 @@ local function OnDroped(inst, data)
 end
 
 local function SwitchControlled(inst, enabled)
-    local self = inst.components.grogginess
+    local grogginess = inst.components.grogginess
 
-    if self ~= nil then
+    if grogginess ~= nil and not inst:HasTag("playerghost") then
         if enabled then
             inst:AddTag("groggy")
             inst:AddTag("controlled")
             inst.AnimState:OverrideSymbol("face", "face_controlled", "face")
-            local pct = self.grog_amount < self:GetResistance() and self.grog_amount / self:GetResistance() or 1
-            self.speedmod = Remap(pct, 1, 0, TUNING.MIN_GROGGY_SPEED_MOD, TUNING.MAX_GROGGY_SPEED_MOD)
-            inst.components.locomotor:SetExternalSpeedMultiplier(inst, "controlled", self.speedmod)
+            local pct = grogginess.grog_amount < grogginess:GetResistance() and grogginess.grog_amount / grogginess:GetResistance() or 1
+            grogginess.speedmod = Remap(pct, 1, 0, TUNING.MIN_GROGGY_SPEED_MOD, TUNING.MAX_GROGGY_SPEED_MOD)
+            inst.components.locomotor:SetExternalSpeedMultiplier(inst, "controlled", grogginess.speedmod)
+            if inst.components.sanity ~= nil then
+                inst.components.sanity:SetInducedInsanity(inst, true)
+            end
         else
             inst:RemoveTag("groggy")
             inst:RemoveTag("controlled")
             inst.AnimState:ClearOverrideSymbol("face")
-            self.speedmod = nil
+            grogginess.speedmod = nil
             inst.components.locomotor:RemoveExternalSpeedMultiplier(inst, "controlled")
+            if inst.components.sanity ~= nil then
+                inst.components.sanity:SetInducedInsanity(inst, false)
+            end
         end
     end
 end
@@ -446,12 +446,15 @@ local function RegisterEventListeners(inst)
 end
 
 local function SetInstanceFunctions(inst)
-    inst.SwitchControlled = SwitchControlled
     inst.SkillRemove = SkillRemove
     inst.PutGlasses = PutGlasses
     inst.OnChangeHair = OnChangeHair
+    inst.OnGrowShortHair = OnGrowShortHair
+    inst.OnGrowMediumHair = OnGrowMediumHair
+    inst.OnGrowLongHair = OnGrowLongHair
 	inst.OnLoad = OnLoad
 	inst.OnSave = OnSave
+    inst.SwitchControlled = SwitchControlled
 end
 
 local function SetInstanceValue(inst)
@@ -468,9 +471,12 @@ local function SetInstanceValue(inst)
 end
 
 local function DoPostInit(inst)
-    for k, v in ipairs(Skill_Data) do
-        local skill_name = string.lower(k)
-        inst.components.skillreleaser:AddSkill(skill_name, M_Util.Skill_CommonFn(inst, v.tag, skill_name, v.time, v.mindpower, v.fn))
+    for k, v in pairs(Skill_Data) do
+        local name = string.lower(k)
+        local fn = function()
+            M_Util.Skill_CommonFn(inst, v.tag, name, v.time, v.mindpower, v.fn)            
+        end
+        inst.components.skillreleaser:AddSkill(name, fn)
     end
 
     if M_CONFIG.RANDOM_IDLE_ANIMATION then
@@ -485,16 +491,14 @@ end
 local master_postinit = function(inst)
 	inst.starting_inventory = start_inv[TheNet:GetServerGameMode()] or start_inv.default
 
-
-	--small character
     inst.AnimState:SetScale(0.88, 0.9, 1)
 
-    -- inst:AddComponent("kenjutsuka")
-    -- inst.components.kenjutsuka:SetOnUpgradeFn(OnUpgrades)
-    -- inst.components.kenjutsuka:SetOnMindPowerRegenFn(OnMindPowerRegen)
+    inst:AddComponent("skillreleaser")
+    inst.components.skillreleaser:OnPostInit()
 
-    -- inst:AddComponent("skillreleaser")
-    -- inst.components.skillreleaser:OnPostInit()
+    inst:AddComponent("kenjutsuka")
+    inst.components.kenjutsuka:SetOnUpgradeFn(OnUpgrades)
+    inst.components.kenjutsuka:SetOnMindPowerRegenFn(OnMindPowerRegen)
 
 	inst:AddComponent("houndedtarget")
     inst.components.houndedtarget.target_weight_mult:SetModifier(inst, TUNING.WES_HOUND_TARGET_MULT, "misfortune")

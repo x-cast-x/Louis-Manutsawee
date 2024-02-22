@@ -31,14 +31,14 @@ local function OnUnequip(inst, owner)
     end
 end
 
-local function CastFn(inst, target)
+local function CastFn(inst, target, position, doer)
 	if inst.maskstatus >= 2 then
         inst.maskstatus = 0
     else
         inst.maskstatus = inst.maskstatus + 1
     end
 
-	SwitchMode(inst)
+	SwitchMode(inst, doer)
 end
 
 local function OnSave(inst, data)
@@ -59,6 +59,7 @@ local function fn()
 
 	inst:AddTag("hat")
 	inst:AddTag("quickcast")
+    inst:AddTag("waterproofer")
 
 	inst.spelltype = "SCIENCE"
 

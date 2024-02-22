@@ -51,12 +51,11 @@ local function MakeBroKenKatana(name)
 end
 
 local katana = {
-    "tokishin",
+    "tokijin",
     "raikiri",
     "shirasaya",
     "koshirae",
     "hitokiri",
-    "tokishin",
 }
 
 local broken_katana = {}

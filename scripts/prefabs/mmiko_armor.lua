@@ -64,9 +64,7 @@ local function tryproc(inst, owner, data)
     end
 end
 
-local function Armormode(inst)
-	local owner = inst.components.inventoryitem.owner
-
+local function Armormode(inst, owner)
 	if not inst.armorstatus then
     	owner.AnimState:OverrideSymbol("swap_body", "mmiko_armor", "swap_body")
 	else
@@ -75,7 +73,7 @@ local function Armormode(inst)
 end
 
 local function OnEquip(inst, owner)
-	Armormode(inst)
+	Armormode(inst, owner)
     inst.onattach(owner)
 end
 
@@ -84,9 +82,7 @@ local function OnUnequip(inst, owner)
     inst.ondetach()
 end
 
-local function CastFn(inst, target)
-	local owner = inst.components.inventoryitem.owner
-
+local function CastFn(inst, target, position, owner)
     if owner.prefab ~= "manutsawee" then
         return
     end
@@ -97,7 +93,7 @@ local function CastFn(inst, target)
         inst.armorstatus = true
     end
 
-	Armormode(inst)
+	Armormode(inst, owner)
 end
 
 local function onSave(inst, data)

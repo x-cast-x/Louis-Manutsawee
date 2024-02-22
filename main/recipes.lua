@@ -52,13 +52,6 @@ local recipes_data = {
         filters = {"CHARACTER", "WEAPONS"},
         sort = {after = "spear"}
     },
-    mkatana = {
-        ingredients = {Ingredient("flint", 6), Ingredient("rope", 2), Ingredient("log", 2)},
-        tech = TECH.SCIENCE_ONE,
-        config = {builder_tag = "manutsaweecraft"},
-        filters = {"CHARACTER", "WEAPONS"},
-        sort = {after = "boomerang"}
-    },
 
     yari = {
         ingredients = {Ingredient("spear", 1), Ingredient("goldnugget", 2)},

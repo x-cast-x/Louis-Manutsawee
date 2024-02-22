@@ -59,8 +59,8 @@ local events = {
     EventHandler("blockparry", function(inst)
         inst.sg:GoToState("blockparry")
     end),
-    EventHandler("counterstart", function(inst)
-        inst.sg:GoToState("counterstart")
+    EventHandler("counter_start", function(inst)
+        inst.sg:GoToState("counter_start")
     end),
     EventHandler("mdash", function(inst)
         inst.sg:GoToState("mdash")
@@ -169,14 +169,14 @@ local states = {
                     inst.sg:RemoveStateTag("abouttoattack")
 				end
                 if inst.sg.statemem.scythe_anim then
-                    local bearger_swipe_fx = SpawnPrefab("bearger_swipe_fx")
-                    if bearger_swipe_fx ~= nil then
-                        bearger_swipe_fx.AnimState:SetScale(0.88, 0.88, 0.88)
-                        bearger_swipe_fx.entity:SetParent(inst.entity)
-                        bearger_swipe_fx.Transform:SetPosition(1, 0, 0)
-                        bearger_swipe_fx:Reverse()
+                    local sharkboi_swipe_fx = SpawnPrefab("sharkboi_swipe_fx")
+                    if sharkboi_swipe_fx ~= nil then
+                        sharkboi_swipe_fx.AnimState:SetScale(0.88, 0.88, 0.88)
+                        sharkboi_swipe_fx.entity:SetParent(inst.entity)
+                        sharkboi_swipe_fx.Transform:SetPosition(1, 0, 0)
+                        sharkboi_swipe_fx:Reverse()
                     end
-                    inst.sg.statemem.bearger_swipe_fx = bearger_swipe_fx
+                    inst.sg.statemem.bearger_swipe_fx = sharkboi_swipe_fx
                 end
             end),
 
@@ -226,7 +226,7 @@ local states = {
     },
 
     State{
-        name = "Iai",
+        name = "iai",
         tags = { "attack", "notalking", "abouttoattack", "autopredict" }, --
 
         onenter = function(inst)
@@ -252,7 +252,7 @@ local states = {
                 inst.AnimState:PushAnimation("atk", false)
                 DoMountSound(inst, inst.components.rider:GetMount(), "angry", true)
                 cooldown = math.max(cooldown, 16 * FRAMES)
-            elseif equip ~= nil and equip:HasTag("Iai") then
+            elseif equip ~= nil and equip:HasTag("iai") then
                 inst.sg.statemem.iskatana = true
                 inst.AnimState:PlayAnimation("spearjab_pre")
                 inst.AnimState:PushAnimation("lunge_pst", false)
@@ -509,9 +509,7 @@ local states = {
             end)
         end,
     },
----------------------------------------------------------------------------------------------
 
--------------------------------------------blockparry---------------------------------------
     State{
         name = "blockparry",
         tags = {"busy", "nopredict", "nointerrupt", "nomorph"},
@@ -551,11 +549,9 @@ local states = {
             inst.Physics:ClearMotorVelOverride()
         end,
     },
-----------------------------------------------------------------------------------------------
 
--------------------------------------------counterstart---------------------------------------
     State{
-        name = "counterstart",
+        name = "counter_start",
         tags = {"busy", "nomorph", "notalking", "nopredict", "doing"},
 
         onenter = function(inst)
@@ -587,11 +583,9 @@ local states = {
             inst.sg:RemoveStateTag("startblockparry")
         end,
     },
-----------------------------------------------------------------------------------------------
 
----------------------------------------mcounterattack---------------------------------------
     State{
-        name = "mcounterattack",
+        name = "counter_attack",
         tags = {"attack", "doing", "busy", "nointerrupt" ,"nopredict","nomorph"},
 
         onenter = function(inst, target)
@@ -606,7 +600,6 @@ local states = {
 
             inst.inspskill = true
             inst.components.combat:SetRange(4)
-            target = inst.skill_target
 
             if target ~= nil and target:IsValid() then
                 inst.sg.statemem.target = target
@@ -653,9 +646,7 @@ local states = {
             end)
         end,
     },
-----------------------------------------------------------------------------------------------
 
--------------------------------------------monemind---------------------------------------
     State{
         name = "monemind",
         tags = {"busy", "nopredict", "nointerrupt", "nomorph", "doing","notalking","skilling"},
@@ -669,7 +660,6 @@ local states = {
 
             inst.AnimState:PlayAnimation("atk")
             inst.SoundEmitter:PlaySound("dontstarve/wilson/attack_weapon")
-            target = inst.skill_target
 
             if target ~= nil and target:IsValid() then
                 inst.sg.statemem.target = target
@@ -710,9 +700,7 @@ local states = {
             end),
         },
     },
-----------------------------------------------------------------------------------------------
 
--------------------------------------------mquicksheath------------------------------------
     State{
         name = "quicksheath",
         tags = {"busy", "nopredict", "nointerrupt", "nomorph", "doing","notalking","skilling"},
@@ -751,9 +739,7 @@ local states = {
             end),
         },
     },
-----------------------------------------------------------------------------------------------
 
--------------------------------------------ryusen---------------------------------------------
     State{
         name = "ryusen",
         tags = {"busy", "nopredict", "nointerrupt", "nomorph", "doing","notalking","skilling","mdashing"},
@@ -763,7 +749,6 @@ local states = {
             inst.components.combat:SetRange(10)
             inst.AnimState:PlayAnimation("atk")
             inst.SoundEmitter:PlaySound("dontstarve/wilson/attack_weapon")
-            target = inst.skill_target
             if target ~= nil and target:IsValid() then
                 inst.sg.statemem.target = target
                 inst:ForceFacePoint(target.Transform:GetWorldPosition())
@@ -896,11 +881,9 @@ local states = {
             end)
         end,
     },
-----------------------------------------------------------------------------------------------
 
--------------------------------------------mflipskill------------------------------------------
     State{
-        name = "mflipskill",
+        name = "flip",
         tags = {"busy", "nopredict", "nointerrupt", "nomorph", "doing","notalking","skilling"},
 
         onenter = function(inst, target)
@@ -914,7 +897,6 @@ local states = {
             inst.AnimState:PlayAnimation("lunge_pre")
             inst.AnimState:PushAnimation("lunge_pst", false)
             inst.SoundEmitter:PlaySound("turnoftides/common/together/boat/jump")
-            target = inst.skill_target
             if target ~= nil and target:IsValid() then
                 inst.sg.statemem.target = target
                 inst:ForceFacePoint(target.Transform:GetWorldPosition())
@@ -977,10 +959,7 @@ local states = {
 
         events = {
             EventHandler("animqueueover", function(inst)
-                if inst.AnimState:AnimDone()
-                and inst.components.health ~= nil
-                and not inst.components.health:IsDead()
-                and not inst.sg:HasStateTag("dead") then
+                if inst.AnimState:AnimDone() then
                     inst.sg:GoToState("idle")
                 end
             end),
@@ -995,11 +974,9 @@ local states = {
             inst.components.combat:EnableAreaDamage(false)
         end,
     },
-----------------------------------------------------------------------------------------------
 
--------------------------------------------mthrustskill------------------------------------------
     State{
-        name = "mthrustskill",
+        name = "thrust",
         tags = {"busy", "nopredict", "nointerrupt", "nomorph", "doing","notalking","skilling"},
 
         onenter = function(inst, target)
@@ -1011,7 +988,6 @@ local states = {
             inst.inspskill = true
             inst.AnimState:PlayAnimation("multithrust")
             inst.SoundEmitter:PlaySound("dontstarve/wilson/attack_weapon")
-            target = inst.skill_target
             if target ~= nil and target:IsValid() then
                 inst.sg.statemem.target = target
                 inst:ForceFacePoint(target.Transform:GetWorldPosition())
@@ -1074,9 +1050,7 @@ local states = {
 
         events = {
             EventHandler("animqueueover", function(inst)
-                if inst.AnimState:AnimDone() and inst.components.health ~= nil
-                and not inst.components.health:IsDead()
-                and not inst.sg:HasStateTag("dead") then
+                if inst.AnimState:AnimDone() then
                     inst.sg:GoToState("idle")
                 end
             end),
@@ -1091,9 +1065,7 @@ local states = {
             inst.components.combat:EnableAreaDamage(false)
         end,
     },
-----------------------------------------------------------------------------------------------
 
--------------------------------------------michimonji------------------------------------------
     State{
         name = "ichimonji",
         tags = {"busy", "nopredict", "nointerrupt", "nomorph", "doing","notalking","skilling"},
@@ -1108,7 +1080,6 @@ local states = {
             inst.components.combat:SetAreaDamage(2, 1)
             inst.AnimState:SetDeltaTimeMultiplier(2.5)
             inst.components.combat:SetRange(6)
-            target = inst.skill_target
             if target ~= nil and target:IsValid() then
                 inst.sg.statemem.target = target
                 inst:ForceFacePoint(target.Transform:GetWorldPosition())
@@ -1118,13 +1089,8 @@ local states = {
         timeline = {
             TimeEvent(8 * FRAMES, function(inst)
                 inst.SoundEmitter:PlaySound("dontstarve/creatures/spiderqueen/swipe")
-                local electrichitsparks = SpawnPrefab("electrichitsparks")
-                electrichitsparks.entity:AddFollower()
-                electrichitsparks.Follower:FollowSymbol(inst.GUID, "swap_body", 0, 0, 0)
-                local x, y, z = inst.Transform:GetWorldPosition()
-                local fx = SpawnPrefab("groundpoundring_fx")
-                fx.Transform:SetScale(.5, .5, .5)
-                fx.Transform:SetPosition(x, y, z)
+                M_Util.AddFollowerFx(inst, "electrichitsparks")
+                M_Util.GroundPoundFx(inst, 0.5)
             end),
 
             TimeEvent(9 * FRAMES, function(inst)
@@ -1148,6 +1114,7 @@ local states = {
                 inst.components.combat:DoAttack(inst.sg.statemem.target)
                 inst.components.combat:DoAttack(inst.sg.statemem.target)
                 inst.components.combat:DoAttack(inst.sg.statemem.target)
+
                 --if not inst.doubleichimonji then inst.components.combat:DoAttack(inst.sg.statemem.target) end
                 inst:PerformBufferedAction()
                 inst.components.combat:SetRange(inst._range)
@@ -1162,7 +1129,7 @@ local states = {
 
         events = {
             EventHandler("animqueueover", function(inst)
-                if inst.AnimState:AnimDone() and inst.components.health ~= nil and not inst.components.health:IsDead() and not inst.sg:HasStateTag("dead") then
+                if inst.AnimState:AnimDone() then
                     inst.sg:GoToState("idle")
                 end
             end),
@@ -1178,7 +1145,9 @@ local states = {
             if inst.doubleichimonji ~= nil then
                 inst.doubleichimonji = nil
                 inst.components.talker:Say(STRINGS.SKILL.SKILL1ATTACK, 2, true)
-                inst.mafterskillndm = inst:DoTaskInTime(2, function() inst.mafterskillndm = nil end)
+                inst.mafterskillndm = inst:DoTaskInTime(2, function() 
+                    inst.mafterskillndm = nil 
+                end)
             end
             if inst.doubleichimonjistart then
                 inst.doubleichimonjistart = nil
@@ -1186,11 +1155,9 @@ local states = {
             end
         end,
     },
-----------------------------------------------------------------------------------------------
 
--------------------------------------------mhabakiri------------------------------------------
     State{
-        name = "mhabakiri",
+        name = "habakiri",
         tags = {"busy", "nopredict", "nointerrupt", "nomorph", "doing","notalking","skilling","mdashing"},
 
         onenter = function(inst, target)
@@ -1202,7 +1169,6 @@ local states = {
             inst.inspskill = true
             inst.AnimState:PlayAnimation("atk")
             inst.SoundEmitter:PlaySound("turnoftides/common/together/boat/jump")
-            target = inst.skill_target
             if target ~= nil and target:IsValid() then
                 inst.sg.statemem.target = target
                 inst:ForceFacePoint(target.Transform:GetWorldPosition())
@@ -1261,9 +1227,9 @@ local states = {
             end),
 
             TimeEvent(15* FRAMES, function(inst)
-                local equip = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
-                if equip ~= nil and equip.components.spellcaster ~= nil then
-                    equip.components.spellcaster:CastSpell(inst)
+                local weapon = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
+                if weapon ~= nil and weapon.components.spellcaster ~= nil then
+                    weapon.components.spellcaster:CastSpell(inst)
                 end
                 inst.Physics:ClearMotorVelOverride()
                 local sparks = SpawnPrefab("sparks")
@@ -1282,11 +1248,7 @@ local states = {
 
         events = {
             EventHandler("animqueueover", function(inst)
-                if inst.AnimState:AnimDone()
-                and inst.components.health ~= nil
-                and not inst.components.health:IsDead()
-                and not inst.sg:HasStateTag("dead")
-                then
+                if inst.AnimState:AnimDone() then
                     inst.sg:GoToState("idle")
                 end
             end),
@@ -1420,8 +1382,8 @@ local function fn(sg)
         local isattack = not (inst.sg:HasStateTag("attack") and action.target == inst.sg.statemem.attacktarget or inst.components.health:IsDead())
         if weapon ~= nil and weapon:HasTag("mkatana") and isattack then
             return "mkatana"
-        elseif weapon ~= nil and weapon:HasTag("Iai") and isattack then
-            return "Iai"
+        elseif weapon ~= nil and weapon:HasTag("iai") and isattack then
+            return "iai"
         elseif weapon ~= nil and weapon:HasTag("yari") and isattack then
             return "yari"
         end

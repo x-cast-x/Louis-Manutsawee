@@ -1,5 +1,12 @@
 local FOODTYPE = GLOBAL.FOODTYPE
+local ENV = env
 GLOBAL.setfenv(1, GLOBAL)
+
+-- when MiM enabled, add it
+if ENV.is_mim_enabled then
+    -- No animation video, only github repository
+    CHARACTER_VIDEOS["manutsawee"] = {"https://github.com/Manutsawee/Louis-Manutsawee"}
+end
 
 FOODTYPE.MFRUIT = "MFRUIT"
 
@@ -9,7 +16,8 @@ KATANA = {
     "shirasaya",
     "koshirae",
     "hitokiri",
-    "katanablade"
+    "katanablade",
+    "tokijin",
 }
 
 M_SKILLS = {

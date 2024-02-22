@@ -28,10 +28,14 @@ local function OnUnequip(inst, owner)
     end
 end
 
-local function CastFn(inst, target)
-    inst.mitemstatus = (inst.mitemstatus % #mitemlist) + 1
+local function CastFn(inst, target, position, doer)
+	if inst.mitemstatus < #mitemlist then
+		inst.mitemstatus = inst.mitemstatus + 1
+	else
+		inst.mitemstatus = 1
+	end
 
-	SwitchMode(inst)
+	SwitchMode(inst, doer)
 end
 
 local function onSave(inst, data)

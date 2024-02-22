@@ -17,6 +17,7 @@ local postinit = {
         "sanity",
         "sanity_replica",
         "grogginess",
+        "equippable",
     },
     widgets = {
         "skinspuppet",

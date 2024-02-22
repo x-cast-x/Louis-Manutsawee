@@ -63,9 +63,6 @@ M_Util.merge_table(STRINGS, import("common", ENV))
 local IsTheFrontEnd = rawget(_G, "TheFrontEnd") and rawget(_G, "IsInFrontEnd") and IsInFrontEnd()
 
 local function TranslateString(prefix)
-    if prefix == nil then
-        prefix = ""
-    end
     local desiredlang = nil
     local M_CONFIG = rawget(_G, "M_CONFIG")
     if M_CONFIG and M_CONFIG.locale then
@@ -77,7 +74,7 @@ local function TranslateString(prefix)
     if desiredlang and languages[desiredlang] then
         local temp_lang = desiredlang .. "_temp"
 
-        ENV.LoadPOFile(path .. languages[desiredlang] .. prefix .. ".po", temp_lang)
+        ENV.LoadPOFile(path .. languages[desiredlang] .. ".po", temp_lang)
         M_Util.merge_table(LanguageTranslator.languages[desiredlang], LanguageTranslator.languages[temp_lang])
         TranslateStringTable(STRINGS)
         LanguageTranslator.languages[temp_lang] = nil
@@ -100,17 +97,17 @@ end
 TranslateString()
 LoadString(new_speech)
 
-if IA_ENABLED then
-    TranslateString("ia_")
-    LoadString(ia_speech)
-end
+-- if IA_ENABLED then
+--     TranslateString("ia_")
+--     LoadString(ia_speech)
+-- end
 
-if PL_ENABLED then
-    TranslateString("pl_")
-    LoadString(pl_speech)
-end
+-- if PL_ENABLED then
+--     TranslateString("pl_")
+--     LoadString(pl_speech)
+-- end
 
-if UM_ENABLED then
-    TranslateString("um_")
-    LoadString(um_speech)
-end
+-- if UM_ENABLED then
+--     TranslateString("um_")
+--     LoadString(um_speech)
+-- end

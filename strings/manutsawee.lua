@@ -654,7 +654,6 @@ return {
         KATANABODY = "Wrapped with rope and sharpened.",
         HARAKIRI = "For Honor!",
         SHINAI = "I can training my kenjutsu skill 󰀍 with this!. ",
-        MKATANA = "It's a katana.",
         MNAGINATA = "Nagigaga~.",
         YARI = "It is excellent at both piercing and slicing across a wide area.",
         KATANABLADE = "It has no hilt and will be uncomfortable to use.",

@@ -8,14 +8,14 @@ local katana_data = {
     -- "kurokatana"
 }
 
-local katana = {}
+local rets = {}
 for _, v in pairs(katana_data) do
     local data = {
         name = v,
         build = v,
         damage = TUNING.KATANA.DAMAGE
     }
-    table.insert(katana, MakeKatana(data))
+    table.insert(rets, MakeKatana(data))
 end
 
-return unpack(katana)
+return unpack(rets)

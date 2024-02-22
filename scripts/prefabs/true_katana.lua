@@ -135,7 +135,7 @@ local katana_data = {
     },
 }
 
-local katana = {}
+local rets = {}
 for k,v in pairs(katana_data) do
     local data = {
         name = "true_" .. k,
@@ -145,7 +145,7 @@ for k,v in pairs(katana_data) do
         master_postinit = v.master_postinit,
         damage = TUNING.KATANA.TRUE_DAMAGE
     }
-    table.insert(katana, MakeKatana(data))
+    table.insert(rets, MakeKatana(data))
 end
 
-return unpack(katana)
+return unpack(rets)

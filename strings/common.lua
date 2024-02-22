@@ -22,7 +22,6 @@ return {
         KATANABODY = "Katana shape",
         HARAKIRI = "Harakiri",
         SHINAI = "Shinai",
-        MKATANA = "Katana",
         MNAGINATA = "Naginata",
         YARI = "Yari",
         KATANABLADE = "Katana Blade",
@@ -39,7 +38,7 @@ return {
         KUROKATANA = "Kurokatana",
         SHUSUI = "Shusui",
         MORTALBLADE = "Mortal Blade",
-        TOKISHIN = "Tokishin",
+        TOKIJIN = "Tokijin",
     },
 
     RECIPE_DESC = {
@@ -50,7 +49,6 @@ return {
         MINGOT = "Bring it to fire",
         HARAKIRI = "Pay your mistake.",
         SHINAI = "Training Sword.",
-        MKATANA = "Japanese Sword",
         MNAGINATA = "It's Japanese Spear.",
         YARI = "It's Japanese Spear.",
         KATANABLADE = "Sharp katana blade",
@@ -93,7 +91,7 @@ return {
         manutsawee_shinsengumi = "\"One must not infringe the samurai code!\"",
         manutsawee_jinbei = "\"Relax Feeling good.\"",
         manutsawee_miko = "\"Can i fight with yokai?'\"",
-        manutsawee_qipao = "\"Ni hao ..?'\"", -- 你好
+        manutsawee_qipao = "\"Ni hao ..? Good Fortune'\"",
         manutsawee_sailor = "\"So so so... nothing just say so..\"",
         manutsawee_taohuu = "\"I'm cute, please give me money.\"",
     },
@@ -141,12 +139,15 @@ return {
         manutsawee = {
             { title = "Birthday", desc = "October 9" },
             { title = "就读学校", desc = "夏威夷什么都学技术学院" },
-            { title = "Favorite Food", desc = "Unagi, Bacon and Eggs, Cooked Kelp Fronds, Durian, Roasted durian" },
-            { title = "Favorite Food in IA", desc = "Californiaroll, Caviar" },
-            { title = "Favorite Food in PL", desc = "Steamed Ham Sandwich, Tea, Ice Tea" },
-            { title = "Favorite Food in UM", desc = "Liceloaf, Boomberry Pancakes" },
+            { title = "Favorite Food", desc = "Unagi, Bacon and Eggs, Cooked Kelp Fronds, Durian, Roasted durian \nCaliforniaroll, Caviar \nSteamed Ham Sandwich, Tea, Ice Tea \nLiceloaf, Boomberry Pancakes" },
             { title = "Her Past...", desc = "Manutsawee."},
+            -- I made it up randomly
+            { title = "诅咒之剑", desc = "斗鬼神\n使用悟心鬼的獠牙制成的诅咒之剑, 充满邪气, 一般人极易被其反控制.\n原被杀生丸折断, 但Louis在一所废弃的神社发现了它..."},
         },
+    },
+
+    M_LOADINGTIPS = {
+        TOKIJIN = "我无法压住它的邪气，无法驾驭斗鬼神 -L",
     },
 
     SKILL = {

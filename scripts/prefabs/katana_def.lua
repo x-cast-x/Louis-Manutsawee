@@ -25,11 +25,11 @@ local function SheathMode(inst, owner)
         inst:RemoveTag("mkatana")
     end
 
-    if not inst:HasTag("Iai") then
-        inst:AddTag("Iai")
+    if not inst:HasTag("iai") then
+        inst:AddTag("iai")
     end
 
-    inst.wpstatus = true
+    inst.weaponstatus = false
 end
 
 local function UnsheathMode(inst, owner)
@@ -38,8 +38,8 @@ local function UnsheathMode(inst, owner)
     owner = owner or inst.components.inventoryitem.owner or nil
 	owner.AnimState:OverrideSymbol("swap_object", "swap_" .. inst.build, "swap_" .. inst.build)
 
-	inst.AnimState:SetBank(inst.build .. "2" or inst.build)
-    inst.AnimState:SetBuild(inst.build .. "2" or inst.build)
+	inst.AnimState:SetBank(inst.build .. "2")
+    inst.AnimState:SetBuild(inst.build .. "2")
 
     if IA_ENABLED then
         if inst.components.tool == nil then
@@ -60,22 +60,50 @@ local function UnsheathMode(inst, owner)
         inst:RemoveTag("mkatana")
     end
 
-    if inst:HasTag("Iai") then
-        inst:RemoveTag("Iai")
+    if inst:HasTag("iai") then
+        inst:RemoveTag("iai")
     end
 
 	if owner:HasTag("kenjutsu") and not inst:HasTag("mkatana") then
         inst:AddTag("mkatana")
     end
 
-    inst.wpstatus = false
+    inst.weaponstatus = true
 end
 
 local function CastFn(inst, target, position, doer)
-	if inst.wpstatus then
+	if not inst.weaponstatus then
         inst.UnsheathMode(inst, doer)
     else
         inst.SheathMode(inst, doer)
+    end
+
+    if inst:HasTag("mortalblade") then
+        inst.SoundEmitter:PlaySound("dontstarve/common/nightmareAddFuel")
+    end
+
+    -- kill immortals, including god
+    if inst.first_time_unsheathed then
+        local health = doer.components.health
+        local inventory = doer.components.inventory
+        local body = inventory:GetEquippedItem(EQUIPSLOTS.BODY)
+        local head = inventory:GetEquippedItem(EQUIPSLOTS.HEAD)
+
+        if head ~= nil then
+            inventory:DropItem(head)
+        end
+
+        if body ~= nil then
+            inventory:DropItem(body)
+        end
+
+        if health ~= nil then
+            if health:IsInvincible() then
+                health:SetInvincible(false)
+            end
+            health:Kill()
+            inst.first_time_unsheathed = false
+        end
     end
 end
 
@@ -91,7 +119,7 @@ local function OnEquip(inst, owner)
         inst.TryStartFx(inst, owner)
     end
 
-	if inst.wpstatus then
+	if not inst.weaponstatus then
         inst.SheathMode(inst, owner)
     else
         inst.UnsheathMode(inst, owner)
@@ -121,7 +149,7 @@ local has_broken = {
     "raikiri",
     "koshirae",
     -- "kurokatana",
-    "tokishin"
+    "tokijin"
 }
 
 local function OnFinished(inst)
@@ -168,7 +196,7 @@ local function OnPutInInventory(inst, owner)
 end
 
 local function OnSave(inst, data)
-    data.wpstatus = inst.wpstatus
+    data.weaponstatus = inst.weaponstatus
 
     if inst.first_time_unsheathed ~= nil then
         data.first_time_unsheathed = inst.first_time_unsheathed
@@ -177,7 +205,7 @@ end
 
 local function OnLoad(inst, data)
     if data ~= nil then
-        inst.wpstatus = data.wpstatus or false
+        inst.weaponstatus = data.weaponstatus
 
         if inst.first_time_unsheathed ~= nil then
             inst.first_time_unsheathed = data.first_time_unsheathed
@@ -228,8 +256,8 @@ local MakeKatana = function(data)
 
         MakeInventoryPhysics(inst)
 
-        inst.AnimState:SetBank(name)
-        inst.AnimState:SetBuild(name)
+        inst.AnimState:SetBank(build)
+        inst.AnimState:SetBuild(build)
         inst.AnimState:PlayAnimation("idle")
 
         inst.spelltype = "PULLOUT"
@@ -290,8 +318,8 @@ local MakeKatana = function(data)
             data.master_postinit(inst)
         end
 
-        inst.build = name
-        inst.wpstatus = true
+        inst.build = build
+        inst.weaponstatus = false
 
         inst.IsLunar = IsLunar
         inst.IsShadow = IsShadow

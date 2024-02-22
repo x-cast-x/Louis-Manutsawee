@@ -14,7 +14,7 @@ return Class(function(self, inst)
         tenseiga = false,
         bakusaiga = false,
         tessaiga = false,
-        tokishin = false, -- In Japan, there is no difference between a sword and a sword
+        tokijin = false, -- In Japan, there is no difference between a sword and a sword
     }
 
     function self.AddKatana(name, katana)

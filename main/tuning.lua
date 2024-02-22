@@ -10,12 +10,12 @@ TUNING.MANUTSAWEE_SANITY = 200
 local katana = KATANA[M_CONFIG.START_ITEM]
 
 if katana then
-    TUNING.GAMEMODE_STARTING_ITEMS.DEFAULT.MANUTSAWEE = {katana}
+    TUNING.GAMEMODE_STARTING_ITEMS.DEFAULT.MANUTSAWEE = {"tokijin", katana}
 else
-    TUNING.GAMEMODE_STARTING_ITEMS.DEFAULT.MANUTSAWEE = {}
+    TUNING.GAMEMODE_STARTING_ITEMS.DEFAULT.MANUTSAWEE = {"tokijin"}
 end
 
---Stop here if MiM
+-- Stop here if MiM enabled
 if ENV.is_mim_enabled then
     return
 end
@@ -29,7 +29,7 @@ local tuning = {
         USES = 800,
     },
 
-    TOKISHIN_DAMAGE = wilson_attack * 2.4,
+    TOKIJIN_DAMAGE = wilson_attack * 2.4,
     HARAKIRI_DAMAGE = wilson_attack,
     YARI_DAMAGE = wilson_attack * 1.5,
     MNAGINATA_DAMAGE = wilson_attack * 1.5,

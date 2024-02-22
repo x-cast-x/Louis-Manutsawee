@@ -43,6 +43,12 @@ local m_fx = {
         anim = "charge_pst",
         fn = SetSortOrder,
     },
+    {
+        name = "m_battlesong_instant_electric_fx",
+        bank = "fx_wathgrithr_buff",
+        build = "fx_wathgrithr_buff",
+        anim = "quote_electric",
+    }
 }
 
 -- Sneakily add these to the FX table
@@ -52,7 +58,4 @@ local fx = require("fx")
 
 for _, v in ipairs(m_fx) do
     table.insert(fx, v)
-    if Settings.last_asset_set ~= nil then
-        table.insert(Assets, Asset("ANIM", "anim/" .. v.build .. ".zip"))
-    end
 end

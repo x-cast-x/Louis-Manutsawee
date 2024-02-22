@@ -29,15 +29,18 @@ local function OnUnequip(inst, owner)
 end
 
 local trainingcount = 0
-local function CastFn(inst, target)
-    local owner = inst.components.inventoryitem.owner
-	if owner.components.kenjutsuka:GetKenjutsuLevel() ~= nil then
-		if owner.components.kenjutsuka:GetKenjutsuLevel() < 10 and owner.kenjutsuexp < owner.kenjutsumaxexp - (owner.kenjutsumaxexp/2) then
-            owner.kenjutsuexp = owner.kenjutsuexp + 1
+local function CastFn(inst, target, pos, owner)
+    local kenjutsuka = owner.components.kenjutsuka
+    local kenjutsuexp = kenjutsuka:GetKenjutsuExp()
+    local kenjutsumaxexp = kenjutsuka.kenjutsumaxexp
+    local kenjutsulevel = kenjutsuka:GetKenjutsuLevel()
+	if kenjutsulevel ~= nil then
+		if kenjutsulevel < 10 and kenjutsuexp < kenjutsumaxexp - (kenjutsumaxexp/2) then
+            kenjutsuexp = owner.kenjutsuexp + 1
 			trainingcount = trainingcount +1
 			owner.components.hunger:DoDelta(-1)
 			if trainingcount == 5 then
-                owner.kenjutsuexp = owner.kenjutsuexp + 1
+                kenjutsuexp = kenjutsuexp + 1
                 owner.SoundEmitter:PlaySound("turnoftides/common/together/boat/jump")
                 trainingcount = 0
 			end
@@ -51,19 +54,21 @@ local function OnAttack(inst, owner, target)
 	if owner.components.rider:IsRiding() then
         return
     end
-	if owner.components.kenjutsuka:GetKenjutsuLevel() ~= nil then
-		if owner.components.kenjutsuka:GetKenjutsuLevel() >= 1 and not inst:HasTag("mkatana") then
-            inst:AddTag("mkatana")
+    local kenjutsuka = owner.components.kenjutsuka
+    local kenjutsuexp = kenjutsuka:GetKenjutsuExp()
+    local kenjutsulevel = kenjutsuka:GetKenjutsuLevel()
+
+    if kenjutsulevel >= 1 and not inst:HasTag("mkatana") then
+        inst:AddTag("mkatana")
+    end
+    if math.random(1, 5) == 1 then
+        if kenjutsulevel < 10 then
+            kenjutsuexp = kenjutsuexp + math.random(1, 3)
         end
-		if math.random(1, 5) == 1 then
-			if owner.components.kenjutsuka:GetKenjutsuLevel() < 10 then
-                owner.kenjutsuexp = owner.kenjutsuexp +  math.random(1, 3)
-            end
-			owner.SoundEmitter:PlaySound("dontstarve/common/destroy_wood")
-			local effect = SpawnPrefab("impact")
-			effect.Transform:SetPosition(target:GetPosition():Get())
-		end
-	end
+        owner.SoundEmitter:PlaySound("dontstarve/common/destroy_wood")
+        local effect = SpawnPrefab("impact")
+        effect.Transform:SetPosition(target:GetPosition():Get())
+    end
 end
 
 local function fn()

@@ -1,11 +1,12 @@
 local blockcount = 0
 
-local function DoCombatPostInit(self, inst, combat)
-    local _GetAttacked = combat.GetAttacked
+local function DoCombatPostInit(inst)
+    local self = inst.components.combat
+    local _GetAttacked = self.GetAttacked
 
-    function combat:GetAttacked(attacker, damage, weapon, stimuli, spdamage)
+    function self:GetAttacked(attacker, damage, weapon, stimuli, spdamage)
         if attacker == nil or damage == nil or (inst.components.sleeper ~= nil and inst.components.sleeper:IsAsleep()) or (inst.components.freezable and inst.components.freezable:IsFrozen()) then
-            return _GetAttacked(combat, attacker, damage, weapon, stimuli, spdamage)
+            return _GetAttacked(self, attacker, damage, weapon, stimuli, spdamage)
         end
         if attacker ~= nil then
             inst:ForceFacePoint(attacker.Transform:GetWorldPosition())
@@ -53,28 +54,22 @@ local function DoCombatPostInit(self, inst, combat)
             inst.SoundEmitter:PlaySound("turnoftides/common/together/moon_glass/mine")
             local sparks = SpawnPrefab("sparks")
             sparks.Transform:SetPosition(inst:GetPosition():Get())
-            inst.skill_target = attacker
-            inst.sg:GoToState("counter_acttack", inst.skill_target)
-            inst.components.timer:StartTimer("counter_acttack", M_CONFIG.COUNTER_ATK_COOLDOWN)
+            inst.sg:GoToState("counter_attack", attacker)
+            inst.components.timer:StartTimer("counter_attack", M_CONFIG.COUNTER_ATK_COOLDOWN)
         else
-            return _GetAttacked(combat, attacker, damage, weapon, stimuli, spdamage)
+            return _GetAttacked(self, attacker, damage, weapon, stimuli, spdamage)
         end
     end
 
-    local _StartAttack = combat.StartAttack
-    function combat:StartAttack(...)
-        _StartAttack(combat, ...)
-        if self.inst:HasTag("kenjutsu") and combat.target ~= nil then
-            local target = combat.target
-            local weapon = combat:GetWeapon()
-
-            if weapon ~= nil and weapon.components.weapon ~= nil then
-                for _, v in pairs(M_SKILLS) do
-                    if inst:HasTag(v) then
-                        local fn = self.skills[v]
-                        fn(inst, target, weapon)
-                        break
-                    end
+    local _StartAttack = self.StartAttack
+    function self:StartAttack(...)
+        _StartAttack(self, ...)
+        if inst:HasTag("kenjutsu") and self.target ~= nil then
+            for _, v in pairs(M_SKILLS) do
+                if inst:HasTag(v) then
+                    local fn = inst.components.skillreleaser.skills[v]
+                    fn(inst)
+                    break
                 end
             end
         end
@@ -105,12 +100,11 @@ local fxs = {
 
 local function OnTimerDone(inst, data)
     local name = data.name
-	if name ~= nil then
+    if name ~= nil then
         for k, v in pairs(fxs) do
             if name == k then
                 CooldownSkillFx(inst, v)
                 break
-                return
             end
         end
 	end
@@ -119,8 +113,6 @@ end
 local SkillReleaser = Class(function(self, inst)
     self.inst = inst
 
-    self.canskill = nil
-    self.canuseskill = nil
     self.skills = {}
 
     self.inst:ListenForEvent("timerdone", OnTimerDone)
@@ -148,7 +140,7 @@ function SkillReleaser:AddSkill(skill_name, fn)
 end
 
 function SkillReleaser:OnPostInit()
-    DoCombatPostInit(self, self.inst, self.inst.components.combat)
+    DoCombatPostInit(self.inst)
 end
 
 function SkillReleaser:SkillRemove()
@@ -173,7 +165,6 @@ end
 function SkillReleaser:CanUseSkill(target, rpc)
     if rpc then
         local inst = self.inst
-        self.canuseskill = false
 
         local isdead = inst.components.health ~= nil and inst.components.health:IsDead() and (inst.sg:HasStateTag("dead") or inst:HasTag("playerghost"))
         local isasleep = inst.components.sleeper ~= nil and inst.components.sleeper:IsAsleep()
@@ -181,8 +172,8 @@ function SkillReleaser:CanUseSkill(target, rpc)
         local isriding = inst.components.rider ~= nil and inst.components.rider:IsRiding()
         local isheavylifting = inst.components.inventory ~= nil and inst.components.inventory:IsHeavyLifting()
         local weapon = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
-        local weapon_has_tags = weapon:HasOneOfTags({"projectile", "whip", "rangedweapon"})
-        local weapon_not_has_tags = not weapon:HasOneOfTags({"tool", "sharp", "weapon", "katanaskill"})
+        local weapon_has_tags = weapon ~= nil and weapon:HasOneOfTags({"projectile", "whip", "rangedweapon"})
+        local weapon_not_has_tags = weapon ~= nil and not weapon:HasOneOfTags({"tool", "sharp", "weapon", "katanaskill"})
 
         if inst.mafterskillndm ~= nil then
             inst.mafterskillndm:Cancel()
@@ -193,27 +184,18 @@ function SkillReleaser:CanUseSkill(target, rpc)
             return false
         end
 
-        self.canuseskill = true
         return true
     else
+        if target == nil then
+            return false
+        end
         local is_vaild_target = target:HasOneOfTags({"prey", "bird", "buzzard", "butterfly"})
         local canskill = (is_vaild_target and not target:HasTag("hostile") and true) or nil 
-        self.canskill = canskill
         return canskill
     end
 end
 
-function SkillReleaser:CancelSkill(inst)
-    inst.sg:GoToState("idle")
-    self:SkillRemove()
-end
-
-function SkillReleaser:OnSave(inst)
-
-end
-
-function SkillReleaser:OnLoad(inst, data)
-
-end
+-- function SkillReleaser:GetDebugString()
+-- end
 
 return SkillReleaser

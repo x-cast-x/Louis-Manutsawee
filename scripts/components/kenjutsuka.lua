@@ -11,9 +11,10 @@ local function OnAttackOther(inst, data)
     local target = data.target
     local weapon = data.weapon
     local kenjutsuka = inst.components.kenjutsuka
-    local kenjutsuexp = kenjutsuka.GetKenjutsuExp()
+    local kenjutsuexp = kenjutsuka:GetKenjutsuExp()
     local kenjutsumaxexp = kenjutsuka.kenjutsumaxexp
     local kenjutsulevel = kenjutsuka:GetKenjutsuLevel()
+    local mindpower = kenjutsuka:GetMindpower()
     local tx, ty, tz = target.Transform:GetWorldPosition()
     local cant_tags = not (target:HasOneOfTags({"prey", "bird", "insect", "wall"}) and not target:HasTag("hostile"))
 
@@ -49,8 +50,8 @@ local function OnAttackOther(inst, data)
                 inst.components.timer:StartTimer("heart_cd", .3) -- mind gain
                 hitcount = hitcount + 1
                 if hitcount >= M_CONFIG.MINDREGEN_COUNT and inst.components.kenjutsuka:GetKenjutsuLevel() >= 1 then
-                    if kenjutsuka:GetMindpower() < kenjutsuka.GetMaxMindpower() then
-                        kenjutsuka.onmindregenfn(inst, kenjutsuka)
+                    if mindpower < kenjutsuka:GetMaxMindpower() then
+                        kenjutsuka.onmindregenfn(inst, mindpower)
                     else
                         inst.components.sanity:DoDelta(1)
                     end
@@ -94,21 +95,12 @@ local function OnPlayerReroll(inst)
     end
 end
 
-local function OnPostInit(inst, self)
-	--custom start level
-	if self.is_master then
-        if self.kenjutsulevel < M_CONFIG.MASTER_VALUE then
-            self.kenjutsulevel = M_CONFIG.MASTER_VALUE
-            self.onupgradefn(inst, self.kenjutsulevel, self.kenjutsuexp)
-        end
+local function OnPostInit(inst)
+    local kenjutsuka = inst.components.kenjutsuka
+	if kenjutsuka.is_master then
+        kenjutsuka.kenjutsulevel = M_CONFIG.LEVEL_VALUE
+        kenjutsuka.onupgradefn(inst, kenjutsuka.kenjutsulevel, kenjutsuka.kenjutsuexp)
     end
-end
-
-local function OnRegenMindPower(inst, self)
-	if self.mindpower < self.max_mindpower / 2 then
-        self.onmindregenfn(inst, self)
-   end
-   self.regen = inst:DoTaskInTime(self.mindpower_regen_rate, OnRegenMindPower, self)
 end
 
 local Kenjutsuka = Class(function(self, inst)
@@ -128,14 +120,18 @@ local Kenjutsuka = Class(function(self, inst)
     self.inst:ListenForEvent("onattackother", OnAttackOther)
     self.inst:ListenForEvent("ms_playerreroll", OnPlayerReroll)
 
-    inst:DoTaskInTime(2, OnPostInit, self)
+    self.inst:DoTaskInTime(0, OnPostInit)
 end)
 
 function Kenjutsuka:OnRemoveFromEntity()
     self:StopRegenMindPower()
 
-    self.inst:RemoveEventCallback("onattackother", OnAttackOther)
-    self.inst:RemoveEventCallback("ms_playerreroll", OnPlayerReroll)
+    self.inst:RemoveEventCallback("onattackother", OnAttackOther, self.inst)
+    self.inst:RemoveEventCallback("ms_playerreroll", OnPlayerReroll, self.inst)
+end
+
+function Kenjutsuka:GetDebugString()
+    return string.format("Is Kenjutsu Master:%s, Exp:%d, Level:%d, Power:%d", tostring(self.is_master), self.kenjutsuexp, self.kenjutsulevel, self.mindpower)
 end
 
 function Kenjutsuka:SetKenjutsuExp(exp)
@@ -189,9 +185,20 @@ function Kenjutsuka:KenjutsuLevelUp()
     end
 end
 
+local function OnRegenMindPower(inst)
+    local kenjutsuka = inst.components.kenjutsuka
+    if kenjutsuka.mindpower < (kenjutsuka.max_mindpower / 2) then
+        kenjutsuka.mindpower = kenjutsuka.mindpower + 1
+        kenjutsuka.onmindregenfn(inst, kenjutsuka.mindpower)
+    end
+    kenjutsuka.regen = inst:DoTaskInTime(kenjutsuka.mindpower_regen_rate, OnRegenMindPower)
+end
+
 function Kenjutsuka:StartRegenMindPower()
+    self:StopRegenMindPower()
+
     if self.regen == nil then
-        self.regen = self.inst:DoTaskInTime(self.mindpower_regen_rate, OnRegenMindPower, self)
+        self.regen = self.inst:DoTaskInTime(self.mindpower_regen_rate, OnRegenMindPower)
     end
 end
 
@@ -211,12 +218,10 @@ function Kenjutsuka:OnSave()
 end
 
 function Kenjutsuka:OnLoad(data)
-    self.kenjutsulevel = data.kenjutsulevel
-	self.kenjutsuexp = data.kenjutsuexp
-    self.mindpower = data.mindpower
-
-    if self.onupgrade ~= nil then
-    	self.onupgradefn(self.inst, self.kenjutsulevel, self.kenjutsuexp)
+    if data ~= nil then
+        self.kenjutsulevel = data.kenjutsulevel
+        self.kenjutsuexp = data.kenjutsuexp
+        self.mindpower = data.mindpower
     end
 end
 

@@ -175,9 +175,9 @@ local states = {
     },
 ----------------------------------------------------------------------------------------------
 
---------------------------------------Iai-----------------------------------------------
+--------------------------------------iai-----------------------------------------------
     State{
-        name = "Iai",
+        name = "iai",
         tags = { "attack", "notalking", "abouttoattack" },
 
         onenter = function(inst)
@@ -208,7 +208,7 @@ local states = {
                 if cooldown > 0 then
                     cooldown = math.max(cooldown, 16 * FRAMES)
                 end
-            elseif equip ~= nil and equip:HasTag("Iai") then
+            elseif equip ~= nil and equip:HasTag("iai") then
                 inst.AnimState:PlayAnimation("spearjab_pre")
                 inst.AnimState:PushAnimation("lunge_pst", false)
                 inst.sg.statemem.iskatana = true
@@ -382,8 +382,8 @@ local function postinit_fn(sg)
         local isattack = not (inst.sg:HasStateTag("attack") and action.target == inst.sg.statemem.attacktarget or inst.replica.health:IsDead())
         if weapon and weapon:HasTag("mkatana") and isattack then
             return "mkatana"
-        elseif weapon and weapon:HasTag("Iai") and isattack then
-            return "Iai"
+        elseif weapon and weapon:HasTag("iai") and isattack then
+            return "iai"
         elseif weapon and weapon:HasTag("yari") and isattack then
             return "yari"
         end

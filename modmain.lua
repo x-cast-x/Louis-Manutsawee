@@ -16,6 +16,7 @@ local modules = {
     "commands",
     "characters",
     "prefabskin",
+    "loadingtips",
 }
 
 if IA_ENABLED then

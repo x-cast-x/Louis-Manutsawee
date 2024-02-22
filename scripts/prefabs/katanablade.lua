@@ -100,6 +100,8 @@ local function fn()
 	inst:AddTag("woodensword")
     inst:AddTag("katanaskill")
 
+	inst:AddTag("weapon")
+
     inst.entity:SetPristine()
 
     if not TheWorld.ismastersim then

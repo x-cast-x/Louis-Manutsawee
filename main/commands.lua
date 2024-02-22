@@ -22,7 +22,6 @@ end
 function c_setmindpower(num)
     local player = ConsoleCommandPlayer()
     if player ~= nil and player.prefab == "manutsawee" then
-        player.mindpower = num or 30
-        player.components.talker:Say("Mindpower: " .. player.mindpower)
+        player.components.kenjutsuka:SetMindpower(num or 30)
     end
 end

@@ -44,6 +44,8 @@ Assets = {
 
     Asset("IMAGE", "images/names_gold_manutsawee.tex"),
     Asset("ATLAS", "images/names_gold_manutsawee.xml"),
+    Asset("IMAGE", "images/names_gold_cn_manutsawee.tex"),
+    Asset("ATLAS", "images/names_gold_cn_manutsawee.xml"),
 }
 
 modimport("main/constants")

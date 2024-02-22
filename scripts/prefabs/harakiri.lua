@@ -14,8 +14,7 @@ local function OnUnequip(inst, owner)
     owner.AnimState:Show("ARM_normal")
 end
 
-local function CastFn(inst, target)
-    local owner = inst.components.inventoryitem.owner
+local function CastFn(inst, target, position, owner)
     local health = owner.components.health
     local inventory = owner.components.inventory
     local body = inventory:GetEquippedItem(EQUIPSLOTS.BODY)
@@ -57,6 +56,8 @@ local function fn()
 
     inst:AddTag("sharp")
     inst:AddTag("quickcast")
+
+    inst:AddTag("weapon")
 
     inst.spelltype = "SUICIDE"
 

@@ -125,7 +125,7 @@ function M_Util.OnAttackCommonFn(inst, owner, target)
         return
     end
 
-    if inst.wpstatus and inst:HasTag("Iai") then
+    if not inst.weaponstatus and inst:HasTag("iai") then
         inst.UnsheathMode(inst)
         if target.components.combat ~= nil then
             target.components.combat:GetAttacked(owner, inst.components.weapon.damage * .8)

@@ -19,11 +19,11 @@ local function Firstmode(inst)
         inst:RemoveTag("mkatana")
     end
 
-	if not inst:HasTag("Iai") then
-        inst:AddTag("Iai")
+	if not inst:HasTag("iai") then
+        inst:AddTag("iai")
     end
 
-    inst.wpstatus = true
+    inst.weaponstatus = true
 end
 
 local function Seccondmode(inst)
@@ -40,15 +40,15 @@ local function Seccondmode(inst)
         inst:RemoveTag("mkatana")
     end
 
-    if inst:HasTag("Iai") then
-        inst:RemoveTag("Iai")
+    if inst:HasTag("iai") then
+        inst:RemoveTag("iai")
     end
 
     if owner:HasTag("kenjutsu") and not inst:HasTag("mkatana") then
         inst:AddTag("mkatana")
     end
 
-    inst.wpstatus = false
+    inst.weaponstatus = false
 end
 
 local function onpocket(inst)
@@ -66,7 +66,7 @@ local function OnEquip(inst, owner)
 		inst.components.weapon:SetDamage(TUNING.YARI_DAMAGE+(owner.components.kenjutsuka:GetKenjutsuLevel()*2))
 	end
 
-	if inst.wpstatus then
+	if inst.weaponstatus then
         Firstmode(inst)
 	else
         Seccondmode(inst)
@@ -81,19 +81,19 @@ local function OnUnequip(inst, owner)
 end
 
 local function onSave(inst, data)
-    data.wpstatus = inst.wpstatus
+    data.weaponstatus = inst.weaponstatus
 end
 
 local function onLoad(inst, data)
     if data ~= nil then
-        inst.wpstatus = data.wpstatus or false
+        inst.weaponstatus = data.weaponstatus or false
     end
 end
 
 local function onattack(inst, owner, target)
 	if owner.components.rider:IsRiding() then return end
 
-	if not inst.wpstatus and inst:HasTag("Iai") then
+	if not inst.weaponstatus and inst:HasTag("iai") then
         Firstmode(inst)
 		if target.components.combat ~= nil then
             target.components.combat:GetAttacked(owner, inst.components.weapon.damage*.6)
@@ -114,7 +114,7 @@ local function onattack(inst, owner, target)
 end
 
 local function CastFn(inst, target)
-	if inst.wpstatus then
+	if inst.weaponstatus then
         Seccondmode(inst)
 	else
         Firstmode(inst)
@@ -190,7 +190,7 @@ local function fn()
 	inst.components.equippable:SetOnPocket(onpocket)
 
 	 -- status
-    inst.wpstatus = true
+    inst.weaponstatus = true
     inst.OnSave = onSave
     inst.OnLoad = onLoad
 

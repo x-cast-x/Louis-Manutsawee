@@ -10,7 +10,6 @@ return {
         KATANABODY = "so what?",
         HARAKIRI = "This knife look so good.",
         SHINAI = "Is this useful?",
-        MKATANA = "It's a sword.",
         MNAGINATA = "This spear look different.",
         YARI = "This spear look different.",
         KATANABLADE = "Is it can use without sword-handle?",
@@ -27,6 +26,6 @@ return {
         KUROKATANA = "It's beautiful.",
         SHUSUI = "It's beautiful.",
         MORTALBLADE = "To cut the immortality.",
-        TOKISHIN = "Don't be evil",
+        TOKIJIN = "Don't be evil",
     },
 }

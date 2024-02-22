@@ -2,14 +2,20 @@ local function en_zh(en, zh)
     return (locale == "zh" or locale == "zhr" or locale == "zht") and zh or en
 end
 
-name = "M .louis"
+name = "Louis Manutsawee"
+
+folder_name = folder_name or "workshop-"
+if not folder_name:find("workshop-") then
+    name = name .. " - Dev"
+end
+
 version = "2.2.9.3"
 description = en_zh(
-"[Don't edit art] \nBut you can fix bug or reupload more powerful version. \n Original author:#ffffff \n Version: " .. version,
-"此Mod与岛屿冒险和哈姆雷特兼容 \n我做了什么?:\n优化了Mod代码\n添加了一些新内容 \nVersion: " .. version)
+"Original author:#ffffff \nVersion: " .. version,
+"我做了什么?:\n优化了Mod代码\n添加了一些新内容 \nVersion: " .. version)
 author = en_zh("Sydney", "悉尼")
 
-forumthread = "https://steamcommunity.com/sharedfiles/filedetails/?id=2927695119"
+forumthread = ""
 
 api_version = 10
 priority = -1
@@ -422,7 +428,7 @@ configuration_options = {
         default = false,
     },
 	{
-        name = "set_master_value",
+        name = "set_level_value",
         label = en_zh("Kenjutsu Level", "设置初始剑术等级"),
         hover = en_zh("", "Set Kenjutsu Level.") ,
         options = {
