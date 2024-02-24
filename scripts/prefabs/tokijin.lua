@@ -23,6 +23,35 @@ local function OnPutInInventory(inst, owner)
     end
 end
 
+local function TryStartFx(inst, owner)
+	owner = owner
+			or inst.components.equippable:IsEquipped() and inst.components.inventoryitem.owner
+			or nil
+
+	if owner == nil then
+		return
+	end
+
+    if inst._vfx_fx_inst ~= nil and inst._vfx_fx_inst.entity:GetParent() ~= owner then
+        inst._vfx_fx_inst:Remove()
+        inst._vfx_fx_inst = nil
+    end
+
+    if inst._vfx_fx_inst == nil then
+        inst._vfx_fx_inst = SpawnPrefab("pocketwatch_weapon_fx")
+        inst._vfx_fx_inst.entity:AddFollower()
+        inst._vfx_fx_inst.entity:SetParent(owner.entity)
+        inst._vfx_fx_inst.Follower:FollowSymbol(owner.GUID, "swap_object", 15, 70, 0)
+    end
+end
+
+local function StopFx(inst)
+    if inst._vfx_fx_inst ~= nil then
+        inst._vfx_fx_inst:Remove()
+        inst._vfx_fx_inst = nil
+    end
+end
+
 local function OnEquip(inst, owner)
     owner.AnimState:Show("ARM_carry")
     owner.AnimState:Hide("ARM_normal")
@@ -46,10 +75,13 @@ local function OnEquip(inst, owner)
 
     inst.components.weapon:SetDamage(TUNING.TOKIJIN_DAMAGE + (owner.components.kenjutsuka:GetKenjutsuLevel() * 2))
 
-    if owner.SwitchControlled ~= nil and owner.components.kenjutsuka:GetKenjutsuLevel() < 10 then
-        inst.components.equippable.dapperness = TUNING.CRAZINESS_MED
-        owner.SwitchControlled(owner, true)
-    end
+    inst:DoTaskInTime(10, function()
+        if owner.SwitchControlled ~= nil and owner.components.kenjutsuka:GetKenjutsuLevel() < 10 then
+            inst.components.equippable.dapperness = TUNING.CRAZINESS_MED
+            owner.SwitchControlled(owner, true)
+            TryStartFx(inst, owner)
+        end
+    end)
 end
 
 local function OnUnequip(inst, owner)
@@ -70,9 +102,10 @@ local function OnUnequip(inst, owner)
         owner.AnimState:OverrideSymbol("swap_body_tall", "sc_tokijin", "tail")
     end
 
-    if owner.SwitchControlled ~= nil and owner.components.kenjutsuka:GetKenjutsuLevel() < 10 then
+    if owner.SwitchControlled ~= nil then
         inst.components.equippable.dapperness = 0
         owner.SwitchControlled(owner, false)
+        StopFx(inst)
     end
 end
 
@@ -80,6 +113,109 @@ local function OnPocket(inst, owner)
     if owner ~= nil and not owner:HasTag("notshowscabbard") and owner:HasTag("player") then
         owner.AnimState:OverrideSymbol("swap_body_tall", "sc_tokijin", "tail")
     end
+end
+
+local function GetStatus(inst, viewer)
+    if viewer:HasTag("controlled") and viewer.components.kenjutsuka:GetKenjutsuLevel() < 10 then
+        return "CONTROLLED"
+    end
+end
+
+local function OnHauntFn(inst, haunter)
+    if math.random() <= TUNING.HAUNT_CHANCE_ALWAYS then
+        Launch(inst, haunter, TUNING.LAUNCH_SPEED_SMALL)
+        inst.components.hauntable.hauntvalue = TUNING.HAUNT_TINY
+
+        if inst.components.inventoryitem ~= nil and inst.components.inventoryitem.is_landed then
+            inst.components.inventoryitem:SetLanded(false, true)
+        end
+
+        if inst.swirl == nil then
+            inst.swirl = SpawnPrefab("shadow_chester_swirl_fx")
+            inst.swirl.entity:SetParent(inst.entity)
+            inst.components.weapon:SetDamage(inst.components.weapon.damage*2)
+        end
+
+        return true
+    end
+    return false
+end
+
+local function OnPickupFn(inst, picker, src_pos)
+    if inst.swirl ~= nil then
+        inst.swirl.ReleaseSwirl(inst or picker)
+    end
+
+    if inst.m_shadowhand_fx ~= nil then
+        inst.m_shadowhand_fx:ListenForEvent("animover", inst.m_shadowhand_fx.Remove)
+    end
+end
+
+local function OnDropped(inst)
+    local fused_shadeling_spawn_fx = SpawnPrefab("fused_shadeling_spawn_fx")
+    fused_shadeling_spawn_fx.entity:AddFollower()
+    fused_shadeling_spawn_fx.Follower:FollowSymbol(inst.GUID)
+
+    local dreadstone_spawn_fx = SpawnPrefab("dreadstone_spawn_fx")
+    dreadstone_spawn_fx.entity:AddFollower()
+    dreadstone_spawn_fx.Follower:FollowSymbol(inst.GUID)
+
+    if inst.m_shadowhand_fx == nil then
+        inst.m_shadowhand_fx = SpawnPrefab("m_shadowhand_fx")
+        inst.m_shadowhand_fx.entity:SetParent(inst.entity)
+    end
+end
+
+-- m_shadowhand_fx
+-- willow_shadow_fire_explode
+local CANT_TAGS = {"FX", "NOCLICK", "INLIMBO"}
+local function SpawnFxTask(inst)
+    if not inst.components.inventoryitem:IsHeld() then
+        local fused_shadeling_spawn_fx = SpawnPrefab("fused_shadeling_spawn_fx")
+        fused_shadeling_spawn_fx.entity:AddFollower()
+        fused_shadeling_spawn_fx.Follower:FollowSymbol(inst.GUID)
+
+        local dreadstone_spawn_fx = SpawnPrefab("dreadstone_spawn_fx")
+        dreadstone_spawn_fx.entity:AddFollower()
+        dreadstone_spawn_fx.Follower:FollowSymbol(inst.GUID)
+
+        local x, y, z = inst.Transform:GetWorldPosition()
+        local ents = TheSim:FindEntities(x, y, z, 4, nil, CANT_TAGS)
+        for k, v in pairs(ents) do
+            if v:HasTag("smallcreature") then
+                local sanity_lower = SpawnPrefab("sanity_lower")
+                local x, y, z = v.Transform:GetWorldPosition()
+                sanity_lower.Transform:SetPosition(x,y,z)
+                if v.components.health ~= nil then
+                    v.components.health:Kill()
+                end
+            end
+        end
+
+        if inst.entity:IsAwake() then
+            inst.spawn_fx_task = inst:DoTaskInTime(4+math.random()*10, SpawnFxTask)
+        end
+    end
+end
+
+local function OnEntityWake(inst)
+    if inst.spawn_fx_task == nil then
+        inst.spawn_fx_task = inst:DoTaskInTime(4+math.random()*10, SpawnFxTask)
+    end
+end
+
+local function OnRemoveEntity(inst)
+    if inst.spawn_fx_task ~= nil then
+        inst.spawn_fx_task:Cancel()
+        inst.spawn_fx_task = nil
+    end
+    if inst.swirl ~= nil then
+        inst.swirl.ReleaseSwirl(inst)
+    end
+    if inst.m_shadowhand_fx ~= nil then
+        inst.m_shadowhand_fx.Release(inst)
+    end
+    StopFx(inst)
 end
 
 local function fn()
@@ -114,9 +250,14 @@ local function fn()
     end
 
     inst:AddComponent("inspectable")
+    inst.components.inspectable.getstatus = GetStatus
 
     inst:AddComponent("waterproofer")
     inst.components.waterproofer:SetEffectiveness(0)
+
+    inst:AddComponent("hauntable")
+    inst.components.hauntable.cooldown = TUNING.HAUNT_COOLDOWN_SMALL
+    inst.components.hauntable:SetOnHauntFn(OnHauntFn)
 
     inst:AddComponent("weapon")
     inst.components.weapon:SetDamage(TUNING.TOKIJIN_DAMAGE)
@@ -126,6 +267,8 @@ local function fn()
     inst:AddComponent("inventoryitem")
     inst.components.inventoryitem.canonlygoinpocket = true
     inst.components.inventoryitem:SetOnPutInInventoryFn(OnPutInInventory)
+    inst.components.inventoryitem:SetOnDroppedFn(OnDropped)
+    inst.components.inventoryitem:SetOnPickupFn(OnPickupFn)
 
     -- inst:AddComponent("finiteuses")
     -- inst.components.finiteuses:SetMaxUses(TUNING.KATANA.USES)
@@ -138,7 +281,8 @@ local function fn()
     inst.components.equippable:SetOnPocket(OnPocket)
     inst.components.equippable.is_magic_dapperness = true
 
-    MakeHauntableLaunch(inst)
+    inst.OnEntityWake = OnEntityWake
+    inst.OnRemoveEntity = OnRemoveEntity
 
     return inst
 end

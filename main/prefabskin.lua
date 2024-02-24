@@ -14,5 +14,6 @@ GlassicAPI.SkinHandler.AddModSkins({
         "manutsawee_qipao",
         "manutsawee_sailor",
         "manutsawee_taohuu",
+        "manutsawee_uniform_black",
     }
 })

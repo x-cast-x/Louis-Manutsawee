@@ -116,6 +116,14 @@ function get_string(target, key, over_key)
     return new
 end
 
+local function escape(str)
+    return (str:gsub('\\', '\\\\')
+            :gsub('"', '\\"')
+            :gsub('\n', '\\n')
+            :gsub('\r', '\\r'))
+end
+
+
 function table_to_string(t, indent)
     if not t or not next(t) then
         return "{},"
@@ -135,7 +143,7 @@ function table_to_string(t, indent)
         else
             local value = ""
             if type(v) == "string" then
-                value = "\"" .. v .. "\""
+                value = type(v) == "string" and ("\"" .. escape(v) .. "\"") or tostring(v)
             end
 
             if type(k) == "number" then
@@ -237,9 +245,10 @@ function translate_table(t, translate_fn)
     return t
 end
 
-function write_lua_table(path, t)
-    local file = io.open(path, "w+")
-    file:write("return " .. table_to_string(t))
-    file:write("\n")
+
+function write_lua_table(filepath, tbl)
+    local file = io.open(filepath, "w")
+    file:write("return {\n" .. table_to_string(tbl))
+    file:write("}\n")
     file:close()
 end

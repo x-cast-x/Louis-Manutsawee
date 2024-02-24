@@ -1,5 +1,3 @@
-local STRINGS = GLOBAL.STRINGS
-
 return {
     -- DREADEYE_SPOOKED = "",
     -- ANNOUNCE_HARDCORE_RES = "",

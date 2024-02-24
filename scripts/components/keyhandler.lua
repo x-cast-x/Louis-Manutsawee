@@ -13,7 +13,7 @@ local function OnRawKey(self, key, down)
       		player:PushEvent("keyup", {inst = self.inst, player = player, key = key})
 		elseif key and down and not self.paused and not self.ignore_ then
       		player:PushEvent("keydown", {inst = self.inst, player = player, key = key})
-		end	
+		end
   	end
 end
 
@@ -67,11 +67,11 @@ function KeyHandler:AddActionListener(namespace, key, action, event)
 
 	if TheWorld.ismastersim then
 		self.inst:ListenForEvent("keyaction".. namespace .. action, function(inst, data)
-				if not data.action == action and not data.namespace == namespace then
-					return
-				end
-				data.fn(inst)
-		end, self.inst)
+            if not data.action == action and not data.namespace == namespace then
+                return
+            end
+            data.fn(inst)
+		end)
 	end
 end
 

@@ -35,6 +35,13 @@ local M_Idle_Anim = {
         end,
         anim = "idle_wanda"
     },
+    ["manutsawee_uniform_black"] = {
+        fn = function(self)
+            self.override_build = "player_idles_wanda"
+            self.animstate:AddOverrideBuild(self.override_build)
+        end,
+        anim = "idle_wanda"
+    },
 }
 
 local _DoIdleEmote = SkinsPuppet.DoIdleEmote

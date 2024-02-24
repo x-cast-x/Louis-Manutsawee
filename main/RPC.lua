@@ -105,7 +105,7 @@ local function Skill2Fn(inst)
         return
     end
 
-    if inst.components.kenjutsuka:GetKenjutsuLevel() < nskill2 then 
+    if inst.components.kenjutsuka:GetKenjutsuLevel() < nskill2 then
         inst.components.talker:Say("[UNLOCK] 󰀍: "..nskill2, 1, true)
         return
     end
@@ -115,7 +115,7 @@ local function Skill2Fn(inst)
 	if inst.components.kenjutsuka:GetMindpower() >= 4 then
         local weapon = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
         if inst:HasTag("flip") or inst:HasTag("ryusen") or inst:HasTag("susanoo") then
-            SkillRemove(inst) 
+            SkillRemove(inst)
             inst.components.talker:Say("Later...", 1, true)
             return
         elseif inst:HasTag("ichimonji") and weapon ~= nil and weapon:HasTag("katanaskill") then
@@ -175,7 +175,7 @@ local function Skill2Fn(inst)
     end
 end
 
-local function Skill3Fn(inst) ----------  T
+local function Skill3Fn(inst)
     if inst.components.timer:TimerExists("skill3_key_cd") then
         return
     end
@@ -220,7 +220,7 @@ local function Skill3Fn(inst) ----------  T
             end
 		elseif not inst:HasTag("thrust") then
             if inst.components.timer:TimerExists("thrust") then
-                inst.components.talker:Say("Cooldown", 1, true) 
+                inst.components.talker:Say("Cooldown", 1, true)
                 SkillRemove(inst)
                 return
             end
@@ -311,7 +311,11 @@ local function GlassesFn(inst, skinname)
                     inst.glasses_status = true
                     inst.PutGlasses(inst, skinname)
                 else
-                    inst.AnimState:ClearOverrideSymbol("face")
+                    if inst.AnimState:GetSymbolOverride("swap_face") ~= nil then
+                        inst.AnimState:ClearOverrideSymbol("swap_face")
+                    else
+                        inst.AnimState:ClearOverrideSymbol("face")
+                    end
                     inst.glasses_status = false
                 end
 			end)
@@ -320,18 +324,19 @@ local function GlassesFn(inst, skinname)
 end
 
 local function HairsFn(inst, skinname)
-    if inst.components.health ~= nil and inst.components.health:IsDead() and inst.sg:HasStateTag("dead") or inst:HasTag("playerghost") then
+    local isdead = inst.components.health ~= nil and inst.components.health:IsDead() and inst.sg:HasStateTag("dead") or inst:HasTag("playerghost")
+    if isdead then
         return
     end
 
     if not (inst.sg:HasStateTag("doing") or inst.components.inventory:IsHeavyLifting()) then
-        if inst.hair_bit == 1 then 
+        if inst.hair_bit == 1 then
             inst.components.talker:Say("My hair isn't long enough for this.")
             return
         end
 
         if (inst.sg:HasStateTag("idle") or inst:HasTag("idle")) and not (inst.sg:HasStateTag("moving") or inst:HasTag("moving")) and not inst.components.timer:TimerExists("change_hair_cd") then
-            inst.components.timer:StartTimer("change_hair_cd",1.4)
+            inst.components.timer:StartTimer("change_hair_cd", 1.4)
 
             inst:DoTaskInTime(.1, function()
                 inst:PushEvent("changehair")

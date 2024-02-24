@@ -5,36 +5,7 @@ require("fns")
 
 characters = {
     "generic",  -- wilson
-    "willow",
-    "wolfgang",
-    "wendy",
-    "wx78",
-    "wickerbottom",
-    "woodie",
-    -- "wes",
-    "waxwell",
-    "wathgrithr",
-    "webber",
-    "wormwood",
-    "warly",
-
-    -- sw character
-    "walani",
-    -- "wilbur",  -- monkey,no speech
-    "woodlegs",
-
-    -- hamlet character
-    "wheeler",
-    "wilba",
-    "wagstaff",
-    -- "warbucks"  -- discard
-
-    -- dst_new_character
-    "winona",
-    "wortox",
-    "wurt",
-    "walter",
-    "wanda",
+    "manutsawee",
 }
 
 local languages = {
@@ -54,8 +25,6 @@ local languages = {
 local geted_strings = {}
 local overed_indexs = {}
 local invert_overed_indexs = {}
-local data_strings = load_ds_string(output_path)  -- this mod old string
-merge_table(geted_strings, data_strings)
 
 local translates = {}
 for l, file_name in pairs(languages) do
@@ -68,9 +37,9 @@ for _, _data in ipairs(data) do
     local po_path = _data[2]
     local override = _data[3]
 
-    if type(_data[1])== "string" then  -- load lua table
-        data_strings = load_ds_string(_data[1])
-    end
+    -- if type(_data[1])== "string" then  -- load lua table
+    --     data_strings = load_ds_string(_data[1])
+    -- end
 
     if languages[po_path] then  -- if input other language, translat to en
         local _data_strings = deepcopy(data_strings)
@@ -100,7 +69,6 @@ for _, _data in ipairs(data) do
     end
 end
 
-geted_strings.CHARACTERS.WARBUCKS = nil
 local string_indexs = table_index_to_str(geted_strings, "STRINGS")
 for _, _data in ipairs(data) do
     local po_path = _data[2]
@@ -112,6 +80,13 @@ for _, _data in ipairs(data) do
             merge_table(translates[l], load_pofile(po_path .. file_name .. ".po", overed_indexs), override)  -- get translate
         end
     end
+end
+
+local function escape(str)
+    return (str:gsub('\\', '\\\\')
+             :gsub('"', '\\"')
+             :gsub('\n', '\\n')
+             :gsub('\r', '\\r'))
 end
 
 languages["en"] = "strings"
@@ -152,11 +127,11 @@ for l, file_name in pairs(languages) do
 
         package = package .. "#. " .. index_str  .. "\n"
         package = package .. msgctxt .. "\n"
-        package = package .. "msgid " .. "\"" .. msgid .. "\"".. "\n"
+        package = package .. "msgid " .. "\"" .. escape(msgid) .. "\"".. "\n"
         package = package .. (l == "en" and "msgstr \"\"" or translates[l][msgctxt] or translates[l][invert_overed_indexs[msgctxt]]) .. "\n\n"
     end
 
-    local po_file_name = l == "en" and "strings.pot" or (file_prefix .. file_name .. ".po")
+    local po_file_name = l == "en" and ("strings.pot") or (file_name .. ".po")
     local pl_file = io.open(output_potpath .. po_file_name, "w+")
     pl_file:write(package)
     pl_file:close()

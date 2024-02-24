@@ -33,6 +33,8 @@ Assets = {
     Asset("ATLAS", "bigportraits/manutsawee_sailor.xml"),
     Asset("IMAGE", "bigportraits/manutsawee_taohuu.tex"),
     Asset("ATLAS", "bigportraits/manutsawee_taohuu.xml"),
+    Asset("IMAGE", "bigportraits/manutsawee_uniform_black.tex"),
+    Asset("ATLAS", "bigportraits/manutsawee_uniform_black.xml"),
 
     -- inventoryimages
     Asset("IMAGE", "images/inventoryimages/m_inventoryimages.tex"),
@@ -48,6 +50,7 @@ Assets = {
     Asset("ATLAS", "images/names_gold_cn_manutsawee.xml"),
 }
 
+modimport("main/glassicapi")
 modimport("main/constants")
 modimport("main/config")
 modimport("main/mutil")

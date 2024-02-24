@@ -195,8 +195,6 @@ local function OnRegenMindPower(inst)
 end
 
 function Kenjutsuka:StartRegenMindPower()
-    self:StopRegenMindPower()
-
     if self.regen == nil then
         self.regen = self.inst:DoTaskInTime(self.mindpower_regen_rate, OnRegenMindPower)
     end

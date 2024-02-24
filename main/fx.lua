@@ -1,4 +1,11 @@
-table.insert(PrefabFiles, "mforcefield")
+local fx = {
+    "m_shadowhand_fx",
+    "mforcefield",
+}
+
+for _, v in pairs(fx) do
+    table.insert(PrefabFiles, v)
+end
 
 local Assets = Assets
 GLOBAL.setfenv(1, GLOBAL)

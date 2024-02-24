@@ -82,6 +82,8 @@ Assets = {
     Asset("ATLAS", "bigportraits/manutsawee_sailor.xml"),
     Asset("IMAGE", "bigportraits/manutsawee_taohuu.tex"),
     Asset("ATLAS", "bigportraits/manutsawee_taohuu.xml"),
+    Asset("IMAGE", "bigportraits/manutsawee_uniform_black.tex"),
+    Asset("ATLAS", "bigportraits/manutsawee_uniform_black.xml"),
 }
 
 M_Util.RegisterImageAtlas("images/inventoryimages/m_inventoryimages.xml")

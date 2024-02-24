@@ -43,4 +43,5 @@ M_SKIN_NAMES = {
     "jinbei",
     "shinsengumi",
     "taohuu",
+    "uniform_black",
 }

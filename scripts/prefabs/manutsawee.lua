@@ -34,6 +34,7 @@ local assets = {
 	Asset("ANIM", "anim/hair_long_ball.zip"),
 
 	Asset("ANIM", "anim/eyeglasses.zip"),
+	Asset("ANIM", "anim/sunglasses.zip"),
 
     Asset("ANIM", "anim/face_controlled.zip")
 }
@@ -97,9 +98,10 @@ end
 
 local function PutGlasses(inst, skinname)
     if skinname == nil then
-        inst.AnimState:OverrideSymbol("face", "eyeglasses", "face")
+        skinname = "sunglasses"
+        inst.AnimState:OverrideSymbol("swap_face", skinname, "swap_face")
     else
-        inst.AnimState:OverrideSkinSymbol("face", skinname, "face" )
+        inst.AnimState:OverrideSymbol("face", "eyeglasses", "face")
     end
 end
 
@@ -401,6 +403,7 @@ local Idle_Anim = {
     ["manutsawee_sailor"] = "idle_walter",
     ["manutsawee_jinbei"] = "idle_wortox",
     ["manutsawee_maid"] = "idle_wanda",
+    ["manutsawee_uniform_black"] = "idle_wanda",
     ["manutsawee_taohuu"] = "idle_winona",
     ["manutsawee_miko"] = "emote_impatient",
 }
@@ -474,7 +477,7 @@ local function DoPostInit(inst)
     for k, v in pairs(Skill_Data) do
         local name = string.lower(k)
         local fn = function()
-            M_Util.Skill_CommonFn(inst, v.tag, name, v.time, v.mindpower, v.fn)            
+            M_Util.Skill_CommonFn(inst, v.tag, name, v.time, v.mindpower, v.fn)
         end
         inst.components.skillreleaser:AddSkill(name, fn)
     end
