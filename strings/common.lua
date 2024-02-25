@@ -1,5 +1,4 @@
 return {
-{
     ACTIONS = {
         CASTSPELL = {
             INSERT = "Insert",
@@ -62,7 +61,6 @@ return {
         KATANABLADE = "Katana Blade",
         KATANABODY = "Katana shape",
         KOSHIRAE = "Sakakura",
-        KUROKATANA = "Kurokatana",
         MAID_HB = "Louis's headwear",
         MANUTSAWEE = "Manutsawee",
         MFRUIT = "Louis's memory fruit",
@@ -77,6 +75,7 @@ return {
         SHINAI = "Shinai",
         SHIRASAYA = "Yasha",
         SHUSUI = "Shusui",
+        TENSEIGA = "Tenseiga",
         TOKIJIN = "Tokijin",
         TRUE_HITOKIRI = "Nihiru The Bloodseeker",
         TRUE_KOSHIRAE = "Sakakura The Giant Slayers",
@@ -89,7 +88,6 @@ return {
         HITOKIRI = "The Bloodseeker",
         KATANABLADE = "Sharp katana blade",
         KOSHIRAE = "The Giant Slayers",
-        KUROKATANA = "Japanese Sword.",
         MAID_HB = "Louis's headwear set.",
         MINGOT = "Bring it to fire",
         MMIKO_ARMOR = "Miko robe for miko skin",
@@ -135,10 +133,10 @@ return {
         manutsawee_sailor = "Japan's school uniform",
         manutsawee_shinsengumi = "Laws of the Shinsengumi\nOne must not infringe the samurai code\nOne is not authorized to escape from office\nOne is not allowed to arbitrarily raise money\nOne must not arbitrarily handle litigations\nOne is not authorized to engage in personal conflicts\n",
         manutsawee_taohuu = "Taohuu",
+        manutsawee_uniform_black = "I'm Agent L.",
         manutsawee_yukata = "Japan's outfit mini version.",
         manutsawee_yukatalong = "Japan's outfit.",
         manutsawee_yukatalong_purple = "Japan's outfit purple version.",
-        manutsawee_uniform_black = "We are the Man in black",
     },
     SKIN_NAMES = {
         manutsawee_fuka = "Cosplay",
@@ -150,10 +148,10 @@ return {
         manutsawee_sailor = "Sailor Uniform",
         manutsawee_shinsengumi = "Shinsengumi",
         manutsawee_taohuu = "Taohuu",
+        manutsawee_uniform_black = "MIB",
         manutsawee_yukata = "Kimono(M) ",
         manutsawee_yukatalong = "Kimono",
         manutsawee_yukatalong_purple = "Kimono(P)",
-        manutsawee_uniform_black = "MIB",
     },
     SKIN_QUOTES = {
         manutsawee_fuka = "\"I'm a kung-fu master now.\"",
@@ -165,9 +163,9 @@ return {
         manutsawee_sailor = "\"So so so... nothing just say so..\"",
         manutsawee_shinsengumi = "\"One must not infringe the samurai code!\"",
         manutsawee_taohuu = "\"I'm cute, please give me money.\"",
+        manutsawee_uniform_black = "\"It's because the light from Venus is reflected on...the swamp gas...so...\"",
         manutsawee_yukata = "\"Shine omae! haha.'\"",
         manutsawee_yukatalong = "\"Kon ni chi wa ..?'\"",
         manutsawee_yukatalong_purple = "\"こんにちは？'\"",
-        manutsawee_uniform_black = "\"\""
     },
-}}
+}

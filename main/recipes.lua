@@ -68,19 +68,12 @@ local recipes_data = {
         sort = {after = "yari"}
     },
 
-    -- kurokatana = {
-    --     ingredients = {Ingredient("katanablade", 1), Ingredient("cane", 1), Ingredient("goldnugget", 2)},
-    --     tech = TECH.SCIENCE_TWO,
-    --     config = {builder_tag = "manutsaweecraft"},
-    --     filters = {"CHARACTER", "WEAPONS"},
-    --     sort = {after = "mnaginata"}
-    -- },
     katanablade = {
         ingredients = {Ingredient("rope", 1), Ingredient("katanabody", 1), Ingredient("cutstone", 1)},
         tech = TECH.SCIENCE_TWO,
         config = {builder_tag = "manutsaweecraft"},
         filters = {"CHARACTER", "WEAPONS"},
-        sort = {before = "kurokatana"}
+        -- sort = {before = "kurokatana"}
     },
 
 

@@ -38,11 +38,11 @@ local function CastFn(inst, target, position, doer)
 	SwitchMode(inst, doer)
 end
 
-local function onSave(inst, data)
+local function OnSave(inst, data)
     data.mitemstatus = inst.mitemstatus
 end
 
-local function onLoad(inst, data)
+local function OnLoad(inst, data)
     if data ~= nil then
         inst.mitemstatus = data.mitemstatus or 1
     end
@@ -104,8 +104,8 @@ local function fn()
 	inst.components.equippable.dapperness = TUNING.DAPPERNESS_MED
 
 	inst.mitemstatus = 1
-	inst.OnSave = onSave
-    inst.OnLoad = onLoad
+	inst.OnSave = OnSave
+    inst.OnLoad = OnLoad
     inst.SwitchMode = SwitchMode
 
 	MakeHauntableLaunch(inst)

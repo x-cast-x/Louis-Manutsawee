@@ -74,7 +74,7 @@ local skill_data = {
                     if weapon ~= nil then
                         inst.sg:GoToState("thrust", target)
                         M_Util.GroundPoundFx(inst, .6)
-        
+
                         inst:DoTaskInTime(.7, function()
                             inst:PushEvent("heavenlystrike")
                             if weapon.components.spellcaster ~= nil then
@@ -83,7 +83,7 @@ local skill_data = {
                                 fx.Transform:SetPosition(inst:GetPosition():Get())
                             end
                         end)
-        
+
                         inst:DoTaskInTime(.9, function()
                             M_Util.SlashFx(inst, inst, "shadowstrike_slash_fx", 3)
                             M_Util.AoeAttack(inst, 1,6.5)
@@ -116,60 +116,60 @@ local skill_data = {
                 M_Util.SlashFx(inst, target, "shadowstrike_slash_fx", 3)
                 inst.inspskill = true
                 inst.sg:GoToState("monemind", target)
-        
+
                 inst:DoTaskInTime(.6, function()
                     M_Util.GroundPoundFx(inst, .8)
                     M_Util.SlashFx(inst, target, "wanda_attack_shadowweapon_old_fx", 4)
                     M_Util.AoeAttack(inst, 1, 6.5)
                 end)
-        
+
                 inst:DoTaskInTime(.7, function()
                     M_Util.SlashFx(inst, inst, "wanda_attack_shadowweapon_normal_fx", 3)
                 end)
-        
+
                 inst:DoTaskInTime(.8, function()
                     M_Util.GroundPoundFx(inst, .8)
                     M_Util.SlashFx(inst, target, "wanda_attack_shadowweapon_old_fx", 3.5)
                     M_Util.AoeAttack(inst, 1, 6.5)
                 end)
-        
+
                 inst:DoTaskInTime(1, function()
                     M_Util.GroundPoundFx(inst, .6)
                     M_Util.SlashFx(inst, inst, "wanda_attack_shadowweapon_normal_fx", 4)
                 end)
-        
+
                 inst:DoTaskInTime(1.1, function()
                     M_Util.GroundPoundFx(inst, .8)
                     M_Util.SlashFx(inst, inst, "wanda_attack_shadowweapon_old_fx", 4)
                     M_Util.AoeAttack(inst, 1, 6.5)
                 end)
-        
+
                 inst:DoTaskInTime(1.2, function()
                     M_Util.SlashFx(inst, inst, "wanda_attack_shadowweapon_normal_fx", 3)
                     M_Util.AoeAttack(inst, 1, 6.5)
                 end)
-        
+
                 inst:DoTaskInTime(1.4, function()
                     M_Util.GroundPoundFx(inst, .8)
                     M_Util.SlashFx(inst, inst, "wanda_attack_shadowweapon_old_fx", 3.5)
                     M_Util.AoeAttack(inst, 1, 6.5)
                 end)
-        
+
                 inst:DoTaskInTime(1.5, function()
                     M_Util.GroundPoundFx(inst, .6)
                     M_Util.SlashFx(inst, inst, "wanda_attack_shadowweapon_normal_fx", 4)
                 end)
-        
+
                 inst:DoTaskInTime(1.6, function()
                     M_Util.GroundPoundFx(inst, .8)
                     M_Util.SlashFx(inst, inst, "wanda_attack_shadowweapon_old_fx", 4)
                 end)
-        
+
                 inst:DoTaskInTime(1.8, function()
                     M_Util.SlashFx(inst, inst, "wanda_attack_shadowweapon_normal_fx", 3)
                     M_Util.AoeAttack(inst, 1, 6.5)
                 end)
-        
+
                 inst:DoTaskInTime(1.9, function()
                     M_Util.GroundPoundFx(inst, .8)
                     M_Util.SlashFx(inst, inst, "wanda_attack_shadowweapon_old_fx", 3.5)
@@ -183,7 +183,7 @@ local skill_data = {
                         fx.Transform:SetPosition(inst:GetPosition():Get())
                     end
                 end)
-        
+
                 inst:DoTaskInTime(2.1, function()
                     M_Util.GroundPoundFx(inst, .6)
                     M_Util.AoeAttack(inst, 1, 4)
@@ -206,26 +206,26 @@ local skill_data = {
 
             inst:DoTaskInTime(.3, function()
                 inst:PushEvent("heavenlystrike")
-        
+
                 M_Util.AddFollowerFx(inst, "mossling_spin_fx")
                 M_Util.AddFollowerFx(inst, "electricchargedfx")
-        
+
                 M_Util.GroundPoundFx(inst, .8)
                 M_Util.SlashFx(inst, inst, "shadowstrike_slash_fx", 3)
                 M_Util.AoeAttack(inst, 1, 6.5)
-        
+
                 inst:DoTaskInTime(.2, function()
                     M_Util.AoeAttack(inst, 2.5, 6.5)
                     M_Util.SlashFx(inst, inst, "shadowstrike_slash2_fx", 3)
                     M_Util.GroundPoundFx(inst, .8)
                 end)
-        
+
                 inst:DoTaskInTime(.3, function()
                     M_Util.AoeAttack(inst, 4, 6.5)
                     M_Util.SlashFx(inst, inst, "shadowstrike_slash_fx", 3)
                     M_Util.GroundPoundFx(inst, .8)
                 end)
-            end) 
+            end)
         end
     },
     Ryusen = {
@@ -246,7 +246,7 @@ local skill_data = {
                 inst:DoTaskInTime(.4, function()
                     M_Util.SlashFx(inst, target, "wanda_attack_shadowweapon_normal_fx", 2)
                 end)
-        
+
                 inst:DoTaskInTime(.6, function()
                     M_Util.SlashFx(inst, target, "wanda_attack_shadowweapon_old_fx", 2.5)
                 end)
@@ -368,13 +368,12 @@ local skill_data = {
         end
     },
 
-    -- 苍龙破
     -- Soryuha = {
     --     tag = "soryuha",
     --     time = M_CONFIG.SKILL3_COOLDOWN,
     --     mindpower = 20,
     --     fn = function(inst, target, weapon)
-            
+
     --     end
     -- }
 }

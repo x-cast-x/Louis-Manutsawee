@@ -1,6 +1,6 @@
 local function CanCastSkill(inst)
 	local screen = TheFrontEnd:GetActiveScreen().name
-	if screen == "HUD" and ((not inst:HasTag("time_stopped")) and (not inst:HasTag("sleeping"))) and inst.components.playercontroller:IsEnabled() then
+	if screen == "HUD" and ((not inst:HasTag("time_stopped")) and (not inst:HasTag("sleeping"))) then
 		return true
 	end
 	return false
@@ -39,7 +39,7 @@ function KeyHandler:AddActionListener(namespace, key, action, event)
 		self.inst:ListenForEvent("keyup", function(inst, data)
 			if data.inst == self.inst then
 				if data.key == key then
-                    if CanCastSkill(inst) then
+                    if CanCastSkill(self.inst) then
                         if TheWorld.ismastersim then
                             self.inst:PushEvent("keyaction"..namespace..action, { namespace = namespace, action = action, fn = MOD_RPC_HANDLERS[namespace][MOD_RPC[namespace][action].id]})
                         else
@@ -53,7 +53,7 @@ function KeyHandler:AddActionListener(namespace, key, action, event)
 		self.inst:ListenForEvent(string.lower(event), function(inst, data)
 			if data.inst == self.inst then
 				if data.key == key then
-                    if CanCastSkill(inst) then
+                    if CanCastSkill(self.inst) then
                         if TheWorld.ismastersim then
                             self.inst:PushEvent("keyaction".. namespace .. action, { namespace = namespace, action = action, fn = MOD_RPC_HANDLERS[namespace][MOD_RPC[namespace][action].id]})
                         else

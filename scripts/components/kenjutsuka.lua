@@ -98,7 +98,6 @@ end
 local function OnPostInit(inst)
     local kenjutsuka = inst.components.kenjutsuka
 	if kenjutsuka.is_master then
-        kenjutsuka.kenjutsulevel = M_CONFIG.LEVEL_VALUE
         kenjutsuka.onupgradefn(inst, kenjutsuka.kenjutsulevel, kenjutsuka.kenjutsuexp)
     end
 end
@@ -107,7 +106,7 @@ local Kenjutsuka = Class(function(self, inst)
     self.inst = inst
 
     self.is_master = M_CONFIG.IS_MASTER
-	self.kenjutsulevel = 0
+	self.kenjutsulevel = (self.is_master and M_CONFIG.LEVEL_VALUE) or 0
 	self.kenjutsuexp = 0
 	self.kenjutsumaxexp = 250
 
@@ -185,18 +184,17 @@ function Kenjutsuka:KenjutsuLevelUp()
     end
 end
 
-local function OnRegenMindPower(inst)
-    local kenjutsuka = inst.components.kenjutsuka
-    if kenjutsuka.mindpower < (kenjutsuka.max_mindpower / 2) then
-        kenjutsuka.mindpower = kenjutsuka.mindpower + 1
-        kenjutsuka.onmindregenfn(inst, kenjutsuka.mindpower)
+local function OnRegenMindPower(inst, self)
+    if self.mindpower < (self.max_mindpower / 2) then
+        self.mindpower = self.mindpower + 1
+        self.onmindregenfn(inst, self.mindpower)
     end
-    kenjutsuka.regen = inst:DoTaskInTime(kenjutsuka.mindpower_regen_rate, OnRegenMindPower)
+    self:StartRegenMindPower()
 end
 
 function Kenjutsuka:StartRegenMindPower()
     if self.regen == nil then
-        self.regen = self.inst:DoTaskInTime(self.mindpower_regen_rate, OnRegenMindPower)
+        self.regen = self.inst:DoTaskInTime(self.mindpower_regen_rate, OnRegenMindPower, self)
     end
 end
 

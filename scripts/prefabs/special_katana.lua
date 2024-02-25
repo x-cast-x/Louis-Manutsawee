@@ -96,17 +96,6 @@ local mortalblade_common_postinit = function(inst)
     inst:AddTag("mortalblade")
 end
 
-local function OnIsNightmareWild(inst, isnightmarewild)
-    local owner = inst.components.equippable:IsEquipped() and inst.components.inventoryitem.owner or nil
-
-    if owner ~= nil and isnightmarewild and inst.components.areaaware:CurrentlyInTag("Nightmare") then
-        inst.components.talker:Say(GetString(owner, "ANNOUNCE_ISNIGHTMAREWILD"))
-        owner.AnimState:OverrideSymbol()
-    else
-
-    end
-end
-
 local function OnRemove(inst)
     local katanaspawner = TheWorld.components.katanaspawner
     if katanaspawner ~= nil and katanaspawner:GetHasKatana(inst.prefab) then
@@ -118,9 +107,6 @@ local mortalblade_master_postinit = function(inst)
     inst.components.weapon:SetDamage(TUNING.KATANA.TRUE_DAMAGE)
     inst.first_time_unsheathed = true
 
-    inst:WatchWorldState("isnightmarewild", OnIsNightmareWild)
-    OnIsNightmareWild(inst, TheWorld.state.isnightmarewild)
-
     inst:ListenForEvent("onremove", OnRemove)
 
     inst.TryStartFx = TryStartFx
@@ -131,18 +117,17 @@ local tenseiga_onattack = function(inst, owner, target)
     local health = target.components.health
     if health ~= nil then
         if target:HasTag("abigail") then
-            owner.components.talker:Say(STRINGS.CHARACTERS.MANUTSAWEE.ABIGAIL.RESURRECTION)
+            owner.components.talker:Say(STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.ABIGAIL.RESURRECTION)
         elseif target:HasTag("ghost") then
-            health:Kill()
             local fx = SpawnPrefab("fx_book_light_upgraded")
             fx.Transform:SetScale(.9, 2.5, 1)
             fx.entity:AddFollower()
-            fx.Follower:FollowSymbol(inst.GUID, "ghost_build", 0, 0, 0)
-            owner.components.talker:Say(STRINGS.CHARACTERS.MANUTSAWEE.ABIGAIL.RESURRECTION)
+            fx.Follower:FollowSymbol(target.GUID)
+            owner.components.talker:Say(STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.GHOST_KILL)
+            target:DoTaskInTime(1, function() health:Kill() end)
         end
 
-        -- 杀死非尘世之物
-        if inst.IsShadow(target) or inst.IsLunar(target) then
+        if not (target:HasTag("ghost") and target:HasTag("abigail")) and inst.IsShadow(target) or inst.IsLunar(target) then
             if health:IsInvincible() then
                 health:SetInvincible(false)
             end
@@ -163,7 +148,7 @@ local tenseiga_master_postinit = function(inst)
             local fx = SpawnPrefab("fx_book_light_upgraded")
             fx.Transform:SetScale(.9, 2.5, 1)
             fx.entity:AddFollower()
-            fx.Follower:FollowSymbol(inst.GUID, "swap_tenseiga", 0, 0, 0)
+            fx.Follower:FollowSymbol(inst.GUID)
         end
 
         return onhaunt(inst, player)
@@ -172,36 +157,39 @@ end
 
 local katana_data = {
     shusui = {
+        build = "shusui",
         common_postinit = shusui_common_postinit,
         -- master_postinit = shusui_master_postinit,
         onattack = shusui_onattack,
         damage = TUNING.KATANA.TRUE_DAMAGE
     },
     mortalblade = {
+        build = "shusui",
         common_postinit = mortalblade_common_postinit,
         master_postinit = mortalblade_master_postinit,
         onattack = mortalblade_onattack,
         damage = TUNING.KATANA.TRUE_DAMAGE
     },
-    -- tenseiga = {
-    --     common_postinit = tenseiga_common_postinit,
-    --     master_postinit = tenseiga_master_postinit,
-    --     onattack = tenseiga_onattack,
-    --     damage = 0,
-    -- }
+    tenseiga = {
+        build = "kurokatana",
+        common_postinit = tenseiga_common_postinit,
+        master_postinit = tenseiga_master_postinit,
+        onattack = tenseiga_onattack,
+        damage = 0,
+    }
 }
 
-local katana = {}
+local ret = {}
 for k, v in pairs(katana_data) do
     local data = {
         name = k,
-        build = k,
+        build = v.build,
         onattack = v.onattack,
         common_postinit = v.common_postinit,
         master_postinit = v.master_postinit,
         damage = v.damage
     }
-    table.insert(katana, MakeKatana(data))
+    table.insert(ret, MakeKatana(data))
 end
 
-return unpack(katana)
+return unpack(ret)

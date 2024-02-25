@@ -75,7 +75,7 @@ local function OnChangeHair(inst, skinname)
     end
 
     if skinname == nil then
-        local override_build = "hair_" .. HAIR_BITS[inst.hair_bit] .. HAIR_TYPES[inst.hair_type]
+        local override_build = "hair_" .. HAIR_BITS[inst.hair_long] .. HAIR_TYPES[inst.hair_type]
         inst.AnimState:OverrideSymbol("hairpigtails", override_build, "hairpigtails")
         inst.AnimState:OverrideSymbol("hair", override_build, "hair")
         inst.AnimState:OverrideSymbol("hair_hat", override_build, "hair_hat")
@@ -178,7 +178,7 @@ local function OnSave(inst, data)
 	data._louis_health = inst.components.health.currenthealth
     data._louis_sanity = inst.components.sanity.current
     data._louis_hunger = inst.components.hunger.current
-	data.hair_bit = inst.hair_bit
+	data.hair_long = inst.hair_long
 	data.hair_type = inst.hair_type
     data.glasses_status = inst.glasses_status
 end
@@ -191,8 +191,8 @@ local function OnLoad(inst, data)
 			inst.components.hunger.current = data._louis_hunger
 		end
 
-		if data.hair_bit ~= nil then
-            inst.hair_bit = data.hair_bit
+		if data.hair_long ~= nil then
+            inst.hair_long = data.hair_long
         end
 
         if data.hair_type ~= nil then
@@ -215,7 +215,7 @@ end
 local function OnEat(inst, food)
     if food ~= nil and food.components.edible ~= nil then
         if food.prefab == "mfruit" and inst.components.kenjutsuka:GetKenjutsuLevel() < 10 then
-            inst.components.kenjutsuka:KenjutsuLevelUp(inst)
+            inst.components.kenjutsuka:KenjutsuLevelUp()
         end
     end
 end
@@ -294,7 +294,6 @@ end
 
 local BEARD_DAYS = {3, 7, 16}
 local BEARD_BITS = {2, 3, 3}
-
 local function OnGrowShortHair(inst, skinname)
 	inst.hair_long = 2
 	inst.components.beard.bits = BEARD_BITS[1]
@@ -464,7 +463,7 @@ local function SetInstanceValue(inst)
     inst.soundsname = "wortox"
 
 	inst.glasses_status = false
-	inst.hair_bit = 1
+	inst.hair_long = 1
 	inst.hair_type = 1
 	inst._range = inst.components.combat.hitrange
 
@@ -474,14 +473,6 @@ local function SetInstanceValue(inst)
 end
 
 local function DoPostInit(inst)
-    for k, v in pairs(Skill_Data) do
-        local name = string.lower(k)
-        local fn = function()
-            M_Util.Skill_CommonFn(inst, v.tag, name, v.time, v.mindpower, v.fn)
-        end
-        inst.components.skillreleaser:AddSkill(name, fn)
-    end
-
     if M_CONFIG.RANDOM_IDLE_ANIMATION then
         SetUpCustomIdle(inst)
     end
@@ -498,6 +489,7 @@ local master_postinit = function(inst)
 
     inst:AddComponent("skillreleaser")
     inst.components.skillreleaser:OnPostInit()
+    inst.components.skillreleaser:AddSkills(Skill_Data)
 
     inst:AddComponent("kenjutsuka")
     inst.components.kenjutsuka:SetOnUpgradeFn(OnUpgrades)
@@ -540,7 +532,7 @@ local master_postinit = function(inst)
 	inst.components.health:SetMaxHealth(TUNING.MANUTSAWEE.HEALTH)
     inst.components.hunger:SetMax(TUNING.MANUTSAWEE.HUNGER)
     inst.components.sanity:SetMax(TUNING.MANUTSAWEE.SANITY)
-    inst.components.hunger:SetRate(TUNING.WILSON_HUNGER_RATE * 1.5)
+    -- inst.components.hunger:SetRate(TUNING.WILSON_HUNGER_RATE * 1.5)
 
 	-- Damage multiplier (optional)
     inst.components.combat.damagemultiplier = 1

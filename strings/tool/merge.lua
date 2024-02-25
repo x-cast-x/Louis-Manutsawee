@@ -128,7 +128,7 @@ for l, file_name in pairs(languages) do
         package = package .. "#. " .. index_str  .. "\n"
         package = package .. msgctxt .. "\n"
         package = package .. "msgid " .. "\"" .. escape(msgid) .. "\"".. "\n"
-        package = package .. (l == "en" and "msgstr \"\"" or translates[l][msgctxt] or translates[l][invert_overed_indexs[msgctxt]]) .. "\n\n"
+        package = package .. (l == "en" and "msgstr \"\"" or escape(translates[l][msgctxt]) or escape(translates[l][invert_overed_indexs[msgctxt]])) .. "\n\n"
     end
 
     local po_file_name = l == "en" and ("strings.pot") or (file_name .. ".po")

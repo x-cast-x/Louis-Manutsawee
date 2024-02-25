@@ -248,7 +248,7 @@ end
 
 function write_lua_table(filepath, tbl)
     local file = io.open(filepath, "w")
-    file:write("return {\n" .. table_to_string(tbl))
-    file:write("}\n")
+    file:write("return " .. table_to_string(tbl))
+    file:write("\n")
     file:close()
 end

@@ -82,7 +82,6 @@ local function CastFn(inst, target, position, doer)
         inst.SoundEmitter:PlaySound("dontstarve/common/nightmareAddFuel")
     end
 
-    -- kill immortals, including god
     if inst.first_time_unsheathed then
         local health = doer.components.health
         local inventory = doer.components.inventory
@@ -160,7 +159,7 @@ local function OnFinished(inst)
     if has_broken[inst.prefab] then
         local katana_broken = SpawnPrefab(inst.build .. "_broken")
         local x,y,z = inst.Transform:GetWorldPosition()
-        katana_broken.Transform:SetPosition(x,y,z)    
+        katana_broken.Transform:SetPosition(x,y,z)
     end
 
     local owner = inst.components.inventoryitem:GetGrandOwner()
@@ -314,10 +313,6 @@ local MakeKatana = function(data)
         inst.components.equippable:SetOnUnequip(OnUnequip)
     	inst.components.equippable:SetOnPocket(OnPocket)
 
-        if data.master_postinit ~= nil then
-            data.master_postinit(inst)
-        end
-
         inst.build = build
         inst.weaponstatus = false
 
@@ -331,13 +326,17 @@ local MakeKatana = function(data)
 
     	MakeHauntableLaunch(inst)
 
+        if data.master_postinit ~= nil then
+            data.master_postinit(inst)
+        end
+
         return inst
     end
     return Prefab(name, fn, assets, prefabs)
 end
 
 -- No one will use it, but I wrote it anyway
-AddHasBrokenKatana = function(katana)
+AddBrokenKatana = function(katana)
     if type(katana) == "string" then
         table.insert(has_broken, katana)
     end

@@ -146,12 +146,22 @@ local function OnPickupFn(inst, picker, src_pos)
         inst.swirl.ReleaseSwirl(inst or picker)
     end
 
+	if inst.components.sanityaura ~= nil then
+		inst:RemoveComponent("sanityaura")
+	end
+
     if inst.m_shadowhand_fx ~= nil then
         inst.m_shadowhand_fx:ListenForEvent("animover", inst.m_shadowhand_fx.Remove)
     end
 end
 
 local function OnDropped(inst)
+    if inst.components.sanityaura == nil then
+        inst:AddComponent("sanityaura")
+        inst.components.sanityaura.aura = -TUNING.SANITYAURA_SMALL
+        inst.components.sanityaura.max_distsq = TUNING.VOIDCLOTH_UMBRELLA_DOME_RADIUS * TUNING.VOIDCLOTH_UMBRELLA_DOME_RADIUS
+    end
+
     local fused_shadeling_spawn_fx = SpawnPrefab("fused_shadeling_spawn_fx")
     fused_shadeling_spawn_fx.entity:AddFollower()
     fused_shadeling_spawn_fx.Follower:FollowSymbol(inst.GUID)
@@ -218,6 +228,29 @@ local function OnRemoveEntity(inst)
     StopFx(inst)
 end
 
+local function OnIsNightmareWild(inst, isnightmarewild)
+	local owner = inst.components.inventoryitem.owner
+
+	if owner == nil then
+		return
+	end
+
+    if owner ~= nil and isnightmarewild and owner.components.areaaware:CurrentlyInTag("Nightmare") then
+        inst:DoTaskInTime(10, function()
+            inst.components.talker:Say(GetString(owner, "ANNOUNCE_ISNIGHTMAREWILD"))
+            if owner.SwitchControlled ~= nil then
+                owner.SwitchControlled(owner, true)
+                TryStartFx(inst, owner)
+            end
+        end)
+    else
+        if owner.SwitchControlled ~= nil then
+            owner.SwitchControlled(owner, false)
+            StopFx(inst)
+        end
+    end
+end
+
 local function fn()
     local inst = CreateEntity()
 
@@ -236,6 +269,7 @@ local function fn()
     inst:AddTag("sharp")
     inst:AddTag("waterproofer")
     inst:AddTag("katanaskill")
+    inst:AddTag("onikiba")
 
     --weapon (from weapon component) added to pristine state for optimization
     inst:AddTag("weapon")
@@ -258,6 +292,10 @@ local function fn()
     inst:AddComponent("hauntable")
     inst.components.hauntable.cooldown = TUNING.HAUNT_COOLDOWN_SMALL
     inst.components.hauntable:SetOnHauntFn(OnHauntFn)
+
+    inst:AddComponent("damagetypebonus")
+    inst.components.damagetypebonus:AddBonus("shadow_aligned", inst, TUNING.WEAPONS_LUNARPLANT_VS_SHADOW_BONUS * 1.5)
+    inst.components.damagetypebonus:AddBonus("lunar_aligned", inst, TUNING.WEAPONS_LUNARPLANT_VS_SHADOW_BONUS * 1.5)
 
     inst:AddComponent("weapon")
     inst.components.weapon:SetDamage(TUNING.TOKIJIN_DAMAGE)
@@ -283,6 +321,11 @@ local function fn()
 
     inst.OnEntityWake = OnEntityWake
     inst.OnRemoveEntity = OnRemoveEntity
+
+    if TheWorld:HasTag("cave") then
+        inst:WatchWorldState("isnightmarewild", OnIsNightmareWild)
+        OnIsNightmareWild(inst, TheWorld.state.isnightmarewild)
+    end
 
     return inst
 end

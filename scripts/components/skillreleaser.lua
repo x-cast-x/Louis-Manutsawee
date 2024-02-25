@@ -139,6 +139,18 @@ function SkillReleaser:AddSkill(skill_name, fn)
     self.skills[skill_name] = fn
 end
 
+function SkillReleaser:AddSkills(skills)
+    if type(skills) == "table" then
+        for k, v in pairs(skills) do
+            local name = string.lower(k)
+            local fn = function()
+                M_Util.Skill_CommonFn(self.inst, v.tag, name, v.time, v.mindpower, v.fn)
+            end
+            self:AddSkill(name, fn)
+        end
+    end
+end
+
 function SkillReleaser:OnPostInit()
     DoCombatPostInit(self.inst)
 end
@@ -155,7 +167,7 @@ function SkillReleaser:SkillRemove()
         self.inst.mafterskillndm:Cancel()
         self.inst.mafterskillndm = nil
     end
-    
+
     self.inst.inspskill = nil
     self.inst.components.combat:SetRange(self.inst._range)
     self.inst.components.combat:EnableAreaDamage(false)
@@ -190,7 +202,7 @@ function SkillReleaser:CanUseSkill(target, rpc)
             return false
         end
         local is_vaild_target = target:HasOneOfTags({"prey", "bird", "buzzard", "butterfly"})
-        local canskill = (is_vaild_target and not target:HasTag("hostile") and true) or nil 
+        local canskill = (is_vaild_target and not target:HasTag("hostile") and true) or nil
         return canskill
     end
 end

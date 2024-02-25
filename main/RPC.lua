@@ -330,7 +330,7 @@ local function HairsFn(inst, skinname)
     end
 
     if not (inst.sg:HasStateTag("doing") or inst.components.inventory:IsHeavyLifting()) then
-        if inst.hair_bit == 1 then
+        if inst.hair_long == 1 then
             inst.components.talker:Say("My hair isn't long enough for this.")
             return
         end

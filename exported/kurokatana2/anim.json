@@ -1,0 +1,255 @@
+{
+"type": "Anim", "version": 4, 
+"banks": [
+    {
+        "name": "shusui2",
+        "animations": [
+            {
+                "name": "idle", "frameRate": 40,
+                "frames": [
+                    {
+                        "x": 33, "y": -21, "w": 479, "h": 281,
+                        "elemenets": [
+                            {"zIndex": 0, "symbol": "swap_shusui", "frameNum": 0, "layerName": "Sshusui", "a": 1, "b": 0, "c": 0, "d": 1, "tx": -201, "ty": -138}
+                        ]
+                    },
+                    {
+                        "x": 33, "y": -21, "w": 479, "h": 281,
+                        "elemenets": [
+                            {"zIndex": 0, "symbol": "swap_shusui", "frameNum": 0, "layerName": "Sshusui", "a": 1, "b": 0, "c": 0, "d": 1, "tx": -201, "ty": -138}
+                        ]
+                    },
+                    {
+                        "x": 33, "y": -21, "w": 479, "h": 281,
+                        "elemenets": [
+                            {"zIndex": 0, "symbol": "swap_shusui", "frameNum": 0, "layerName": "Sshusui", "a": 1, "b": 0, "c": 0, "d": 1, "tx": -201, "ty": -138}
+                        ]
+                    },
+                    {
+                        "x": 33, "y": -21, "w": 479, "h": 281,
+                        "elemenets": [
+                            {"zIndex": 0, "symbol": "swap_shusui", "frameNum": 0, "layerName": "Sshusui", "a": 1, "b": 0, "c": 0, "d": 1, "tx": -201, "ty": -138}
+                        ]
+                    },
+                    {
+                        "x": 33, "y": -21, "w": 479, "h": 281,
+                        "elemenets": [
+                            {"zIndex": 0, "symbol": "swap_shusui", "frameNum": 0, "layerName": "Sshusui", "a": 1, "b": 0, "c": 0, "d": 1, "tx": -201, "ty": -138}
+                        ]
+                    },
+                    {
+                        "x": 33, "y": -21, "w": 479, "h": 281,
+                        "elemenets": [
+                            {"zIndex": 0, "symbol": "swap_shusui", "frameNum": 0, "layerName": "Sshusui", "a": 1, "b": 0, "c": 0, "d": 1, "tx": -201, "ty": -138}
+                        ]
+                    },
+                    {
+                        "x": 33, "y": -21, "w": 479, "h": 281,
+                        "elemenets": [
+                            {"zIndex": 0, "symbol": "swap_shusui", "frameNum": 0, "layerName": "Sshusui", "a": 1, "b": 0, "c": 0, "d": 1, "tx": -201, "ty": -138}
+                        ]
+                    },
+                    {
+                        "x": 33, "y": -21, "w": 479, "h": 281,
+                        "elemenets": [
+                            {"zIndex": 0, "symbol": "swap_shusui", "frameNum": 0, "layerName": "Sshusui", "a": 1, "b": 0, "c": 0, "d": 1, "tx": -201, "ty": -138}
+                        ]
+                    },
+                    {
+                        "x": 33, "y": -21, "w": 479, "h": 281,
+                        "elemenets": [
+                            {"zIndex": 0, "symbol": "swap_shusui", "frameNum": 0, "layerName": "Sshusui", "a": 1, "b": 0, "c": 0, "d": 1, "tx": -201, "ty": -138}
+                        ]
+                    },
+                    {
+                        "x": 33, "y": -21, "w": 479, "h": 281,
+                        "elemenets": [
+                            {"zIndex": 0, "symbol": "swap_shusui", "frameNum": 0, "layerName": "Sshusui", "a": 1, "b": 0, "c": 0, "d": 1, "tx": -201, "ty": -138}
+                        ]
+                    },
+                    {
+                        "x": 33, "y": -21, "w": 479, "h": 281,
+                        "elemenets": [
+                            {"zIndex": 0, "symbol": "swap_shusui", "frameNum": 0, "layerName": "Sshusui", "a": 1, "b": 0, "c": 0, "d": 1, "tx": -201, "ty": -138}
+                        ]
+                    },
+                    {
+                        "x": 33, "y": -21, "w": 479, "h": 281,
+                        "elemenets": [
+                            {"zIndex": 0, "symbol": "swap_shusui", "frameNum": 0, "layerName": "Sshusui", "a": 1, "b": 0, "c": 0, "d": 1, "tx": -201, "ty": -138}
+                        ]
+                    },
+                    {
+                        "x": 33, "y": -21, "w": 479, "h": 281,
+                        "elemenets": [
+                            {"zIndex": 0, "symbol": "swap_shusui", "frameNum": 0, "layerName": "Sshusui", "a": 1, "b": 0, "c": 0, "d": 1, "tx": -201, "ty": -138}
+                        ]
+                    },
+                    {
+                        "x": 33, "y": -21, "w": 479, "h": 281,
+                        "elemenets": [
+                            {"zIndex": 0, "symbol": "swap_shusui", "frameNum": 0, "layerName": "Sshusui", "a": 1, "b": 0, "c": 0, "d": 1, "tx": -201, "ty": -138}
+                        ]
+                    },
+                    {
+                        "x": 33, "y": -21, "w": 479, "h": 281,
+                        "elemenets": [
+                            {"zIndex": 0, "symbol": "swap_shusui", "frameNum": 0, "layerName": "Sshusui", "a": 1, "b": 0, "c": 0, "d": 1, "tx": -201, "ty": -138}
+                        ]
+                    },
+                    {
+                        "x": 33, "y": -21, "w": 479, "h": 281,
+                        "elemenets": [
+                            {"zIndex": 0, "symbol": "swap_shusui", "frameNum": 0, "layerName": "Sshusui", "a": 1, "b": 0, "c": 0, "d": 1, "tx": -201, "ty": -138}
+                        ]
+                    },
+                    {
+                        "x": 33, "y": -21, "w": 479, "h": 281,
+                        "elemenets": [
+                            {"zIndex": 0, "symbol": "swap_shusui", "frameNum": 0, "layerName": "Sshusui", "a": 1, "b": 0, "c": 0, "d": 1, "tx": -201, "ty": -138}
+                        ]
+                    },
+                    {
+                        "x": 33, "y": -21, "w": 479, "h": 281,
+                        "elemenets": [
+                            {"zIndex": 0, "symbol": "swap_shusui", "frameNum": 0, "layerName": "Sshusui", "a": 1, "b": 0, "c": 0, "d": 1, "tx": -201, "ty": -138}
+                        ]
+                    },
+                    {
+                        "x": 33, "y": -21, "w": 479, "h": 281,
+                        "elemenets": [
+                            {"zIndex": 0, "symbol": "swap_shusui", "frameNum": 0, "layerName": "Sshusui", "a": 1, "b": 0, "c": 0, "d": 1, "tx": -201, "ty": -138}
+                        ]
+                    },
+                    {
+                        "x": 33, "y": -21, "w": 479, "h": 281,
+                        "elemenets": [
+                            {"zIndex": 0, "symbol": "swap_shusui", "frameNum": 0, "layerName": "Sshusui", "a": 1, "b": 0, "c": 0, "d": 1, "tx": -201, "ty": -138}
+                        ]
+                    },
+                    {
+                        "x": 33, "y": -21, "w": 479, "h": 281,
+                        "elemenets": [
+                            {"zIndex": 0, "symbol": "swap_shusui", "frameNum": 0, "layerName": "Sshusui", "a": 1, "b": 0, "c": 0, "d": 1, "tx": -201, "ty": -138}
+                        ]
+                    },
+                    {
+                        "x": 33, "y": -21, "w": 479, "h": 281,
+                        "elemenets": [
+                            {"zIndex": 0, "symbol": "swap_shusui", "frameNum": 0, "layerName": "Sshusui", "a": 1, "b": 0, "c": 0, "d": 1, "tx": -201, "ty": -138}
+                        ]
+                    },
+                    {
+                        "x": 33, "y": -21, "w": 479, "h": 281,
+                        "elemenets": [
+                            {"zIndex": 0, "symbol": "swap_shusui", "frameNum": 0, "layerName": "Sshusui", "a": 1, "b": 0, "c": 0, "d": 1, "tx": -201, "ty": -138}
+                        ]
+                    },
+                    {
+                        "x": 33, "y": -21, "w": 479, "h": 281,
+                        "elemenets": [
+                            {"zIndex": 0, "symbol": "swap_shusui", "frameNum": 0, "layerName": "Sshusui", "a": 1, "b": 0, "c": 0, "d": 1, "tx": -201, "ty": -138}
+                        ]
+                    },
+                    {
+                        "x": 33, "y": -21, "w": 479, "h": 281,
+                        "elemenets": [
+                            {"zIndex": 0, "symbol": "swap_shusui", "frameNum": 0, "layerName": "Sshusui", "a": 1, "b": 0, "c": 0, "d": 1, "tx": -201, "ty": -138}
+                        ]
+                    },
+                    {
+                        "x": 33, "y": -21, "w": 479, "h": 281,
+                        "elemenets": [
+                            {"zIndex": 0, "symbol": "swap_shusui", "frameNum": 0, "layerName": "Sshusui", "a": 1, "b": 0, "c": 0, "d": 1, "tx": -201, "ty": -138}
+                        ]
+                    },
+                    {
+                        "x": 33, "y": -21, "w": 479, "h": 281,
+                        "elemenets": [
+                            {"zIndex": 0, "symbol": "swap_shusui", "frameNum": 0, "layerName": "Sshusui", "a": 1, "b": 0, "c": 0, "d": 1, "tx": -201, "ty": -138}
+                        ]
+                    },
+                    {
+                        "x": 33, "y": -21, "w": 479, "h": 281,
+                        "elemenets": [
+                            {"zIndex": 0, "symbol": "swap_shusui", "frameNum": 0, "layerName": "Sshusui", "a": 1, "b": 0, "c": 0, "d": 1, "tx": -201, "ty": -138}
+                        ]
+                    },
+                    {
+                        "x": 33, "y": -21, "w": 479, "h": 281,
+                        "elemenets": [
+                            {"zIndex": 0, "symbol": "swap_shusui", "frameNum": 0, "layerName": "Sshusui", "a": 1, "b": 0, "c": 0, "d": 1, "tx": -201, "ty": -138}
+                        ]
+                    },
+                    {
+                        "x": 33, "y": -21, "w": 479, "h": 281,
+                        "elemenets": [
+                            {"zIndex": 0, "symbol": "swap_shusui", "frameNum": 0, "layerName": "Sshusui", "a": 1, "b": 0, "c": 0, "d": 1, "tx": -201, "ty": -138}
+                        ]
+                    },
+                    {
+                        "x": 33, "y": -21, "w": 479, "h": 281,
+                        "elemenets": [
+                            {"zIndex": 0, "symbol": "swap_shusui", "frameNum": 0, "layerName": "Sshusui", "a": 1, "b": 0, "c": 0, "d": 1, "tx": -201, "ty": -138}
+                        ]
+                    },
+                    {
+                        "x": 33, "y": -21, "w": 479, "h": 281,
+                        "elemenets": [
+                            {"zIndex": 0, "symbol": "swap_shusui", "frameNum": 0, "layerName": "Sshusui", "a": 1, "b": 0, "c": 0, "d": 1, "tx": -201, "ty": -138}
+                        ]
+                    },
+                    {
+                        "x": 33, "y": -21, "w": 479, "h": 281,
+                        "elemenets": [
+                            {"zIndex": 0, "symbol": "swap_shusui", "frameNum": 0, "layerName": "Sshusui", "a": 1, "b": 0, "c": 0, "d": 1, "tx": -201, "ty": -138}
+                        ]
+                    },
+                    {
+                        "x": 33, "y": -21, "w": 479, "h": 281,
+                        "elemenets": [
+                            {"zIndex": 0, "symbol": "swap_shusui", "frameNum": 0, "layerName": "Sshusui", "a": 1, "b": 0, "c": 0, "d": 1, "tx": -201, "ty": -138}
+                        ]
+                    },
+                    {
+                        "x": 33, "y": -21, "w": 479, "h": 281,
+                        "elemenets": [
+                            {"zIndex": 0, "symbol": "swap_shusui", "frameNum": 0, "layerName": "Sshusui", "a": 1, "b": 0, "c": 0, "d": 1, "tx": -201, "ty": -138}
+                        ]
+                    },
+                    {
+                        "x": 33, "y": -21, "w": 479, "h": 281,
+                        "elemenets": [
+                            {"zIndex": 0, "symbol": "swap_shusui", "frameNum": 0, "layerName": "Sshusui", "a": 1, "b": 0, "c": 0, "d": 1, "tx": -201, "ty": -138}
+                        ]
+                    },
+                    {
+                        "x": 33, "y": -21, "w": 479, "h": 281,
+                        "elemenets": [
+                            {"zIndex": 0, "symbol": "swap_shusui", "frameNum": 0, "layerName": "Sshusui", "a": 1, "b": 0, "c": 0, "d": 1, "tx": -201, "ty": -138}
+                        ]
+                    },
+                    {
+                        "x": 33, "y": -21, "w": 479, "h": 281,
+                        "elemenets": [
+                            {"zIndex": 0, "symbol": "swap_shusui", "frameNum": 0, "layerName": "Sshusui", "a": 1, "b": 0, "c": 0, "d": 1, "tx": -201, "ty": -138}
+                        ]
+                    },
+                    {
+                        "x": 33, "y": -21, "w": 479, "h": 281,
+                        "elemenets": [
+                            {"zIndex": 0, "symbol": "swap_shusui", "frameNum": 0, "layerName": "Sshusui", "a": 1, "b": 0, "c": 0, "d": 1, "tx": -201, "ty": -138}
+                        ]
+                    },
+                    {
+                        "x": 33, "y": -21, "w": 479, "h": 281,
+                        "elemenets": [
+                            {"zIndex": 0, "symbol": "swap_shusui", "frameNum": 0, "layerName": "Sshusui", "a": 1, "b": 0, "c": 0, "d": 1, "tx": -201, "ty": -138}
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+] 
+}
