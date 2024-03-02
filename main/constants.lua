@@ -17,7 +17,17 @@ KATANA = {
     "koshirae",
     "hitokiri",
     "katanablade",
+
     "tokijin",
+
+    "true_raikiri",
+    "true_shirasaya",
+    "true_koshirae",
+    "true_hitokiri",
+
+    "tenseiga",
+    "mortalblade",
+    "shusui",
 }
 
 M_SKILLS = {
@@ -44,4 +54,5 @@ M_SKIN_NAMES = {
     "shinsengumi",
     "taohuu",
     "uniform_black",
+    "bocchi",
 }

@@ -164,7 +164,7 @@ local katana_data = {
         damage = TUNING.KATANA.TRUE_DAMAGE
     },
     mortalblade = {
-        build = "shusui",
+        build = "mortalblade",
         common_postinit = mortalblade_common_postinit,
         master_postinit = mortalblade_master_postinit,
         onattack = mortalblade_onattack,

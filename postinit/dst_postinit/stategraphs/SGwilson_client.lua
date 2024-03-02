@@ -1,4 +1,3 @@
-local EQUIPSLOTS = GLOBAL.EQUIPSLOTS
 local FRAMES = GLOBAL.FRAMES
 local TimeEvent = GLOBAL.TimeEvent
 local State = GLOBAL.State

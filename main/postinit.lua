@@ -2,11 +2,13 @@ local modimport = modimport
 GLOBAL.setfenv(1, GLOBAL)
 
 modimport("postinit/entityscript")
+modimport("postinit/dst_postinit/modules/recipe")
 
 local postinit = {
     prefabs = {
         "world",
         "nightmarefissure",
+        "winter_tree",
     },
     stategraphs = {
         "SGwilson",
@@ -18,6 +20,7 @@ local postinit = {
         "sanity_replica",
         "grogginess",
         "equippable",
+        "wisecracker",
     },
     widgets = {
         "skinspuppet",

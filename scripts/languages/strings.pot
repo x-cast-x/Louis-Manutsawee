@@ -16298,6 +16298,6 @@ msgstr ""
 
 #. STRINGS.SKIN_QUOTES.manutsawee_yukatalong_purple
 msgctxt "STRINGS.SKIN_QUOTES.manutsawee_yukatalong_purple"
-msgid "\"こんにちは？'\""
+msgid "\"Kon ni chi wa ..?'\""
 msgstr ""
 

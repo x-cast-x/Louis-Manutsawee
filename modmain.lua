@@ -17,7 +17,7 @@ local modules = {
     "commands",
     "characters",
     "prefabskin",
-    -- "loadingtips",
+    "loadingtips",
 }
 
 if IA_ENABLED then
@@ -30,6 +30,10 @@ end
 
 if UM_ENABLED then
     table.insert(modules, "um_postinit")
+end
+
+if GLOBAL.IsRail() then
+    error("Ban WeGame");
 end
 
 for i = 1, #modules do

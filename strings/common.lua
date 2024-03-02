@@ -137,6 +137,7 @@ return {
         manutsawee_yukata = "Japan's outfit mini version.",
         manutsawee_yukatalong = "Japan's outfit.",
         manutsawee_yukatalong_purple = "Japan's outfit purple version.",
+        manutsawee_bocchi = "Goto Hitori's sportswear from Bocchi The Rock",
     },
     SKIN_NAMES = {
         manutsawee_fuka = "Cosplay",
@@ -152,13 +153,14 @@ return {
         manutsawee_yukata = "Kimono(M) ",
         manutsawee_yukatalong = "Kimono",
         manutsawee_yukatalong_purple = "Kimono(P)",
+        manutsawee_bocchi = "Bocchi The Rock",
     },
     SKIN_QUOTES = {
         manutsawee_fuka = "\"I'm a kung-fu master now.\"",
         manutsawee_jinbei = "\"Relax Feeling good.\"",
         manutsawee_maid = "\"I'm not a maid but i like this.\"",
         manutsawee_miko = "\"Can i fight with yokai?'\"",
-        manutsawee_none = "I hate this uniform.",
+        manutsawee_none = "I hate this uniform.", -- but why?
         manutsawee_qipao = "\"Ni hao ..? Good Fortune'\"",
         manutsawee_sailor = "\"So so so... nothing just say so..\"",
         manutsawee_shinsengumi = "\"One must not infringe the samurai code!\"",
@@ -166,6 +168,7 @@ return {
         manutsawee_uniform_black = "\"It's because the light from Venus is reflected on...the swamp gas...so...\"",
         manutsawee_yukata = "\"Shine omae! haha.'\"",
         manutsawee_yukatalong = "\"Kon ni chi wa ..?'\"",
-        manutsawee_yukatalong_purple = "\"こんにちは？'\"",
+        manutsawee_yukatalong_purple = "\"Kon ni chi wa ..?'\"",
+        manutsawee_bocchi = "\"mu mu mu mu mu mu mu mu\"",
     },
 }

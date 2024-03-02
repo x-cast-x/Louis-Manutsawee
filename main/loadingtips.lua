@@ -29,7 +29,7 @@ local function setup_custom_loading_tips()
         LOADING_SCREEN = 0,
         OTHER = 1,
     }
-    --UM tips are guaranteed on the second tip during the loading screen.
+
     SetLoadingTipCategoryWeights(LOADING_SCREEN_TIP_CATEGORY_WEIGHTS_END, tipcategoryendweights)
 
     -- Recalculate loading tip & category weights.
@@ -39,5 +39,4 @@ local function setup_custom_loading_tips()
     TheLoadingTips:Load()
 end
 
--- We need to call this directly instead of in AddGamePostInit() because the loading screen appears before calling that function.
 setup_custom_loading_tips()

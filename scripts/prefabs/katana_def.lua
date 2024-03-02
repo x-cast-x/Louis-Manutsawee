@@ -1,3 +1,5 @@
+local SkillUtil = require("utils/skillutil")
+
 local function SheathMode(inst, owner)
     inst.spelltype = "PULLOUT"
 
@@ -111,7 +113,7 @@ local function OnEquip(inst, owner)
     owner.AnimState:Hide("ARM_normal")
 
 	if owner:HasTag("kenjutsu") then
-		inst.components.weapon:SetDamage(TUNING.KATANA.DAMAGE + (owner.components.kenjutsuka:GetKenjutsuLevel() * 2))
+		inst.components.weapon:SetDamage(inst.components.weapon.damage + (owner.components.kenjutsuka:GetKenjutsuLevel() * 2))
 	end
 
     if inst:HasTag("mortalblade") then
@@ -212,7 +214,7 @@ local function OnLoad(inst, data)
 
         local owner = inst.components.inventoryitem ~= nil and inst.components.inventoryitem:GetGrandOwner()
         if owner ~= nil and owner:HasTag("kenjutsu") then
-            inst.components.weapon:SetDamage(TUNING.KATANA.DAMAGE + (owner.components.kenjutsuka:GetKenjutsuLevel() * 2))
+            inst.components.weapon:SetDamage(inst.components.weapon.damage + (owner.components.kenjutsuka:GetKenjutsuLevel() * 2))
         end
     end
 end
@@ -239,7 +241,7 @@ local MakeKatana = function(data)
     local prefabs = {}
 
     local function OnAttack(inst, attacker, target)
-        M_Util.OnAttackCommonFn(inst, attacker, target)
+        SkillUtil.OnAttackCommonFn(inst, attacker, target)
         if data.onattack ~= nil then
             data.onattack(inst, attacker, target)
         end

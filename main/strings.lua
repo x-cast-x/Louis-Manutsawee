@@ -26,5 +26,5 @@ GeneratePOFile = function()
     GlassicAPI.MakePOTFromStrings(file, strings)
 end
 
-modimport("scripts/languages/porkland")
-modimport("scripts/languages/uncompromisingmode")
+-- modimport("scripts/languages/porkland")
+-- modimport("scripts/languages/uncompromisingmode")

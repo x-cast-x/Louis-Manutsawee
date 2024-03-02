@@ -52,10 +52,37 @@ local function StopFx(inst)
     end
 end
 
+local function OnIsNightmareWild(inst, isnightmarewild)
+	local owner = inst.components.inventoryitem.owner
+
+	if owner == nil then
+		return
+	end
+
+    if owner ~= nil and isnightmarewild and owner.components.areaaware:CurrentlyInTag("Nightmare") then
+        inst:DoTaskInTime(10, function()
+            owner.components.talker:Say(GetString(owner, "ANNOUNCE_ISNIGHTMAREWILD"))
+            if owner.SwitchControlled ~= nil then
+                owner.SwitchControlled(owner, true)
+                TryStartFx(inst, owner)
+            end
+        end)
+    else
+        if owner.SwitchControlled ~= nil then
+            owner.SwitchControlled(owner, false)
+            StopFx(inst)
+        end
+    end
+end
+
 local function OnEquip(inst, owner)
     owner.AnimState:Show("ARM_carry")
     owner.AnimState:Hide("ARM_normal")
 	owner.AnimState:OverrideSymbol("swap_object", "swap_tokijin" , "swap_tokijin")
+
+    if TheWorld:HasTag("cave") then
+        OnIsNightmareWild(inst, TheWorld.state.isnightmarewild)
+    end
 
 	if not owner:HasTag("notshowscabbard")  then
         owner.AnimState:ClearOverrideSymbol("swap_body_tall")
@@ -89,6 +116,10 @@ local function OnUnequip(inst, owner)
     owner.AnimState:Show("ARM_normal")
 
     inst.components.weapon:SetDamage(TUNING.TOKIJIN_DAMAGE)
+
+    if TheWorld:HasTag("cave") then
+        OnIsNightmareWild(inst, TheWorld.state.isnightmarewild)
+    end
 
 	if inst:HasTag("mkatana") then
         inst:RemoveTag("mkatana")
@@ -226,29 +257,6 @@ local function OnRemoveEntity(inst)
         inst.m_shadowhand_fx.Release(inst)
     end
     StopFx(inst)
-end
-
-local function OnIsNightmareWild(inst, isnightmarewild)
-	local owner = inst.components.inventoryitem.owner
-
-	if owner == nil then
-		return
-	end
-
-    if owner ~= nil and isnightmarewild and owner.components.areaaware:CurrentlyInTag("Nightmare") then
-        inst:DoTaskInTime(10, function()
-            inst.components.talker:Say(GetString(owner, "ANNOUNCE_ISNIGHTMAREWILD"))
-            if owner.SwitchControlled ~= nil then
-                owner.SwitchControlled(owner, true)
-                TryStartFx(inst, owner)
-            end
-        end)
-    else
-        if owner.SwitchControlled ~= nil then
-            owner.SwitchControlled(owner, false)
-            StopFx(inst)
-        end
-    end
 end
 
 local function fn()

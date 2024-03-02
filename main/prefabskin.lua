@@ -1,19 +1,13 @@
 GLOBAL.setfenv(1, GLOBAL)
 
+local manutsawee = {}
+
+for _, v in ipairs(M_SKIN_NAMES) do
+    table.insert(manutsawee, "manutsawee_" .. v)
+end
+
+table.insert(manutsawee, "manutsawee_none")
+
 GlassicAPI.SkinHandler.AddModSkins({
-    manutsawee = {
-        "manutsawee_none",
-        "manutsawee_yukata",
-        "manutsawee_yukatalong",
-        "manutsawee_yukatalong_purple",
-        "manutsawee_fuka",
-        "manutsawee_maid",
-        "manutsawee_shinsengumi",
-        "manutsawee_jinbei",
-        "manutsawee_miko",
-        "manutsawee_qipao",
-        "manutsawee_sailor",
-        "manutsawee_taohuu",
-        "manutsawee_uniform_black",
-    }
+    manutsawee = manutsawee
 })

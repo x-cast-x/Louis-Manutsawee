@@ -367,6 +367,7 @@ return {
         "I knew you'd be hiding there!",
         "I see you!",
     },
+    ANNOUNCE_HASRAIKIRI = "This is not a lightning catastrophe, it was raikiri who protected me",
     ANNOUNCE_KITCOON_HIDANDSEEK_FOUND_LAST_ONE = "I found the last one!",
     ANNOUNCE_KITCOON_HIDANDSEEK_FOUND_LAST_ONE_TEAM = "{name} found the last one!",
     ANNOUNCE_KITCOON_HIDANDSEEK_FOUND_ONE_MORE = "Now where's that last one hiding?",

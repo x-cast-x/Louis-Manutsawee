@@ -185,7 +185,7 @@ function Kenjutsuka:KenjutsuLevelUp()
 end
 
 local function OnRegenMindPower(inst, self)
-    if self.mindpower < (self.max_mindpower / 2) then
+    if self.mindpower < self.max_mindpower then
         self.mindpower = self.mindpower + 1
         self.onmindregenfn(inst, self.mindpower)
     end

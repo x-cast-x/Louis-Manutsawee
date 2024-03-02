@@ -9,12 +9,51 @@ local function OnIsRaining(inst, israining)
     end
 end
 
-local onattack_common = M_Util.OnAttackCommonFn
+local function SpawnFxTask(inst)
+    if inst.components.inventoryitem ~= nil and not inst.components.inventoryitem:IsHeld() then
+        local electricchargedfx = SpawnPrefab("electricchargedfx")
+        electricchargedfx.entity:AddFollower()
+        electricchargedfx.Follower:FollowSymbol(inst.GUID)
+
+        local thunderbird_fx_charge_loop = SpawnPrefab("thunderbird_fx_charge_loop")
+        thunderbird_fx_charge_loop.entity:AddFollower()
+        thunderbird_fx_charge_loop.Follower:FollowSymbol(inst.GUID)
+
+        if inst.entity:IsAwake() then
+            inst.spawn_fx_task = inst:DoTaskInTime(4+math.random()*10, SpawnFxTask)
+        end
+    end
+end
+
+local absorblightning = nil
+local function OnEntityWake(inst)
+    if inst.spawn_fx_task == nil and absorblightning then
+        inst.spawn_fx_task = inst:DoTaskInTime(4+math.random()*10, SpawnFxTask)
+    end
+end
+
+local function OnLightningStrike(inst)
+    local electricchargedfx = SpawnPrefab("electricchargedfx")
+    electricchargedfx.Transform:SetPosition(inst:GetPosition():Get())
+
+    local thunderbird_fx_charge_loop = SpawnPrefab("thunderbird_fx_charge_loop")
+    thunderbird_fx_charge_loop.Transform:SetPosition(inst:GetPosition():Get())
+
+    if absorblightning then
+        return
+    end
+
+    shockeffect = true
+    absorblightning = true
+
+    local thunderbird_fx_charge_pst = SpawnPrefab("thunderbird_fx_idle")
+    thunderbird_fx_charge_pst.Transform:SetPosition(inst:GetPosition():Get())
+
+    OnEntityWake(inst)
+end
 
 local function hitokiri_onattack(inst, owner, target)
     if target ~= nil and target:IsValid() then
-        onattack_common(inst, owner, target)
-
         if owner.components.health ~= nil and owner.components.health:GetPercent() < 1 and not (target:HasTag("wall") or target:HasTag("engineering")) then
             owner.components.health:DoDelta(TUNING.BATBAT_DRAIN, false, "true_hitokiri")
         end
@@ -23,8 +62,6 @@ end
 
 local function shirasaya_onattack(inst, owner, target)
     if target ~= nil and target:IsValid() then
-        onattack_common(inst, owner, target)
-
         local hitsparks_fx = SpawnPrefab("brilliance_projectile_blast_fx")
         hitsparks_fx.Transform:SetPosition(target:GetPosition():Get())
 
@@ -38,8 +75,6 @@ end
 
 local function raikiri_onattack(inst, owner, target)
     if target ~= nil and target:IsValid() then
-        onattack_common(inst, owner, target)
-
         local electricchargedfx = SpawnPrefab("electricchargedfx")
         electricchargedfx:SetTarget(target)
 
@@ -48,7 +83,7 @@ local function raikiri_onattack(inst, owner, target)
             if electrichitsparks ~= nil and target ~= nil and target:IsValid() and owner ~= nil and owner:IsValid() then
                 electrichitsparks:AlignToTarget(target, owner, true)
                 if target.components.combat ~= nil then
-                    target.components.combat:GetAttacked(owner, inst.components.weapon.damage*.8)
+                    target.components.combat:GetAttacked(owner, inst.components.weapon.damage * (absorblightning and 1.5) or .8)
                 end
             end
         end
@@ -57,8 +92,6 @@ end
 
 local function koshirae_onattack(inst, owner, target)
     if target ~= nil and target:IsValid() then
-        onattack_common(inst, owner, target)
-
         if target:HasTag("epic") and target.components.combat ~= nil then
             target.components.combat:GetAttacked(owner, inst.components.weapon.damage*.5)
         end
@@ -90,6 +123,7 @@ end
 
 local function raikiri_common_postinit(inst)
     inst:AddTag("lightningcutter")
+    inst:AddTag("lightningrod")
 end
 
 local function raikiri_master_postinit(inst)
@@ -99,6 +133,11 @@ local function raikiri_master_postinit(inst)
 
     inst:WatchWorldState("israining", OnIsRaining)
     OnIsRaining(inst, TheWorld.state.israining)
+
+    inst:ListenForEvent("lightningstrike", OnLightningStrike)
+
+    inst.OnLightningStrike = OnLightningStrike
+    inst.OnEntityWake = OnEntityWake
 end
 
 local function koshirae_common_postinit(inst)

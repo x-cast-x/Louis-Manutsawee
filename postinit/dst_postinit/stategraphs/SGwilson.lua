@@ -4,6 +4,8 @@ local AddStategraphState = AddStategraphState
 local AddStategraphPostInit = AddStategraphPostInit
 GLOBAL.setfenv(1, GLOBAL)
 
+local SkillUtil = require("utils/skillutil")
+
 ----------------------------------------------------------------------------------------------
 --------------------------------------function-----------------------------------------------
 ----------------------------------------------------------------------------------------------
@@ -675,7 +677,9 @@ local states = {
                     equip.components.spellcaster:CastSpell(inst)
                 end
                 inst.Physics:SetMotorVelOverride(32,0,0)
-                inst:ForceFacePoint(inst.sg.statemem.target.Transform:GetWorldPosition())
+                if inst.sg.statemem.target then
+                    inst:ForceFacePoint(inst.sg.statemem.target.Transform:GetWorldPosition())
+                end
             end),
             TimeEvent(4 * FRAMES, function(inst)
                 inst.Physics:ClearMotorVelOverride()
@@ -691,10 +695,7 @@ local states = {
 
         events = {
             EventHandler("animqueueover", function(inst)
-                if inst.AnimState:AnimDone()
-                and inst.components.health ~= nil
-                and not inst.components.health:IsDead()
-                and not inst.sg:HasStateTag("dead") then
+                if inst.AnimState:AnimDone() then
                     inst.sg:GoToState("idle")
                 end
             end),
@@ -713,9 +714,9 @@ local states = {
 
         timeline = {
             TimeEvent(3 * FRAMES, function(inst)
-                local equip = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
-                if equip ~= nil and equip.components.spellcaster ~= nil then
-                    equip.components.spellcaster:CastSpell(inst)
+                local weapon = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
+                if weapon ~= nil and weapon.components.spellcaster ~= nil then
+                    weapon.components.spellcaster:CastSpell(inst)
                 end
             end),
             TimeEvent(8 * FRAMES, function(inst)
@@ -729,11 +730,7 @@ local states = {
 
         events = {
             EventHandler("animqueueover", function(inst)
-                if inst.AnimState:AnimDone()
-                and inst.components.health ~= nil
-                and not inst.components.health:IsDead()
-                and not inst.sg:HasStateTag("dead")
-                then
+                if inst.AnimState:AnimDone() then
                     inst.sg:GoToState("idle")
                 end
             end),
@@ -1089,8 +1086,8 @@ local states = {
         timeline = {
             TimeEvent(8 * FRAMES, function(inst)
                 inst.SoundEmitter:PlaySound("dontstarve/creatures/spiderqueen/swipe")
-                M_Util.AddFollowerFx(inst, "electrichitsparks")
-                M_Util.GroundPoundFx(inst, 0.5)
+                SkillUtil.AddFollowerFx(inst, "electrichitsparks")
+                SkillUtil.GroundPoundFx(inst, 0.5)
             end),
 
             TimeEvent(9 * FRAMES, function(inst)
@@ -1145,8 +1142,8 @@ local states = {
             if inst.doubleichimonji ~= nil then
                 inst.doubleichimonji = nil
                 inst.components.talker:Say(STRINGS.SKILL.SKILL1ATTACK, 2, true)
-                inst.mafterskillndm = inst:DoTaskInTime(2, function() 
-                    inst.mafterskillndm = nil 
+                inst.mafterskillndm = inst:DoTaskInTime(2, function()
+                    inst.mafterskillndm = nil
                 end)
             end
             if inst.doubleichimonjistart then

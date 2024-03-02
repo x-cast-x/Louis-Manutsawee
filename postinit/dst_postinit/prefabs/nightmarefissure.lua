@@ -1,4 +1,5 @@
 local AddPrefabPostInit = AddPrefabPostInit
+local UpvalueUtil = require("utils/upvalueutil")
 GLOBAL.setfenv(1, GLOBAL)
 
 local function GetStatus(inst, viewer)
@@ -13,7 +14,7 @@ AddPrefabPostInit("fissure", function(inst)
     end
 
     if inst.components.inspectable ~= nil then
-    inst.components.inspectable.getstatus = GetStatus
+        inst.components.inspectable.getstatus = GetStatus
     end
 
     local katanaspawner = TheWorld.components.katanaspawner
@@ -28,8 +29,8 @@ AddPrefabPostInit("fissure", function(inst)
     end
 
     local _OnNightmarePhaseChanged = inst.OnNightmarePhaseChanged
-    local _ShowPhaseState = M_Util.GetUpvalue(_OnNightmarePhaseChanged, "ShowPhaseState")
-    local _states = M_Util.GetUpvalue(_ShowPhaseState, "states")
+    local _ShowPhaseState = UpvalueUtil.GetUpvalue(_OnNightmarePhaseChanged, "ShowPhaseState")
+    local _states = UpvalueUtil.GetUpvalue(_ShowPhaseState, "states")
     local _controlled = _states.controlled
     function _states.controlled(inst, instant, oldstate)
         _controlled(inst, instant, oldstate)

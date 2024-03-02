@@ -35,6 +35,8 @@ Assets = {
     Asset("ATLAS", "bigportraits/manutsawee_taohuu.xml"),
     Asset("IMAGE", "bigportraits/manutsawee_uniform_black.tex"),
     Asset("ATLAS", "bigportraits/manutsawee_uniform_black.xml"),
+    Asset("IMAGE", "bigportraits/manutsawee_bocchi.tex"),
+    Asset("ATLAS", "bigportraits/manutsawee_bocchi.xml"),
 
     -- inventoryimages
     Asset("IMAGE", "images/inventoryimages/m_inventoryimages.tex"),

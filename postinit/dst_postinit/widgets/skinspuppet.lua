@@ -44,14 +44,14 @@ local M_Idle_Anim = {
     },
 }
 
+-- luajit2 compatible
 local _DoIdleEmote = SkinsPuppet.DoIdleEmote
 function SkinsPuppet:DoIdleEmote(...)
     local r = math.random()
     if r > 0.3 then
-        if self.prefabname == "manutsawee" then
-            local skin = self.last_skins.base_skin
-            local emote_anim = M_Idle_Anim[skin]
-
+        local skin = self.last_skins.base_skin
+        local emote_anim = M_Idle_Anim[skin]
+        if self.prefabname == "manutsawee" and emote_anim ~= nil then
             if type(emote_anim) == "table" then
                 local fn = emote_anim.fn
                 emote_anim = emote_anim.anim
@@ -63,5 +63,7 @@ function SkinsPuppet:DoIdleEmote(...)
         end
     end
 
-    return _DoIdleEmote(self, ...)
+    if _DoIdleEmote ~= nil then
+        return _DoIdleEmote(self, ...)
+    end
 end

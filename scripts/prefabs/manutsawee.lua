@@ -1,5 +1,5 @@
 local MakePlayerCharacter = require "prefabs/player_common"
-local Skill_Data = require "skillfns"
+local Skill_Data = require "skill_data"
 
 local assets = {
     Asset("SCRIPT", "scripts/prefabs/player_common.lua"),
@@ -40,7 +40,7 @@ local assets = {
 }
 
 local prefabs = {
-    "battlesong_instant_electric_fx",
+    "m_battlesong_instant_electric_fx",
     "fx_book_light_upgraded",
 }
 
@@ -54,6 +54,15 @@ prefabs = FlattenTree({prefabs, start_inv}, true)
 
 local function SkillRemove(inst)
     inst.components.skillreleaser:SkillRemove()
+end
+
+local function OnDeath(inst)
+    local fx = SpawnPrefab("fx_book_light_upgraded")
+    local x, y, z = inst.Transform:GetWorldPosition()
+    fx.Transform:SetScale(.9, 2.5, 1)
+    fx.Transform:SetPosition(x, y, z)
+
+    SkillRemove(inst)
 end
 
 local function OnMindPowerRegen(inst, mindpower)
@@ -253,6 +262,9 @@ local common_postinit = function(inst)
 	inst:AddTag("bearded")
 	inst:AddTag("manutsaweecraft")
 	inst:AddTag("stronggrip")
+    inst:AddTag("fastbuilder")
+    inst:AddTag("hungrybuilder")
+    inst:AddTag("naughtychild")
 
     if IA_ENABLED then
         inst:AddTag("surfer")
@@ -393,6 +405,36 @@ local function SwitchControlled(inst, enabled)
     end
 end
 
+local OnStrike = function(inst)
+    local weapon = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
+    if weapon ~= nil and weapon:HasTag("lightningcutter") then
+        local electricchargedfx = SpawnPrefab("electricchargedfx")
+        electricchargedfx.entity:AddFollower()
+        electricchargedfx.Follower:FollowSymbol(inst.GUID)
+
+        local thunderbird_fx_charge_loop = SpawnPrefab("thunderbird_fx_charge_loop")
+        thunderbird_fx_charge_loop.entity:AddFollower()
+        thunderbird_fx_charge_loop.Follower:FollowSymbol(inst.GUID)
+
+        weapon:PushEvent("lightningstrike")
+        inst:PushEvent("lightningdamageavoided", weapon:HasTag("lightningcutter"))
+    else
+        if inst.components.health ~= nil and not (inst.components.health:IsDead() or inst.components.health:IsInvincible()) then
+            if not inst.components.inventory:IsInsulated() then
+                local mult = TUNING.ELECTRIC_WET_DAMAGE_MULT * inst.components.moisture:GetMoisturePercent()
+                local damage = TUNING.LIGHTNING_DAMAGE + mult * TUNING.LIGHTNING_DAMAGE
+
+                inst.components.health:DoDelta(-damage, false, "lightning")
+                if not inst.sg:HasStateTag("dead") then
+                    inst.sg:GoToState("electrocute")
+                end
+            else
+                inst:PushEvent("lightningdamageavoided")
+            end
+        end
+    end
+end
+
 local Idle_Anim = {
     ["manutsawee_yukatalong_purple"] = "idle_wendy",
     ["manutsawee_yukatalong"] = "idle_wendy",
@@ -405,6 +447,7 @@ local Idle_Anim = {
     ["manutsawee_uniform_black"] = "idle_wanda",
     ["manutsawee_taohuu"] = "idle_winona",
     ["manutsawee_miko"] = "emote_impatient",
+    ["manutsawee_bocchi"] = "emote_impatient",
 }
 
 local Funny_Idle_Anim = {
@@ -438,7 +481,7 @@ local function SetUpCustomIdle(inst)
 end
 
 local function RegisterEventListeners(inst)
-    inst:ListenForEvent("death", SkillRemove)
+    inst:ListenForEvent("death", OnDeath)
     inst:ListenForEvent("killed", OnKilled)
     inst:ListenForEvent("mounted", SkillRemove)
     inst:ListenForEvent("unequip", OnUnEquip)
@@ -466,6 +509,8 @@ local function SetInstanceValue(inst)
 	inst.hair_long = 1
 	inst.hair_type = 1
 	inst._range = inst.components.combat.hitrange
+
+    inst.skeleton_prefab = nil
 
     inst.HAIR_BITS = HAIR_BITS
     inst.HAIR_TYPES = HAIR_TYPES
@@ -545,6 +590,10 @@ local master_postinit = function(inst)
     if inst.components.eater ~= nil then
         inst.components.eater:SetCanEatMfruit()
         inst.components.eater:SetOnEatFn(OnEat)
+    end
+
+    if inst.components.playerlightningtarget ~= nil then
+        inst.components.playerlightningtarget:SetOnStrikeFn(OnStrike)
     end
 
 	-- Slow Worker

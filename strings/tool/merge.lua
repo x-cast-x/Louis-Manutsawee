@@ -84,9 +84,9 @@ end
 
 local function escape(str)
     return (str:gsub('\\', '\\\\')
-             :gsub('"', '\\"')
-             :gsub('\n', '\\n')
-             :gsub('\r', '\\r'))
+    :gsub('"', '\\"')
+    :gsub('\n', '\\n')
+    :gsub('\r', '\\r'))
 end
 
 languages["en"] = "strings"

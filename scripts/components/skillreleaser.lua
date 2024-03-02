@@ -1,4 +1,5 @@
 local blockcount = 0
+local SkillUtil = require("utils/skillutil")
 
 local function DoCombatPostInit(inst)
     local self = inst.components.combat
@@ -25,9 +26,9 @@ local function DoCombatPostInit(inst)
                 inst:PushEvent("heavenlystrike")
                 if attacker.components.combat ~= nil then
                     --inst.components.combat:DoAttack(attacker)
-                    M_Util.AoeAttack(inst, 2,3)
-                    M_Util.GroundPoundFx(inst, .6)
-                    M_Util.SlashFx(inst, attacker, "shadowstrike_slash_fx", 1.6)
+                    SkillUtil.AoeAttack(inst, 2,3)
+                    SkillUtil.GroundPoundFx(inst, .6)
+                    SkillUtil.SlashFx(inst, attacker, "shadowstrike_slash_fx", 1.6)
                     if inst.mafterskillndm ~= nil then
                         inst.mafterskillndm:Cancel()
                         inst.mafterskillndm = nil
@@ -48,9 +49,9 @@ local function DoCombatPostInit(inst)
         end
 
         if inst.sg:HasStateTag("mdashing") or inst.inspskill ~= nil then
-            M_Util.AddFollowerFx(inst, "electricchargedfx")
+            SkillUtil.AddFollowerFx(inst, "electricchargedfx")
         elseif inst.sg:HasStateTag("counteractive") then
-            M_Util.GroundPoundFx(inst, .6)
+            SkillUtil.GroundPoundFx(inst, .6)
             inst.SoundEmitter:PlaySound("turnoftides/common/together/moon_glass/mine")
             local sparks = SpawnPrefab("sparks")
             sparks.Transform:SetPosition(inst:GetPosition():Get())
@@ -143,9 +144,7 @@ function SkillReleaser:AddSkills(skills)
     if type(skills) == "table" then
         for k, v in pairs(skills) do
             local name = string.lower(k)
-            local fn = function()
-                M_Util.Skill_CommonFn(self.inst, v.tag, name, v.time, v.mindpower, v.fn)
-            end
+            local fn = SkillUtil.Skill_CommonFn(self.inst, v.tag, name, v.time, v.mindpower, v.fn)
             self:AddSkill(name, fn)
         end
     end
