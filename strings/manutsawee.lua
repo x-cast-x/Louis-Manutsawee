@@ -520,6 +520,21 @@ return {
     },
     DESCRIBE = {
         ABIGAIL = {
+            LEVEL1 =
+            {
+                "Awww, she has a cute little bow.",
+                "Awww, she has a cute little bow.",
+            },
+            LEVEL2 =
+            {
+                "Awww, she has a cute little bow.",
+                "Awww, she has a cute little bow.",
+            },
+            LEVEL3 =
+            {
+                "Awww, she has a cute little bow.",
+                "Awww, she has a cute little bow.",
+            },
             RESURRECTION = "天生牙也无力回天.",
         },
         ABIGAIL_FLOWER = {
