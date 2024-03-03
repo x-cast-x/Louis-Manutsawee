@@ -149,8 +149,9 @@ local function common()
     inst:AddComponent("sailable")
     inst.components.sailable.sanitydrain = TUNING.RAFT_SANITY_DRAIN
     inst.components.sailable.movementbonus = TUNING.RAFT_SPEED + 5
-    inst.components.sailable.flotsambuild = "flotsam_bamboo_build"
     inst.components.sailable.maprevealbonus = TUNING.MAPREVEAL_RAFT_BONUS
+    inst.components.sailable.hitmoisturerate = TUNING.SURFBOARD_HITMOISTURERATE
+    inst.components.sailable.flotsambuild = "flotsam_surfboard_build"
 
     inst.landsound = "ia/common/boatjump_land_bamboo"
     inst.sinksound = "ia/common/boat/sinking/bamboo"
@@ -278,10 +279,7 @@ local function surfboardfn()
     inst.waveboost = TUNING.SURFBOARD_WAVEBOOST
     inst.wavesanityboost = TUNING.SURFBOARD_WAVESANITYBOOST
 
-    inst.components.sailable.movementbonus = TUNING.MSURFBOARD_SPEED
-    inst.components.sailable.maprevealbonus = TUNING.MAPREVEAL_RAFT_BONUS
-    inst.components.sailable.hitmoisturerate = TUNING.SURFBOARD_HITMOISTURERATE
-    inst.components.sailable.flotsambuild = "flotsam_surfboard_build"
+
 
     inst.perishtime = TUNING.SURFBOARD_PERISHTIME
     inst.components.boathealth.maxhealth = TUNING.MSURFBOARD_HEALTH
@@ -322,7 +320,7 @@ local function item_ondeploy(inst, pt, deployer)
 	end
 end
 
-local function item_common()
+local function surfboarditemfn()
     local inst = CreateEntity()
 
     inst.entity:AddTransform()
@@ -331,10 +329,15 @@ local function item_common()
     inst.entity:AddSoundEmitter()
     inst.entity:AddMiniMapEntity()
 
+    inst.MiniMapEntity:SetIcon("boat_msurfboard.tex")
     inst.MiniMapEntity:SetPriority(5)
 
     MakeInventoryPhysics(inst)
     MakeInventoryFloatable(inst)
+
+    inst.AnimState:SetBank("msurfboard")
+    inst.AnimState:SetBuild("msurfboard")
+    inst.AnimState:PlayAnimation("idle")
 
     inst:AddTag("boat")
 
@@ -351,7 +354,7 @@ local function item_common()
         return inst
     end
 
-    inst.boat = nil
+    inst.boat = "boat_msurfboard"
 
     inst:AddComponent("inspectable")
     inst:AddComponent("inventoryitem")
@@ -396,20 +399,6 @@ local function item_common()
         local text = self.text
         inst.boatname:set(text and text ~= "" and text or "")
     end
-
-    return inst
-end
-
-local function surfboarditemfn()
-    local inst = item_common()
-
-    inst.boat = "boat_msurfboard"
-
-    inst.MiniMapEntity:SetIcon("boat_msurfboard.tex")
-
-    inst.AnimState:SetBank("msurfboard")
-    inst.AnimState:SetBuild("msurfboard")
-    inst.AnimState:PlayAnimation("idle")
 
     return inst
 end

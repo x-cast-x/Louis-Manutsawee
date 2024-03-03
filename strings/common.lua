@@ -153,7 +153,7 @@ return {
         manutsawee_yukata = "Kimono(M) ",
         manutsawee_yukatalong = "Kimono",
         manutsawee_yukatalong_purple = "Kimono(P)",
-        manutsawee_bocchi = "Bocchi The Rock",
+        manutsawee_bocchi = "Guitar Hero",
     },
     SKIN_QUOTES = {
         manutsawee_fuka = "\"I'm a kung-fu master now.\"",

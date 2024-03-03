@@ -10,6 +10,7 @@ local function OnAttack(inst, attacker, target)
         local spark = SpawnPrefab("hitsparks_fx")
         spark:Setup(attacker, target, nil, hitsparks_fx_colouroverride)
         spark.black:set(true)
+        target.components.combat:GetAttacked(attacker, inst.components.weapon.damage * (inst.swirl and 2) or .8)
     end
 end
 
@@ -59,16 +60,16 @@ local function OnIsNightmareWild(inst, isnightmarewild)
 		return
 	end
 
-    if owner ~= nil and isnightmarewild and owner.components.areaaware:CurrentlyInTag("Nightmare") then
+    if owner ~= nil and isnightmarewild and owner.components.areaaware:CurrentlyInTag("Nightmare") and not owner:HasTag("controlled") then
         inst:DoTaskInTime(10, function()
-            owner.components.talker:Say(GetString(owner, "ANNOUNCE_ISNIGHTMAREWILD"))
             if owner.SwitchControlled ~= nil then
+                owner.components.talker:Say(GetString(owner, "ANNOUNCE_ISNIGHTMAREWILD"))
                 owner.SwitchControlled(owner, true)
                 TryStartFx(inst, owner)
             end
         end)
     else
-        if owner.SwitchControlled ~= nil then
+        if owner.SwitchControlled ~= nil and owner:HasTag("controlled") then
             owner.SwitchControlled(owner, false)
             StopFx(inst)
         end
@@ -117,10 +118,6 @@ local function OnUnequip(inst, owner)
 
     inst.components.weapon:SetDamage(TUNING.TOKIJIN_DAMAGE)
 
-    if TheWorld:HasTag("cave") then
-        OnIsNightmareWild(inst, TheWorld.state.isnightmarewild)
-    end
-
 	if inst:HasTag("mkatana") then
         inst:RemoveTag("mkatana")
     end
@@ -164,7 +161,6 @@ local function OnHauntFn(inst, haunter)
         if inst.swirl == nil then
             inst.swirl = SpawnPrefab("shadow_chester_swirl_fx")
             inst.swirl.entity:SetParent(inst.entity)
-            inst.components.weapon:SetDamage(inst.components.weapon.damage*2)
         end
 
         return true

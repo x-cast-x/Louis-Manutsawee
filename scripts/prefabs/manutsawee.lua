@@ -35,6 +35,7 @@ local assets = {
 
 	Asset("ANIM", "anim/eyeglasses.zip"),
 	Asset("ANIM", "anim/sunglasses.zip"),
+	Asset("ANIM", "anim/starglasses.zip"),
 
     Asset("ANIM", "anim/face_controlled.zip")
 }
@@ -105,9 +106,14 @@ local function OnChangeHair(inst, skinname)
     end
 end
 
-local function PutGlasses(inst, skinname)
-    if skinname == nil then
-        skinname = "sunglasses"
+local glasses_map = {
+    ["manutsawee_uniform_black"] = "sunglasses",
+    ["manutsawee_bocchi"] = "starglasses",
+}
+
+local function PutGlasses(inst)
+    local skinname = glasses_map[inst.AnimState:GetBuild()]
+    if skinname ~= nil then
         inst.AnimState:OverrideSymbol("swap_face", skinname, "swap_face")
     else
         inst.AnimState:OverrideSymbol("face", "eyeglasses", "face")
@@ -232,11 +238,11 @@ end
 local function GetPointSpecialActions(inst, pos, useitem, right)
 	local equip = inst.replica.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
     local rider = inst.replica.rider
-    if equip ~= nil and not (equip:HasTag("iai") or equip:HasTag("katana_quickdraw")) and equip:HasTag("katanaskill") and inst:HasTag("kenjutsu") and right and GetTime() - inst.last_dodge_time > inst.dodge_cooldown then
+    if equip ~= nil and not (equip:HasTag("iai") or equip:HasTag("katana_quickdraw")) and equip:HasTag("katanaskill") and inst:HasTag("kenjutsu") and right and GetTime() - inst.last_dodge_time > inst.dodge_cooldown and not inst:HasTag("sitting_on_chair") then
 		if rider == nil or not rider:IsRiding() then
 			return {ACTIONS.MDODGE}
 		end
-    elseif inst:HasTag("kenjutsu") and right and GetTime() - inst.last_dodge_time > inst.dodge_cooldown then
+    elseif inst:HasTag("kenjutsu") and right and GetTime() - inst.last_dodge_time > inst.dodge_cooldown and not inst:HasTag("sitting_on_chair") then
 		if rider == nil or not rider:IsRiding() then
 			return {ACTIONS.MDODGE2}
 		end
@@ -515,6 +521,7 @@ local function SetInstanceValue(inst)
     inst.HAIR_BITS = HAIR_BITS
     inst.HAIR_TYPES = HAIR_TYPES
     inst.Funny_Idle_Anim = Funny_Idle_Anim
+    inst.glasses_map = glasses_map
 end
 
 local function DoPostInit(inst)
