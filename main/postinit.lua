@@ -21,6 +21,7 @@ local postinit = {
         "grogginess",
         "equippable",
         "wisecracker",
+        "combat",
     },
     widgets = {
         "skinspuppet",

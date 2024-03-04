@@ -74,19 +74,15 @@ end
 
 local function OnEquip(inst, owner)
 	Armormode(inst, owner)
-    inst.onattach(owner)
+    inst.onattach(inst, owner)
 end
 
 local function OnUnequip(inst, owner)
     owner.AnimState:ClearOverrideSymbol("swap_body")
-    inst.ondetach()
+    inst.ondetach(inst)
 end
 
 local function CastFn(inst, target, position, owner)
-    if owner.prefab ~= "manutsawee" then
-        return
-    end
-
     if inst.armorstatus then
         inst.armorstatus = false
     else
@@ -106,14 +102,43 @@ local function onLoad(inst, data)
     end
 end
 
-local function miko_onremove(inst)
+local function OnRemoveEntity(inst)
     if inst._fx ~= nil then
         inst._fx:kill_fx()
         inst._fx = nil
     end
 end
 
-local function MainFunction()
+local function ondetach(inst)
+    miko_unproc(inst)
+    if inst._owner ~= nil then
+        inst:RemoveEventCallback("attacked", inst.procfn, inst._owner)
+        inst:RemoveEventCallback("onremove", inst.ondetach, inst._owner)
+        inst._owner = nil
+        inst._fx = nil
+    end
+end
+
+local function procfn(inst, owner, data)
+    tryproc(inst, owner, data)
+end
+
+local function onattach(inst, owner)
+    if inst._owner ~= nil then
+        inst:RemoveEventCallback("attacked", inst.procfn, inst._owner)
+        inst:RemoveEventCallback("onremove", inst.ondetach, inst._owner)
+    end
+    inst:ListenForEvent("attacked", inst.procfn, owner)
+    inst:ListenForEvent("onremove", inst.ondetach, owner)
+    inst._owner = owner
+    inst._fx = nil
+end
+
+local function CanCastFn(doer, target, pos)
+    return doer:HasTag("miko")
+end
+
+local function fn()
 	local inst = CreateEntity()
 
 	inst.entity:AddTransform()
@@ -154,6 +179,7 @@ local function MainFunction()
     inst.components.spellcaster:SetSpellFn(CastFn)
     inst.components.spellcaster.canusefrominventory = true
     inst.components.spellcaster.quickcast = true
+    inst.components.spellcaster:SetCanCastFn(CanCastFn)
 
     inst:AddComponent("equippable")
 	inst.components.equippable.dapperness = TUNING.DAPPERNESS_SMALL
@@ -161,36 +187,15 @@ local function MainFunction()
 	inst.components.equippable:SetOnEquip(OnEquip)
     inst.components.equippable:SetOnUnequip(OnUnequip)
 
-    inst.OnRemoveEntity = miko_onremove
+    inst.OnRemoveEntity = OnRemoveEntity
 
     inst._fx = nil
     inst._task = nil
     inst._owner = nil
 
-    inst.procfn = function(owner, data)
-        tryproc(inst, owner, data)
-    end
-
-    inst.onattach = function(owner)
-        if inst._owner ~= nil then
-            inst:RemoveEventCallback("attacked", inst.procfn, inst._owner)
-            inst:RemoveEventCallback("onremove", inst.ondetach, inst._owner)
-        end
-        inst:ListenForEvent("attacked", inst.procfn, owner)
-        inst:ListenForEvent("onremove", inst.ondetach, owner)
-        inst._owner = owner
-        inst._fx = nil
-    end
-
-    inst.ondetach = function()
-        miko_unproc(inst)
-        if inst._owner ~= nil then
-            inst:RemoveEventCallback("attacked", inst.procfn, inst._owner)
-            inst:RemoveEventCallback("onremove", inst.ondetach, inst._owner)
-            inst._owner = nil
-            inst._fx = nil
-        end
-    end
+    inst.procfn = procfn
+    inst.onattach = onattach
+    inst.ondetach = ondetach
 
 	inst.armorstatus = false
 	inst.OnSave = onSave
@@ -201,4 +206,4 @@ local function MainFunction()
     return inst
 end
 
-return Prefab("mmiko_armor", MainFunction, Assets, prefabs)
+return Prefab("mmiko_armor", fn, Assets, prefabs)

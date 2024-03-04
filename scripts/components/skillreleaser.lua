@@ -6,6 +6,10 @@ local function DoCombatPostInit(inst)
     local _GetAttacked = self.GetAttacked
 
     function self:GetAttacked(attacker, damage, weapon, stimuli, spdamage)
+        if weapon:HasTag("tenseiga") then
+            return
+        end
+
         if attacker == nil or damage == nil or (inst.components.sleeper ~= nil and inst.components.sleeper:IsAsleep()) or (inst.components.freezable and inst.components.freezable:IsFrozen()) then
             return _GetAttacked(self, attacker, damage, weapon, stimuli, spdamage)
         end

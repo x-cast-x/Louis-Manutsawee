@@ -37,7 +37,17 @@ local assets = {
 	Asset("ANIM", "anim/sunglasses.zip"),
 	Asset("ANIM", "anim/starglasses.zip"),
 
-    Asset("ANIM", "anim/face_controlled.zip")
+    Asset("ANIM", "anim/face_controlled.zip"),
+
+    Asset("ANIM", "anim/player_idles_bocchi.zip"),
+    Asset("ANIM", "anim/player_idles_walter.zip"),
+    Asset("ANIM", "anim/player_idles_winona.zip"),
+    Asset("ANIM", "anim/player_idles_wathgrithr.zip"),
+    Asset("ANIM", "anim/player_idles_wanda.zip"),
+    Asset("ANIM", "anim/player_idles_wendy.zip"),
+    Asset("ANIM", "anim/player_idles_wilson.zip"),
+    Asset("ANIM", "anim/player_idles_wortox.zip"),
+    Asset("ANIM", "anim/player_idles_wes.zip"),
 }
 
 local prefabs = {
@@ -151,11 +161,11 @@ local function OnUpgrades(inst, kenjutsulevel, kenjutsuexp)
         inst.components.kenjutsuka:StartRegenMindPower()
     end
 
-    if kenjutsulevel >= 5 and not inst:HasTag("manutsaweecraft2") then
-        inst:AddTag("manutsaweecraft2")
+    if kenjutsulevel >= 5 and not inst:HasTag("katanakaji") then
+        inst:AddTag("katanakajimaster")
         inst.components.sanity:AddSanityAuraImmunity("ghost")
 		inst.components.workmultiplier:AddMultiplier(ACTIONS.CHOP,   1, inst)
-		inst.components.workmultiplier:AddMultiplier(ACTIONS.MINE,  1, inst)
+		inst.components.workmultiplier:AddMultiplier(ACTIONS.MINE,   1, inst)
 		inst.components.workmultiplier:AddMultiplier(ACTIONS.HAMMER, 1, inst)
     end
 
@@ -166,7 +176,7 @@ local function OnUpgrades(inst, kenjutsulevel, kenjutsuexp)
     end
 
     if kenjutsulevel >= 10 then
-        inst:AddTag("kenjutsumaster")
+        inst:AddTag("kenjutsunoshihan")
         kenjutsuexp = 0
     end
 
@@ -266,11 +276,13 @@ local common_postinit = function(inst)
     end
 
 	inst:AddTag("bearded")
-	inst:AddTag("manutsaweecraft")
+	inst:AddTag("bladesmith")
 	inst:AddTag("stronggrip")
     inst:AddTag("fastbuilder")
     inst:AddTag("hungrybuilder")
     inst:AddTag("naughtychild")
+    inst:AddTag("miko")
+    inst:AddTag("ghostlyfriend")
 
     if IA_ENABLED then
         inst:AddTag("surfer")
@@ -453,37 +465,34 @@ local Idle_Anim = {
     ["manutsawee_uniform_black"] = "idle_wanda",
     ["manutsawee_taohuu"] = "idle_winona",
     ["manutsawee_miko"] = "emote_impatient",
-    ["manutsawee_bocchi"] = "emote_impatient",
 }
 
 local Funny_Idle_Anim = {
     ["manutsawee_qipao"] = "wes_funnyidle",
+    ["manutsawee_bocchi"] = "idle_bocchi",
 }
 
 local function CustomIdleAnimFn(inst)
     local build = inst.AnimState:GetBuild()
+    local idle_anim = Idle_Anim[build]
 
     if build == "manutsawee" then
         return "idle_wilson"
     else
-        return Idle_Anim[build] ~= nil and Idle_Anim[build] or nil
+        return idle_anim ~= nil and idle_anim or nil
     end
 end
 
 local function CustomIdleStateFn(inst)
     local build = inst.AnimState:GetBuild()
+    local funny_idle_anim = Funny_Idle_Anim[build]
 
-    return Funny_Idle_Anim[build] ~= nil and Funny_Idle_Anim[build] or nil
+    return funny_idle_anim ~= nil and funny_idle_anim or nil
 end
 
 local function SetUpCustomIdle(inst)
     inst.customidleanim = CustomIdleAnimFn
     inst.customidlestate = CustomIdleStateFn
-
-    local characters = {"wes", "wortox", "wilson", "wendy", "wanda", "wathgrithr", "winona", "walter"}
-    for _, v in pairs(characters) do
-        table.insert(assets, Asset("ANIM", "anim/player_idles_" .. v .. ".zip"))
-    end
 end
 
 local function RegisterEventListeners(inst)
@@ -584,7 +593,7 @@ local master_postinit = function(inst)
 	inst.components.health:SetMaxHealth(TUNING.MANUTSAWEE.HEALTH)
     inst.components.hunger:SetMax(TUNING.MANUTSAWEE.HUNGER)
     inst.components.sanity:SetMax(TUNING.MANUTSAWEE.SANITY)
-    -- inst.components.hunger:SetRate(TUNING.WILSON_HUNGER_RATE * 1.5)
+    -- inst.components.hunger:SetRate(TUNING.WILSON_HUNGER_RATE * .5)
 
 	-- Damage multiplier (optional)
     inst.components.combat.damagemultiplier = 1

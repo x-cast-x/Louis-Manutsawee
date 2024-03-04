@@ -1362,6 +1362,25 @@ local states = {
 			inst.components.locomotor:EnableGroundSpeedMultiplier(true)
         end,
     },
+
+    State{
+        name = "idle_bocchi",
+        tags = { "idle", "canrotate" },
+
+        onenter = function(inst)
+            inst.AnimState:PlayAnimation("idle_bocchi_loop")
+            inst.sg:SetTimeout(1)
+        end,
+
+        events =
+        {
+            EventHandler("animqueueover", function(inst)
+                if inst.AnimState:AnimDone() then
+                    inst.sg:GoToState("idle")
+                end
+            end),
+        },
+    },
 }
 
 for _, event in ipairs(events) do

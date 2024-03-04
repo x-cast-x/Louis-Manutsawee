@@ -6,7 +6,7 @@ local Assets = {
 local function OnEquip(inst, owner)
     owner.AnimState:OverrideSymbol("swap_body", "m_scarf", "swap_body")
 
-	if owner:HasTag("manutsaweecraft") then
+	if owner:HasTag("bladesmith") then
         owner.AnimState:OverrideSymbol("beard", "mface_scarf", "beard_short")
 	end
 
@@ -18,7 +18,7 @@ end
 local function OnUnequip(inst, owner)
     owner.AnimState:ClearOverrideSymbol("swap_body")
 
-	if owner:HasTag("manutsaweecraft") then
+	if owner:HasTag("bladesmith") then
         owner.AnimState:ClearOverrideSymbol("beard")
 	end
 
@@ -27,7 +27,7 @@ local function OnUnequip(inst, owner)
     end
 end
 
-local function MainFunction()
+local function fn()
 	local inst = CreateEntity()
 
 	inst.entity:AddTransform()
@@ -85,4 +85,4 @@ local function MainFunction()
     return inst
 end
 
-return Prefab("m_scarf", MainFunction, Assets)
+return Prefab("m_scarf", fn, Assets)

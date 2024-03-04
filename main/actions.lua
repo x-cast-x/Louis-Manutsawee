@@ -1,6 +1,7 @@
 local AddAction = AddAction
 local Vector3 = GLOBAL.Vector3
 local AddComponentAction = AddComponentAction
+local modimport = modimport
 GLOBAL.setfenv(1, GLOBAL)
 
 local ACTIONS = {
@@ -27,3 +28,5 @@ ACTIONS.MDODGE2.fn = function(act, data)
     end
     return true
 end
+
+modimport("postinit/actions")

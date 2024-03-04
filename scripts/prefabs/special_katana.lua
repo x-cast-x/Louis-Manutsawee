@@ -153,6 +153,8 @@ local tenseiga_master_postinit = function(inst)
 
         return onhaunt(inst, player)
     end
+
+    inst:RemoveComponent("finiteuses")
 end
 
 local katana_data = {

@@ -4,7 +4,7 @@ local assets = {
 
 local function OnPutInInventory(inst, owner)
 	if owner ~= nil and owner.components.inventory ~= nil then
-		if not (owner:HasTag("kenjutsu") or owner:HasTag("manutsaweecraft")) then
+		if not (owner:HasTag("kenjutsu") or not owner:HasTag("bladesmith")) then
 			inst:DoTaskInTime(0.1, function()
                 local fx = SpawnPrefab("electrichitsparks")
 				fx:AlignToTarget(owner, inst, true)

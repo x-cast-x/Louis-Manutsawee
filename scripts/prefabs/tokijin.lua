@@ -10,12 +10,12 @@ local function OnAttack(inst, attacker, target)
         local spark = SpawnPrefab("hitsparks_fx")
         spark:Setup(attacker, target, nil, hitsparks_fx_colouroverride)
         spark.black:set(true)
-        target.components.combat:GetAttacked(attacker, inst.components.weapon.damage * (inst.swirl and 2) or .8)
+        target.components.combat:GetAttacked(attacker, inst.components.weapon.damage * (inst.swirl ~= nil and 2) or .8)
     end
 end
 
 local function OnPutInInventory(inst, owner)
-    if owner:HasTag("player") and not owner:HasTag("manutsaweecraft") then
+    if owner:HasTag("player") and not owner:HasTag("bladesmith") then
         owner.components.inventory:DropItem(inst)
         if owner.components.combat ~= nil then
             owner.components.combat:GetAttacked(inst, 50)
