@@ -52,6 +52,9 @@ Assets = {
     Asset("ATLAS", "images/names_gold_cn_manutsawee.xml"),
 }
 
+PreloadAssets = {
+}
+
 modimport("main/glassicapi")
 modimport("main/constants")
 modimport("main/config")

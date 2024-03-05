@@ -1408,6 +1408,24 @@ local function fn(sg)
             return attack_actionhandler(inst, action, ...)
         end
     end
+
+    -- 为什么做好了不用呢????
+    local _wes_funnyidle_onenter = sg.states["wes_funnyidle"].onenter
+    sg.states["wes_funnyidle"].onenter = function(inst, ...)
+        local balloon_color = {
+            "blue",
+            "green",
+            "orange",
+            "red",
+            "purple",
+            "yellow"
+        }
+        inst.AnimState:OverrideSymbol("balloon_red", "player_idles_wes", "balloon_" .. balloon_color[math.random(1, #balloon_color)])
+
+        if _wes_funnyidle_onenter ~= nil then
+            _wes_funnyidle_onenter(inst, ...)
+        end
+    end
 end
 
 AddStategraphPostInit("wilson", fn)

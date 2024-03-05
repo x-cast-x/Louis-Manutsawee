@@ -6,7 +6,7 @@ local function DoCombatPostInit(inst)
     local _GetAttacked = self.GetAttacked
 
     function self:GetAttacked(attacker, damage, weapon, stimuli, spdamage)
-        if weapon:HasTag("tenseiga") then
+        if weapon ~= nil and weapon:HasTag("tenseiga") then
             return
         end
 
@@ -127,7 +127,6 @@ function SkillReleaser:OnRemoveFromEntity()
     for _, tag in ipairs(M_SKILLS) do
         if self.inst:HasTag(tag) then
             self.inst:RemoveTag(tag)
-            break
         end
     end
 
@@ -162,7 +161,6 @@ function SkillReleaser:SkillRemove()
     for _, tag in ipairs(M_SKILLS) do
         if self.inst:HasTag(tag) then
             self.inst:RemoveTag(tag)
-            break
         end
     end
 

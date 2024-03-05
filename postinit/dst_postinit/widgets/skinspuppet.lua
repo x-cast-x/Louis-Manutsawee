@@ -9,6 +9,15 @@ local yukata_idle = {
     anim = "idle_wendy"
 }
 
+local balloon_color = {
+    "blue",
+    "green",
+    "orange",
+    "red",
+    "purple",
+    "yellow"
+}
+
 local M_Idle_Anim = {
     ["manutsawee"] = "idle_wilson",
     ["manutsawee_shinsengumi"] = "idle_wathgrithr",
@@ -17,6 +26,7 @@ local M_Idle_Anim = {
     ["manutsawee_jinbei"] = "idle_wortox",
     ["manutsawee_taohuu"] = "idle_winona",
     ["manutsawee_miko"] = "emote_impatient",
+    ["manutsawee_bocchi"] = "emote_impatient",
     ["manutsawee_yukatalong_purple"] = yukata_idle,
     ["manutsawee_yukatalong"] = yukata_idle,
     ["manutsawee_yukata"] = yukata_idle,
@@ -25,6 +35,7 @@ local M_Idle_Anim = {
         fn = function(self)
             self.override_build = "player_idles_wes"
             self.animstate:AddOverrideBuild(self.override_build)
+            self.animstate:OverrideSymbol("balloon_red", "player_idles_wes", "balloon_" .. balloon_color[math.random(1, #balloon_color)])
         end,
         anim = "idle_wes"
     },
