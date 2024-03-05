@@ -9,6 +9,5 @@ def lua_translator(text, source, target):  # for lua
 
     return translator(text, source=source, target=target, fmt="text").translatedText
 
-
 lua_file = open("./merge.lua", "r", encoding="UTF-8")
 lua.execute(lua_file.read())

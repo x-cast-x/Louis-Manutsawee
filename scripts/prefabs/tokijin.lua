@@ -10,7 +10,13 @@ local function OnAttack(inst, attacker, target)
         local spark = SpawnPrefab("hitsparks_fx")
         spark:Setup(attacker, target, nil, hitsparks_fx_colouroverride)
         spark.black:set(true)
-        target.components.combat:GetAttacked(attacker, inst.components.weapon.damage * (inst.swirl ~= nil and 2) or .8)
+        local damage = inst.components.weapon.damage * .8
+        if inst.swirl ~= nil then
+            damage = inst.components.weapon.damage * 4
+        end
+        if target.components.combat ~= nil then
+            target.components.combat:GetAttacked(attacker, damage)
+        end
     end
 end
 
@@ -144,8 +150,8 @@ local function OnPocket(inst, owner)
 end
 
 local function GetStatus(inst, viewer)
-    if viewer:HasTag("controlled") and viewer.components.kenjutsuka:GetKenjutsuLevel() < 10 then
-        return "CONTROLLED"
+    if inst.swirl then
+        return "Resentment"
     end
 end
 

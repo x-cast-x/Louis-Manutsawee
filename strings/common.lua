@@ -124,6 +124,7 @@ return {
         SKILL7START = "SHICHI NO KATA!\n󰀈: ",
     },
     SKIN_DESCRIPTIONS = {
+        manutsawee_bocchi = "Goto Hitori's sportswear from Bocchi The Rock",
         manutsawee_fuka = "Fu hua hawk of the fog's outfit from honkai impact 3d",
         manutsawee_jinbei = "Japan's outfit.",
         manutsawee_maid = "Maid's outfit",
@@ -137,9 +138,9 @@ return {
         manutsawee_yukata = "Japan's outfit mini version.",
         manutsawee_yukatalong = "Japan's outfit.",
         manutsawee_yukatalong_purple = "Japan's outfit purple version.",
-        manutsawee_bocchi = "Goto Hitori's sportswear from Bocchi The Rock",
     },
     SKIN_NAMES = {
+        manutsawee_bocchi = "Guitar Hero",
         manutsawee_fuka = "Cosplay",
         manutsawee_jinbei = "Jinbei",
         manutsawee_maid = "Maid",
@@ -153,14 +154,14 @@ return {
         manutsawee_yukata = "Kimono(M) ",
         manutsawee_yukatalong = "Kimono",
         manutsawee_yukatalong_purple = "Kimono(P)",
-        manutsawee_bocchi = "Guitar Hero",
     },
     SKIN_QUOTES = {
+        manutsawee_bocchi = "\"mu mu mu mu mu mu mu mu\"",
         manutsawee_fuka = "\"I'm a kung-fu master now.\"",
         manutsawee_jinbei = "\"Relax Feeling good.\"",
         manutsawee_maid = "\"I'm not a maid but i like this.\"",
         manutsawee_miko = "\"Can i fight with yokai?'\"",
-        manutsawee_none = "I hate this uniform.", -- but why?
+        manutsawee_none = "I hate this uniform.",
         manutsawee_qipao = "\"Ni hao ..? Good Fortune'\"",
         manutsawee_sailor = "\"So so so... nothing just say so..\"",
         manutsawee_shinsengumi = "\"One must not infringe the samurai code!\"",
@@ -169,6 +170,5 @@ return {
         manutsawee_yukata = "\"Shine omae! haha.'\"",
         manutsawee_yukatalong = "\"Kon ni chi wa ..?'\"",
         manutsawee_yukatalong_purple = "\"Kon ni chi wa ..?'\"",
-        manutsawee_bocchi = "\"mu mu mu mu mu mu mu mu\"",
     },
 }

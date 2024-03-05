@@ -10,14 +10,14 @@ characters = {
 
 local languages = {
     -- en = "strings.pot",
-    de = "german",  -- german
-    es = "spanish",  -- spanish
-    fr = "french",  -- french
-    it = "italian",  -- italian
-    ko = "korean",  -- korean
-    pt = "portuguese_br",  -- portuguese and brazilian portuguese
-    pl = "polish",  -- polish
-    ru = "russian",  -- russian
+    -- de = "german",  -- german
+    -- es = "spanish",  -- spanish
+    -- fr = "french",  -- french
+    -- it = "italian",  -- italian
+    -- ko = "korean",  -- korean
+    -- pt = "portuguese_br",  -- portuguese and brazilian portuguese
+    -- pl = "polish",  -- polish
+    -- ru = "russian",  -- russian
     ["zh-CN"] = "chinese_s",  -- chinese
     ["zh-TW"] = "chinese_t",  -- traditional chinese
 }
@@ -83,8 +83,7 @@ for _, _data in ipairs(data) do
 end
 
 local function escape(str)
-    return (str:gsub('\\', '\\\\')
-    :gsub('"', '\\"')
+    return (str
     :gsub('\n', '\\n')
     :gsub('\r', '\\r'))
 end
@@ -128,7 +127,7 @@ for l, file_name in pairs(languages) do
         package = package .. "#. " .. index_str  .. "\n"
         package = package .. msgctxt .. "\n"
         package = package .. "msgid " .. "\"" .. escape(msgid) .. "\"".. "\n"
-        package = package .. (l == "en" and "msgstr \"\"" or escape(translates[l][msgctxt]) or escape(translates[l][invert_overed_indexs[msgctxt]])) .. "\n\n"
+        package = package .. escape((l == "en" and "msgstr " or translates[l][msgctxt] or translates[l][invert_overed_indexs[msgctxt]])) .. "\n\n"
     end
 
     local po_file_name = l == "en" and ("strings.pot") or (file_name .. ".po")

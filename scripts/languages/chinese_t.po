@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Language: zh-CN\n"
+"Language: zh-TW\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT Version: 2.0"
@@ -18,7 +18,7 @@ msgstr "拔出"
 #. STRINGS.ACTIONS.CASTSPELL.SUICIDE
 msgctxt "STRINGS.ACTIONS.CASTSPELL.SUICIDE"
 msgid "Suicide"
-msgstr "自杀"
+msgstr "自殺"
 
 #. STRINGS.ACTIONS.MDODGE
 msgctxt "STRINGS.ACTIONS.MDODGE"
@@ -28,12 +28,12 @@ msgstr "短跑"
 #. STRINGS.ACTIONS.MDODGE2
 msgctxt "STRINGS.ACTIONS.MDODGE2"
 msgid "Dodge"
-msgstr "躲闪"
+msgstr "閃避"
 
 #. STRINGS.CHARACTER_ABOUTME.manutsawee
 msgctxt "STRINGS.CHARACTER_ABOUTME.manutsawee"
 msgid "Manutsawee is too long so just louis."
-msgstr "Manutsawee 太长了，所以只有路易斯。"
+msgstr "Manutsawee 太長了，所以只有路易斯。"
 
 #. STRINGS.CHARACTER_BIOS.manutsawee.1.desc
 msgctxt "STRINGS.CHARACTER_BIOS.manutsawee.1.desc"
@@ -48,77 +48,77 @@ msgstr "生日"
 #. STRINGS.CHARACTER_BIOS.manutsawee.2.desc
 msgctxt "STRINGS.CHARACTER_BIOS.manutsawee.2.desc"
 msgid "夏威夷什么都学技术学院"
-msgstr "夏威夷什么都学技术学院"
+msgstr "夏威夷什麼都學技術學院"
 
 #. STRINGS.CHARACTER_BIOS.manutsawee.2.title
 msgctxt "STRINGS.CHARACTER_BIOS.manutsawee.2.title"
 msgid "就读学校"
-msgstr "就读学校"
+msgstr "就讀學校"
 
 #. STRINGS.CHARACTER_BIOS.manutsawee.3.desc
 msgctxt "STRINGS.CHARACTER_BIOS.manutsawee.3.desc"
 msgid "Unagi, Bacon and Eggs, Cooked Kelp Fronds, Durian, Roasted durian \nCaliforniaroll, Caviar \nSteamed Ham Sandwich, Tea, Ice Tea \nLiceloaf, Boomberry Pancakes"
-msgstr "鳗鱼、培根鸡蛋、熟海带叶、榴莲、烤榴莲\n加州卷、鱼子酱\n蒸火腿三明治、茶、冰茶\n虱子面包，布莓煎饼"
+msgstr "鰻魚、培根蛋、熟海帶葉、榴槤、烤榴蓮\n加州捲、魚子醬\n蒸火腿三明治、茶、冰茶\n蝨子麵包，布莓煎餅"
 
 #. STRINGS.CHARACTER_BIOS.manutsawee.3.title
 msgctxt "STRINGS.CHARACTER_BIOS.manutsawee.3.title"
 msgid "Favorite Food"
-msgstr "最喜欢的食物"
+msgstr "最喜歡的食物"
 
 #. STRINGS.CHARACTER_BIOS.manutsawee.4.desc
 msgctxt "STRINGS.CHARACTER_BIOS.manutsawee.4.desc"
 msgid "Manutsawee."
-msgstr "马努萨维。"
+msgstr "馬努薩維。"
 
 #. STRINGS.CHARACTER_BIOS.manutsawee.4.title
 msgctxt "STRINGS.CHARACTER_BIOS.manutsawee.4.title"
 msgid "Her Past..."
-msgstr "她的过去……"
+msgstr "她的過去…"
 
 #. STRINGS.CHARACTER_BIOS.manutsawee.5.desc
 msgctxt "STRINGS.CHARACTER_BIOS.manutsawee.5.desc"
 msgid "斗鬼神\n使用悟心鬼的獠牙制成的诅咒之剑, 充满邪气, 一般人极易被其反控制.\n原被杀生丸折断, 但Louis在一所废弃的神社发现了它..."
-msgstr "斗鬼神\n使用悟心鬼的獠牙制成的诅咒之剑, 充满邪气, 一般人极易被其反控制.\n原被杀生丸折断, 但Louis在一所废弃的神社发现了它..."
+msgstr "鬥鬼神\n使用悟心鬼的獠牙製成的詛咒之劍, 充滿邪氣, 一般人極易被其反控制.\n原被殺生丸折斷, 但Louis在一所廢棄的神社發現了它..."
 
 #. STRINGS.CHARACTER_BIOS.manutsawee.5.title
 msgctxt "STRINGS.CHARACTER_BIOS.manutsawee.5.title"
 msgid "诅咒之剑"
-msgstr "诅咒之剑"
+msgstr "詛咒之劍"
 
 #. STRINGS.CHARACTER_DESCRIPTIONS.manutsawee
 msgctxt "STRINGS.CHARACTER_DESCRIPTIONS.manutsawee"
 msgid "*Art of the Japanese sword\n*Brave\n*Benevolent"
-msgstr "*日本刀的艺术\n*勇敢的\n*仁慈"
+msgstr "*日本刀的藝術\n*勇敢的\n*仁慈"
 
 #. STRINGS.CHARACTER_NAMES.manutsawee
 msgctxt "STRINGS.CHARACTER_NAMES.manutsawee"
 msgid "Manutsawee"
-msgstr "马努萨维"
+msgstr "馬努薩維"
 
 #. STRINGS.CHARACTER_QUOTES.manutsawee
 msgctxt "STRINGS.CHARACTER_QUOTES.manutsawee"
 msgid ""Where There's a Will, There's a Way""
-msgstr "“只要有强大的意志，必有一条路为你开”"
+msgstr "“只要有強大的意志，必有一條路為你開”"
 
 #. STRINGS.CHARACTER_SURVIVABILITY.manutsawee
 msgctxt "STRINGS.CHARACTER_SURVIVABILITY.manutsawee"
 msgid "󰀕Grim"
-msgstr "§严峻"
+msgstr "§嚴峻"
 
 #. STRINGS.CHARACTER_TITLES.manutsawee
 msgctxt "STRINGS.CHARACTER_TITLES.manutsawee"
 msgid "The Red-Eyes Girl"
-msgstr "红眼少女"
+msgstr "紅眼少女"
 
 #. STRINGS.M_LOADINGTIPS.TOKIJIN
 msgctxt "STRINGS.M_LOADINGTIPS.TOKIJIN"
 msgid "我无法压住它的邪气，无法驾驭斗鬼神 -L"
-msgstr "我无法压住它的邪气，无法驾驭斗鬼神 -L"
+msgstr "我無法壓住它的邪氣，無法駕馭鬥鬼神 -L"
 
 #. STRINGS.NAMES.BOAT_MSURFBOARD
 msgctxt "STRINGS.NAMES.BOAT_MSURFBOARD"
 msgid "Louis's Surf board"
-msgstr "路易斯的冲浪板"
+msgstr "路易斯的衝浪板"
 
 #. STRINGS.NAMES.HARAKIRI
 msgctxt "STRINGS.NAMES.HARAKIRI"
@@ -133,7 +133,7 @@ msgstr "Nihiru"
 #. STRINGS.NAMES.HMINGOT
 msgctxt "STRINGS.NAMES.HMINGOT"
 msgid "Hot Mysterious Ingot"
-msgstr "炙热神秘元宝"
+msgstr "炙熱神秘元寶"
 
 #. STRINGS.NAMES.KATANABLADE
 msgctxt "STRINGS.NAMES.KATANABLADE"
@@ -143,7 +143,7 @@ msgstr "武士刀"
 #. STRINGS.NAMES.KATANABODY
 msgctxt "STRINGS.NAMES.KATANABODY"
 msgid "Katana shape"
-msgstr "武士刀形状"
+msgstr "武士刀形狀"
 
 #. STRINGS.NAMES.KOSHIRAE
 msgctxt "STRINGS.NAMES.KOSHIRAE"
@@ -153,22 +153,22 @@ msgstr "Sakakura"
 #. STRINGS.NAMES.MAID_HB
 msgctxt "STRINGS.NAMES.MAID_HB"
 msgid "Louis's headwear"
-msgstr "路易斯的头饰"
+msgstr "路易的頭飾"
 
 #. STRINGS.NAMES.MANUTSAWEE
 msgctxt "STRINGS.NAMES.MANUTSAWEE"
 msgid "Manutsawee"
-msgstr "马努萨维"
+msgstr "馬努薩維"
 
 #. STRINGS.NAMES.MFRUIT
 msgctxt "STRINGS.NAMES.MFRUIT"
 msgid "Louis's memory fruit"
-msgstr "路易斯的记忆果实"
+msgstr "路易的記憶果實"
 
 #. STRINGS.NAMES.MINGOT
 msgctxt "STRINGS.NAMES.MINGOT"
 msgid "Mysterious Ingot"
-msgstr "神秘元宝"
+msgstr "神秘元寶"
 
 #. STRINGS.NAMES.MMIKO_ARMOR
 msgctxt "STRINGS.NAMES.MMIKO_ARMOR"
@@ -188,17 +188,17 @@ msgstr "致命之刃"
 #. STRINGS.NAMES.MSURFBOARD_ITEM
 msgctxt "STRINGS.NAMES.MSURFBOARD_ITEM"
 msgid "louis's Surf board"
-msgstr "路易斯的冲浪板"
+msgstr "路易斯的衝浪板"
 
 #. STRINGS.NAMES.M_FOXMASK
 msgctxt "STRINGS.NAMES.M_FOXMASK"
 msgid "Kitsune Mask"
-msgstr "狐面具"
+msgstr "狐狸面具"
 
 #. STRINGS.NAMES.M_SCARF
 msgctxt "STRINGS.NAMES.M_SCARF"
 msgid "Black Scarf"
-msgstr "黑色围巾"
+msgstr "黑色圍巾"
 
 #. STRINGS.NAMES.RAIKIRI
 msgctxt "STRINGS.NAMES.RAIKIRI"
@@ -208,7 +208,7 @@ msgstr "Raikiri"
 #. STRINGS.NAMES.SHINAI
 msgctxt "STRINGS.NAMES.SHINAI"
 msgid "Shinai"
-msgstr "志内"
+msgstr "誌內"
 
 #. STRINGS.NAMES.SHIRASAYA
 msgctxt "STRINGS.NAMES.SHIRASAYA"
@@ -233,32 +233,32 @@ msgstr "Tokijin"
 #. STRINGS.NAMES.TRUE_HITOKIRI
 msgctxt "STRINGS.NAMES.TRUE_HITOKIRI"
 msgid "Nihiru The Bloodseeker"
-msgstr "嗜血者尼希鲁"
+msgstr "嗜血者尼希魯"
 
 #. STRINGS.NAMES.TRUE_KOSHIRAE
 msgctxt "STRINGS.NAMES.TRUE_KOSHIRAE"
 msgid "Sakakura The Giant Slayers"
-msgstr "坂仓巨人杀手"
+msgstr "坂倉巨人殺手"
 
 #. STRINGS.NAMES.TRUE_RAIKIRI
 msgctxt "STRINGS.NAMES.TRUE_RAIKIRI"
 msgid "Raikiri The Lightning Cutter"
-msgstr "闪电切割者雷切"
+msgstr "閃電切割者雷切"
 
 #. STRINGS.NAMES.TRUE_SHIRASAYA
 msgctxt "STRINGS.NAMES.TRUE_SHIRASAYA"
 msgid "Yasha The Demon Slayer"
-msgstr "夜叉鬼灭之刃"
+msgstr "夜叉鬼滅之刃"
 
 #. STRINGS.NAMES.YARI
 msgctxt "STRINGS.NAMES.YARI"
 msgid "Yari"
-msgstr "亚里"
+msgstr "亞裡"
 
 #. STRINGS.RECIPE_DESC.HARAKIRI
 msgctxt "STRINGS.RECIPE_DESC.HARAKIRI"
 msgid "Pay your mistake."
-msgstr "为你的错误付出代价。"
+msgstr "為你的錯誤付出代價。"
 
 #. STRINGS.RECIPE_DESC.HITOKIRI
 msgctxt "STRINGS.RECIPE_DESC.HITOKIRI"
@@ -268,17 +268,17 @@ msgstr "血魔"
 #. STRINGS.RECIPE_DESC.KATANABLADE
 msgctxt "STRINGS.RECIPE_DESC.KATANABLADE"
 msgid "Sharp katana blade"
-msgstr "锋利的武士刀刀片"
+msgstr "鋒利的武士刀刀片"
 
 #. STRINGS.RECIPE_DESC.KOSHIRAE
 msgctxt "STRINGS.RECIPE_DESC.KOSHIRAE"
 msgid "The Giant Slayers"
-msgstr "巨人杀手"
+msgstr "巨人殺手"
 
 #. STRINGS.RECIPE_DESC.MAID_HB
 msgctxt "STRINGS.RECIPE_DESC.MAID_HB"
 msgid "Louis's headwear set."
-msgstr "路易斯的头饰套装。"
+msgstr "路易斯的頭飾套裝。"
 
 #. STRINGS.RECIPE_DESC.MINGOT
 msgctxt "STRINGS.RECIPE_DESC.MINGOT"
@@ -288,22 +288,22 @@ msgstr "把它放在火上"
 #. STRINGS.RECIPE_DESC.MMIKO_ARMOR
 msgctxt "STRINGS.RECIPE_DESC.MMIKO_ARMOR"
 msgid "Miko robe for miko skin"
-msgstr "巫女皮肤的巫女长袍"
+msgstr "巫女皮膚的巫女長袍"
 
 #. STRINGS.RECIPE_DESC.MNAGINATA
 msgctxt "STRINGS.RECIPE_DESC.MNAGINATA"
 msgid "It's Japanese Spear."
-msgstr "这是日本枪。"
+msgstr "這是日本槍。"
 
 #. STRINGS.RECIPE_DESC.MORTALBLADE
 msgctxt "STRINGS.RECIPE_DESC.MORTALBLADE"
 msgid "To cut the immortality."
-msgstr "欲斩不朽。"
+msgstr "欲斬不朽。"
 
 #. STRINGS.RECIPE_DESC.MSURFBOARD_ITEM
 msgctxt "STRINGS.RECIPE_DESC.MSURFBOARD_ITEM"
 msgid "louis's Surf board"
-msgstr "路易斯的冲浪板"
+msgstr "路易斯的衝浪板"
 
 #. STRINGS.RECIPE_DESC.M_FOXMASK
 msgctxt "STRINGS.RECIPE_DESC.M_FOXMASK"
@@ -313,27 +313,27 @@ msgstr "狐狸面具！"
 #. STRINGS.RECIPE_DESC.M_SCARF
 msgctxt "STRINGS.RECIPE_DESC.M_SCARF"
 msgid "Black Scarf"
-msgstr "黑色围巾"
+msgstr "黑色圍巾"
 
 #. STRINGS.RECIPE_DESC.RAIKIRI
 msgctxt "STRINGS.RECIPE_DESC.RAIKIRI"
 msgid "The Lightning Cutter"
-msgstr "闪电刀"
+msgstr "閃電刀"
 
 #. STRINGS.RECIPE_DESC.SHINAI
 msgctxt "STRINGS.RECIPE_DESC.SHINAI"
 msgid "Training Sword."
-msgstr "训练剑。"
+msgstr "訓練劍。"
 
 #. STRINGS.RECIPE_DESC.SHIRASAYA
 msgctxt "STRINGS.RECIPE_DESC.SHIRASAYA"
 msgid "The Demon Slayer"
-msgstr "恶魔杀手"
+msgstr "惡魔殺手"
 
 #. STRINGS.RECIPE_DESC.SHUSUI
 msgctxt "STRINGS.RECIPE_DESC.SHUSUI"
 msgid "A Legendary Sword of Wano."
-msgstr "和之国的传说之剑。"
+msgstr "和之國的傳說之劍。"
 
 #. STRINGS.RECIPE_DESC.TRUE_HITOKIRI
 msgctxt "STRINGS.RECIPE_DESC.TRUE_HITOKIRI"
@@ -353,17 +353,17 @@ msgstr "真正的雷切"
 #. STRINGS.RECIPE_DESC.TRUE_SHIRASAYA
 msgctxt "STRINGS.RECIPE_DESC.TRUE_SHIRASAYA"
 msgid "The Demon Slayer"
-msgstr "恶魔杀手"
+msgstr "惡魔殺手"
 
 #. STRINGS.RECIPE_DESC.YARI
 msgctxt "STRINGS.RECIPE_DESC.YARI"
 msgid "It's Japanese Spear."
-msgstr "这是日本枪。"
+msgstr "這是日本槍。"
 
 #. STRINGS.SKILL.REFUSE_RELEASE
 msgctxt "STRINGS.SKILL.REFUSE_RELEASE"
 msgid "I don't wanna do this."
-msgstr "我不想这样做。"
+msgstr "我不想這樣做。"
 
 #. STRINGS.SKILL.SKILL1ATTACK
 msgctxt "STRINGS.SKILL.SKILL1ATTACK"
@@ -373,7 +373,7 @@ msgstr "ICHIMONJI"
 #. STRINGS.SKILL.SKILL1START
 msgctxt "STRINGS.SKILL.SKILL1START"
 msgid "ICHI NO KATA!\n󰀈: "
-msgstr "ICHI NO KATA!\n󰀈:"
+msgstr "ICHI NO KATA!\nAdd:"
 
 #. STRINGS.SKILL.SKILL2ATTACK
 msgctxt "STRINGS.SKILL.SKILL2ATTACK"
@@ -383,7 +383,7 @@ msgstr "HABAKIRI!!"
 #. STRINGS.SKILL.SKILL2START
 msgctxt "STRINGS.SKILL.SKILL2START"
 msgid "NI NO KATA!\n󰀈: "
-msgstr "NI NO KATA!\n󰀈:"
+msgstr "NI NO KATA!\nAdd:"
 
 #. STRINGS.SKILL.SKILL3ATTACK
 msgctxt "STRINGS.SKILL.SKILL3ATTACK"
@@ -393,17 +393,17 @@ msgstr "ONIKIRI!!"
 #. STRINGS.SKILL.SKILL3START
 msgctxt "STRINGS.SKILL.SKILL3START"
 msgid "SAN NO KATA! \n󰀈: "
-msgstr "SAN NO KATA! \n󰀈:"
+msgstr "SAN NO KATA!\nAdd:"
 
 #. STRINGS.SKILL.SKILL4ATTACK
 msgctxt "STRINGS.SKILL.SKILL4ATTACK"
 msgid "ISSHIN!!"
-msgstr "一心！！"
+msgstr "一心！ ！"
 
 #. STRINGS.SKILL.SKILL4START
 msgctxt "STRINGS.SKILL.SKILL4START"
 msgid "SHI NO KATA!\n󰀈: "
-msgstr "SHI NO KATA!\n󰀈:"
+msgstr "SHI NO KATA!\nAdd:"
 
 #. STRINGS.SKILL.SKILL5ATTACK
 msgctxt "STRINGS.SKILL.SKILL5ATTACK"
@@ -413,7 +413,7 @@ msgstr "SHINDEN ISSEN!!"
 #. STRINGS.SKILL.SKILL5START
 msgctxt "STRINGS.SKILL.SKILL5START"
 msgid "GO NO KATA!\n󰀈: "
-msgstr "GO NO KATA!\n󰀈:"
+msgstr "GO NO KATA!\nAdd:"
 
 #. STRINGS.SKILL.SKILL6ATTACK
 msgctxt "STRINGS.SKILL.SKILL6ATTACK"
@@ -423,62 +423,62 @@ msgstr "RYUSEN!!"
 #. STRINGS.SKILL.SKILL6START
 msgctxt "STRINGS.SKILL.SKILL6START"
 msgid "ROKU NO KATA!\n󰀈: "
-msgstr "ROKU NO KATA!\n󰀈:"
+msgstr "ROKU NO KATA!\nAdd:"
 
 #. STRINGS.SKILL.SKILL7ATTACK
 msgctxt "STRINGS.SKILL.SKILL7ATTACK"
 msgid "SUSANOO!!"
-msgstr "须佐野！！"
+msgstr "須佐野！ ！"
 
 #. STRINGS.SKILL.SKILL7START
 msgctxt "STRINGS.SKILL.SKILL7START"
 msgid "SHICHI NO KATA!\n󰀈: "
-msgstr "SHICHI NO KATA!\n󰀈:"
+msgstr "SHICHI NO KATA!\nAdd:"
 
 #. STRINGS.SKIN_DESCRIPTIONS.manutsawee_bocchi
 msgctxt "STRINGS.SKIN_DESCRIPTIONS.manutsawee_bocchi"
 msgid "Goto Hitori's sportswear from Bocchi The Rock"
-msgstr "后藤仁 (Goto Hitori) 的运动装来自 Bocchi The Rock"
+msgstr "後藤仁 (Goto Hitori) 的運動服來自 Bocchi The Rock"
 
 #. STRINGS.SKIN_DESCRIPTIONS.manutsawee_fuka
 msgctxt "STRINGS.SKIN_DESCRIPTIONS.manutsawee_fuka"
 msgid "Fu hua hawk of the fog's outfit from honkai impact 3d"
-msgstr "崩坏3d中福华雾之鹰的服装"
+msgstr "崩壞3d中福華霧之鷹的服裝"
 
 #. STRINGS.SKIN_DESCRIPTIONS.manutsawee_jinbei
 msgctxt "STRINGS.SKIN_DESCRIPTIONS.manutsawee_jinbei"
 msgid "Japan's outfit."
-msgstr "日本的服装。"
+msgstr "日本的服裝。"
 
 #. STRINGS.SKIN_DESCRIPTIONS.manutsawee_maid
 msgctxt "STRINGS.SKIN_DESCRIPTIONS.manutsawee_maid"
 msgid "Maid's outfit"
-msgstr "女仆装"
+msgstr "女僕裝"
 
 #. STRINGS.SKIN_DESCRIPTIONS.manutsawee_miko
 msgctxt "STRINGS.SKIN_DESCRIPTIONS.manutsawee_miko"
 msgid "Japan's shrine maiden outfit."
-msgstr "日本的巫女装。"
+msgstr "日本的巫女裝。"
 
 #. STRINGS.SKIN_DESCRIPTIONS.manutsawee_none
 msgctxt "STRINGS.SKIN_DESCRIPTIONS.manutsawee_none"
 msgid "Thai's school uniform"
-msgstr "泰国的校服"
+msgstr "泰國的校服"
 
 #. STRINGS.SKIN_DESCRIPTIONS.manutsawee_qipao
 msgctxt "STRINGS.SKIN_DESCRIPTIONS.manutsawee_qipao"
 msgid "China's dress"
-msgstr "中国的服饰"
+msgstr "中國的服飾"
 
 #. STRINGS.SKIN_DESCRIPTIONS.manutsawee_sailor
 msgctxt "STRINGS.SKIN_DESCRIPTIONS.manutsawee_sailor"
 msgid "Japan's school uniform"
-msgstr "日本的校服"
+msgstr "日本的製服"
 
 #. STRINGS.SKIN_DESCRIPTIONS.manutsawee_shinsengumi
 msgctxt "STRINGS.SKIN_DESCRIPTIONS.manutsawee_shinsengumi"
 msgid "Laws of the Shinsengumi\nOne must not infringe the samurai code\nOne is not authorized to escape from office\nOne is not allowed to arbitrarily raise money\nOne must not arbitrarily handle litigations\nOne is not authorized to engage in personal conflicts\n"
-msgstr "新选组的法则\n不得触犯武士守则\n一个人无权越狱\n不准随意筹集资金\n不得擅自处理诉讼\n一个人无权参与个人冲突"
+msgstr "新選組的法則\n不得觸犯武士守則\n一個人無權越獄\n不准隨意籌集資金\n不得擅自處理訴訟\n一個人無權參與個人衝突"
 
 #. STRINGS.SKIN_DESCRIPTIONS.manutsawee_taohuu
 msgctxt "STRINGS.SKIN_DESCRIPTIONS.manutsawee_taohuu"
@@ -493,17 +493,17 @@ msgstr "我是特工L。"
 #. STRINGS.SKIN_DESCRIPTIONS.manutsawee_yukata
 msgctxt "STRINGS.SKIN_DESCRIPTIONS.manutsawee_yukata"
 msgid "Japan's outfit mini version."
-msgstr "日本的服装迷你版。"
+msgstr "日本的服裝迷你版。"
 
 #. STRINGS.SKIN_DESCRIPTIONS.manutsawee_yukatalong
 msgctxt "STRINGS.SKIN_DESCRIPTIONS.manutsawee_yukatalong"
 msgid "Japan's outfit."
-msgstr "日本的服装。"
+msgstr "日本的服裝。"
 
 #. STRINGS.SKIN_DESCRIPTIONS.manutsawee_yukatalong_purple
 msgctxt "STRINGS.SKIN_DESCRIPTIONS.manutsawee_yukatalong_purple"
 msgid "Japan's outfit purple version."
-msgstr "日系套装紫色版。"
+msgstr "日系套裝紫色版。"
 
 #. STRINGS.SKIN_NAMES.manutsawee_bocchi
 msgctxt "STRINGS.SKIN_NAMES.manutsawee_bocchi"
@@ -523,7 +523,7 @@ msgstr "Jinbei"
 #. STRINGS.SKIN_NAMES.manutsawee_maid
 msgctxt "STRINGS.SKIN_NAMES.manutsawee_maid"
 msgid "Maid"
-msgstr "女佣"
+msgstr "女傭"
 
 #. STRINGS.SKIN_NAMES.manutsawee_miko
 msgctxt "STRINGS.SKIN_NAMES.manutsawee_miko"
@@ -548,7 +548,7 @@ msgstr "水手服"
 #. STRINGS.SKIN_NAMES.manutsawee_shinsengumi
 msgctxt "STRINGS.SKIN_NAMES.manutsawee_shinsengumi"
 msgid "Shinsengumi"
-msgstr "新选组"
+msgstr "新選組"
 
 #. STRINGS.SKIN_NAMES.manutsawee_taohuu
 msgctxt "STRINGS.SKIN_NAMES.manutsawee_taohuu"
@@ -558,7 +558,7 @@ msgstr "桃胡"
 #. STRINGS.SKIN_NAMES.manutsawee_uniform_black
 msgctxt "STRINGS.SKIN_NAMES.manutsawee_uniform_black"
 msgid "MIB"
-msgstr "管理信息库"
+msgstr "管理資訊庫"
 
 #. STRINGS.SKIN_NAMES.manutsawee_yukata
 msgctxt "STRINGS.SKIN_NAMES.manutsawee_yukata"
@@ -578,70 +578,70 @@ msgstr "和服(P)"
 #. STRINGS.SKIN_QUOTES.manutsawee_bocchi
 msgctxt "STRINGS.SKIN_QUOTES.manutsawee_bocchi"
 msgid ""mu mu mu mu mu mu mu mu""
-msgstr ""mu mu mu mu mu mu mu mu""
+msgstr "mu mu mu mu mu mu mu mu"
 
 #. STRINGS.SKIN_QUOTES.manutsawee_fuka
 msgctxt "STRINGS.SKIN_QUOTES.manutsawee_fuka"
 msgid ""I'm a kung-fu master now.""
-msgstr "“我现在是一名功夫大师了。”"
+msgstr "“我現在是一名功夫大師了。”"
 
 #. STRINGS.SKIN_QUOTES.manutsawee_jinbei
 msgctxt "STRINGS.SKIN_QUOTES.manutsawee_jinbei"
 msgid ""Relax Feeling good.""
-msgstr "“放松，感觉很好。”"
+msgstr "“放鬆，感覺很好。”"
 
 #. STRINGS.SKIN_QUOTES.manutsawee_maid
 msgctxt "STRINGS.SKIN_QUOTES.manutsawee_maid"
 msgid ""I'm not a maid but i like this.""
-msgstr "“我不是女仆，但我喜欢这个。”"
+msgstr "“我不是女僕，但我喜歡這個。”"
 
 #. STRINGS.SKIN_QUOTES.manutsawee_miko
 msgctxt "STRINGS.SKIN_QUOTES.manutsawee_miko"
 msgid ""Can i fight with yokai?'""
-msgstr "“我可以和妖怪战斗吗？”"
+msgstr "“我可以和妖怪戰鬥嗎？”"
 
 #. STRINGS.SKIN_QUOTES.manutsawee_none
 msgctxt "STRINGS.SKIN_QUOTES.manutsawee_none"
 msgid "I hate this uniform."
-msgstr "我讨厌这套制服。"
+msgstr "我討厭這套制服。"
 
 #. STRINGS.SKIN_QUOTES.manutsawee_qipao
 msgctxt "STRINGS.SKIN_QUOTES.manutsawee_qipao"
 msgid ""Ni hao ..? Good Fortune'""
-msgstr ""Ni hao ..? Good Fortune'""
+msgstr "Ni hao ..? Good Fortune'"
 
 #. STRINGS.SKIN_QUOTES.manutsawee_sailor
 msgctxt "STRINGS.SKIN_QUOTES.manutsawee_sailor"
 msgid ""So so so... nothing just say so..""
-msgstr "“就这样吧……没什么就这么说吧……”"
+msgstr "「就這樣吧…沒什麼就這麼說吧…」"
 
 #. STRINGS.SKIN_QUOTES.manutsawee_shinsengumi
 msgctxt "STRINGS.SKIN_QUOTES.manutsawee_shinsengumi"
 msgid ""One must not infringe the samurai code!""
-msgstr "“绝对不能触犯武士准则！”"
+msgstr "“絕對不能觸犯武士準則！”"
 
 #. STRINGS.SKIN_QUOTES.manutsawee_taohuu
 msgctxt "STRINGS.SKIN_QUOTES.manutsawee_taohuu"
 msgid ""I'm cute, please give me money.""
-msgstr "“我很可爱，请给我钱吧。”"
+msgstr "“我很可愛，請給我錢吧。”"
 
 #. STRINGS.SKIN_QUOTES.manutsawee_uniform_black
 msgctxt "STRINGS.SKIN_QUOTES.manutsawee_uniform_black"
 msgid ""It's because the light from Venus is reflected on...the swamp gas...so...""
-msgstr "“这是因为来自金星的光被反射在……沼泽气体上……所以……”"
+msgstr "“這是因為來自金星的光被反射在……沼澤氣體上……所以……”"
 
 #. STRINGS.SKIN_QUOTES.manutsawee_yukata
 msgctxt "STRINGS.SKIN_QUOTES.manutsawee_yukata"
 msgid ""Shine omae! haha.'""
-msgstr ""Shine omae! haha.'""
+msgstr "Shine omae! haha​​.'"
 
 #. STRINGS.SKIN_QUOTES.manutsawee_yukatalong
 msgctxt "STRINGS.SKIN_QUOTES.manutsawee_yukatalong"
 msgid ""Kon ni chi wa ..?'""
-msgstr ""Kon ni chi wa ..?'""
+msgstr "Kon ni chi wa ..?'"
 
 #. STRINGS.SKIN_QUOTES.manutsawee_yukatalong_purple
 msgctxt "STRINGS.SKIN_QUOTES.manutsawee_yukatalong_purple"
 msgid ""Kon ni chi wa ..?'""
-msgstr ""Kon ni chi wa ..?'""
+msgstr "Kon ni chi wa ..?'"
 

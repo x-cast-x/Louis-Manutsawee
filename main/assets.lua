@@ -101,9 +101,9 @@ M_Util.AddMinimapAtlas("m_minimaps", Assets)
 -- RemapSoundEvent("dontstarve/characters/louis/hurt", "louis/louis/hurt")
 -- RemapSoundEvent("dontstarve/characters/louis/talk_LP", "louis/louis/talk_LP")
 
-if IA_ENABLED then
-    table.insert(PrefabFiles, "msurfboard")
-end
+-- if IA_ENABLED then
+--     table.insert(PrefabFiles, "msurfboard")
+-- end
 
 -- if PL_ENABLED then
 -- end

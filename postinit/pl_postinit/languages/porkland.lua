@@ -1,8 +1,12 @@
 local ENV = env
+local STRINGS = GLOBAL.STRINGS
 local GlassicAPI = ENV.GlassicAPI
 local MODROOT = MODROOT
-local modimport = modimport
 GLOBAL.setfenv(1, GLOBAL)
+
+if not PL_ENABLED then
+    return
+end
 
 local languages = {
     -- en = "strings.pot",
@@ -22,18 +26,5 @@ local languages = {
     cht = "chinese_t",  -- simple chinese
 }
 
-local strings = {
-    CHARACTERS = {
-        GENERIC = GlassicAPI.ImportStringsFile("generic", ENV),
-        MANUTSAWEE = GlassicAPI.ImportStringsFile("manutsawee", ENV),
-    }
-}
-
-local common = GlassicAPI.ImportStringsFile("common", ENV)
-
-GlassicAPI.MergeStringsToGLOBAL(common)
-GlassicAPI.MergeStringsToGLOBAL(strings)
-GlassicAPI.MergeTranslationFromPO(MODROOT.."scripts/languages", languages[M_CONFIG.locale])
-
--- modimport("postinit/pl_postinit/languages/porkland")
--- modimport("postinit/um_postinit/languages/uncompromisingmode")
+M_Util.merge_table(STRINGS.CHARACTERS.MANUTSAWEE, GlassicAPI.ImportStringsFile("pl_manutsawee", ENV))
+GlassicAPI.MergeTranslationFromPO(MODROOT.."postinit/um_postinit/languages/pl_", languages[M_CONFIG.locale])

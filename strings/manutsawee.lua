@@ -319,16 +319,16 @@ return {
     ANNOUNCE_EATING_NOT_FEASTING = "Fiiiiiine, I'll share with everyone else.",
     ANNOUNCE_ENCUMBERED = {
         "Ughhh!",
+        "Exercise... sucks!",
+        "Hnnfhg!",
+        "Why am I doing this...?!",
+        "Oooof!!",
         "Unghhh!",
         "There's... no way this is worth it!",
         "Left foot... Right foot...",
         "Ughhhh! I'm all sweaty!",
         "This... is... the worst...",
         "I can feel the burn... I hate it!",
-        "Exercise... sucks!",
-        "Hnnfhg!",
-        "Why am I doing this...?!",
-        "Oooof!!",
     },
     ANNOUNCE_ENTER_DARK = "It's so dark!",
     ANNOUNCE_ENTER_LIGHT = "I can see again!",
@@ -345,6 +345,7 @@ return {
     ANNOUNCE_FLARE_SEEN = "Oh, someone's calling me to come over.",
     ANNOUNCE_FREEDOM = "I'm free!",
     ANNOUNCE_GHOSTDRAIN = "My head's all fuzzy...",
+    ANNOUNCE_HASRAIKIRI = "This is not a lightning catastrophe, it was raikiri who protected me",
     ANNOUNCE_HIGHRESEARCH = "So much information!",
     ANNOUNCE_HOT = "Very Hot!",
     ANNOUNCE_HOUNDS = "I hear something.",
@@ -367,7 +368,6 @@ return {
         "I knew you'd be hiding there!",
         "I see you!",
     },
-    ANNOUNCE_HASRAIKIRI = "This is not a lightning catastrophe, it was raikiri who protected me",
     ANNOUNCE_KITCOON_HIDANDSEEK_FOUND_LAST_ONE = "I found the last one!",
     ANNOUNCE_KITCOON_HIDANDSEEK_FOUND_LAST_ONE_TEAM = "{name} found the last one!",
     ANNOUNCE_KITCOON_HIDANDSEEK_FOUND_ONE_MORE = "Now where's that last one hiding?",
@@ -520,18 +520,15 @@ return {
     },
     DESCRIBE = {
         ABIGAIL = {
-            LEVEL1 =
-            {
+            LEVEL1 = {
                 "Awww, she has a cute little bow.",
                 "Awww, she has a cute little bow.",
             },
-            LEVEL2 =
-            {
+            LEVEL2 = {
                 "Awww, she has a cute little bow.",
                 "Awww, she has a cute little bow.",
             },
-            LEVEL3 =
-            {
+            LEVEL3 = {
                 "Awww, she has a cute little bow.",
                 "Awww, she has a cute little bow.",
             },
@@ -2209,8 +2206,8 @@ return {
         MOSQUITOSACK = "Blood must bubble in currents muggy and thick.",
         MOSSLING = "Its feathers are frazzled.",
         MOUND = {
-            DUG = "Better it than me.",
-            GENERIC = "It's full of dead stuff, I bet.",
+            DUG = "Sorry, please lend me the funerary items first..",
+            GENERIC = "I think, don't disturb it.",
         },
         MSURFBOARD_ITEM = "I learned to surf in Hawaii.",
         MULLEDDRINK = "It warms you from the inside out.",
@@ -2272,11 +2269,11 @@ return {
         },
         MUTATOR_DROPPER = "Eww, there's legs sticking out of it!",
         MUTATOR_HEALER = "Eww, there's legs sticking out of it!",
-        MUTATOR_HIDER = "Give one to Wilson, I'm sure he'd loooove to try it! Heheh.",
-        MUTATOR_MOON = "Give one to Wilson, I'm sure he'd loooove to try it! Heheh.",
+        MUTATOR_HIDER = "This seems to be for spiders to eat.",
+        MUTATOR_MOON = "This seems to be for spiders to eat.",
         MUTATOR_SPITTER = "Eww, there's legs sticking out of it!",
-        MUTATOR_WARRIOR = "Give one to Wilson, I'm sure he'd loooove to try it! Heheh.",
-        MUTATOR_WATER = "Give one to Wilson, I'm sure he'd loooove to try it! Heheh.",
+        MUTATOR_WARRIOR = "This seems to be for spiders to eat.",
+        MUTATOR_WATER = "This seems to be for spiders to eat.",
         M_FOXMASK = "Now I'm a fox!.",
         M_SCARF = "Makes you warm and fuzzy inside. Outside, too.",
         NATURE_BLUEPRINT = "Once the flowers dry out they'll make nice kindling.",
