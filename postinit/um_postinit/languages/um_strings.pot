@@ -1,1967 +1,1963 @@
-msgid ""
-msgstr ""
-"Language: zh-TW\n"
-"Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"POT Version: 2.0"
+"Application: Dont' Starve\n"
+"POT Version: 2.0\n"
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_ACIDRAIN.1
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_ACIDRAIN.1"
 msgid "Acid rain?!"
-msgstr "酸雨?!"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_ACIDRAIN.2
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_ACIDRAIN.2"
 msgid "oh! it hurts!"
-msgstr "噢！好痛！"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_ACIDRAIN.3
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_ACIDRAIN.3"
 msgid "This rain is nothing but trouble!"
-msgstr "這雨無非就是麻煩！"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_ATTACH_BUFF_CALIFORNIAKING
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_ATTACH_BUFF_CALIFORNIAKING"
 msgid "Oops, trouble..."
-msgstr "哎呀，麻煩了…"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_ATTACH_BUFF_ELECTRICRETALIATION
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_ATTACH_BUFF_ELECTRICRETALIATION"
 msgid "lightning! I like!"
-msgstr "閃電！我喜歡!"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_ATTACH_BUFF_FROZENFURY
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_ATTACH_BUFF_FROZENFURY"
 msgid "Brrr...hope this works."
-msgstr "Brrr...希望這玩意有用."
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_ATTACH_BUFF_HYPERCOURAGE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_ATTACH_BUFF_HYPERCOURAGE"
 msgid "I feel... my worries are lifted."
-msgstr "我感覺……我的憂慮解除了。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_ATTACH_BUFF_KNOCKBACKIMMUNE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_ATTACH_BUFF_KNOCKBACKIMMUNE"
 msgid "After eating it, I felt like I gained 500 pounds"
-msgstr "吃了它, 我感覺我胖了500斤"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_ATTACH_BUFF_LARGEHUNGERSLOW
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_ATTACH_BUFF_LARGEHUNGERSLOW"
 msgid "Temporarily, I no longer feel hungry"
-msgstr "暫時的, 我不再感到飢餓了"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_ATTACH_BUFF_LESSERELECTRICATTACK
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_ATTACH_BUFF_LESSERELECTRICATTACK"
 msgid "lightning! I like!"
-msgstr "閃電！我喜歡!"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_ATTACH_BUFF_VETCURSE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_ATTACH_BUFF_VETCURSE"
 msgid "Curse? I seem to get hungry more easily."
-msgstr "詛咒? 我好像變得更容易餓了。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_CHARGE_SUCCESS_ELECTROCUTED
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_CHARGE_SUCCESS_ELECTROCUTED"
 msgid "Wow! I almost got an electric shock."
-msgstr "哇哦！我差點觸電了。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_CHARGE_SUCCESS_INSULATED
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_CHARGE_SUCCESS_INSULATED"
 msgid "Wow! I almost got an electric shock."
-msgstr "哇哦！我差點觸電了。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_DETACH_BUFF_CALIFORNIAKING
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_DETACH_BUFF_CALIFORNIAKING"
 msgid "This experience will always haunt me."
-msgstr "這段經歷將一直困擾著我。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_DETACH_BUFF_ELECTRICRETALIATION
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_DETACH_BUFF_ELECTRICRETALIATION"
 msgid "Transformation time is over"
-msgstr "變身時間結束了"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_DETACH_BUFF_FROZENFURY
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_DETACH_BUFF_FROZENFURY"
 msgid "Ah, back to normal."
-msgstr "啊，恢復正常了。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_DETACH_BUFF_HYPERCOURAGE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_DETACH_BUFF_HYPERCOURAGE"
 msgid "It felt good while it lasted."
-msgstr "持續的時候感覺很好。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_DETACH_BUFF_KNOCKBACKIMMUNE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_DETACH_BUFF_KNOCKBACKIMMUNE"
 msgid "Instantly I felt like I lost 500 pounds."
-msgstr "瞬間我感覺我身上少了500公斤."
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_DETACH_BUFF_LARGEHUNGERSLOW
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_DETACH_BUFF_LARGEHUNGERSLOW"
 msgid "My stomach is returning to normal digestion speed."
-msgstr "我的胃正在恢復正常消化速度。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_DETACH_BUFF_LESSERELECTRICATTACK
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_DETACH_BUFF_LESSERELECTRICATTACK"
 msgid "Transformation time is over"
-msgstr "變身時間結束了"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_DETACH_BUFF_VETCURSE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_DETACH_BUFF_VETCURSE"
 msgid "It's over! The hunger curse is gone!"
-msgstr "結束了! 飢餓詛咒消失了!"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_FIREFALL.1
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_FIREFALL.1"
 msgid "Looks like this lion has learned a new trick!"
-msgstr "看來這頭獅子又學會新把戲了！"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_FIREFALL.2
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_FIREFALL.2"
 msgid "I'm tired, the rumbling is getting louder and louder!"
-msgstr "煩了，隆隆聲越來越厲害了！"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_FIREFALL.3
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_FIREFALL.3"
 msgid "Watch your step, everyone!"
-msgstr "大家小心腳下！"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_HARDCORE_RES
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_HARDCORE_RES"
 msgid "You need my help! And your body..."
-msgstr "你需要我的幫助！還有你的身體..."
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_HAYFEVER
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_HAYFEVER"
 msgid "aaaa, my nose feels so itchy"
-msgstr "aaaa, 鼻子好癢"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_HAYFEVER_OFF
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_HAYFEVER_OFF"
 msgid "Ah, the fresh air"
-msgstr "啊，清新的空氣"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_PORTABLEBOAT_SINK
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_PORTABLEBOAT_SINK"
 msgid "We'd better find him and leave before this happens."
-msgstr "我們最好在這件事發生之前找到趕快走."
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_RATRAID
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_RATRAID"
 msgid "mouse?"
-msgstr "老鼠?"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_RATRAID_OVER
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_RATRAID_OVER"
 msgid "These are important materials! I think..."
-msgstr "這些都是重要的材料！我認為..."
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_RATRAID_SPAWN
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_RATRAID_SPAWN"
 msgid "Why now? !"
-msgstr "為什麼現在？ ！"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_RATSNIFFER_BURROWS
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_RATSNIFFER_BURROWS"
 msgid "A mouse! Two mice! A bunch of rats!"
-msgstr "一隻老鼠！兩隻老鼠！一群老鼠！"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_RATSNIFFER_FOOD.LEVEL_1
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_RATSNIFFER_FOOD.LEVEL_1"
 msgid "These expired foods seem to attract some unclean things."
-msgstr "這些過期的食物似乎會引來一些不乾淨的東西."
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_RATSNIFFER_ITEMS.LEVEL_1
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_RATSNIFFER_ITEMS.LEVEL_1"
 msgid "What a mess! It’s time for a reckoning!"
-msgstr "真是一團糟！是時候清算了！"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_RNEFOG
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_RNEFOG"
 msgid "There's something out there...something new..."
-msgstr "外面有東西…有新東西…"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_ROOTING
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_ROOTING"
 msgid "Huh? It came out from under my feet!"
-msgstr "啊? 從我腳下冒出來了!"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_SMOLDER_SPORE_EATEN
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_SMOLDER_SPORE_EATEN"
 msgid "You absolutely can't eat that stuff."
-msgstr "絕對不能吃那玩意。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_SMOLDER_SPORE_INVENTORY_POP
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_SMOLDER_SPORE_INVENTORY_POP"
 msgid "Damn it, why is it on fire?"
-msgstr "臥槽，怎麼著火了？"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_SNEEZE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_SNEEZE"
 msgid "OMG! what happened."
-msgstr "我的天啊！怎麼回事."
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_SNOWSTORM
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_SNOWSTORM"
 msgid "aaaa, I don’t want to be buried in the snow!"
-msgstr "aaaa, 我不想被雪埋了!"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_TOADSTOOLED
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_TOADSTOOLED"
 msgid "Something ominous is stirring."
-msgstr "一些不祥的事情在攪動"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_UM_NO_TORNADO
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_UM_NO_TORNADO"
 msgid "The air flow is very small now and there are no tornadoes around"
-msgstr "現在氣流很小，周圍沒有龍捲風"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_WINONAGEN
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_WINONAGEN"
 msgid ""I haven't gotten my 'putting rocks into machines' badge yet.""
-msgstr "我還沒拿到『把石頭放進機器』徽章。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.CURSED_ITEM_EQUIP
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.CURSED_ITEM_EQUIP"
 msgid "Ouch!"
-msgstr "哎喲！"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.AIR_CONDITIONER
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.AIR_CONDITIONER"
 msgid "It is obviously made of very pungent toad skin, but it can actually filter out pollutants in the nearby air."
-msgstr "它明明是用非常刺鼻的蛤蟆皮做的，但是居然能過濾掉附近空氣中的污染物。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.ALPHA_LIGHTNINGGOAT
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.ALPHA_LIGHTNINGGOAT"
 msgid "careful! very dangerous. It's... inherently electric."
-msgstr "小心！很危險。它...天生帶電。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.ANCIENTHOODEDTURF
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.ANCIENTHOODEDTURF"
 msgid "Just put it back, it's of no use."
-msgstr "鋪回去吧，沒什麼用。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.ANCIENT_AMULET_RED
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.ANCIENT_AMULET_RED"
 msgid "No, for her, I won't"
-msgstr "不，為了她，我不會的"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.APHID
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.APHID"
 msgid "This swarm of aphids was eating the red shirts."
-msgstr "這群蚜蟲啃食那些紅衫。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.ARMORLAVAE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.ARMORLAVAE"
 msgid "Why can't we be friends?"
-msgstr "為什麼我們不能成為朋友？"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.ARMOR_GLASSMAIL
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.ARMOR_GLASSMAIL"
 msgid "This is so cool! !"
-msgstr "這個太酷了！ ！"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.ARMOR_GLASSMAIL_SHARDS
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.ARMOR_GLASSMAIL_SHARDS"
 msgid "This is so cool! !"
-msgstr "這個太酷了！ ！"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.ARMOR_REED_UM
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.ARMOR_REED_UM"
 msgid "It's time to go to work in the fields."
-msgstr "該下地干活了."
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.ARMOR_SHARKSUIT_UM
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.ARMOR_SHARKSUIT_UM"
 msgid "It makes me feel like I'm at the top of the food chain."
-msgstr "這讓我感覺自己是食物鏈頂端的人。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BAGOFMARBLES
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BAGOFMARBLES"
 msgid "I appreciate the sophistication of their designs."
-msgstr "我欣賞他們設計的複雜性。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BEAKBASHER
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BEAKBASHER"
 msgid "I put my beak on the stick. What should we do now?"
-msgstr "我把喙放在棍子上。現在怎麼辦？"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BEARGERCLAW
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BEARGERCLAW"
 msgid "The entire Eternal Continent was dug up."
-msgstr "整個永恆大陸都挖了."
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BEEFALOWINGS
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BEEFALOWINGS"
 msgid "I'll just eat the extra horns as pie."
-msgstr "多餘的牛角，我直接吃派。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BERNIEBOX
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BERNIEBOX"
 msgid "It looks like it belongs to the girl who played with fire. Please keep it safe for her."
-msgstr "看起來是那個玩火的女孩的物品，幫她保管一下吧。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BERNIE_ACTIVE.ASHLEY
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BERNIE_ACTIVE.ASHLEY"
 msgid "That teddy bear is moving!"
-msgstr "那隻泰迪熊在動！"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BERNIE_ACTIVE.GENERIC
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BERNIE_ACTIVE.GENERIC"
 msgid "That teddy bear is moving!"
-msgstr "那隻泰迪熊在動！"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BERNIE_BIG.ASHLEY
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BERNIE_BIG.ASHLEY"
 msgid "It's creepy and cute at the same time!"
-msgstr "它既令人毛骨悚然又可愛！"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BERNIE_BIG.GENERIC
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BERNIE_BIG.GENERIC"
 msgid "It's creepy and cute at the same time!"
-msgstr "它既令人毛骨悚然又可愛！"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BERNIE_INACTIVE.ASHLEY
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BERNIE_INACTIVE.ASHLEY"
 msgid "Completely burnt."
-msgstr "完全燒焦了。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BERNIE_INACTIVE.ASHLEY_BROKEN
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BERNIE_INACTIVE.ASHLEY_BROKEN"
 msgid "I didn't bring a sewing kit."
-msgstr "我沒有帶針線包。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BERNIE_INACTIVE.BROKEN
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BERNIE_INACTIVE.BROKEN"
 msgid "I didn't bring a sewing kit."
-msgstr "我沒有帶針線包。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BERNIE_INACTIVE.GENERIC
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BERNIE_INACTIVE.GENERIC"
 msgid "Completely burnt."
-msgstr "完全燒焦了。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BIGHT
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BIGHT"
 msgid "The consequences of the maker's intervention have been realized."
-msgstr "製造者的干預，後果已經實現。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BLOWGUNAMMO_ELECTRIC
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BLOWGUNAMMO_ELECTRIC"
 msgid "Is this right?"
-msgstr "這才對嘛"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BLOWGUNAMMO_FIRE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BLOWGUNAMMO_FIRE"
 msgid "Is this right?"
-msgstr "這才對嘛"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BLOWGUNAMMO_SLEEP
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BLOWGUNAMMO_SLEEP"
 msgid "Is this right?"
-msgstr "這才對嘛"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BLOWGUNAMMO_TOOTH
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BLOWGUNAMMO_TOOTH"
 msgid "Is this right?"
-msgstr "這才對嘛"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BLUEBERRYPANCAKES
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BLUEBERRYPANCAKES"
 msgid "Can I have three servings?"
-msgstr "我可以吃三份嗎？"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BLUEBERRYPLANT.FROZE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BLUEBERRYPLANT.FROZE"
 msgid "It froze and came out clean!"
-msgstr "它凍住了，乾淨俐落！"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BLUEBERRYPLANT.READY
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BLUEBERRYPLANT.READY"
 msgid "Wow! Everything here is big!"
-msgstr "哇哦！這裡的一切都很大！"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BLUEBERRYPLANT.REGROWING
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BLUEBERRYPLANT.REGROWING"
 msgid "It will come back, right?"
-msgstr "它會回來的，對嗎？"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BLUEGEM_CRACKED
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BLUEGEM_CRACKED"
 msgid "Ah, this is so ugly"
-msgstr "啊，這個好醜"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BLUE_MUSHED_ROOM
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BLUE_MUSHED_ROOM"
 msgid "Oops, I'm going to vomit"
-msgstr "嘔，我要吐了"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BOAT_BUMBER_SLUDGE_KIT
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BOAT_BUMBER_SLUDGE_KIT"
 msgid "A softer pad for things that hit my boat."
-msgstr "一個更柔軟的墊子，可以用來對付撞到我船的東西。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BOAT_BUMPER_COPPER
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BOAT_BUMPER_COPPER"
 msgid "This should last long enough."
-msgstr "這應該持續足夠長的時間。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BOAT_BUMPER_COPPER_KIT
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BOAT_BUMPER_COPPER_KIT"
 msgid "Now we just need a ship for protection."
-msgstr "現在我們只需要一艘船來保護。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BOAT_BUMPER_SLUDGE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BOAT_BUMPER_SLUDGE"
 msgid "It will bounce off anything that hits it."
-msgstr "它會反彈任何擊中它的東西。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BOOK_RAIN_UM
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BOOK_RAIN_UM"
 msgid "It tampered with the ballooning of local clouds."
-msgstr "它篡改了當地雲層的氣球。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BUGZAPPER
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BUGZAPPER"
 msgid "Snapped! Snapped! Snapped! Nasty bugs."
-msgstr "啪！啪！啪！討厭的蟲。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BULLETBEE.GENERIC
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BULLETBEE.GENERIC"
 msgid "I love the cut of that bee arm."
-msgstr "我喜歡那隻蜜蜂臂的剪裁。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BULLETBEE.HELD
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BULLETBEE.HELD"
 msgid "Buzz!"
-msgstr "Buzz!"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BUSHCRAB
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.BUSHCRAB"
 msgid "Ahhhh! How did it appear before me? !"
-msgstr "啊啊啊！它是怎麼出現在我面前的？ ！"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.CALIFORNIAKING
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.CALIFORNIAKING"
 msgid "Spicy soup, but it seems different from the one in California? . . ."
-msgstr "胡辣湯，但好像跟在加州的不太一樣？ 。 。 。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.CANNONBALL_SLUDGE_ITEM
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.CANNONBALL_SLUDGE_ITEM"
 msgid "It still messes things up."
-msgstr "它還是把事情搞砸了。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.CCTRINKET_DON
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.CCTRINKET_DON"
 msgid "I can't see many words clearly. I can only recognize the words "Don't" and "Guide"."
-msgstr "很多字都看不清楚捏，只能認出 不要 和 指引這兩個字。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.CCTRINKET_FREDDO
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.CCTRINKET_FREDDO"
 msgid "There is only the word "freedom" on it."
-msgstr "上面只有自由兩個字。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.CCTRINKET_JAZZY
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.CCTRINKET_JAZZY"
 msgid "I can't appreciate jazz."
-msgstr "爵士樂，我欣賞不來。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.CHARLES_T_HORSE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.CHARLES_T_HORSE"
 msgid "Not a single gear in sight."
-msgstr "看不到一個齒輪。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.CHARLIEPHONOGRAPH_100
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.CHARLIEPHONOGRAPH_100"
 msgid "How does this thing work without a power source?"
-msgstr "這玩意沒有電源，怎麼運作的？"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.CHERRYBULLETBEE.GENERIC
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.CHERRYBULLETBEE.GENERIC"
 msgid "I love the cut of that bee arm."
-msgstr "我喜歡那隻蜜蜂臂的剪裁。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.CHERRYBULLETBEE.HELD
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.CHERRYBULLETBEE.HELD"
 msgid "Buzz!"
-msgstr "Buzz!"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.CODEX_MANTRA
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.CODEX_MANTRA"
 msgid "Would make a great bedtime story...for nightmares!"
-msgstr "會成為一個很棒的睡前故事......用於噩夢！"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.COOKEDMONSTERSMALLMEAT
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.COOKEDMONSTERSMALLMEAT"
 msgid "It still smells weird."
-msgstr "它還是在散發著奇怪的氣味。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.CORNCAN
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.CORNCAN"
 msgid "Well, it has corn in it."
-msgstr "嗯，裡面裝了玉米。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.CRABCLAW
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.CRABCLAW"
 msgid "It was full of rocks and no meat."
-msgstr "裡面全是石頭，沒有肉."
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.CRITTERLAB_REAL
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.CRITTERLAB_REAL"
 msgid "Kawaii, who is the cute little guy?"
-msgstr "卡哇伊，誰是可愛的小傢伙？"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.CRITTERLAB_REAL_BROKEN
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.CRITTERLAB_REAL_BROKEN"
 msgid "I'm going to fix it up and use it as a mini animal shelter."
-msgstr "我要把它修好，當作迷你動物收容所。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.CRITTER_FIGGY
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.CRITTER_FIGGY"
 msgid "Cotton bug?"
-msgstr "棉花蟲？"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.CURSED_ANTLER
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.CURSED_ANTLER"
 msgid "That big guy came to me on his own, and he even lost to me.\n And the corner of it is a bit heavy."
-msgstr "是那大傢伙自己找上門來的，而且還敗給了我。\n 還有它這個角，有點重。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.DEERCLOPS_BARRIER
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.DEERCLOPS_BARRIER"
 msgid "let me out!"
-msgstr "放我出去！"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.DEVILSFRUITCAKE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.DEVILSFRUITCAKE"
 msgid "Sweet and a little evil."
-msgstr "甜的有點邪惡。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.DISEASECUREBOMB
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.DISEASECUREBOMB"
 msgid "It smells bad, but this oil can treat plant diseases without any side effects."
-msgstr "很難聞，但是這個油可以給植物治病，還沒有副作用。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.DORMANT_RAIN_HORN
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.DORMANT_RAIN_HORN"
 msgid "What's missing and doesn't work?"
-msgstr "少了什麼, 不起作用？"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.DRIFTWOODFISHINGROD
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.DRIFTWOODFISHINGROD"
 msgid "A more stable way to fish."
-msgstr "一種更穩定的釣魚方式."
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.EYEOFTERROR_MINI_ALLY
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.EYEOFTERROR_MINI_ALLY"
 msgid "I started to feel uncomfortable."
-msgstr "我開始感到不自在了。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.FEATHER_FROCK
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.FEATHER_FROCK"
 msgid "Think it must be!"
-msgstr "思必得！"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.FISHMEAT_DRIED
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.FISHMEAT_DRIED"
 msgid "Dried fish makes a delicious soup."
-msgstr "大魚乾，熬湯很好喝。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.FLORAL_BANDAGE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.FLORAL_BANDAGE"
 msgid "The medicinal properties of cactus flowers work well with ointments."
-msgstr "仙人掌花的藥用特性與藥膏非常搭配。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.FRUITBAT
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.FRUITBAT"
 msgid "Even uglier, a blueberry fruit bat."
-msgstr "更醜了，一隻藍莓蝠。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.GASMASK
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.GASMASK"
 msgid "I can put this on to relieve my horrible allergies."
-msgstr "我可以戴上這個來緩解這可怕的過敏症。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.GIANT_BLUEBERRY
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.GIANT_BLUEBERRY"
 msgid "Can it be made into blueberry jam?"
-msgstr "可以做成藍莓醬嗎？"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.GIANT_TREE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.GIANT_TREE"
 msgid "I've seen these giant red shirts from afar, but they don't look right?"
-msgstr "我在老遠就看到這些巨大的紅衫了，但是它們看起來不太對勁？"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.GIANT_TREE_BIRDNEST
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.GIANT_TREE_BIRDNEST"
 msgid "It didn't break when it fell? Σ(っ °Д °;)っ"
-msgstr "掉下來居然沒摔碎？ Σ(っ °Д °;)っ"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.GIANT_TREE_INFESTED
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.GIANT_TREE_INFESTED"
 msgid "This redshirt was infected by those pests and was slowly dying."
-msgstr "這棵紅衫被那些害蟲感染了，正在慢慢死去。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.GLACIALHOUND
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.GLACIALHOUND"
 msgid "Someone cast ice magic on it."
-msgstr "被人施加了寒冰魔法."
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.GLASS_SCALES
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.GLASS_SCALES"
 msgid "It's radiant and quite sharp."
-msgstr "光芒四射，而且相當銳利。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.GORE_HORN_HAT
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.GORE_HORN_HAT"
 msgid "It turns shadows into speed!"
-msgstr "它將陰影變成速度！"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.GREENGEM_CRACKED
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.GREENGEM_CRACKED"
 msgid "This feels really light."
-msgstr "這個感覺真的很輕。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.GREEN_MUSHED_ROOM
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.GREEN_MUSHED_ROOM"
 msgid "Oops, I'm going to vomit"
-msgstr "嘔，我要吐了"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.GREEN_VOMIT
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.GREEN_VOMIT"
 msgid "Oops, I'm going to vomit"
-msgstr "嘔，我要吐了"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.HARDSHELLTACOS
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.HARDSHELLTACOS"
 msgid "More salad dressing?\n Ah, Chinese street food! How much I miss you...."
-msgstr "再來點沙拉醬？\n 啊，中國的街頭小吃！我多麼想念你...."
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.HAT_RATMASK
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.HAT_RATMASK"
 msgid "I don't want to wear this mask, not at all."
-msgstr "我不想戴上這個面具，一點都不想."
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.HONEY_LOG
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.HONEY_LOG"
 msgid "Sweet, but a little too sweet."
-msgstr "甜，但是有點甜過頭。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.HOODEDMOSS
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.HOODEDMOSS"
 msgid "There seems to be moonlight on this piece of land?"
-msgstr "這塊地皮上，好像有月光？"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.HOODEDTRAPDOOR
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.HOODEDTRAPDOOR"
 msgid "There must be something dangerous hidden in here, like a spider."
-msgstr "這裡面肯定藏了危險的東西，例如蜘蛛。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.HOODEDWIDOW
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.HOODEDWIDOW"
 msgid "A huge spider was in front of me, and my penis was shaking, as if it was trying to tell me something."
-msgstr "一隻巨大的蜘蛛在我面前，我的雷切在抖動，好像在想告訴我什麼。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.HOODED_FERN
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.HOODED_FERN"
 msgid "It can grow this big if there is sunlight on the ground."
-msgstr "地面上有陽光，它可以長這麼大。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.HOUNDIOUS_OBSERVIOUS
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.HOUNDIOUS_OBSERVIOUS"
 msgid "It's still alive!"
-msgstr "它還活著！"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.ICEBOOMERANG
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.ICEBOOMERANG"
 msgid "I should have worn gloves,"
-msgstr "我應該戴著手套，"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.KLAUS_AMULET
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.KLAUS_AMULET"
 msgid "This is what "Santa Claus" uses for resurrection."
-msgstr "這就是聖誕老公公復活用的。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.KNOOK
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.KNOOK"
 msgid "This is so creepy!"
-msgstr "這真是令人毛骨悚然！"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.LAVAE2
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.LAVAE2"
 msgid "Does anyone have oven mitts? This is too hot!"
-msgstr "誰有烤箱手套，這個太燙了！"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.LAVASPIT_SLUDGE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.LAVASPIT_SLUDGE"
 msgid "A pile of magma."
-msgstr "一堆岩漿。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.LICELOAF
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.LICELOAF"
 msgid "It tastes very crispy. Ate this in Sichuan, China."
-msgstr "吃起來非常酥脆。在中國四川吃過這個。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.LIGHTNINGHOUND
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.LIGHTNINGHOUND"
 msgid "Gilded dog? Still charged..."
-msgstr "鍍金的狗？還帶電..."
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.LUREPLAGUE_RAT
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.LUREPLAGUE_RAT"
 msgid "I didn't want to look at it again, so I cut it up quickly."
-msgstr "我不想再看它一眼，趕緊把它切了。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.LUSH_ENTRANCE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.LUSH_ENTRANCE"
 msgid "There was a very strong scent coming from below."
-msgstr "從下面傳來一股非常濃烈的香味。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.MAGMAHOUND
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.MAGMAHOUND"
 msgid "A petrified dog? Its mouth is on fire!"
-msgstr "一隻石化的狗？它嘴裡冒著火！"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.MARA_BOSS1
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.MARA_BOSS1"
 msgid "It doesn't belong here, well, it shouldn't exist anywhere."
-msgstr "它不屬於這裡，呃，在哪裡都不應該存在。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.MARSH_GRASS
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.MARSH_GRASS"
 msgid "There was no movement. It seemed safe there?"
-msgstr "沒有任何動靜，看起來那裡面很安全？"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.MASTUPGRADE_WINDTURBINE_ITEM
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.MASTUPGRADE_WINDTURBINE_ITEM"
 msgid "Perpetual motion machine, infinite loop"
-msgstr "永動機，無限循環"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.MEATRACK_HAT.DRYING
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.MEATRACK_HAT.DRYING"
 msgid "Come on, the meat is dry!"
-msgstr "來吧，肉已經乾了！"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.MEATRACK_HAT.DRYINGINRAIN
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.MEATRACK_HAT.DRYINGINRAIN"
 msgid "Forget about the rain! dry!"
-msgstr "忘記下雨吧！乾燥！"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.MEATRACK_HAT.DRYINGINRAIN_NOTMEAT
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.MEATRACK_HAT.DRYINGINRAIN_NOTMEAT"
 msgid "Forget about the rain! dry!"
-msgstr "忘記下雨吧！乾燥！"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.MEATRACK_HAT.DRYING_NOTMEAT
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.MEATRACK_HAT.DRYING_NOTMEAT"
 msgid "How long does it take to dry this thing? !"
-msgstr "這東西要多久才能乾？ ！"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.MEATRACK_HAT.GENERIC
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.MEATRACK_HAT.GENERIC"
 msgid "I want to hang some meat!"
-msgstr "我想掛點肉！"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.MINOTAUR_BOULDER
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.MINOTAUR_BOULDER"
 msgid "Danger! Don't touch it."
-msgstr "危險！不要動它。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.MINOTAUR_BOULDER_BIG
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.MINOTAUR_BOULDER_BIG"
 msgid "Seduce the big-horned rhinoceros to hit this big rock."
-msgstr "勾引那個大角犀牛去撞這個大石頭。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.MOCK_DRAGONFLY
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.MOCK_DRAGONFLY"
 msgid "This guy is looking for trouble on his own."
-msgstr "這傢伙自己來找碴了。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.MONSTERSMALLMEAT
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.MONSTERSMALLMEAT"
 msgid "It looks like it can only be used as bait and should never be eaten."
-msgstr "看起來只能當誘餌，絕對不能吃。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.MONSTERSMALLMEAT_DRIED
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.MONSTERSMALLMEAT_DRIED"
 msgid "emmm, I still can’t swallow it."
-msgstr "emmm，我還是無法下口。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.MOONGLASS_GEODE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.MOONGLASS_GEODE"
 msgid "Once charged glass breaks, it doesn't last long."
-msgstr "帶電的玻璃一旦破裂就不會持續太久。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.MOONMAW_DRAGONFLY
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.MOONMAW_DRAGONFLY"
 msgid "Ahhhh! ! what are you!"
-msgstr "啊啊啊！ ！你是什​​麼東西！"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.MOONMAW_GLASSSHARDS
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.MOONMAW_GLASSSHARDS"
 msgid "This is so cool! !"
-msgstr "這個太酷了！ ！"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.MOONMAW_GLASSSHARDS_RING
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.MOONMAW_GLASSSHARDS_RING"
 msgid "This is so cool! !"
-msgstr "這個太酷了！ ！"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.MOONMAW_LAVAE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.MOONMAW_LAVAE"
 msgid "living glass block"
-msgstr "活的玻璃塊"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.MOONMAW_LAVAE_RING
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.MOONMAW_LAVAE_RING"
 msgid "living glass block"
-msgstr "活的玻璃塊"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.MOON_TEAR
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.MOON_TEAR"
 msgid "This stone? Crying?"
-msgstr "這塊石頭？在流淚？"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.MOTHERGOOSE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.MOTHERGOOSE"
 msgid "A goose with antlers?"
-msgstr "長著鹿角的鵝？"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.MUSHROOMSPROUT_OVERWORLD
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.MUSHROOMSPROUT_OVERWORLD"
 msgid "It appears to be using spores to pollute the air."
-msgstr "它似乎正在使用孢子污染空氣。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.MUTATOR_TRAPDOOR
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.MUTATOR_TRAPDOOR"
 msgid "This seems to be for spiders to eat"
-msgstr "這個好像是給蜘蛛吃的"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.NYMPH
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.NYMPH"
 msgid "It is spreading the plague to more trees."
-msgstr "它正在將瘟疫傳播到更多的樹木。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.OCEAN_SPEAKER
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.OCEAN_SPEAKER"
 msgid "What the hell"
-msgstr "什麼玩意"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.OCUPUS_BEAK
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.OCUPUS_BEAK"
 msgid "The Kraken's mouth spits out a strange liquid."
-msgstr "克拉肯的嘴，它會吐出一種奇怪的液體。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.OCUPUS_TENTACLE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.OCUPUS_TENTACLE"
 msgid "In Korea, some people like to eat it raw. Well, I don’t like it."
-msgstr "在韓國，有些人喜歡生吃，呃，我不喜歡就是了"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.OCUPUS_TENTACLE_COOKED
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.OCUPUS_TENTACLE_COOKED"
 msgid "I need some mustard."
-msgstr "我需要一些芥末。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.OCUPUS_TENTACLE_EYE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.OCUPUS_TENTACLE_EYE"
 msgid "Well, what can I do with this?"
-msgstr "嗯，我能用這個做什麼？"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.OPALPRECIOUSGEM_CRACKED
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.OPALPRECIOUSGEM_CRACKED"
 msgid "it sparkles and is mesmerizing"
-msgstr "它閃閃發光，令人著迷"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.ORANGEGEM_CRACKED
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.ORANGEGEM_CRACKED"
 msgid "It will make your fingers tingle."
-msgstr "它會讓你的手指發麻。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.ORANGE_VOMIT
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.ORANGE_VOMIT"
 msgid "Oops, I'm going to vomit"
-msgstr "嘔，我要吐了"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.PALE_VOMIT
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.PALE_VOMIT"
 msgid "Oops, I'm going to vomit"
-msgstr "嘔，我要吐了"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.PIED_PIPER_FLUTE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.PIED_PIPER_FLUTE"
 msgid "If I play it, will it attract mice?"
-msgstr "我演奏它，會引來老鼠嗎？"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.PIED_RAT
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.PIED_RAT"
 msgid "Singers attract rats instead of people."
-msgstr "賣唱的，引來的不是人而是老鼠."
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.PIGKING_PIGGUARD
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.PIGKING_PIGGUARD"
 msgid "These pigs sure know how to have fun."
-msgstr "這些豬確實知道如何玩得開心。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.PIGKING_PIGTORCH
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.PIGKING_PIGTORCH"
 msgid "These pigs sure know how to have fun."
-msgstr "這些豬確實知道如何玩得開心。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.PINK_VOMIT
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.PINK_VOMIT"
 msgid "Oops, I'm going to vomit"
-msgstr "嘔，我要吐了"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.PITCHERPLANT
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.PITCHERPLANT"
 msgid "Nepenthes, which preys on insects that have snared themselves in the area."
-msgstr "豬籠草，它會捕食這附近自投羅網的蟲子"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.PLAGUEMASK
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.PLAGUEMASK"
 msgid "Strange shape, seems to have been seen in some comics."
-msgstr "奇怪的造型，好像在某本漫畫上看過。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.POLLENMITEDEN
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.POLLENMITEDEN"
 msgid "Stay away, this mite can cause severe allergy symptoms."
-msgstr "離遠點，這種蟎蟲會引起強烈的過敏症狀。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.POLLENMITES
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.POLLENMITES"
 msgid "Ahhhhhhhhhh, stay away from me! ! ! ! ! !"
-msgstr "啊啊啊啊啊啊啊，離我遠一點！ ！ ！ ！ ！ ！"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.PORTABLEBOAT_ITEM
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.PORTABLEBOAT_ITEM"
 msgid "Small, convenient, soft pontoon, but not safe"
-msgstr "很小，方便，軟軟的浮船，但是不安全"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.POWERCELL
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.POWERCELL"
 msgid "Batteries, but where does the power come from?"
-msgstr "電池，但是電哪裡來呢？"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.PURPLEGEM_CRACKED
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.PURPLEGEM_CRACKED"
 msgid "Weird"
-msgstr "詭異"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.PURPLE_VOMIT
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.PURPLE_VOMIT"
 msgid "Oops, I'm going to vomit"
-msgstr "嘔，我要吐了"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.RAIN_HORN
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.RAIN_HORN"
 msgid "My memory must be hazy. I thought this did something else."
-msgstr "我的記憶一定很模糊。我以為這做了別的事。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.RATPOISON
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.RATPOISON"
 msgid "Poison has a strong smell of almonds."
-msgstr "毒藥，有一股強烈的杏仁味。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.RATPOISONBOTTLE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.RATPOISONBOTTLE"
 msgid "Poison has a strong smell of almonds."
-msgstr "毒藥，有一股強烈的杏仁味。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.RAT_TAIL
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.RAT_TAIL"
 msgid "Ahhhh, I don’t want to touch this tail, it’s so disgusting."
-msgstr "啊啊啊，我不想碰這個尾巴，好噁心。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.RAT_WHIP
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.RAT_WHIP"
 msgid "Whips made of rat tails, that's not a good idea...."
-msgstr "老鼠的尾巴做成的鞭子, 這不是一個好主意...."
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.REDGEM_CRACKED
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.REDGEM_CRACKED"
 msgid "So beautiful!"
-msgstr "好漂亮呀！"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.RED_MUSHED_ROOM
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.RED_MUSHED_ROOM"
 msgid "Oops, I'm going to vomit"
-msgstr "嘔，我要吐了"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.RED_VOMIT
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.RED_VOMIT"
 msgid "Oops, I'm going to vomit"
-msgstr "嘔，我要吐了"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.RICE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.RICE"
 msgid "They have to be cooked to taste."
-msgstr "要把它們煮過才好吃。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.RICEPLANT
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.RICEPLANT"
 msgid "WOW. Rice! Often seen in rural areas of China and Japan."
-msgstr "WOW.水稻誒！在中國和日本的農村經常能看到。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.RICE_COOKED
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.RICE_COOKED"
 msgid "It seemed a bit overcooked and a bit tough.\n I want to make it into rice balls, that would be delicious."
-msgstr "有點煮過頭了好像，有點硬。\n 我想做成飯糰，那樣很好吃。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.RNEGHOST
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.RNEGHOST"
 msgid "Lonely ghost, what is it still complaining about?"
-msgstr "孤魂野鬼，它還在怨念著什麼？"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.RNESKELETON
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.RNESKELETON"
 msgid "No, no, no, I don't want to dance with you."
-msgstr "不不不, 我不想與你共舞."
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.ROCKJAWLEATHER
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.ROCKJAWLEATHER"
 msgid "What a beautiful fin."
-msgstr "好漂亮的鰭。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.ROSHIP
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.ROSHIP"
 msgid "Resentment awakened it, and it looked like it was thirsty for blood. Run away, run away quickly, run away quickly."
-msgstr "怨念喚醒了它，看起來很渴望鮮血，溜，趕緊溜，快溜."
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SALTPACK
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SALTPACK"
 msgid "Sprinkling salt grains on the snow lowers the melting point of the snow and makes it melt faster."
-msgstr "把鹽粒撒在雪上，降低雪的融點，讓雪融化得更快。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SCORPIONCARAPACE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SCORPIONCARAPACE"
 msgid "It can be used as bait, but not as food."
-msgstr "它能用來當誘餌，但是不能當作食物。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SCORPIONCARAPACECOOKED
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SCORPIONCARAPACECOOKED"
 msgid "Even if I starve to death, I will not eat this."
-msgstr "我就是餓死我也不會吃這個。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SCREECHER_TRINKET
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SCREECHER_TRINKET"
 msgid "I don't see the use of this thing."
-msgstr "我看不出來這玩意有什麼用。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SEAFOODPAELLA
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SEAFOODPAELLA"
 msgid "I want another bowl!"
-msgstr "我還要再來一碗！"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SHADOW_CROWN
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SHADOW_CROWN"
 msgid "I feel a little uncomfortable wearing it. . ."
-msgstr "戴著它，我感覺有點不舒服。 。 。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SHADOW_TELEPORTER
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SHADOW_TELEPORTER"
 msgid "A huge temptation? But sorry, I'm not interested in this kind of thing."
-msgstr "巨大的誘惑？但不好意思，我對這種東西沒興趣。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SHOCKWORM
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SHOCKWORM"
 msgid "Is it as electric as Rachel? !"
-msgstr "它和雷切一樣帶電？ ！"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SHROOM_SKIN_FRAGMENT
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SHROOM_SKIN_FRAGMENT"
 msgid "It was useless and had a very pungent smell."
-msgstr "毫無用處，還會散發出非常刺鼻的味道。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SIMPSALAD
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SIMPSALAD"
 msgid "Sometimes, you can also eat some vegetables to lose weight."
-msgstr "有時候，也可以吃點蔬菜，減重。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SIREN_THRONE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SIREN_THRONE"
 msgid "Oh see! a rock! one way or another."
-msgstr "哦，看！一塊石頭！不管怎樣。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SKELETONMEAT
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SKELETONMEAT"
 msgid "Throw it away quickly! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! !"
-msgstr "趕緊扔掉！ ！ ！ ！ ！ ！ ！ ！ ！ ！ ！ ！ ！ ！ ！ ！ ！ ！ ！"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SKULLCHEST_CHILD
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SKULLCHEST_CHILD"
 msgid "Can I get in there and try?"
-msgstr "我可以鑽進去試試嗎？"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SKULLFLASK
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SKULLFLASK"
 msgid "Forget about sadness, fear for a moment..."
-msgstr "暫時忘記悲傷, 恐懼......"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SKULLFLASK_EMPTY
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SKULLFLASK_EMPTY"
 msgid "The sadness and fear are back."
-msgstr "悲傷, 恐懼又來回來了。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SLINGSHOTAMMO_FIRECRACKERS
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SLINGSHOTAMMO_FIRECRACKERS"
 msgid "Bullets are to be thrown."
-msgstr "子彈要投擲。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SLINGSHOTAMMO_GOOP
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SLINGSHOTAMMO_GOOP"
 msgid "Bullets are to be thrown."
-msgstr "子彈要投擲。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SLINGSHOTAMMO_HONEY
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SLINGSHOTAMMO_HONEY"
 msgid "Bullets are to be thrown."
-msgstr "子彈要投擲。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SLINGSHOTAMMO_LAZY
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SLINGSHOTAMMO_LAZY"
 msgid "Bullets are to be thrown."
-msgstr "子彈要投擲。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SLINGSHOTAMMO_LIMESTONE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SLINGSHOTAMMO_LIMESTONE"
 msgid "Bullets are to be thrown."
-msgstr "子彈要投擲。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SLINGSHOTAMMO_MOONGLASS
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SLINGSHOTAMMO_MOONGLASS"
 msgid "Bullets are to be thrown."
-msgstr "子彈要投擲。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SLINGSHOTAMMO_MOONROCK
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SLINGSHOTAMMO_MOONROCK"
 msgid "Bullets are to be thrown."
-msgstr "子彈要投擲。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SLINGSHOTAMMO_OBSIDIAN
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SLINGSHOTAMMO_OBSIDIAN"
 msgid "Bullets are to be thrown."
-msgstr "子彈要投擲。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SLINGSHOTAMMO_RUBBER
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SLINGSHOTAMMO_RUBBER"
 msgid "Bullets are to be thrown."
-msgstr "子彈要投擲。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SLINGSHOTAMMO_SALT
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SLINGSHOTAMMO_SALT"
 msgid "Bullets are to be thrown."
-msgstr "子彈要投擲。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SLINGSHOTAMMO_SHADOW
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SLINGSHOTAMMO_SHADOW"
 msgid "Bullets are to be thrown."
-msgstr "子彈要投擲。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SLINGSHOTAMMO_SLIME
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SLINGSHOTAMMO_SLIME"
 msgid "Bullets are to be thrown."
-msgstr "子彈要投擲。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SLINGSHOTAMMO_TAR
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SLINGSHOTAMMO_TAR"
 msgid "Bullets are to be thrown."
-msgstr "子彈要投擲。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SLINGSHOTAMMO_TREMOR
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SLINGSHOTAMMO_TREMOR"
 msgid "Bullets are to be thrown."
-msgstr "子彈要投擲。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SLINGSHOT_GNASHER
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SLINGSHOT_GNASHER"
 msgid "Bullets are to be thrown."
-msgstr "子彈要投擲。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SLINGSHOT_MATILDA
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SLINGSHOT_MATILDA"
 msgid "Bullets are to be thrown."
-msgstr "子彈要投擲。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SLOBBERLOBBER
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SLOBBERLOBBER"
 msgid "A barbaric way to reduce anything to ash."
-msgstr "一種將任何東西化為灰燼的野蠻方式。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SLUDGE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SLUDGE"
 msgid "A smelly blob? What's the point of doing this?"
-msgstr "一團有臭味的東西？我們弄這些有什麼用？"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SLUDGESTACK
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SLUDGESTACK"
 msgid "Over time, the sludge has worn away the rock."
-msgstr "隨著時間的推移，污泥已經磨損了岩石。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SLUDGE_CORK
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SLUDGE_CORK"
 msgid "This should speed up the processing of sludge."
-msgstr "這應該可以加快處理污泥的速度。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SLUDGE_OIL
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SLUDGE_OIL"
 msgid "ah? Sea mud oil?"
-msgstr "啊？海泥油？"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SMALLFISHMEAT_DRIED
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SMALLFISHMEAT_DRIED"
 msgid "Dried fish makes delicious soup."
-msgstr "魚乾，熬湯很好喝。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SNAPDRAGON
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SNAPDRAGON"
 msgid "Snapdragon, but why does it make the sound of a cow?"
-msgstr "金魚草，但是它為什麼會發出牛的叫聲？"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SNAPDRAGON_BUDDY
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SNAPDRAGON_BUDDY"
 msgid "It reminds me of Venus flytraps."
-msgstr "它讓我想起來了捕蠅草。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SNAPPERTURTLE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SNAPPERTURTLE"
 msgid "Haha, what a funny animal."
-msgstr "哈哈，真是有趣的動物。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SNAPPERTURTLEBABY
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SNAPPERTURTLEBABY"
 msgid "Haha, what a funny animal."
-msgstr "哈哈，真是有趣的動物。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SNAPPERTURTLENEST
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SNAPPERTURTLENEST"
 msgid "Turtle's damp nest"
-msgstr "海龜的潮濕巢穴"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SNAPPLANT
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SNAPPLANT"
 msgid "hentai development."
-msgstr "hentai發育。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SNOTROAST
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SNOTROAST"
 msgid "Does Warby want to eat this?"
-msgstr "沃比想吃這個嗎？"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SNOWBALL_THROWABLE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SNOWBALL_THROWABLE"
 msgid "Who wants to have a snowball fight?"
-msgstr "有誰想打雪仗呀？"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SNOWCONE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SNOWCONE"
 msgid "There is no smell at all, just pure snow."
-msgstr "什麼味道都沒有，只是單純的雪。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SNOWGOGGLES
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SNOWGOGGLES"
 msgid "It keeps my head warm in a snowstorm and allows me to see the road ahead clearly."
-msgstr "能讓我在暴風雪中保持頭部溫暖，還能看清前方的路。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SNOWMONG
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SNOWMONG"
 msgid "Let me just say, trouble is coming."
-msgstr "我就說吧，麻煩來了。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SNOWPILE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SNOWPILE"
 msgid "I need to get rid of this pile of snow quickly, or I'll be in trouble."
-msgstr "我需要趕緊處理掉這堆雪，不然會有麻煩。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SPEAKER_BRINE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SPEAKER_BRINE"
 msgid "My mother is going to ask me to collect clothes."
-msgstr "我媽媽要叫我去收衣服了。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SPEAKER_RUSTED
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SPEAKER_RUSTED"
 msgid "My mother is going to ask me to collect clothes."
-msgstr "我媽媽要叫我去收衣服了。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SPEAKER_SPECTER
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SPEAKER_SPECTER"
 msgid "My mother is going to ask me to collect clothes."
-msgstr "我媽媽要叫我去收衣服了。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SPECTER_SHIPWRECK
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SPECTER_SHIPWRECK"
 msgid "Everything will eventually be destroyed."
-msgstr "一切終將毀滅。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SPIDERQUEENCORPSE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SPIDERQUEENCORPSE"
 msgid "How disgusting!"
-msgstr "好噁心啊！"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SPIDER_TRAPDOOR
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SPIDER_TRAPDOOR"
 msgid "Sit back and wait."
-msgstr "守株待兔。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SPOREHOUND
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SPOREHOUND"
 msgid "It is colonized by fungi."
-msgstr "它被真菌寄生了."
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SPOREPACK
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SPOREPACK"
 msgid "It's so dirty that I can't put items in it."
-msgstr "好髒，不能把物品放在裡面。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.STANTON
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.STANTON"
 msgid "Sorry, I don't drink"
-msgstr "對不起，我不喝酒"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.STANTON_SHADOW_TONIC
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.STANTON_SHADOW_TONIC"
 msgid "There is no benefit to drinking this..."
-msgstr "喝了這個沒有什麼好處…"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.STANTON_SHADOW_TONIC_FANCY
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.STANTON_SHADOW_TONIC_FANCY"
 msgid "Elegant, but there is no benefit from drinking it..."
-msgstr "優雅，但是喝了一樣沒有好處…"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.STEAMEDHAMS
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.STEAMEDHAMS"
 msgid "hamburger!"
-msgstr "漢堡!"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.STEERINGWHEEL_COPPER
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.STEERINGWHEEL_COPPER"
 msgid "It can last a thousand years."
-msgstr "它可以持續一千年。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.STEERINGWHEEL_COPPER_ITEM
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.STEERINGWHEEL_COPPER_ITEM"
 msgid "We first need something to guide us through."
-msgstr "我們首先需要一些東西來引導。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.STUFFED_PEEPER_POPPERS
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.STUFFED_PEEPER_POPPERS"
 msgid "Even the food is looking at me."
-msgstr "連食物都在看我。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.STUMPLING
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.STUMPLING"
 msgid "tree stump? Moving? He also beats people, damn it."
-msgstr "樹樁？在動？還會打人，臥槽。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SUNGLASSES
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SUNGLASSES"
 msgid "Be cool and don't talk."
-msgstr "很酷，不說話。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SUNKENCHEST_ROYAL_BLUE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SUNKENCHEST_ROYAL_BLUE"
 msgid "Just getting this was so painful."
-msgstr "光是得到這個就太痛苦了。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SUNKENCHEST_ROYAL_GREEN
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SUNKENCHEST_ROYAL_GREEN"
 msgid "Just getting this was so painful."
-msgstr "光是得到這個就太痛苦了。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SUNKENCHEST_ROYAL_ORANGE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SUNKENCHEST_ROYAL_ORANGE"
 msgid "Just getting this was so painful."
-msgstr "光是得到這個就太痛苦了。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SUNKENCHEST_ROYAL_PURPLE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SUNKENCHEST_ROYAL_PURPLE"
 msgid "Just getting this was so painful."
-msgstr "光是得到這個就太痛苦了。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SUNKENCHEST_ROYAL_RAINBOW
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SUNKENCHEST_ROYAL_RAINBOW"
 msgid "Just getting this was so painful."
-msgstr "光是得到這個就太痛苦了。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SUNKENCHEST_ROYAL_RANDOM
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SUNKENCHEST_ROYAL_RANDOM"
 msgid "Just getting this was so painful."
-msgstr "光是得到這個就太痛苦了。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SUNKENCHEST_ROYAL_RED
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SUNKENCHEST_ROYAL_RED"
 msgid "Just getting this was so painful."
-msgstr "光是得到這個就太痛苦了。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SUNKENCHEST_ROYAL_YELLOW
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SUNKENCHEST_ROYAL_YELLOW"
 msgid "Just getting this was so painful."
-msgstr "光是得到這個就太痛苦了。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SWILSON
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.SWILSON"
 msgid "Replicas, puppets, monster figures."
-msgstr "複製品，傀儡，妖怪人形。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.THEATERCORN
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.THEATERCORN"
 msgid "If only we could have some movie shows to go with it."
-msgstr "要是我們能有一些電影節目來配合就好了。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.THE_REAL_CHARLES_T_HORSE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.THE_REAL_CHARLES_T_HORSE"
 msgid "Not a single gear in sight."
-msgstr "看不到一個齒輪。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.TIDDLESTRANGER_RNE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.TIDDLESTRANGER_RNE"
 msgid "Who is coming?"
-msgstr "來者何人。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.TOADLING
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.TOADLING"
 msgid "Some kind of parasite?"
-msgstr "某種寄生蟲？"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.TOADLINGSPAWNER
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.TOADLINGSPAWNER"
 msgid "Ugh, what a bad smell."
-msgstr "噫，好難聞的味道。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.TRAPDOOR
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.TRAPDOOR"
 msgid "There must be something dangerous hidden in here, like a spider."
-msgstr "這裡面肯定藏了危險的東西，例如蜘蛛。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.TRAPDOORGRASS
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.TRAPDOORGRASS"
 msgid "There must be danger underneath."
-msgstr "那下面一定藏著危險。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.TRINKET_WATHOM
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.TRINKET_WATHOM"
 msgid "This is...a treasure? I think? Yeah? ?"
-msgstr "這是……寶藏？我想？是嗎？ ？"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_AMBER
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_AMBER"
 msgid "amber!"
-msgstr "琥珀！"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_ARMOR_PYRE_NETTLES
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_ARMOR_PYRE_NETTLES"
 msgid "It's hot when you get closer"
-msgstr "貼近一點都是熱的"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_BEAR_TRAP
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_BEAR_TRAP"
 msgid "A trap set by poachers, but it doesn't look like it's used for hunting here."
-msgstr "偷獵者設置的陷阱，但是這裡不像是用來捕獵的。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_BEAR_TRAP_EQUIPPABLE_GOLD
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_BEAR_TRAP_EQUIPPABLE_GOLD"
 msgid "A trap set by poachers, but it doesn't look like it's used for hunting here."
-msgstr "偷獵者設置的陷阱，但是這裡不像是用來捕獵的。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_BEAR_TRAP_EQUIPPABLE_TOOTH
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_BEAR_TRAP_EQUIPPABLE_TOOTH"
 msgid "A trap set by poachers, but it doesn't look like it's used for hunting here."
-msgstr "偷獵者設置的陷阱，但是這裡不像是用來捕獵的。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_BEAR_TRAP_OLD
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_BEAR_TRAP_OLD"
 msgid "A trap set by poachers, but it doesn't look like it's used for hunting here."
-msgstr "偷獵者設置的陷阱，但是這裡不像是用來捕獵的。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_BEEGUARD_BLOCKER
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_BEEGUARD_BLOCKER"
 msgid "Can't deal with it head on."
-msgstr "不能正面應對。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_BEEGUARD_SEEKER
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_BEEGUARD_SEEKER"
 msgid "Fluffy and flying!"
-msgstr "蓬鬆飛起來！"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_BEEGUARD_SHOOTER
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_BEEGUARD_SHOOTER"
 msgid "Fluffy and flying!"
-msgstr "蓬鬆飛起來！"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_BEEGUN
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_BEEGUN"
 msgid "Wasp gun eh"
-msgstr "胡蜂槍誒"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_BLOWDART_PYRE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_BLOWDART_PYRE"
 msgid "ruthless. efficient."
-msgstr "無情。有效。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_BRINEISHMOSS
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_BRINEISHMOSS"
 msgid "Moss, everywhere."
-msgstr "苔蘚，到處都是。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_COALESCED_NIGHTMARE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_COALESCED_NIGHTMARE"
 msgid "A more pure nightmare."
-msgstr "更純粹的惡夢。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_DEVILED_EGGS
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_DEVILED_EGGS"
 msgid "If I hadn't cooked it, what would have hatched?"
-msgstr "如果我沒煮了它，那它會孵化出來什麼呢？"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_DREAMCATCHER
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_DREAMCATCHER"
 msgid "What color is the electronic sheep in your dream?"
-msgstr "你夢中的電子羊是什麼顏色？"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_MAGNERANG
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_MAGNERANG"
 msgid "Magnets are not my specialty."
-msgstr "磁鐵不是我的專長。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_MAGNERANGREEL
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_MAGNERANGREEL"
 msgid "It looks unstable."
-msgstr "它看起來不穩定。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_MONSTEREGG
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_MONSTEREGG"
 msgid "This is? Eggs that are half a year old? wrong."
-msgstr "這是？放了半年的雞蛋？不對。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_MONSTEREGG_COOKED
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_MONSTEREGG_COOKED"
 msgid "Purple yolk? ? ?"
-msgstr "紫色的蛋黃？ ？ ？"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_OCUPUS_BEAK
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_OCUPUS_BEAK"
 msgid "The Watchers want us to stay here."
-msgstr "監視者想讓我們一直留在這裡。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_OCUPUS_EYE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_OCUPUS_EYE"
 msgid "don't want"
-msgstr "不要"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_OCUPUS_EYETACLE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_OCUPUS_EYETACLE"
 msgid "We are not your food!"
-msgstr "我們不是你的食物！"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_OCUPUS_TENTACLE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_OCUPUS_TENTACLE"
 msgid "Weapons from the sea."
-msgstr "來自海洋的武器。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_ORNAMENT_OPOSSUM
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_ORNAMENT_OPOSSUM"
 msgid "Will it be a good decoration? possible!"
-msgstr "它會是一個很好的裝飾嗎？可能！"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_ORNAMENT_RAT
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_ORNAMENT_RAT"
 msgid "Will it be a good decoration? possible!"
-msgstr "它會是一個很好的裝飾嗎？可能！"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_PAWN
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_PAWN"
 msgid "Go, go quickly, don't go near it"
-msgstr "走，快走，不要靠近它"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_PAWN_NIGHTMARE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_PAWN_NIGHTMARE"
 msgid "Go, go quickly, don't come near it."
-msgstr "走，快走，不要靠近它."
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_PYRE_NETTLES
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_PYRE_NETTLES"
 msgid "Well, that one must be poisonous."
-msgstr "好吧，那個肯定有毒。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_SAND
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_SAND"
 msgid "A pile of fragments of coral reefs, shells, and quartz."
-msgstr "一堆珊瑚礁、貝殼、石英的碎屑。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_SANDHILL
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_SANDHILL"
 msgid "Just a small pile of sand."
-msgstr "一小堆沙而已。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_SCORPION
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_SCORPION"
 msgid "The scorpion, which is some sort of desert species, but bigger than what I saw in the book? !"
-msgstr "蝎子，它是某種沙漠分類中的物種，但是比我在書中看到的還要大？ ！"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_SCORPIONHOLE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_SCORPIONHOLE"
 msgid "Probably a scorpion's nest."
-msgstr "估計是蝎子的巢穴。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_SMOLDER_SPORE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_SMOLDER_SPORE"
 msgid "I could slip by if I didn't dawdle."
-msgstr "如果我不磨蹭的話，我可以溜過去。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_TORNADO
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_TORNADO"
 msgid "The strong airflow gathered and formed this huge thing. Hurry and escape."
-msgstr "強烈的氣流聚集起來，形成了這個龐然大物，趕緊溜。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_WATERFALL
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UM_WATERFALL"
 msgid "When you need a pair of rain boots, where are they?"
-msgstr "當你需要一雙雨鞋時，它們在哪裡？"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UNCOMPROMISING_BLOWGUN
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UNCOMPROMISING_BLOWGUN"
 msgid "Is this right?"
-msgstr "這才對嘛"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UNCOMPROMISING_HARPOON
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UNCOMPROMISING_HARPOON"
 msgid "Stabbing from a distance has never been easier."
-msgstr "遠距離刺傷從未如此簡單。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UNCOMPROMISING_HARPOONREEL
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UNCOMPROMISING_HARPOONREEL"
 msgid "This is a reel deal."
-msgstr "這是捲軸交易。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UNCOMPROMISING_HARPOON_HEAVY
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UNCOMPROMISING_HARPOON_HEAVY"
 msgid "It's not as heavy as it looks."
-msgstr "它沒有看起來那麼重。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UNCOMPROMISING_PACKRAT
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UNCOMPROMISING_PACKRAT"
 msgid "Even if you steal things, why do you still carry a bag?"
-msgstr "偷東西就算了，怎麼還帶包包呢？"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UNCOMPROMISING_RAT
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UNCOMPROMISING_RAT"
 msgid "Good guy, bigger than the rats in southern China."
-msgstr "好傢伙，比中國南方的老鼠還大。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UNCOMPROMISING_RATBURROW
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UNCOMPROMISING_RATBURROW"
 msgid "There is no rat poison in this shitty place, and there are no rat exterminators."
-msgstr "這破地方沒有老鼠藥，也沒有除鼠專家。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UNCOMPROMISING_RATHERD
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UNCOMPROMISING_RATHERD"
 msgid "There is no rat poison in this shitty place, and there are no rat exterminators."
-msgstr "這破地方沒有老鼠藥，也沒有除鼠專家。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UNCOMPROMISING_TOAD
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UNCOMPROMISING_TOAD"
 msgid "It looks very sick, but it doesn't seem to matter to it."
-msgstr "它看起來病得很厲害，但是好像對它來說沒影響。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UNCOMPROMISING_WINKYBURROW
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UNCOMPROMISING_WINKYBURROW"
 msgid "There is no rat poison in this shitty place, and there are no rat exterminators."
-msgstr "這破地方沒有老鼠藥，也沒有除鼠專家。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UNCOMPROMISING_WINKYHOMEBURROW
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.UNCOMPROMISING_WINKYHOMEBURROW"
 msgid "There is no rat poison in this shitty place, and there are no rat exterminators."
-msgstr "這破地方沒有老鼠藥，也沒有除鼠專家。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.VAMPIREBAT
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.VAMPIREBAT"
 msgid "Step aside! I'm going to cut it in two."
-msgstr "讓開！我要把它一刀兩斷。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.VETERANSHRINE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.VETERANSHRINE"
 msgid "Skull, I'm so scared."
-msgstr "頭骨，我好害怕。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.VETSITEM
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.VETSITEM"
 msgid "A force I don't understand, darkness?"
-msgstr "我不理解的一股力量，黑暗？"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.VIPERFRUIT
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.VIPERFRUIT"
 msgid "Looks a bit like strawberries."
-msgstr "看起來有點像草莓。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.VIPERJAM
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.VIPERJAM"
 msgid "Can this jam be made into toast?"
-msgstr "這果醬，可以做吐司嗎？"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.VIPERWORM
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.VIPERWORM"
 msgid "There's something black flowing on it, what is it?"
-msgstr "它身上流著黑黑的東西，是什麼東西？"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WALRUS_CAMP_SUMMER
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WALRUS_CAMP_SUMMER"
 msgid "It looked like someone had camped here, but I was sure the owner was definitely not friendly."
-msgstr "看起來有人在這裡紮過營，但是我能確定它的主人絕對不友善。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WATERMELON_LANTERN
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WATERMELON_LANTERN"
 msgid "To be honest, I would rather cut it open and eat it."
-msgstr "實不相瞞，我更想切開吃掉它。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WATHOM.ATTACKER
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WATHOM.ATTACKER"
 msgid "%s Put your slingshot away."
-msgstr "%s 把你的彈弓收起來。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WATHOM.FIRESTARTER
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WATHOM.FIRESTARTER"
 msgid "This is not a circus, %s?"
-msgstr "這裡不是馬戲團，%s？"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WATHOM.GENERIC
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WATHOM.GENERIC"
 msgid "%s seems no different from him."
-msgstr "%s 似乎和他沒什麼兩樣。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WATHOM.GHOST
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WATHOM.GHOST"
 msgid "Something bad happened to her."
-msgstr "她遭遇了不幸。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WATHOM.MURDERER
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WATHOM.MURDERER"
 msgid "I need to hold my knife at all times."
-msgstr "我需要時時握著我的刀。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WATHOM.REVIVER
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WATHOM.REVIVER"
 msgid "We can still cooperate, %s"
-msgstr "我們還能合作，%s"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WEBBEDCREATURE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WEBBEDCREATURE"
 msgid "Needless to say, that big spider must have caught a lot of creatures."
-msgstr "不用想，那隻大蜘蛛一定抓了很多生物。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WHISPERPOD
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WHISPERPOD"
 msgid "Plant it so it can grow."
-msgstr "把它種下去吧，這樣它才能生長。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WHISPERPOD_NORMAL_GROUND.GENERIC
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WHISPERPOD_NORMAL_GROUND.GENERIC"
 msgid "Having never grown this plant, I don't know exactly what it needs, but it needs seeds."
-msgstr "沒種過這種植物，我不知道它具體需要什麼，但是它需要種子。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WHISPERPOD_NORMAL_GROUND.GROWING
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WHISPERPOD_NORMAL_GROUND.GROWING"
 msgid "That's it, a little more..."
-msgstr "就是這樣，再多一些..."
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WICKER_TENTACLE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WICKER_TENTACLE"
 msgid "It's going to be broken down."
-msgstr "它要被分解了。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WIDOWSGRASP
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WIDOWSGRASP"
 msgid "The claws of that big spider can slice open those cocoons."
-msgstr "那隻大蜘蛛的爪子，可以劃開那些繭。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WIDOWSHEAD
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WIDOWSHEAD"
 msgid "Ah ah ah, I don’t want to wear this, take it away quickly."
-msgstr "啊啊啊，我不要戴上這個，快拿走。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WINKY.ATTACKER
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WINKY.ATTACKER"
 msgid "I think we need to keep some distance, I don't want you to bite me."
-msgstr "我覺得我們需要保持一段距離，我不希望你咬我。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WINKY.FIRESTARTER
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WINKY.FIRESTARTER"
 msgid "Damn it, this big rat knows how to use fire, he's really a genius."
-msgstr "臥槽，這大耗子會用火，真成精了。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WINKY.GENERIC
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WINKY.GENERIC"
 msgid "Not true? ? ?"
-msgstr "不是真的吧？ ？ ？"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WINKY.GHOST
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WINKY.GHOST"
 msgid "Her spirit remains."
-msgstr "她的靈魂依然存在。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WINKY.MURDERER
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WINKY.MURDERER"
 msgid "Murderer."
-msgstr "謀殺者。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WINKY.REVIVER
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WINKY.REVIVER"
 msgid "Hope you don't do anything weird."
-msgstr "希望你不會做什麼怪事。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WINONA_BATTERY_HIGH_ITEM
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WINONA_BATTERY_HIGH_ITEM"
 msgid "I have learned crafts while traveling in China before, so I should be able to handle it."
-msgstr "我以前在中國旅行的時候學過手工，應該可以應付。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WINONA_BATTERY_LOW_ITEM
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WINONA_BATTERY_LOW_ITEM"
 msgid "I have learned crafts while traveling in China before, so I should be able to handle it."
-msgstr "我以前在中國旅行的時候學過手工，應該可以應付。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WINONA_CATAPULT_ITEM
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WINONA_CATAPULT_ITEM"
 msgid "I have learned crafts while traveling in China before, so I should be able to handle it."
-msgstr "我以前在中國旅行的時候學過手工，應該可以應付。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WINONA_SPOTLIGHT_ITEM
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WINONA_SPOTLIGHT_ITEM"
 msgid "I have learned crafts while traveling in China before, so I should be able to handle it."
-msgstr "我以前在中國旅行的時候學過手工，應該可以應付。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WINONA_TOOLBOX
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WINONA_TOOLBOX"
 msgid "I wonder what kind of baubles and hickeys are inside."
-msgstr "我想知道裡面是什麼樣的小玩意和吻痕。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WINONA_UPGRADEKIT_ELECTRICAL
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WINONA_UPGRADEKIT_ELECTRICAL"
 msgid "Let those devices increase work efficiency."
-msgstr "讓那些設備提升工作效率。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WIXIE.ATTACKER
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WIXIE.ATTACKER"
 msgid "%s Violence will get you nowhere,"
-msgstr "%s 暴力會讓你無路可走，"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WIXIE.FIRESTARTER
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WIXIE.FIRESTARTER"
 msgid "How could you do this?"
-msgstr "你怎麼可以這樣？"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WIXIE.GENERIC
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WIXIE.GENERIC"
 msgid "%s seems a little unfriendly."
-msgstr "%s 好像有點不太友善。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WIXIE.GHOST
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WIXIE.GHOST"
 msgid "Should we help %s? I'm not sure."
-msgstr "我們應該幫助 %s嗎？我不太確定。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WIXIE.MURDERER
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WIXIE.MURDERER"
 msgid "Don't make me draw my sword, %s!"
-msgstr "別讓我拔刀，%s！"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WIXIE.REVIVER
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WIXIE.REVIVER"
 msgid "%s's motivations are a mystery."
-msgstr "%s 的動機是個謎。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WIXIEGUN
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WIXIEGUN"
 msgid "I learned marksmanship in Hawaii before."
-msgstr "以前在夏威夷學過槍法。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WIXIE_CLOCK
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WIXIE_CLOCK"
 msgid "I can't open it."
-msgstr "我無法打開它。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WIXIE_PIANO
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WIXIE_PIANO"
 msgid "This is not the same as the piano in school..."
-msgstr "這跟學校裡的鋼琴不太一樣...."
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WIXIE_WARDROBE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WIXIE_WARDROBE"
 msgid "Wait, how long has this been here?"
-msgstr "等等，這已經在這裡多久了？"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WOODPECKER
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WOODPECKER"
 msgid "I've seen them everywhere before on their migration trips!"
-msgstr "我以前到處都看到他們出去遷徙旅行！"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.YELLOWGEM_CRACKED
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.YELLOWGEM_CRACKED"
 msgid "It sparkles."
-msgstr "它閃閃發光."
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.YELLOW_VOMIT
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.YELLOW_VOMIT"
 msgid "Oops, I'm going to vomit"
-msgstr "嘔，我要吐了"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.ZASPBERRY
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.ZASPBERRY"
 msgid "My mouth feels numb after eating this blueberry."
-msgstr "這個藍莓吃完嘴有點麻。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.ZASPBERRYPARFAIT
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.ZASPBERRYPARFAIT"
 msgid "A mouth-numbing dessert."
-msgstr "吃起來嘴巴有點麻的甜點。"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DREADEYE_SPOOKED
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DREADEYE_SPOOKED"
 msgid "Hey! Don't sneak up on me like that!"
-msgstr "嘿！別這樣偷襲我！"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.SHADOWTALKER.1
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.SHADOWTALKER.1"
 msgid "Do you remember? The person you killed?"
-msgstr "你還記得嗎? 那個被你害死的人?"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.SHADOWTALKER.2
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.SHADOWTALKER.2"
 msgid "They must still be looking for you anxiously, right?"
-msgstr "他們一定還在著急的找你吧?"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.SHADOWTALKER.3
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.SHADOWTALKER.3"
 msgid "she will never come back"
-msgstr "她再也不會回來了"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.VETERANCURSED.1
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.VETERANCURSED.1"
 msgid "No...want...come back...continue..."
-msgstr "不……要……回來……繼續……"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.VETERANCURSED.2
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.VETERANCURSED.2"
 msgid "The contract...has been made..."
-msgstr "契約……已定……"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.VETERANCURSED.3
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.VETERANCURSED.3"
 msgid "Bring...the skull..."
-msgstr "帶來……頭骨……"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.VETERANCURSETAUNT.1
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.VETERANCURSETAUNT.1"
 msgid "Child...come...come closer..."
-msgstr "小孩.....來……靠近一點…"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.VETERANCURSETAUNT.2
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.VETERANCURSETAUNT.2"
 msgid "A challenge..."
-msgstr "一個挑戰..."
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.VETERANCURSETAUNT.3
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.VETERANCURSETAUNT.3"
 msgid "Curse...salvation...way out..."
-msgstr "詛咒……拯救……出路……"
+msgstr 
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.WEBBEDCREATURE
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.WEBBEDCREATURE"
 msgid "I think I'll save it for later."
-msgstr "我想是留著以後用吧。"
+msgstr 
 
