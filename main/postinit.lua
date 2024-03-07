@@ -8,6 +8,8 @@ local postinit = {
     prefabs = {
         "nightmarefissure",
         "winter_tree",
+        "smallghost",
+        "abigail",
     },
     stategraphs = {
         "SGwilson",
@@ -21,6 +23,7 @@ local postinit = {
         "equippable",
         "wisecracker",
         "combat",
+        "cursable",
     },
     widgets = {
         "skinspuppet",

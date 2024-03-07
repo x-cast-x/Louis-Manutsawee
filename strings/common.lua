@@ -81,8 +81,8 @@ return {
         TRUE_KOSHIRAE = "Sakakura The Giant Slayers",
         TRUE_RAIKIRI = "Raikiri The Lightning Cutter",
         TRUE_SHIRASAYA = "Yasha The Demon Slayer",
+        VSCODE = "Visual Studio Code",
         YARI = "Yari",
-        VSCODE = "Visual Studio Code"
     },
     RECIPE_DESC = {
         HARAKIRI = "Pay your mistake.",
@@ -105,8 +105,8 @@ return {
         TRUE_KOSHIRAE = "True Sakakura",
         TRUE_RAIKIRI = "True Raikiri",
         TRUE_SHIRASAYA = "The Demon Slayer",
-        YARI = "It's Japanese Spear.",
         VSCODE = "There is nothing that cannot be solved with one line of code.",
+        YARI = "It's Japanese Spear.",
     },
     SKILL = {
         REFUSE_RELEASE = "I don't wanna do this.",
@@ -164,7 +164,7 @@ return {
         manutsawee_maid = "\"I'm not a maid but i like this.\"",
         manutsawee_miko = "\"Can i fight with yokai?'\"",
         manutsawee_none = "I hate this uniform.",
-        manutsawee_qipao = "\"Ni hao ..? Good Fortune'\"",
+        manutsawee_qipao = "\"Ni hao ..? Happy Lunar New Year!'\"",
         manutsawee_sailor = "\"So so so... nothing just say so..\"",
         manutsawee_shinsengumi = "\"One must not infringe the samurai code!\"",
         manutsawee_taohuu = "\"I'm cute, please give me money.\"",

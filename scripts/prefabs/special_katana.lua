@@ -27,23 +27,23 @@ end
 local shadow_fx = {"wanda_attack_shadowweapon_old_fx", "wanda_attack_pocketwatch_old_fx", "hitsparks_fx"}
 local CANT_TAGS = {"player", "INLIMBO", "structure", "companion", "abigial", "birds", "prey", "wall" ,"boat", "bird"}
 
-local shusui_onattack = function(inst, owner, target)
-    local radius = 6
-    local x, y, z = owner.Transform:GetWorldPosition()
-    local ents = TheSim:FindEntities(x, y, z, radius, nil, CANT_TAGS)
+-- local shusui_onattack = function(inst, owner, target)
+--     local radius = 6
+--     local x, y, z = owner.Transform:GetWorldPosition()
+--     local ents = TheSim:FindEntities(x, y, z, radius, nil, CANT_TAGS)
 
-    for _, v in pairs(ents) do
-        if v ~= nil and v:IsValid() and v.components.health ~= nil and not v.components.health:IsDead() then
-            local shadowfx = SpawnPrefab(shadow_fx[2])
-            shadowfx.Transform:SetScale(2, 2, 2)
-            shadowfx.Transform:SetPosition(v:GetPosition():Get())
+--     for _, v in pairs(ents) do
+--         if v ~= nil and v:IsValid() and v.components.health ~= nil and not v.components.health:IsDead() then
+--             local shadowfx = SpawnPrefab(shadow_fx[2])
+--             shadowfx.Transform:SetScale(2, 2, 2)
+--             shadowfx.Transform:SetPosition(v:GetPosition():Get())
 
-            if v ~= target then
-				v.components.health:DoDelta(-20)
-			end
-        end
-    end
-end
+--             if v ~= target then
+-- 				v.components.health:DoDelta(-20)
+-- 			end
+--         end
+--     end
+-- end
 
 local hitsparks_fx_colouroverride = {1, 0, 0}
 local mortalblade_onattack = function(inst, owner, target)
@@ -117,7 +117,7 @@ local tenseiga_onattack = function(inst, owner, target)
     local health = target.components.health
     if health ~= nil then
         if target:HasTag("abigail") then
-            owner.components.talker:Say(STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.ABIGAIL.RESURRECTION)
+            owner.components.talker:Say(STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.ABIGAIL.PROMPT)
         elseif target:HasTag("ghost") then
             local fx = SpawnPrefab("fx_book_light_upgraded")
             fx.Transform:SetScale(.9, 2.5, 1)
@@ -162,7 +162,7 @@ local katana_data = {
         build = "shusui",
         common_postinit = shusui_common_postinit,
         -- master_postinit = shusui_master_postinit,
-        onattack = shusui_onattack,
+        -- onattack = shusui_onattack,
         damage = TUNING.KATANA.TRUE_DAMAGE
     },
     mortalblade = {

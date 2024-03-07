@@ -25,7 +25,7 @@ return {
         TRUE_KOSHIRAE = "What a beautyful sword.",
         TRUE_RAIKIRI = "This sword look dangerous,Don't touch it.",
         TRUE_SHIRASAYA = "What a beautyful sword.",
+        VSCODE = "Tools from another world.",
         YARI = "This spear look different.",
-        VSCODE = "Tools from another world."
     },
 }

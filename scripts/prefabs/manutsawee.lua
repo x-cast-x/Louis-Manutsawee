@@ -48,6 +48,7 @@ local assets = {
     Asset("ANIM", "anim/player_idles_wilson.zip"),
     Asset("ANIM", "anim/player_idles_wortox.zip"),
     Asset("ANIM", "anim/player_idles_wes.zip"),
+    Asset("ANIM", "anim/player_idles_willow.zip"),
 }
 
 local prefabs = {
@@ -285,6 +286,10 @@ local common_postinit = function(inst)
     inst:AddTag("naughtychild")
     inst:AddTag("miko")
     inst:AddTag("ghostlyfriend")
+    inst:AddTag("alchemist")
+    inst:AddTag("ore_alchemistI")
+    inst:AddTag("ick_alchemistI")
+    inst:AddTag("ick_alchemistII")
 
     if IA_ENABLED then
         inst:AddTag("surfer")
@@ -479,7 +484,8 @@ local function CustomIdleAnimFn(inst)
     local idle_anim = Idle_Anim[build]
 
     if build == "manutsawee" then
-        return "idle_wilson"
+        local item = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
+        return item ~= nil and item.prefab == "bernie_inactive" and "idle_willow" or "idle_wilson"
     else
         return idle_anim ~= nil and idle_anim or nil
     end

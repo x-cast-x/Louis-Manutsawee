@@ -142,5 +142,5 @@ geted_strings.CHARACTERS = nil
 -- write lua file
 write_lua_table(output_path .. "common.lua", geted_strings)
 for _, character in pairs(characters) do
-    write_lua_table(output_path .. character .. ".lua", CHARACTERS[string.upper("manutsawee")])
+    write_lua_table(output_path .. character .. ".lua", CHARACTERS[string.upper(character)])
 end
