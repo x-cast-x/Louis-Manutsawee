@@ -4,6 +4,15 @@ local assets = {
 	Asset("ANIM", "anim/sc_tokijin.zip"),
 }
 
+local prefabs = {
+    "fused_shadeling_spawn_fx",
+    "dreadstone_spawn_fx",
+    "m_shadowhand_fx",
+    "sanity_lower",
+    "hitsparks_fx",
+    "pocketwatch_weapon_fx",
+}
+
 local hitsparks_fx_colouroverride = {1, 0, 0}
 local function OnAttack(inst, attacker, target)
     if target ~= nil and target:IsValid() then
@@ -340,4 +349,4 @@ local function fn()
     return inst
 end
 
-return Prefab("tokijin", fn, assets)
+return Prefab("tokijin", fn, assets, prefabs)

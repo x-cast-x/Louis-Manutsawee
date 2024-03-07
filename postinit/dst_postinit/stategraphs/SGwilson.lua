@@ -1396,16 +1396,8 @@ local function fn(sg)
     sg.actionhandlers[ACTIONS.ATTACK].deststate = function(inst, action, ...)
         local weapon = inst.components.combat ~= nil and inst.components.combat:GetWeapon()
         local isattack = not (inst.sg:HasStateTag("attack") and action.target == inst.sg.statemem.attacktarget or inst.components.health:IsDead())
-        if weapon ~= nil and weapon:HasTag("mkatana") and isattack then
-            return "mkatana"
-        elseif weapon ~= nil and weapon:HasTag("iai") and isattack then
-            return "iai"
-        elseif weapon ~= nil and weapon:HasTag("yari") and isattack then
-            return "yari"
-        end
-
-        if attack_actionhandler ~= nil then
-            return attack_actionhandler(inst, action, ...)
+        if weapon ~= nil and isattack and attack_actionhandler ~= nil then
+            return (weapon:HasTag("mkatana") and "mkatana") or (weapon:HasTag("iai") and "iai") or (weapon:HasTag("yari") and "yari") or attack_actionhandler(inst, action, ...)
         end
     end
 

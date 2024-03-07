@@ -374,23 +374,15 @@ for _, state in ipairs(states) do
     AddStategraphState("wilson_client", state)
 end
 
-local function postinit_fn(sg)
+local function fn(sg)
     local attack_actionhandler = sg.actionhandlers[ACTIONS.ATTACK].deststate
     sg.actionhandlers[ACTIONS.ATTACK].deststate = function(inst, action, ...)
         local weapon = inst.replica.combat ~= nil and inst.replica.combat:GetWeapon()
         local isattack = not (inst.sg:HasStateTag("attack") and action.target == inst.sg.statemem.attacktarget or inst.replica.health:IsDead())
-        if weapon and weapon:HasTag("mkatana") and isattack then
-            return "mkatana"
-        elseif weapon and weapon:HasTag("iai") and isattack then
-            return "iai"
-        elseif weapon and weapon:HasTag("yari") and isattack then
-            return "yari"
-        end
-
-        if attack_actionhandler ~= nil then
-            return attack_actionhandler(inst, action, ...)
+        if weapon ~= nil and isattack and attack_actionhandler ~= nil then
+            return (weapon:HasTag("mkatana") and "mkatana") or (weapon:HasTag("iai") and "iai") or (weapon:HasTag("yari") and "yari") or attack_actionhandler(inst, action, ...)
         end
     end
 end
 
-AddStategraphPostInit("wilson_client", postinit_fn)
+AddStategraphPostInit("wilson_client", fn)
