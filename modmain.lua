@@ -4,7 +4,6 @@ local modules = {
     "config",
     "mutil",
     "assets",
-    "glassicapi",
     "strings",
     "fx",
     "constants",

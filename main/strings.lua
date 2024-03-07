@@ -24,12 +24,12 @@ local languages = {
 
 local strings = {
     CHARACTERS = {
-        GENERIC = GlassicAPI.ImportStringsFile("generic", ENV),
-        MANUTSAWEE = GlassicAPI.ImportStringsFile("manutsawee", ENV),
+        GENERIC = M_Util.ImportStringsFile("generic", ENV),
+        MANUTSAWEE = M_Util.ImportStringsFile("manutsawee", ENV),
     }
 }
 
-local common = GlassicAPI.ImportStringsFile("common", ENV)
+local common = M_Util.ImportStringsFile("common", ENV)
 
 GlassicAPI.MergeStringsToGLOBAL(common)
 GlassicAPI.MergeStringsToGLOBAL(strings)

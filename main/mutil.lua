@@ -75,3 +75,18 @@ function M_Util.merge_table(target, add_table, override)
         end
     end
 end
+
+function M_Util.ImportStringsFile(module_name, env)
+    module_name = module_name .. ".lua"
+    print("modimport (strings file): " .. env.MODROOT .. "strings/" .. module_name)
+    local result = kleiloadlua(env.MODROOT .. "strings/" .. module_name)
+
+    if result == nil then
+        error("Error in custom import: Stringsfile " .. module_name .. " not found!")
+    elseif type(result) == "string" then
+        error("Error in custom import: Pork Land importing strings/" .. module_name .. "!\n" .. result)
+    else
+        setfenv(result, env) -- in case we use mod data
+        return result()
+    end
+end

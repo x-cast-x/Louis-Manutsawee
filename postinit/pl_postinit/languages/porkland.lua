@@ -26,5 +26,5 @@ local languages = {
     cht = "chinese_t",  -- simple chinese
 }
 
-M_Util.merge_table(STRINGS.CHARACTERS.MANUTSAWEE, GlassicAPI.ImportStringsFile("pl_manutsawee", ENV))
+M_Util.merge_table(STRINGS.CHARACTERS.MANUTSAWEE, M_Util.ImportStringsFile("pl_manutsawee", ENV))
 GlassicAPI.MergeTranslationFromPO(MODROOT.."postinit/um_postinit/languages/pl_", languages[M_CONFIG.locale])
