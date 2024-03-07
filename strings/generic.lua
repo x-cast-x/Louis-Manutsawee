@@ -20,7 +20,7 @@ return {
         SHINAI = "Is this useful?",
         SHIRASAYA = "What a beautyful sword.",
         SHUSUI = "It's beautiful.",
-        TOKIJIN = "I found it at an abandoned shrine near my home.",
+        TOKIJIN = "Demonic spirit?",
         TRUE_HITOKIRI = "What a weird sword.",
         TRUE_KOSHIRAE = "What a beautyful sword.",
         TRUE_RAIKIRI = "This sword look dangerous,Don't touch it.",

@@ -29,7 +29,7 @@ local tuning = {
         USES = 800,
     },
 
-    TOKIJIN_DAMAGE = wilson_attack * 2.4,
+    TOKIJIN_DAMAGE = wilson_attack * 1.9,
     HARAKIRI_DAMAGE = wilson_attack,
     YARI_DAMAGE = wilson_attack * 1.5,
     MNAGINATA_DAMAGE = wilson_attack * 1.5,

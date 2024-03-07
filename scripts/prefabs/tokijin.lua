@@ -151,7 +151,7 @@ end
 
 local function GetStatus(inst, viewer)
     if inst.swirl then
-        return "Resentment"
+        return "RESENTMENT"
     end
 end
 

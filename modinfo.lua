@@ -9,10 +9,22 @@ if not folder_name:find("workshop-") then
     name = name .. " - Dev"
 end
 
-version = "2.2.9.3"
-description = en_zh(
-"Original author:#ffffff \nVersion: " .. version,
-"我做了什么?:\n优化了Mod代码\n添加了一些新内容 \nVersion: " .. version)
+version = "3.0"
+changelog = en_zh([[
+- Added 4 skins
+- Added some content (explore by yourself)
+- Optimize code
+]], [[
+- 添加了4款皮肤
+- 添加了一些内容(自行探索)
+- 添加了汉化(不全, 慢慢优化)
+- 优化代码
+]])
+
+description = en_zh("Version: ", "版本: ") .. version ..
+en_zh("\n\nChanges:\n", "\n\n更新内容:\n") .. changelog .. "\n" ..
+en_zh("Original author:#ffffff", "原作者:#ffffff")
+
 author = en_zh("Sydney", "悉尼")
 
 forumthread = ""
@@ -31,7 +43,7 @@ mod_dependencies = {
     {
         workshop = "workshop-2521851770",    -- Glassic API
         ["GlassicAPI"] = false,
-        ["Glassic API - DEV"] = true
+        ["Glassic API - DEV"] = false,
     },
 }
 
@@ -189,15 +201,16 @@ configuration_options = {
         hover = en_zh("Select a translation to enable it regardless of language packs.", "选择翻译，而不是自动"),
         options =
         {
-            {description = "Auto", data = false},
-            {description = "Deutsch", data = "de"},
-            {description = "Español", data = "es"},
-            {description = "Français", data = "fr"},
-            {description = "Italiano", data = "it"},
-            {description = "한국어", data = "ko"},
-            {description = "Polski", data = "pl"},
-            {description = "Português", data = "pt"},
-            {description = "Русский", data = "ru"},
+            {description = en_zh("Auto", "自动"), data = false},
+            -- talk about it later
+            -- {description = "Deutsch", data = "de"},
+            -- {description = "Español", data = "es"},
+            -- {description = "Français", data = "fr"},
+            -- {description = "Italiano", data = "it"},
+            -- {description = "한국어", data = "ko"},
+            -- {description = "Polski", data = "pl"},
+            -- {description = "Português", data = "pt"},
+            -- {description = "Русский", data = "ru"},
             {description = "中文 (简体)", data = "sc"},
             {description = "中文 (繁体)", data = "tc"},
         },
@@ -208,7 +221,7 @@ configuration_options = {
         label = en_zh("Start Item", "开局自带武器类型"),
         hover = en_zh("Select item when select character", "选择你的开始物品"),
         options = {
-            {description="Nothing", data = false},
+            {description=en_zh("Nothing", "啥也不带"), data = false},
 			{description="Shinai", data = "shinai"},
             {description="Raikiri", data = "raikiri"},
             {description="Yasha", data = "shirasaya"},
@@ -232,14 +245,14 @@ configuration_options = {
 	{
         name = "cancrafttent",
         label = en_zh("Portable-tent Craftable", "可以制作便携式帐篷"),
-        hover = "",
+        hover = en_zh("Portable-tent Craftable", "可以制作便携式帐篷"),
         options = options_enable,
         default = false,
     },
 	{
         name = "canuseslingshot",
         label = en_zh("Slingshot usable", "可以使用弹弓"),
-        hover = "",
+        hover = en_zh("Slingshot usable", "可以使用弹弓"),
         options = options_enable,
         default = false,
     },
@@ -376,9 +389,8 @@ configuration_options = {
 	{
         name = "set_mindregen_rate",
         label = en_zh("Mind  󰀈 Regen half of max / seccond ", "󰀈恢复最大的一半/秒") ,
-        hover = "Mind regenaration unlock level 4.",
-        options =
-        {
+        hover = en_zh("Mind regenaration unlock level 4.", "心灵再生解锁4级"),
+        options = {
 			{description="10", data = 10},
             {description="20", data = 20},
             {description="30", data = 30},
@@ -398,8 +410,8 @@ configuration_options = {
     },
 	{
         name = "mindregen_count",
-        label = "Mind  󰀈 Regen / hit",
-        hover = "Mind regen/hit that attack with katana.",
+        label = en_zh("Mind  󰀈 Regen / hit", "每次攻击恢复心灵"),
+        hover = en_zh("Mind regen/hit that attack with katana", "心灵恢复/用武士刀攻击该攻击"),
         options = {
             {description="4", data = 4},
             {description="6", data = 6},
@@ -414,13 +426,12 @@ configuration_options = {
         default = 10,
     },
     Space(),
-    Breaker("Custom Kenjutsu"),
+    Breaker(en_zh("Custom Kenjutsu", "自定义剑术")),
 	{
         name = "set_kexpmtp",
-        label = "Kenjutsu EXP Multiple",
-        hover = "fast Kenjutsu exp gain.",
-        options =
-        {
+        label = en_zh("Kenjutsu EXP Multiple", "设置剑术经验倍率"),
+        hover = en_zh("fast Kenjutsu exp gain", "设置剑术经验倍率"),
+        options = {
             {description="No", data = 1},
             {description="x2", data = 2},
             {description="x3", data = 3},
@@ -432,14 +443,14 @@ configuration_options = {
 	{
         name = "is_master",
         label = en_zh("Set Kenjutsu Level", "允许设置初始剑术等级"),
-        hover = en_zh("", "Set Kenjutsu Level at start."),
+        hover = en_zh("Set kenjutsu level at start", "允许游戏开始时设置初始剑术等级"),
         options = options_enable,
         default = false,
     },
 	{
         name = "set_level_value",
         label = en_zh("Kenjutsu Level", "设置初始剑术等级"),
-        hover = en_zh("", "Set Kenjutsu Level.") ,
+        hover = en_zh("Set Kenjutsu Level.", "设置初始剑术等级") ,
         options = {
             {description="1", data = 1},
             {description="2", data = 2},
@@ -509,8 +520,8 @@ configuration_options = {
     Space(),
 	{
         name = "counter_attack_cooldown_time",
-        label = "Skill Counter Cooldown time(s)",
-        hover = "Set Skill Counter Cooldown time.",
+        label = en_zh("Set Skill Counter Cooldown time(s).", "设置反击技能冷却时间。"),
+        hover = en_zh("Set Skill Counter Cooldown time(s).", "设置反击技能冷却时间。"),
         options = {
             {description="0.5", data = .5},
             {description="1", data = 1},
@@ -534,8 +545,8 @@ configuration_options = {
     },
 	{
         name = "skill1_cooldown_time",
-        label = "Skill 1 Cooldown time(s)",
-        hover = "Set Skill Cooldown time.",
+        label = en_zh("Skill 1 Cooldown time(s).", "技能1冷却时间。"),
+        hover = en_zh("Skill 1 Cooldown time(s).", "技能1冷却时间。"),
         options = {
 			{description="5", data = 5},
             {description="10", data = 10},
@@ -555,8 +566,8 @@ configuration_options = {
     },
 	{
         name = "skill2_cooldown_time",
-        label = "Skill 2 Cooldown time(s)",
-        hover = "Set Skil2 Cooldown time.",
+        label = en_zh("Skill 2 Cooldown time(s).", "技能2冷却时间。"),
+        hover = en_zh("Skill 2 Cooldown time(s).", "技能2冷却时间。"),
         options = {
 			{description="5", data = 5},
             {description="10", data = 10},
@@ -576,8 +587,8 @@ configuration_options = {
     },
 	{
         name = "skill3_cooldown_time",
-        label = "Skill 3 Cooldown time(s)",
-        hover = "Set Skil3 Cooldown time.",
+        label = en_zh("Skill 3 Cooldown time(s).", "技能3冷却时间。"),
+        hover = en_zh("Skill 3 Cooldown time(s).", "技能3冷却时间。"),
         options = {
 			{description="5", data = 5},
             {description="10", data = 10},
@@ -597,8 +608,8 @@ configuration_options = {
     },
 	{
         name = "isshin_skill_cooldown_time",
-        label = "Tier 2 Skill Cooldown time(s)",
-        hover = "Set Tier 2 Skill Cooldown time.",
+        label = en_zh("Tier 2 Skill Cooldown time(s).", "2级技能冷却时间"),
+        hover = en_zh("Tier 2 Skill Cooldown time(s).", "2级技能冷却时间"),
         options = {
             {description="50", data = 50},
             {description="60", data = 60},
@@ -614,8 +625,8 @@ configuration_options = {
     },
 	{
         name = "ryusen_and_susanoo_skill_cooldown_time",
-        label = "Tier 3 Skill Cooldown time(s)",
-        hover = "Set Tier 3 Skill Cooldown time.",
+        label = en_zh("Tier 3 Skill Cooldown time(s).", "3级技能冷却时间"),
+        hover = en_zh("Tier 3 Skill Cooldown time(s).", "3级技能冷却时间"),
         options = {
             {description="90", data = 90},
             {description="120", data = 120},
@@ -654,9 +665,9 @@ configuration_options = {
 	Space(),
     Breaker("Other Option", "其它选项"),
     {
-        name = "random_idle_animation",
-        label = en_zh("Random idle animation.", "随机idle动画"),
-        hover = en_zh("Random idle animation.", "随机idle动画"),
+        name = "idle_animation",
+        label = en_zh("enable idle animation.", "开启空闲动画"),
+        hover = en_zh("enable idle animation.", "开启空闲动画"),
         options = options_enable,
         default = false,
     },

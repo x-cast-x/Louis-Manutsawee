@@ -271,7 +271,7 @@ end
 local common_postinit = function(inst)
 	inst.MiniMapEntity:SetIcon("manutsawee.tex")
 
-    if M_CONFIG.RANDOM_IDLE_ANIMATION then
+    if M_CONFIG.IDLE_ANIMATION then
         inst.AnimState:AddOverrideBuild("player_idles_wes")
         inst.AnimState:AddOverrideBuild("player_idles_wendy")
         inst.AnimState:AddOverrideBuild("player_idles_wanda")
@@ -542,7 +542,7 @@ local function SetInstanceValue(inst)
 end
 
 local function DoPostInit(inst)
-    if M_CONFIG.RANDOM_IDLE_ANIMATION then
+    if M_CONFIG.IDLE_ANIMATION then
         SetUpCustomIdle(inst)
     end
 

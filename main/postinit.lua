@@ -8,8 +8,6 @@ local postinit = {
     prefabs = {
         "nightmarefissure",
         "winter_tree",
-        "smallghost",
-        "abigail",
     },
     stategraphs = {
         "SGwilson",

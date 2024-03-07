@@ -132,8 +132,8 @@ msgstr "很美丽。"
 
 #. STRINGS.CHARACTERS.GENERIC.DESCRIBE.TOKIJIN
 msgctxt "STRINGS.CHARACTERS.GENERIC.DESCRIBE.TOKIJIN"
-msgid "I found it at an abandoned shrine near my home."
-msgstr "我在我家附近的一个废弃的神社里发现了它。"
+msgid "Demonic spirit?"
+msgstr "妖气？"
 
 #. STRINGS.CHARACTERS.GENERIC.DESCRIBE.TRUE_HITOKIRI
 msgctxt "STRINGS.CHARACTERS.GENERIC.DESCRIBE.TRUE_HITOKIRI"
@@ -1217,52 +1217,52 @@ msgstr "呃呃！"
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_ENCUMBERED.10
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_ENCUMBERED.10"
-msgid "Left foot... Right foot..."
+msgid "Why am I doing this...?!"
 msgstr "这……是……最糟糕的……"
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_ENCUMBERED.11
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_ENCUMBERED.11"
-msgid "Ughhhh! I'm all sweaty!"
+msgid "Oooof!!"
 msgstr "我能感觉到灼烧感……我讨厌它！"
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_ENCUMBERED.2
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_ENCUMBERED.2"
-msgid "This... is... the worst..."
+msgid "Unghhh!"
 msgstr "锻炼……糟透了！"
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_ENCUMBERED.3
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_ENCUMBERED.3"
-msgid "I can feel the burn... I hate it!"
+msgid "There's... no way this is worth it!"
 msgstr "哼哼！"
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_ENCUMBERED.4
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_ENCUMBERED.4"
-msgid "Exercise... sucks!"
+msgid "Left foot... Right foot..."
 msgstr "我为什么要这么做……？！"
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_ENCUMBERED.5
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_ENCUMBERED.5"
-msgid "Hnnfhg!"
+msgid "Ughhhh! I'm all sweaty!"
 msgstr "噢噢！！"
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_ENCUMBERED.6
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_ENCUMBERED.6"
-msgid "Why am I doing this...?!"
+msgid "This... is... the worst..."
 msgstr "呃呃！"
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_ENCUMBERED.7
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_ENCUMBERED.7"
-msgid "Oooof!!"
+msgid "I can feel the burn... I hate it!"
 msgstr "这……根本不值得！"
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_ENCUMBERED.8
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_ENCUMBERED.8"
-msgid "Unghhh!"
+msgid "Exercise... sucks!"
 msgstr "左脚……右脚……"
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_ENCUMBERED.9
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_ENCUMBERED.9"
-msgid "There's... no way this is worth it!"
+msgid "Hnnfhg!"
 msgstr "呃呃！我浑身都是汗！"
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.ANNOUNCE_ENTER_DARK
@@ -13040,6 +13040,16 @@ msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.TOADSTOOL_CAP.INGROUND"
 msgid "What is that? It's smelly."
 msgstr "那是什么？很臭。"
 
+#. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.TOKIJIN.GENERIC
+msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.TOKIJIN.GENERIC"
+msgid "I found it at an abandoned shrine near my home."
+msgstr "我在我家附近的一个废弃的神社里发现了它。"
+
+#. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.TOKIJIN.RESENTMENT
+msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.TOKIJIN.RESENTMENT"
+msgid "Evil spirit, resentment, hatred, obsession, and sadness are gathered together."
+msgstr "邪气、怨恨、仇恨、执念、悲伤汇聚在一起。"
+
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.TOMATO
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.TOMATO"
 msgid "Cutting these is a pain."
@@ -16617,7 +16627,7 @@ msgstr "我讨厌这套制服。"
 
 #. STRINGS.SKIN_QUOTES.manutsawee_qipao
 msgctxt "STRINGS.SKIN_QUOTES.manutsawee_qipao"
-msgid ""Ni hao ..? Happy Lunar New Year!""
+msgid ""Ni hao ..? Happy Lunar New Year!'""
 msgstr ""你好 ..? 新年快乐呀！'""
 
 #. STRINGS.SKIN_QUOTES.manutsawee_sailor

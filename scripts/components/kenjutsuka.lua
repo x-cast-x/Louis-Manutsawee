@@ -215,7 +215,7 @@ end
 
 function Kenjutsuka:OnLoad(data)
     if data ~= nil then
-        self.kenjutsulevel = data.kenjutsulevel
+        self.kenjutsulevel = (self.is_master and M_CONFIG.LEVEL_VALUE) or data.kenjutsulevel
         self.kenjutsuexp = data.kenjutsuexp
         self.mindpower = data.mindpower
     end

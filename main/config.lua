@@ -40,7 +40,7 @@ M_CONFIG = {
     START_ITEM = GetModConfigData("set_start_item"),
     CANCRAFTTENT = GetModConfigData("cancrafttent"),
     CANUSESLINGSHOT = GetModConfigData("canuseslingshot"),
-    RANDOM_IDLE_ANIMATION = GetModConfigData("random_idle_animation"),
+    IDLE_ANIMATION = GetModConfigData("idle_animation"),
     ENABLE_DODGE = GetModConfigData("dodge_enable"),
     DODGE_CD = GetModConfigData("dodge_cd"),
 }
