@@ -503,6 +503,20 @@ return {
     ANNOUNCE_YOTD_NOBOATS = "I seem to have drifted a bit too far from the starting point.",
     ANNOUNCE_YOTD_NOCHECKPOINTS = "Alas, there is nary a waypoint to guide me in this race!",
     ANNOUNCE_YOTD_NOTENOUGHBOATS = "Perhaps some space should be cleared around the Start Tower.",
+    ANNOUNCE_HUNGRY_SLOWBUILD =
+    {
+	    "I can eat a pig in three bites now!",
+	    "Oof. I got the brainfog.",
+	    "Maybe I could take a snack break?",
+	    "I could sure go for some grub.",
+    },
+    ANNOUNCE_HUNGRY_FASTBUILD =
+    {
+	    "This's hungry work.",
+	    "I'm working up an appetite.",
+	    "That made me a lil hungry.",
+	    "I'll need some brainfood at this rate.",
+    },
     BATTLECRY = {
         DEER = "You're deer meat!",
         GENERIC = "It's you or me!",
@@ -532,7 +546,7 @@ return {
                 "Awww, she has a cute little bow.",
                 "Awww, she has a cute little bow.",
             },
-            RESURRECTION = "天生牙也无力回天.",
+            RESURRECTION = "There is nothing tenseiga can do.",
         },
         ABIGAIL_FLOWER = {
             GENERIC = "Pretty petals!",
@@ -3938,6 +3952,7 @@ return {
             EMPTY = "Maybe it would like a feather to play with...",
             GENERIC = "What to make...",
         },
+        VSCODE = "Can you change the world?",
     },
     DESCRIBE_GENERIC = "I have no idea what that is!",
     DESCRIBE_PLANTHAPPY = "It looks... fine?",

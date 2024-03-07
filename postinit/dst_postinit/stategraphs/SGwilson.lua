@@ -1409,7 +1409,7 @@ local function fn(sg)
         end
     end
 
-    -- 为什么做好了不用呢????
+    -- Why does Klei make it but not use it?????
     local _wes_funnyidle_onenter = sg.states["wes_funnyidle"].onenter
     sg.states["wes_funnyidle"].onenter = function(inst, ...)
         local balloon_color = {

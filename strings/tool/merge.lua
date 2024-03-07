@@ -130,7 +130,7 @@ for l, file_name in pairs(languages) do
         package = package .. escape((l == "en" and "msgstr " or translates[l][msgctxt] or translates[l][invert_overed_indexs[msgctxt]])) .. "\n\n"
     end
 
-    local po_file_name = l == "en" and ("strings.pot") or (file_name .. ".po")
+    local po_file_name = l == "en" and (file_prefix .. "strings.pot") or (file_prefix .. file_name .. ".po")
     local pl_file = io.open(output_potpath .. po_file_name, "w+")
     pl_file:write(package)
     pl_file:close()
@@ -142,5 +142,5 @@ geted_strings.CHARACTERS = nil
 -- write lua file
 write_lua_table(output_path .. "common.lua", geted_strings)
 for _, character in pairs(characters) do
-    write_lua_table(output_path .. character .. ".lua", CHARACTERS[string.upper(character)])
+    write_lua_table(output_path .. character .. ".lua", CHARACTERS[string.upper("manutsawee")])
 end

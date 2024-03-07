@@ -18,8 +18,8 @@ return {
                 title = "Birthday",
             },
             {
-                desc = "夏威夷什么都学技术学院",
-                title = "就读学校",
+                desc = "Learn Everything Technical College of Hawaii",
+                title = "Current School",
             },
             {
                 desc = "Unagi, Bacon and Eggs, Cooked Kelp Fronds, Durian, Roasted durian \nCaliforniaroll, Caviar \nSteamed Ham Sandwich, Tea, Ice Tea \nLiceloaf, Boomberry Pancakes",
@@ -30,8 +30,8 @@ return {
                 title = "Her Past...",
             },
             {
-                desc = "斗鬼神\n使用悟心鬼的獠牙制成的诅咒之剑, 充满邪气, 一般人极易被其反控制.\n原被杀生丸折断, 但Louis在一所废弃的神社发现了它...",
-                title = "诅咒之剑",
+                desc = "Tokijin\nThe cursed sword made from the fangs of the Ghost of God is full of evil, and ordinary people can easily be controlled by it.\nIt was originally broken by Sesshomaru, but Louis found it in an abandoned shrine.. .",
+                title = "Cursed Sword",
             },
         },
     },
@@ -51,7 +51,7 @@ return {
         manutsawee = "The Red-Eyes Girl",
     },
     M_LOADINGTIPS = {
-        TOKIJIN = "我无法压住它的邪气，无法驾驭斗鬼神 -L",
+        TOKIJIN = "I can't suppress its evil spirit, I can't control tokijin -L",
     },
     NAMES = {
         BOAT_MSURFBOARD = "Louis's Surf board",
@@ -82,6 +82,7 @@ return {
         TRUE_RAIKIRI = "Raikiri The Lightning Cutter",
         TRUE_SHIRASAYA = "Yasha The Demon Slayer",
         YARI = "Yari",
+        VSCODE = "Visual Studio Code"
     },
     RECIPE_DESC = {
         HARAKIRI = "Pay your mistake.",
@@ -105,6 +106,7 @@ return {
         TRUE_RAIKIRI = "True Raikiri",
         TRUE_SHIRASAYA = "The Demon Slayer",
         YARI = "It's Japanese Spear.",
+        VSCODE = "There is nothing that cannot be solved with one line of code.",
     },
     SKILL = {
         REFUSE_RELEASE = "I don't wanna do this.",

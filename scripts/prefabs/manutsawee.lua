@@ -95,6 +95,7 @@ local function OnChangeHair(inst, skinname)
     end
 
     if skinname == nil then
+        -- When loading, bocchi's headgear will be pushed off. I don't want to deal with it anymore.
         local override_build = "hair_" .. HAIR_BITS[inst.hair_long] .. HAIR_TYPES[inst.hair_type]
         inst.AnimState:OverrideSymbol("hairpigtails", override_build, "hairpigtails")
         inst.AnimState:OverrideSymbol("hair", override_build, "hair")
@@ -278,6 +279,7 @@ local common_postinit = function(inst)
 	inst:AddTag("bearded")
 	inst:AddTag("bladesmith")
 	inst:AddTag("stronggrip")
+    inst:AddTag("handyperson")
     inst:AddTag("fastbuilder")
     inst:AddTag("hungrybuilder")
     inst:AddTag("naughtychild")

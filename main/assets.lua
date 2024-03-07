@@ -18,6 +18,7 @@ PrefabFiles = {
     "mmiko_armor",
     "special_katana",
     "tokijin",
+    "vscode",
 }
 
 Assets = {

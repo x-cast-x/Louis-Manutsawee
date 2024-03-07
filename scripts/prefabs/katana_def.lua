@@ -1,5 +1,7 @@
 local SkillUtil = require("utils/skillutil")
 
+-- No one will use it, but I wrote it anyway
+
 local function SheathMode(inst, owner)
     inst.spelltype = "PULLOUT"
 
@@ -9,7 +11,7 @@ local function SheathMode(inst, owner)
 	inst.AnimState:SetBank(inst.build)
     inst.AnimState:SetBuild(inst.build)
 
-    if IA_ENABLED then
+    if IA_ENABLED or PL_ENABLED then
         if inst.components.tool ~= nil then
             inst:RemoveComponent("tool")
         end
@@ -43,7 +45,7 @@ local function UnsheathMode(inst, owner)
 	inst.AnimState:SetBank(inst.build .. "2")
     inst.AnimState:SetBuild(inst.build .. "2")
 
-    if IA_ENABLED then
+    if IA_ENABLED or PL_ENABLED then
         if inst.components.tool == nil then
             inst:AddComponent("tool")
             inst.components.tool:SetAction(ACTIONS.HACK, 3)
@@ -335,13 +337,6 @@ local MakeKatana = function(data)
         return inst
     end
     return Prefab(name, fn, assets, prefabs)
-end
-
--- No one will use it, but I wrote it anyway
-AddBrokenKatana = function(katana)
-    if type(katana) == "string" then
-        table.insert(has_broken, katana)
-    end
 end
 
 return MakeKatana
