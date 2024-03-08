@@ -21,8 +21,15 @@ end
 
 function c_setmindpower(num)
     local player = ConsoleCommandPlayer()
-    if player ~= nil and player.prefab == "manutsawee" then
+    if player ~= nil and player.components.kenjutsuka ~= nil then
         player.components.kenjutsuka:SetMindpower(num or 30)
+    end
+end
+
+function c_setkenjutsulevel(level)
+    local player = ConsoleCommandPlayer()
+    if player.components.kenjutsuka ~= nil then
+        player.components.kenjutsuka:SetKenjutsuLevel(level or 0)
     end
 end
 

@@ -59,7 +59,7 @@ local function miko_proc(inst, owner)
 end
 
 local function tryproc(inst, owner, data)
-    if inst._task == nil and not data.redirected and math.random() < TUNING.ARMOR_RUINSHAT_PROC_CHANCE then
+    if inst._task == nil and math.random() < TUNING.ARMOR_RUINSHAT_PROC_CHANCE then
         miko_proc(inst, owner)
     end
 end
