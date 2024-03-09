@@ -24,8 +24,10 @@ local function miko_unproc(inst)
         end
         inst:RemoveEventCallback("armordamaged", miko_fxanim)
 
-        inst.components.armor:SetAbsorption(TUNING.ARMOR_RUINSHAT_ABSORPTION)
-        inst.components.armor.ontakedamage = nil
+        if inst.components.armor ~= nil then
+            inst.components.armor:SetAbsorption(TUNING.ARMOR_RUINSHAT_ABSORPTION)
+            inst.components.armor.ontakedamage = nil
+        end
 
         if inst._task ~= nil then
             inst._task:Cancel()
@@ -45,10 +47,12 @@ local function miko_proc(inst, owner)
     inst._fx.Transform:SetPosition(0, 0.2, 0)
     inst:ListenForEvent("armordamaged", miko_fxanim)
 
-    inst.components.armor:SetAbsorption(TUNING.FULL_ABSORPTION)
-    inst.components.armor.ontakedamage = function(inst, damage_amount)
-        if owner ~= nil and owner.components.sanity ~= nil then
-            owner.components.sanity:DoDelta(-damage_amount * TUNING.ARMOR_RUINSHAT_DMG_AS_SANITY, false)
+    if inst.components.armor ~= nil then
+        inst.components.armor:SetAbsorption(TUNING.FULL_ABSORPTION)
+        inst.components.armor.ontakedamage = function(inst, damage_amount)
+            if owner ~= nil and owner.components.sanity ~= nil then
+                owner.components.sanity:DoDelta(-damage_amount * TUNING.ARMOR_RUINSHAT_DMG_AS_SANITY, false)
+            end
         end
     end
 
@@ -59,7 +63,7 @@ local function miko_proc(inst, owner)
 end
 
 local function tryproc(inst, owner, data)
-    if inst._task == nil and not data.redirected and math.random() < TUNING.ARMOR_RUINSHAT_PROC_CHANCE then
+    if inst._task == nil and not data.redirected and math.random() < TUNING.ARMOR_RUINSHAT_PROC_CHANCE and inst.components.armor ~= nil then
         miko_proc(inst, owner)
     end
 end
@@ -67,8 +71,11 @@ end
 local function Armormode(inst, owner)
 	if not inst.armorstatus then
     	owner.AnimState:OverrideSymbol("swap_body", "mmiko_armor", "swap_body")
+        inst:AddComponent("armor")
+        inst.components.armor:InitCondition(TUNING.MMIKO_ARMOR_AMOUNT, TUNING.MMIKO_ARMOR_PRECENT)
 	else
         owner.AnimState:ClearOverrideSymbol("swap_body")
+        inst:RemoveComponent("armor")
 	end
 end
 
@@ -145,9 +152,6 @@ local function MainFunction()
 
     inst:AddComponent("fuel")
     inst.components.fuel.fuelvalue = TUNING.LARGE_FUEL
-
-    inst:AddComponent("armor")
-    inst.components.armor:InitCondition(TUNING.MMIKO_ARMOR_AMOUNT, TUNING.MMIKO_ARMOR_PRECENT)
 
 	inst:AddComponent("waterproofer")
     inst.components.waterproofer:SetEffectiveness(TUNING.WATERPROOFNESS_MED)

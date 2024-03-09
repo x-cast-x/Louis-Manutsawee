@@ -531,6 +531,7 @@ return {
         SPIDER_WARRIOR = "Not so tough now!",
     },
     DESCRIBE = {
+        M_PANTSU = "Hentai.",
         ABIGAIL = {
             LEVEL1 = {
                 "Awww, she has a cute little bow.",

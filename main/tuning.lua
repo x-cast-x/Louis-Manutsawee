@@ -57,7 +57,11 @@ local tuning = {
         HEALTH = M_CONFIG.HEALTH,
         HUNGER = M_CONFIG.HUNGER,
         SANITY = M_CONFIG.SANITY,
-    }
+    },
+
+    MOMO_HEALTH = 20000,
+    MOMO_WALKSPEED = 2.7,
+    MOMO_RUNSPEED = 9,
 }
 
 if IA_ENABLED then

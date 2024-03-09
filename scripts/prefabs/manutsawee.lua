@@ -128,7 +128,7 @@ local function PutGlasses(inst)
     if skinname ~= nil then
         inst.AnimState:OverrideSymbol("swap_face", skinname, "swap_face")
     else
-        inst.AnimState:OverrideSymbol("face", "eyeglasses", "face")
+        inst.AnimState:OverrideSymbol("swap_face", "eyeglasses", "swap_face")
     end
 end
 
@@ -231,7 +231,7 @@ local function OnLoad(inst, data)
             if inst.glasses_status then
                 PutGlasses(inst)
             else
-                inst.AnimState:ClearOverrideSymbol("face")
+                inst.AnimState:ClearOverrideSymbol("swap_face")
             end
         end
 

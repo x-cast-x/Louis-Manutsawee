@@ -27,5 +27,6 @@ return {
         TRUE_SHIRASAYA = "What a beautyful sword.",
         VSCODE = "Tools from another world.",
         YARI = "This spear look different.",
+        M_PANTSU = "..?",
     },
 }

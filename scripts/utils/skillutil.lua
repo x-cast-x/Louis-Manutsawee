@@ -44,7 +44,7 @@ local function SlashFx(inst, target, prefab, scale)
 end
 
 local function AoeAttack(inst, damage, range)
-    local CANT_TAGS = { "INLIMBO", "invisible", "NOCLICK",  }
+    local CANT_TAGS = { "INLIMBO", "invisible", "NOCLICK",}
     local x, y, z = inst.Transform:GetWorldPosition()
     local ents = TheSim:FindEntities(x, y, z, range, nil, CANT_TAGS)
     local weapon = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)

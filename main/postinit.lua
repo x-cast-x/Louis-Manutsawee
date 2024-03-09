@@ -7,6 +7,7 @@ modimport("postinit/recipe")
 local postinit = {
     prefabs = {
         "nightmarefissure",
+        "trap",
         "winter_tree",
     },
     stategraphs = {
@@ -22,6 +23,8 @@ local postinit = {
         "wisecracker",
         "combat",
         "cursable",
+        "trader",
+        "trap",
     },
     widgets = {
         "skinspuppet",

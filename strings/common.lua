@@ -83,6 +83,7 @@ return {
         TRUE_SHIRASAYA = "Yasha The Demon Slayer",
         VSCODE = "Visual Studio Code",
         YARI = "Yari",
+        M_PANTSU = "Blue and white striped pantsu",
     },
     RECIPE_DESC = {
         HARAKIRI = "Pay your mistake.",
@@ -173,4 +174,9 @@ return {
         manutsawee_yukatalong = "\"Kon ni chi wa ..?'\"",
         manutsawee_yukatalong_purple = "\"Kon ni chi wa ..?'\"",
     },
+    MOMO = {
+        ONREFUSE = {
+
+        }
+    }
 }

@@ -313,8 +313,6 @@ local function GlassesFn(inst, skinname)
                 else
                     if inst.AnimState:GetSymbolOverride("swap_face") ~= nil then
                         inst.AnimState:ClearOverrideSymbol("swap_face")
-                    else
-                        inst.AnimState:ClearOverrideSymbol("face")
                     end
                     inst.glasses_status = false
                 end

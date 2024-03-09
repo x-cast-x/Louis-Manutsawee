@@ -9,6 +9,7 @@ PrefabFiles = {
     "maid_hb",
     "m_foxmask",
     "m_scarf",
+    "m_pantsu",
     "harakiri",
     "katanablade",
     "katana",

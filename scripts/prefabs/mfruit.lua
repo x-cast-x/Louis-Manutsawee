@@ -30,6 +30,7 @@ local function fn()
     inst.AnimState:PlayAnimation("idle")
 
 	inst:AddTag("nosteal")
+    inst:AddTag("mfruit")
 
     MakeInventoryFloatable(inst, "small", 0.1)
 
