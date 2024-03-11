@@ -380,7 +380,11 @@ local function fn(sg)
         local weapon = inst.replica.combat ~= nil and inst.replica.combat:GetWeapon()
         local isattack = not (inst.sg:HasStateTag("attack") and action.target == inst.sg.statemem.attacktarget or inst.replica.health:IsDead())
         if weapon ~= nil and isattack and attack_actionhandler ~= nil then
-            return (weapon:HasTag("mkatana") and "mkatana") or (weapon:HasTag("iai") and "iai") or (weapon:HasTag("yari") and "yari") or attack_actionhandler(inst, action, ...)
+            return (weapon:HasTag("mkatana") and "mkatana") or (weapon:HasTag("iai") and "iai") or (weapon:HasTag("yari") and "yari")
+        end
+
+        if attack_actionhandler ~= nil then
+            return attack_actionhandler(inst, action, ...)
         end
     end
 end

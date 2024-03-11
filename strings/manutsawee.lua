@@ -532,6 +532,8 @@ return {
     },
     DESCRIBE = {
         M_PANTSU = "Hentai.",
+        MOMO_HAT = "The next Princess of Darkness.",
+        MOMO = "Why did you chase me here?",
         ABIGAIL = {
             LEVEL1 = {
                 "Awww, she has a cute little bow.",

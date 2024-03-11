@@ -33,12 +33,13 @@ local function fn()
 	inst.entity:AddTransform()
 	inst.entity:AddAnimState()
 	inst.entity:AddNetwork()
-	inst.entity:AddSoundEmitter()
     inst.entity:AddMiniMapEntity()
 
     MakeInventoryPhysics(inst)
 
 	inst.MiniMapEntity:SetIcon("m_scarf.tex")
+
+    inst:AddTag("scarf")
 
 	inst.AnimState:SetBank("m_scarf")
 	inst.AnimState:SetBuild("m_scarf")
@@ -84,5 +85,7 @@ local function fn()
 
     return inst
 end
+
+table.insert(ALL_HAT_PREFAB_NAMES, "m_scarf")
 
 return Prefab("m_scarf", fn, Assets)

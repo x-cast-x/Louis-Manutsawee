@@ -1,6 +1,3 @@
-local RemapSoundEvent = RemapSoundEvent
-local TheNet = GLOBAL.TheNet
-
 PrefabFiles = {
     "manutsawee",
     "manutsawee_none",
@@ -9,6 +6,7 @@ PrefabFiles = {
     "maid_hb",
     "m_foxmask",
     "m_scarf",
+    "momo_hat",
     "m_pantsu",
     "harakiri",
     "katanablade",

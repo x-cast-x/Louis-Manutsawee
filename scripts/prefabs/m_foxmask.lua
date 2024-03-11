@@ -112,4 +112,6 @@ local function fn()
     return inst
 end
 
+table.insert(ALL_HAT_PREFAB_NAMES, "m_foxmask")
+
 return Prefab("m_foxmask", fn, assets)

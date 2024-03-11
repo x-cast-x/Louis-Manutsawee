@@ -123,7 +123,7 @@ local SkillReleaser = Class(function(self, inst)
     self.inst:ListenForEvent("timerdone", OnTimerDone)
 end)
 
-function SkillReleaser:OnRemoveFromEntity()
+function SkillReleaser:OnRemoveEntity()
     for _, tag in ipairs(M_SKILLS) do
         if self.inst:HasTag(tag) then
             self.inst:RemoveTag(tag)

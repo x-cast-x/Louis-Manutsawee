@@ -57,6 +57,7 @@ local function fn()
 
 	inst:AddTag("hat")
 	inst:AddTag("quickcast")
+
 	inst.spelltype = "SCIENCE"
 
     MakeInventoryPhysics(inst)
@@ -112,5 +113,7 @@ local function fn()
 
     return inst
 end
+
+table.insert(ALL_HAT_PREFAB_NAMES, "maid_hb")
 
 return Prefab("maid_hb", fn, assets)

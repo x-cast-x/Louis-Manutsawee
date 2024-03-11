@@ -31,10 +31,12 @@ if UM_ENABLED then
     table.insert(modules, "um_postinit")
 end
 
-if GLOBAL.IsRail() then
-    error("Ban WeGame");
-end
-
 for i = 1, #modules do
     modimport("main/" .. modules[i])
+end
+
+GLOBAL.setfenv(1, GLOBAL)
+
+if IsRail() then
+    error("Ban WeGame");
 end

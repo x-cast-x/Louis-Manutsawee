@@ -122,7 +122,7 @@ local Kenjutsuka = Class(function(self, inst)
     self.inst:DoTaskInTime(0, OnPostInit)
 end)
 
-function Kenjutsuka:OnRemoveFromEntity()
+function Kenjutsuka:OnRemoveEntity()
     self:StopRegenMindPower()
 
     self.inst:RemoveEventCallback("onattackother", OnAttackOther, self.inst)

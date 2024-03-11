@@ -28,5 +28,7 @@ return {
         VSCODE = "Tools from another world.",
         YARI = "This spear look different.",
         M_PANTSU = "..?",
+        MOMO_HAT = "...Oh",
+        MOMO = "Hello?",
     },
 }

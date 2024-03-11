@@ -1,3 +1,5 @@
+
+
 local assets = {
     Asset("ANIM", "anim/momo_hat.zip"),
 }
@@ -18,7 +20,6 @@ local function fn()
 
     inst.entity:AddTransform()
     inst.entity:AddAnimState()
-    inst.entity:AddSoundEmitter()
 	inst.entity:AddMiniMapEntity()
     inst.entity:AddNetwork()
 
@@ -28,7 +29,7 @@ local function fn()
 
     inst.AnimState:SetBank("momo_hat")
     inst.AnimState:SetBuild("momo_hat")
-    inst.AnimState:PlayAnimation("anim")
+    inst.AnimState:PlayAnimation("idle")
 
     inst:AddTag("hat")
 
@@ -53,8 +54,6 @@ local function fn()
     return inst
 end
 
-STRINGS.NAMES.MOMO_HAT = "Erebus Crown"
-STRINGS.RECIPE_DESC.MOMO_HAT = "The next Princess of Darkness."
-STRINGS.CHARACTERS.GENERIC.DESCRIBE.MOMO_HAT = "...Oh"
+table.insert(ALL_HAT_PREFAB_NAMES, "momo_hat")
 
 return Prefab("momo_hat", fn, assets)
