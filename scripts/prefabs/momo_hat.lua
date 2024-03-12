@@ -1,5 +1,3 @@
-
-
 local assets = {
     Asset("ANIM", "anim/momo_hat.zip"),
 }
@@ -20,12 +18,9 @@ local function fn()
 
     inst.entity:AddTransform()
     inst.entity:AddAnimState()
-	inst.entity:AddMiniMapEntity()
     inst.entity:AddNetwork()
 
     MakeInventoryPhysics(inst)
-
-	inst.MiniMapEntity:SetIcon("momo_hat.tex")
 
     inst.AnimState:SetBank("momo_hat")
     inst.AnimState:SetBuild("momo_hat")

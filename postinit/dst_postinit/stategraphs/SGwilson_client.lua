@@ -377,10 +377,18 @@ end
 local function fn(sg)
     local attack_actionhandler = sg.actionhandlers[ACTIONS.ATTACK].deststate
     sg.actionhandlers[ACTIONS.ATTACK].deststate = function(inst, action, ...)
-        local weapon = inst.replica.combat ~= nil and inst.replica.combat:GetWeapon()
-        local isattack = not (inst.sg:HasStateTag("attack") and action.target == inst.sg.statemem.attacktarget or inst.replica.health:IsDead())
-        if weapon ~= nil and isattack and attack_actionhandler ~= nil then
-            return (weapon:HasTag("mkatana") and "mkatana") or (weapon:HasTag("iai") and "iai") or (weapon:HasTag("yari") and "yari")
+        if not (inst.sg:HasStateTag("attack") and action.target == inst.sg.statemem.attacktarget or IsEntityDead(inst)) then
+            local weapon = inst.replica.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
+            local inventoryitem = weapon.replica.inventoryitem
+            if (inventoryitem ~= nil and inventoryitem:IsWeapon()) then
+                if weapon:HasTag("mkatana") then
+                    return "mkatana"
+                elseif weapon:HasTag("iai") then
+                    return "iai"
+                elseif weapon:HasTag("yari") then
+                    return "yari"
+                end
+            end
         end
 
         if attack_actionhandler ~= nil then

@@ -39,6 +39,7 @@ local assets = {
     Asset("ANIM", "anim/player_superjump.zip"),
     Asset("ANIM", "anim/player_pocketwatch_portal.zip"),
     Asset("ANIM", "anim/wanda_casting.zip"),
+	Asset("ANIM", "anim/wendy_recall.zip"),
 
     Asset("ANIM", "anim/momo.zip"),
 }
@@ -58,12 +59,15 @@ local function GetPantsu(inst)
 end
 
 local function GetTarget(inst)
-    return inst.locksummoner ~= nil and inst.components.entitytracker:GetEntity(inst.locksummoner) or nil
+    return inst.components.entitytracker:GetEntity("manutsawee") or nil
 end
 
 -- only accept pantsu and fruit from Louis, reject everything else
 local function ShouldAcceptItem(inst, item, giver, count)
-    return giver == inst:GetTarget() and ((item:HasTag("mfruit")) or (item.prefab == inst:GetPantsu()))
+    local target = inst:GetTarget()
+    if target ~= nil then
+        return giver == target and ((item:HasTag("mfruit")) or (item.prefab == inst:GetPantsu()))
+    end
 end
 
 local function OnAccept(inst, giver, item)
@@ -84,7 +88,8 @@ local refuse_speech = {
     "INSIGNIFICANTITEM",
 }
 local function OnRefuse(inst, giver, item)
-    if giver == inst:GetTarget() then
+    local target = inst:GetTarget()
+    if target ~= nil and giver == target then
         inst.components.talker:Say(STRINGS.MOMO.ONREFUSE[refuse_speech[math.random(1, #refuse_speech)]])
     else
         inst.components.talker:Say(STRINGS.MOMO.ONREFUSE.IRRELEVANT)
@@ -124,20 +129,6 @@ local function ReleaseLightFx(inst)
     fx.Transform:SetPosition(x, y, z)
 end
 
-local function OnSave(inst, data)
-    data.locksummoner = inst.locksummoner
-    data.pantsu = inst.pantsu
-end
-
-local function OnPreLoad(inst, data)
-    inst.locksummoner = data.locksummoner
-    inst.pantsu = data.pantsu
-end
-
-local function OnLoad(inst, data)
-
-end
-
 local function SetUpEquip(inst)
     local inventory = inst.components.inventory
     if inventory ~= nil then
@@ -169,9 +160,9 @@ local function SwitchWeapon(inst, weapon)
             inventory:GiveItem(_weapon)
         end
 
-        local weapon = inventory:GetItemSlot(weapon)
+        local weapon = inventory:FindItem(function(inst) return inst:HasTag(weapon) end)
         inventory:Equip(weapon)
-        if weapon.UnsheathMode ~= nil then
+        if weapon ~= nil and weapon.UnsheathMode ~= nil then
             weapon:UnsheathMode(inst)
         end
     end
@@ -185,16 +176,6 @@ local function OnPostInit(inst)
     -- fade in
     inst.components.spawnfader:FadeIn()
 
-    -- set invincible on spawn
-    inst.components.health:SetInvincible(true)
-
-    -- can only be summoned after defeating the alterguardian
-    local moonstormmanager = TheWorld.components.moonstormmanager
-    if (moonstormmanager ~= nil and (moonstormmanager:GetCelestialChampionsKilled() < 1)) then
-        inst:PushEvent("taunt")
-        return
-    end
-
     local target = inst:GetTarget()
     local pantsu = inst:GetPantsu()
 
@@ -204,40 +185,39 @@ local function OnPostInit(inst)
     -- cancel invincible
     inst.components.health:SetInvincible(false)
 
-    -- lock the target and never give up
-    inst.components.combat:SetTarget(target)
-
-    -- track all status of target, health, hunger, san
-    inst.components.tracktargetstatus:StartTrack(target)
-
     -- track target and pantsu
-    inst.components.entitytracker:TrackEntity(inst.locksummoner, target)
-    inst.components.entitytracker:TrackEntity(inst.pantsu, pantsu)
+    if target ~= nil and pantsu ~= nil then
+        -- lock the target and never give up
+        inst.components.combat:SetTarget(target)
+
+        -- track all status of target, health, hunger, san
+        inst.components.tracktargetstatus:StartTrack(target)
+    end
 end
 
 local PHASES = {
     [0] = {
-        percent = 1,
+        hp = 1,
         fn = function(inst)
 
         end,
     },
     [1] = {
-        percent = 0.6,
+        hp = 0.6,
         fn = function(inst)
 
         end,
     },
     [2] = {
-        precent = 0.3,
+        hp = 0.3,
         fn = function(inst)
             inst:SwitchWeapon("mortalblade")
         end,
     },
     [3] = {
-        percent = 0.1,
+        hp = 0.1,
         fn = function(inst)
-
+            -- inst:SwitchWeapon("mortalblade")
         end,
     },
 }
@@ -246,9 +226,9 @@ local function OnChangePhase(inst, phase)
     local target = inst:GetTarget()
     if target ~= nil then
         if phase == "night" then
-            if target.light == nil and inst.momo_light == nil then
-                target.light = CreateLight()
-                target.light.Follower:FollowSymbol(target.GUID)
+            if target.momo_light == nil and inst.momo_light == nil then
+                target.momo_light = CreateLight()
+                target.momo_light.Follower:FollowSymbol(target.GUID)
                 inst.components.talker:Say(STRINGS.MOMO.ONNIGHT.FORTARGET)
                 inst:DoTaskInTime(1, function()
                     inst.momo_light = CreateLight()
@@ -256,14 +236,14 @@ local function OnChangePhase(inst, phase)
                     inst.components.talker:Say(STRINGS.MOMO.ONNIGHT.FORSELF)
                 end)
             else
-                target.light.Light:Enable(true)
+                target.momo_light.Light:Enable(true)
                 inst.momo_light.Light:Enable(true)
                 inst.components.talker:Say(STRINGS.MOMO.ONNIGHT.SAMETIME)
             end
         else
-            if target.light ~= nil and inst.momo_light ~= nil then
+            if target.momo_light ~= nil and inst.momo_light ~= nil then
                 inst.momo_light.Light:Enable(false)
-                target.light.Light:Enable(false)
+                target.momo_light.Light:Enable(false)
             end
         end
     end
@@ -284,6 +264,7 @@ end
 
 local function SetInstanceValue(inst)
     inst.numberofbribes = 0
+    inst.customidleanim = "idle_wanda"
 end
 
 local function SetInstanceFunctions(inst)
@@ -296,10 +277,6 @@ local function SetInstanceFunctions(inst)
     inst.GetPantsu = GetPantsu
     inst.GetTarget = GetTarget
     inst.CreateLight = CreateLight
-
-    inst.OnSave = OnSave
-    inst.OnLoad = OnLoad
-    inst.OnPreLoad = OnPreLoad
 end
 
 local function fn()
@@ -336,13 +313,15 @@ local function fn()
 
     inst.DynamicShadow:SetSize(1.3, .6)
 
-    inst.MiniMapEntity:SetIcon("momo.tex")
-    inst.MiniMapEntity:SetPriority(10)
+    -- inst.MiniMapEntity:SetIcon("momo.tex")
+    -- inst.MiniMapEntity:SetPriority(10)
 
     MakeCharacterPhysics(inst, 75, .5)
 
     inst:AddTag("character")
     inst:AddTag("girl")
+
+    -- inst:AddTag("momo_npc")
 
     -- trader (from trader component) added to pristine state for optimization
     inst:AddTag("trader")
@@ -351,6 +330,8 @@ local function fn()
 
     inst:AddComponent("talker")
     inst.components.talker.offset = Vector3(0, -400, 0)
+    inst.components.talker.font = TALKINGFONT
+    inst.components.talker.colour = Vector3(238 / 255, 69 / 255, 105 / 255)
 
 	inst.entity:SetPristine()
 
@@ -362,11 +343,12 @@ local function fn()
     inst:AddComponent("inventory")
     inst:AddComponent("entitytracker")
     inst:AddComponent("tracktargetstatus")
+    inst:AddComponent("inspectable")
 
-    inst:AddComponent("healthtrigger")
-	for i, v in pairs(PHASES) do
-		inst.components.healthtrigger:AddTrigger(v.precent, v.fn)
-	end
+    -- inst:AddComponent("healthtrigger")
+	-- for i, v in pairs(PHASES) do
+	-- 	inst.components.healthtrigger:AddTrigger(v.hp, v.fn)
+	-- end
 
 	inst:AddComponent("locomotor")
 	inst.components.locomotor.walkspeed = TUNING.MOMO_WALKSPEED
@@ -375,10 +357,11 @@ local function fn()
 	inst:AddComponent("health")
 	inst.components.health:SetMinHealth(1)
 	inst.components.health:SetMaxHealth(TUNING.MOMO_HEALTH)
+    inst.components.health:SetInvincible(true)
 
     inst:AddComponent("trader")
     inst.components.trader:SetAcceptTest(ShouldAcceptItem)
-    inst.components.trader:SetOnAccept(OnAccept)
+    inst.components.trader.onaccept = OnAccept
     inst.components.trader:SetOnRefuse(OnRefuse)
     inst.components.trader.deleteitemonaccept = false
 
@@ -408,3 +391,4 @@ local function fn()
 end
 
 return Prefab("momo", fn, assets, prefabs)
+    -- Prefab("momo_npc", fn, assets, prefabs)

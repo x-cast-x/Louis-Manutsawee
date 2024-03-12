@@ -76,11 +76,6 @@ local function fn()
     inst.components.equippable:SetOnUnequip(OnUnequip)
 	inst.components.equippable.dapperness = TUNING.DAPPERNESS_MED
 
-	inst:AddComponent("fueled")
-    inst.components.fueled.fueltype = FUELTYPE.USAGE
-    inst.components.fueled:InitializeFuelLevel(TUNING.GOGGLES_PERISHTIME)
-    inst.components.fueled:SetDepletedFn(inst.Remove)
-
 	MakeHauntableLaunch(inst)
 
     return inst

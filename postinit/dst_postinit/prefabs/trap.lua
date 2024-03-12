@@ -27,8 +27,7 @@ local function DoSpawnMomo(inst, bait, summoner)
         if momo ~= nil then
             momo.Transform:SetPosition(spawn_pt:Get())
             momo:FacePoint(pt)
-            momo.locksummoner = summoner.prefab
-            momo.pantsu = bait.prefab
+            momo.components.entitytracker:TrackEntity(bait.prefab, bait)
             momo:DoTaskInTime(1*FRAMES, momo.OnPostInit)
         end
     end
@@ -40,7 +39,7 @@ end
 
 local function OnBaitedFn(inst, bait, summoner)
     if bait ~= nil and bait.prefab == "m_pantsu" and summoner ~= nil then
-        if summoner:HasTag("manutsawee") then
+        if summoner:HasTag("naughtychild") then
             TrySpawnMomo(inst, bait, summoner)
         end
     end

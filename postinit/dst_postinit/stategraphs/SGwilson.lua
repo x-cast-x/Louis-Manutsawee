@@ -21,18 +21,12 @@ local function SkillCollision(inst, enable)
     if enable then
         inst.Physics:CollidesWith(COLLISION.WORLD)
         inst.Physics:CollidesWith(COLLISION.GROUND)
-        if IA_ENABLED then
-            inst.Physics:CollidesWith(COLLISION.WAVES)
-        end
     else
         inst.Physics:CollidesWith(COLLISION.WORLD)
         inst.Physics:CollidesWith(COLLISION.OBSTACLES)
         inst.Physics:CollidesWith(COLLISION.SMALLOBSTACLES)
         inst.Physics:CollidesWith(COLLISION.CHARACTERS)
         inst.Physics:CollidesWith(COLLISION.GIANTS)
-        if IA_ENABLED then
-            inst.Physics:CollidesWith(COLLISION.WAVES)
-        end
     end
 end
 
@@ -1394,11 +1388,26 @@ end
 local function fn(sg)
     local attack_actionhandler = sg.actionhandlers[ACTIONS.ATTACK].deststate
     sg.actionhandlers[ACTIONS.ATTACK].deststate = function(inst, action, ...)
-        local weapon = inst.components.combat ~= nil and inst.components.combat:GetWeapon()
-        local isattack = not (inst.sg:HasStateTag("attack") and action.target == inst.sg.statemem.attacktarget or inst.components.health:IsDead())
-        if weapon ~= nil and isattack and attack_actionhandler ~= nil then
-            return (weapon:HasTag("mkatana") and "mkatana") or (weapon:HasTag("iai") and "iai") or (weapon:HasTag("yari") and "yari")
-        end
+            inst.sg.mem.localchainattack = not action.forced or nil
+            local playercontroller = inst.components.playercontroller
+            local attack_tag =
+                playercontroller ~= nil and
+                playercontroller.remote_authority and
+                playercontroller.remote_predicting and
+                "abouttoattack" or
+                "attack"
+            if not (inst.sg:HasStateTag(attack_tag) and action.target == inst.sg.statemem.attacktarget or inst.components.health:IsDead()) then
+                local weapon = inst.components.combat ~= nil and inst.components.combat:GetWeapon() or nil
+                if weapon ~= nil then
+                    if weapon:HasTag("mkatana") then
+                        return "mkatana"
+                    elseif weapon:HasTag("iai") then
+                        return "iai"
+                    elseif weapon:HasTag("yari") then
+                        return "yari"
+                    end
+                end
+            end
 
         if attack_actionhandler ~= nil then
             return attack_actionhandler(inst, action, ...)
