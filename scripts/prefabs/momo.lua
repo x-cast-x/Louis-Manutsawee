@@ -42,6 +42,10 @@ local assets = {
 	Asset("ANIM", "anim/wendy_recall.zip"),
 
     Asset("ANIM", "anim/momo.zip"),
+    Asset("ANIM", "anim/momo_maid.zip"),
+    Asset("ANIM", "anim/momo_school.zip"),
+    Asset("ANIM", "anim/momo_sailor.zip"),
+    Asset("ANIM", "anim/momo_dark.zip"),
 }
 
 local prefabs = {
@@ -52,27 +56,38 @@ local prefabs = {
     "mortalblade",
 }
 
+local momo_skins = {
+    "momo",
+	"momo_sailor",
+	"momo_school",
+	"momo_maid",
+}
+
 local brain = require("brain/momobrain")
 
-local function GetPantsu(inst)
-    return inst.components.entitytracker:GetEntity("m_pantsu")
+local function IsPantsu(item)
+    return item:HasTag("pantsu")
 end
 
-local function GetTarget(inst)
-    return inst.components.entitytracker:GetEntity("manutsawee") or nil
+local function TheHoney(inst)
+    -- Only save userid and use LookupPlayerInstByUserID to get data from networking.lua
+    if inst.honey == nil and inst.honey_userid ~= nil then
+        inst.honey = LookupPlayerInstByUserID(inst.honey_userid)
+    end
+    return inst.honey or nil
 end
 
 -- only accept pantsu and fruit from Louis, reject everything else
 local function ShouldAcceptItem(inst, item, giver, count)
-    local target = inst:GetTarget()
-    if target ~= nil then
-        return giver == target and ((item:HasTag("mfruit")) or (item.prefab == inst:GetPantsu()))
+    local honey = inst:TheHoney()
+    if honey ~= nil then
+        return giver == honey and ((item:HasTag("mfruit")) or (inst:IsPantsu(item)))
     end
 end
 
 local function OnAccept(inst, giver, item)
     if item ~= nil then
-        if (item == inst:GetPantsu()) or (inst.numberofbribes > 3) then
+        if (inst:IsPantsu(item)) or (inst.numberofbribes > 3) then
             inst:PushEvent("admitdefeated")
         end
 
@@ -82,24 +97,19 @@ local function OnAccept(inst, giver, item)
     end
 end
 
-local refuse_speech = {
-    "NOTMFRUIT",
-    "NOM_PANTSU",
-    "INSIGNIFICANTITEM",
-}
 local function OnRefuse(inst, giver, item)
-    local target = inst:GetTarget()
-    if target ~= nil and giver == target then
-        inst.components.talker:Say(STRINGS.MOMO.ONREFUSE[refuse_speech[math.random(1, #refuse_speech)]])
+    local honey = inst:TheHoney()
+    if honey ~= nil and giver == honey then
+        inst.components.talker:Say(STRINGS.MOMO.ONREFUSE.LIST[math.random(1, #STRINGS.MOMO.ONREFUSE.LIST)])
     else
         inst.components.talker:Say(STRINGS.MOMO.ONREFUSE.IRRELEVANT)
     end
 end
 
 local function Defeated(inst)
-    local target = inst:GetTarget()
-    if target ~= nil then
-        target.light:Remove()
+    local honey = inst:TheHoney()
+    if honey ~= nil then
+        honey.momo_light:Remove()
         inst.momo_light:Remove()
     end
 end
@@ -168,6 +178,18 @@ local function SwitchWeapon(inst, weapon)
     end
 end
 
+local function OnSave(inst, data)
+    if inst.honey ~= nil then
+        data.honey_userid = inst.honey.userid
+    end
+end
+
+local function OnLoad(inst, data)
+    if data ~= nil then
+        inst.honey_userid = data.honey_userid
+    end
+end
+
 -- initialization
 local function OnPostInit(inst)
     -- release lighting effects when appearing
@@ -175,77 +197,51 @@ local function OnPostInit(inst)
 
     -- fade in
     inst.components.spawnfader:FadeIn()
+end
 
-    local target = inst:GetTarget()
-    local pantsu = inst:GetPantsu()
+local function OnChangePhase(inst, phase)
+    local honey = inst:TheHoney()
+    if honey ~= nil then
+        -- open up the aperture for honey and self at night
+        if phase == "night" then
+            if honey.momo_light == nil and inst.momo_light == nil then
+                honey.momo_light = CreateLight()
+                honey.momo_light.Follower:FollowSymbol(honey.GUID)
+                inst:PushEvent("releaselight", {phase = phase})
+                inst:DoTaskInTime(2, function(inst)
+                    inst.momo_light = CreateLight()
+                    inst.momo_light.Follower:FollowSymbol(inst.GUID)
+                end)
+            else
+                honey.momo_light.Light:Enable(true)
+                inst.momo_light.Light:Enable(true)
+                inst:PushEvent("releaselight", {sametime = true, phase = phase})
+            end
+        elseif phase == "day" then
+            if honey.momo_light ~= nil and inst.momo_light ~= nil then
+                inst.momo_light.Light:Enable(false)
+                honey.momo_light.Light:Enable(false)
+                inst:PushEvent("releaselight", {phase = phase})
+            end
+        end
+    end
+end
 
-    -- if the alterguardian is defeated, then the battle begins
-    SetUpEquip(inst)
+local function OnStartADate(inst)
+    inst:SetUpEquip()
 
     -- cancel invincible
     inst.components.health:SetInvincible(false)
 
+    local honey = inst:TheHoney()
+
     -- track target and pantsu
-    if target ~= nil and pantsu ~= nil then
+    if honey ~= nil then
         -- lock the target and never give up
-        inst.components.combat:SetTarget(target)
+        inst.components.combat:SetTarget(honey)
 
         -- track all status of target, health, hunger, san
-        inst.components.tracktargetstatus:StartTrack(target)
-    end
-end
-
-local PHASES = {
-    [0] = {
-        hp = 1,
-        fn = function(inst)
-
-        end,
-    },
-    [1] = {
-        hp = 0.6,
-        fn = function(inst)
-
-        end,
-    },
-    [2] = {
-        hp = 0.3,
-        fn = function(inst)
-            inst:SwitchWeapon("mortalblade")
-        end,
-    },
-    [3] = {
-        hp = 0.1,
-        fn = function(inst)
-            -- inst:SwitchWeapon("mortalblade")
-        end,
-    },
-}
-
-local function OnChangePhase(inst, phase)
-    local target = inst:GetTarget()
-    if target ~= nil then
-        if phase == "night" then
-            if target.momo_light == nil and inst.momo_light == nil then
-                target.momo_light = CreateLight()
-                target.momo_light.Follower:FollowSymbol(target.GUID)
-                inst.components.talker:Say(STRINGS.MOMO.ONNIGHT.FORTARGET)
-                inst:DoTaskInTime(1, function()
-                    inst.momo_light = CreateLight()
-                    inst.momo_light.Follower:FollowSymbol(inst.GUID)
-                    inst.components.talker:Say(STRINGS.MOMO.ONNIGHT.FORSELF)
-                end)
-            else
-                target.momo_light.Light:Enable(true)
-                inst.momo_light.Light:Enable(true)
-                inst.components.talker:Say(STRINGS.MOMO.ONNIGHT.SAMETIME)
-            end
-        else
-            if target.momo_light ~= nil and inst.momo_light ~= nil then
-                inst.momo_light.Light:Enable(false)
-                target.momo_light.Light:Enable(false)
-            end
-        end
+        inst.components.tracktargetstatus:StartTrack(honey)
     end
 end
 
@@ -265,6 +261,8 @@ end
 local function SetInstanceValue(inst)
     inst.numberofbribes = 0
     inst.customidleanim = "idle_wanda"
+    inst.soundsname = "wendy"
+    inst.momo_skins = momo_skins
 end
 
 local function SetInstanceFunctions(inst)
@@ -274,9 +272,13 @@ local function SetInstanceFunctions(inst)
     inst.ReleaseLightFx = ReleaseLightFx
     inst.Defeated = Defeated
     inst.ChargeEffects = ChargeEffects
-    inst.GetPantsu = GetPantsu
-    inst.GetTarget = GetTarget
+    inst.IsPantsu = IsPantsu
+    inst.TheHoney = TheHoney
     inst.CreateLight = CreateLight
+    inst.OnStartADate = OnStartADate
+
+    inst.OnSave = OnSave
+    inst.OnLoad = OnLoad
 end
 
 local function fn()
@@ -291,7 +293,7 @@ local function fn()
     inst.Transform:SetFourFaced()
 
     inst.AnimState:SetBank("wilson")
-    inst.AnimState:SetBuild("momo")
+    inst.AnimState:SetBuild(momo_skins[math.random(1, #momo_skins)])
     inst.AnimState:PlayAnimation("idle")
     inst.AnimState:SetScale(0.94, 0.94, 1)
 
@@ -344,10 +346,14 @@ local function fn()
     inst:AddComponent("entitytracker")
     inst:AddComponent("tracktargetstatus")
     inst:AddComponent("inspectable")
+    inst:AddComponent("colouradder")
+
+    inst:AddComponent("follower")
+    inst.components.follower.canaccepttarget = true
 
     -- inst:AddComponent("healthtrigger")
 	-- for i, v in pairs(PHASES) do
-	-- 	inst.components.healthtrigger:AddTrigger(v.hp, v.fn)
+        -- 	inst.components.healthtrigger:AddTrigger(v.hp, v.fn)
 	-- end
 
 	inst:AddComponent("locomotor")
@@ -357,7 +363,6 @@ local function fn()
 	inst:AddComponent("health")
 	inst.components.health:SetMinHealth(1)
 	inst.components.health:SetMaxHealth(TUNING.MOMO_HEALTH)
-    inst.components.health:SetInvincible(true)
 
     inst:AddComponent("trader")
     inst.components.trader:SetAcceptTest(ShouldAcceptItem)
@@ -376,8 +381,6 @@ local function fn()
     inst.components.burnable.nocharring = true
 
     MakeLargeFreezableCharacter(inst, "torso")
-    inst.components.freezable:SetResistance(4)
-    inst.components.freezable:SetDefaultWearOffTime(TUNING.PLAYER_FREEZE_WEAR_OFF_TIME)
 
 	inst:SetStateGraph("SGmomo")
 	inst:SetBrain(brain)
@@ -386,6 +389,8 @@ local function fn()
     SetInstanceFunctions(inst)
     RegisterWorldStateWatchers(inst)
     RegisterMasterEventListeners(inst)
+
+    inst:DoTaskInTime(0, OnPostInit)
 
     return inst
 end

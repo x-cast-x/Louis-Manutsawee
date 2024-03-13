@@ -6,7 +6,7 @@ local function NoHoles(pt)
 end
 
 local function GetSpawnPoint(pt)
-    local radius_override = 5
+    local radius_override = 8
     if not TheWorld.Map:IsAboveGroundAtPoint(pt:Get()) then
         pt = FindNearbyLand(pt, 1) or pt
     end
@@ -27,8 +27,9 @@ local function DoSpawnMomo(inst, bait, summoner)
         if momo ~= nil then
             momo.Transform:SetPosition(spawn_pt:Get())
             momo:FacePoint(pt)
-            momo.components.entitytracker:TrackEntity(bait.prefab, bait)
-            momo:DoTaskInTime(1*FRAMES, momo.OnPostInit)
+            momo.honey = summoner
+            momo.honey_userid = summoner.userid
+            momo.components.health:SetInvincible(false)
         end
     end
 end

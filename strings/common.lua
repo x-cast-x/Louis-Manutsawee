@@ -178,19 +178,22 @@ return {
     },
     MOMO = {
         ONREFUSE = {
-            NOM_PANTSU = "Honey, don't make trouble, I don't need this.",
-            NOTMFRUIT = "I just want something related to you, even memories",
-            INSIGNIFICANTITEM = "Honey, Don't you know what I want?",
+            LIST = {
+                "Honey, don't make trouble, I don't need this.",
+                "I just want something related to you, even memories",
+                "Honey, Don't you know what I want?",
+            },
             IRRELEVANT = "No, what does this have to do with you? I just want her to give it to me.",
         },
         ONNIGHT = {
-            FORTARGET = "Don't worry, I will turn on the light for you.",
+            FORHONEY = "Don't worry, honey, I will turn on the light.",
             OFSELF = "Don't worry you can't see me.",
-            SAMETIME = "Don't worry, I will turn on the light."
+            SAMETIME = "Don't worry, honey, I will turn on the light."
         },
     },
     M_EPITAPHS = {
-        "\n这位朋友我看你骨骼精奇,是万中无一的奇才.\n维护冥界和平就靠你了.\n我这里有把天生牙.\n我看与你有缘,就直接送给你了,前提是你能拿起来.",
-        "\n哇,不得了,不得了啊!\n你有道灵光从天顶盖喷出来,你知道吗?\n年纪轻轻的,就有一身清奇的骨骼.\n简直万年一见的奇才啊!\n正所谓:我不入冥界,谁入冥界.\n维护冥界和平这个任务就交给你了,好吗?\n这把天生牙,是无价之宝.\n我看与你有缘,就送给你吧,前提是你能拿起来."
+        -- These epitaphs reference lines spoken by the beggar in the film Kung Fu Hustle :P
+        "\nHey, my friend, I see you have extraordinary talent, you are a rare genius.\nIt's up to you to maintain the peace of the underworld.\nI have a katana here called tenseiga.\nI see that you are destined for it, so I will give it to you directly, provided you can pick it up.",
+        "\nWow, incredible!\nYou have a flash of inspiration bursting out of your head, you know?\nDespite your young age, you have remarkable aptitude.\nYou are a prodigy rarely seen even once in ten thousand years!\nAs the saying goes: If I don't enter the underworld, who will?\nI'll leave the task of maintaining peace in the underworld to you. Okay?\nThis Tensaiga is a priceless treasure.\nI see that we are fated, so I shall bestow it upon you, as long as you can lift it"
     },
 }

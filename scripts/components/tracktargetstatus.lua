@@ -22,11 +22,11 @@ end
 local TrackTargetStatus = Class(function(self, inst)
     self.inst = inst
 
-    self.target = nil
+    self.honey = nil
 end)
 
 local function OnSanityDelta(inst, data)
-    local target = inst:GetTarget()
+    local honey = inst:TheHoney()
     local newpercent = data.newpercent
 
     if newpercent <= 0.1 then
@@ -35,7 +35,7 @@ local function OnSanityDelta(inst, data)
 end
 
 local function OnHungerDelta(inst, data)
-    local target = inst:GetTarget()
+    local honey = inst:TheHoney()
     local newpercent = data.newpercent
 
     if newpercent <= 0.1 then
@@ -44,7 +44,7 @@ local function OnHungerDelta(inst, data)
 end
 
 local function OnHealthDelta(inst, data)
-    local target = inst:GetTarget()
+    local honey = inst:TheHoney()
     local newpercent = data.newpercent
 
     if newpercent <= 0.1 then
@@ -53,7 +53,7 @@ local function OnHealthDelta(inst, data)
 end
 
 local function OnMoistureDelta(inst, data)
-    local target = inst:GetTarget()
+    local honey = inst:TheHoney()
     local newpercent = data.newpercent
 
     if newpercent >= 0.5 then
@@ -62,7 +62,7 @@ local function OnMoistureDelta(inst, data)
 end
 
 local function OnTemperatureDelta(inst, data)
-    local target = inst:GetTarget()
+    local honey = inst:TheHoney()
     local newpercent = data.newpercent
 
     if newpercent <= 5 then
@@ -71,36 +71,36 @@ local function OnTemperatureDelta(inst, data)
 end
 
 local function OnHearGrue(inst)
-    local target = inst:GetTarget()
-    if target ~= nil then
+    local honey = inst:TheHoney()
+    if honey ~= nil then
         local fx_book_light_upgraded = SpawnPrefab("fx_book_light_upgraded")
-        local x, y, z = target.Transform:GetWorldPosition()
+        local x, y, z = honey.Transform:GetWorldPosition()
         fx_book_light_upgraded.Transform:SetScale(.9, 2.5, 1)
         fx_book_light_upgraded.Transform:SetPosition(x, y, z)
 
         -- before Charlie's attack, set the light to be released after 0.5 seconds
-        target:DoTaskInTime(0.5, function()
-            if target.momo_light == nil then
-                target.momo_light = CreateLight()
-                target.momo_light.Follower:FollowSymbol(target.GUID)
+        honey:DoTaskInTime(0.5, function()
+            if honey.momo_light == nil then
+                honey.momo_light = CreateLight()
+                honey.momo_light.Follower:FollowSymbol(honey.GUID)
             else
-                target.momo_light.Light:Enable(true)
+                honey.momo_light.Light:Enable(true)
             end
         end)
     end
 end
 
 local function OnTeleported(inst)
-    local target = inst:GetTarget()
-    if target ~= nil then
+    local honey = inst:TheHoney()
+    if honey ~= nil then
         inst:PushEvent("useteleport")
     end
 end
 
 local function OnIsDay(self, active)
     if active then
-        if self.target.momo_light ~= nil then
-            self.target.momo_light:Remove()
+        if self.honey.momo_light ~= nil then
+            self.honey.momo_light:Remove()
         end
     end
 end
@@ -122,27 +122,27 @@ local function ToggleAcidRain(self, active)
     end
 end
 
-local AddEventListeners = function(target, inst)
-    target:ListenForEvent("sanitydelta", OnSanityDelta, inst)
-    target:ListenForEvent("hungerdelta", OnHungerDelta, inst)
-    target:ListenForEvent("healthdelta", OnHealthDelta, inst)
-    target:ListenForEvent("moisturedelta", OnMoistureDelta, inst)
-    target:ListenForEvent("temperaturedelta", OnTemperatureDelta, inst)
-    target:ListenForEvent("heargrue", OnHearGrue, inst)
-    target:ListenForEvent("teleported", OnTeleported, inst)
+local AddEventListeners = function(inst, honey)
+    honey:ListenForEvent("sanitydelta", OnSanityDelta, inst)
+    honey:ListenForEvent("hungerdelta", OnHungerDelta, inst)
+    honey:ListenForEvent("healthdelta", OnHealthDelta, inst)
+    honey:ListenForEvent("moisturedelta", OnMoistureDelta, inst)
+    honey:ListenForEvent("temperaturedelta", OnTemperatureDelta, inst)
+    honey:ListenForEvent("heargrue", OnHearGrue, inst)
+    honey:ListenForEvent("teleported", OnTeleported, inst)
 end
 
-local AddWorldStateWatchers = function(self, target)
+local AddWorldStateWatchers = function(self, honey)
     self:WatchWorldState("islunarhailing", ToggleLunarHail)
     self:WatchWorldState("isacidraining", ToggleAcidRain)
     self:WatchWorldState("isday", OnIsDay)
 end
 
-function TrackTargetStatus:StartTrack(target)
-    if target ~= nil then
-        self.target = target
-        AddEventListeners(target, self.inst)
-        AddWorldStateWatchers(self, target)
+function TrackTargetStatus:StartTrack(honey)
+    if honey ~= nil then
+        self.honey = honey
+        AddEventListeners(self.inst, honey)
+        AddWorldStateWatchers(self, honey)
     end
 end
 
@@ -150,20 +150,27 @@ end
 
 -- end
 
-function TrackTargetStatus:StopTrack(target)
-    if target ~= nil then
-        self.target = nil
-        self.inst:RemoveEventCallback("sanitydelta", OnSanityDelta, target)
-        self.inst:RemoveEventCallback("hungerdelta", OnHungerDelta, target)
-        self.inst:RemoveEventCallback("healthdelta", OnHealthDelta, target)
-        self.inst:RemoveEventCallback("moisturedelta", OnMoistureDelta, target)
-        self.inst:RemoveEventCallback("temperaturedelta", OnTemperatureDelta, target)
-        self.inst:RemoveEventCallback("heargrue", OnHearGrue, target)
-        self.inst:RemoveEventCallback("teleported", OnTeleported, target)
+local RemoveEventListeners = function(inst, honey)
+    inst:RemoveEventCallback("sanitydelta", OnSanityDelta, honey)
+    inst:RemoveEventCallback("hungerdelta", OnHungerDelta, honey)
+    inst:RemoveEventCallback("healthdelta", OnHealthDelta, honey)
+    inst:RemoveEventCallback("moisturedelta", OnMoistureDelta, honey)
+    inst:RemoveEventCallback("temperaturedelta", OnTemperatureDelta, honey)
+    inst:RemoveEventCallback("heargrue", OnHearGrue, honey)
+    inst:RemoveEventCallback("teleported", OnTeleported, honey)
+end
 
-        self:StopWatchingWorldState("isday", OnIsDay)
-        self:StopWatchingWorldState("islunarhailing", ToggleLunarHail)
-        self:StopWatchingWorldState("isacidraining", ToggleAcidRain)
+local RemoveWorldStateWatchers = function(self, honey)
+    self:StopWatchingWorldState("isday", OnIsDay)
+    self:StopWatchingWorldState("islunarhailing", ToggleLunarHail)
+    self:StopWatchingWorldState("isacidraining", ToggleAcidRain)
+end
+
+function TrackTargetStatus:StopTrack(honey)
+    if honey ~= nil then
+        self.honey = nil
+        RemoveEventListeners(self.inst, honey)
+        RemoveWorldStateWatchers(self, honey)
     end
 end
 
@@ -171,9 +178,9 @@ TrackTargetStatus.OnRemoveEntity = TrackTargetStatus.StopTrack
 TrackTargetStatus.OnRemoveFromEntity = TrackTargetStatus.StopTrack
 
 function TrackTargetStatus:OnLoad()
-    local target = self.inst:GetTarget()
-    if target ~= nil then
-        self.inst.components.tracktargetstatus:StartTrack(target)
+    local honey = self.inst:TheHoney()
+    if honey ~= nil then
+        self.inst.components.tracktargetstatus:StartTrack(honey)
     end
 end
 
