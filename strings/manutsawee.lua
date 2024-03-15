@@ -533,7 +533,13 @@ return {
     DESCRIBE = {
         M_PANTSU = "Hentai.",
         MOMO_HAT = "The next Princess of Darkness.",
-        MOMO = "Why did you chase me here?",
+        MOMO = {
+            GENERIC = "Why did you chase me here?",
+            CONFUSE = "",
+            DISAPPOINTMENT = "",
+            RELIENED = "",
+        },
+        MOMOCUBE = "She said it was used to protect me, but I don't know how to use it.",
         ABIGAIL = {
             LEVEL1 = {
                 "Awww, she has a cute little bow.",

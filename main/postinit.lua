@@ -9,6 +9,7 @@ local postinit = {
         "nightmarefissure",
         "trap",
         "winter_tree",
+        "world",
     },
     stategraphs = {
         "SGwilson",

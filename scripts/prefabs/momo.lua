@@ -1,3 +1,24 @@
+local PopupDialogScreen = require("screens/redux/popupdialog")
+
+local function PushConfirmDatingRelationship()
+    local ConfirmDatingRelationship = function()
+        TheWorld:PushEvent("ms_dating_relationship")
+        TheFrontEnd:PopScreen()
+    end
+
+    local CancelDatingRelationship = function()
+        TheFrontEnd:PopScreen()
+    end
+
+    local str = STRINGS.MOMO.START_DATING_RELATIONSHIP
+    local confirmation = PopupDialogScreen(str.TITLE, str.BODY, {
+        { text = str.OK,     cb = ConfirmDatingRelationship },
+        { text = str.CANCEL, cb = CancelDatingRelationship  },
+    })
+
+    TheFrontEnd:PushScreen(confirmation)
+end
+
 local LIGHT_INTENSITY_MAX = .94
 
 local function CreateLight()
@@ -40,6 +61,7 @@ local assets = {
     Asset("ANIM", "anim/player_pocketwatch_portal.zip"),
     Asset("ANIM", "anim/wanda_casting.zip"),
 	Asset("ANIM", "anim/wendy_recall.zip"),
+    Asset("ANIM", "anim/player_jump.zip"),
 
     Asset("ANIM", "anim/momo.zip"),
     Asset("ANIM", "anim/momo_maid.zip"),
@@ -61,6 +83,14 @@ local momo_skins = {
 	"momo_sailor",
 	"momo_school",
 	"momo_maid",
+}
+
+local profile_chat_icon = {
+    "profileflair_food_steakfrites",
+    "profileflair_food_pizza",
+    "profileflair_waffle",
+    "profileflair_food_jellyroll",
+    "profileflair_food_grilledcheese",
 }
 
 local brain = require("brain/momobrain")
@@ -159,6 +189,14 @@ local function SetUpEquip(inst)
     end
 end
 
+local function FindItemInInventory(inst, item)
+    if inst.components.inventory ~= nil then
+        return inst.components.inventory:FindItem(function(inst)
+            return inst:HasTag(item) or (item.prefab == item) or false
+        end)
+    end
+end
+
 -- switch weapon, mnaginata or mortalblade
 local function SwitchWeapon(inst, weapon)
     local inventory = inst.components.inventory
@@ -170,10 +208,12 @@ local function SwitchWeapon(inst, weapon)
             inventory:GiveItem(_weapon)
         end
 
-        local weapon = inventory:FindItem(function(inst) return inst:HasTag(weapon) end)
-        inventory:Equip(weapon)
-        if weapon ~= nil and weapon.UnsheathMode ~= nil then
-            weapon:UnsheathMode(inst)
+        local weapon = inst:FindItemInInventory(weapon)
+        if weapon ~= nil then
+            inventory:Equip(weapon)
+            if weapon.UnsheathMode ~= nil then
+                weapon:UnsheathMode(inst)
+            end
         end
     end
 end
@@ -184,10 +224,16 @@ local function OnSave(inst, data)
     end
 end
 
-local function OnLoad(inst, data)
+local function OnPreLoad(inst, data)
     if data ~= nil then
         inst.honey_userid = data.honey_userid
     end
+end
+
+local function OnLoad(inst, data)
+    -- if data ~= nil then
+    --     inst.honey_userid = data.honey_userid
+    -- end
 end
 
 -- initialization
@@ -245,17 +291,91 @@ local function OnStartADate(inst)
     end
 end
 
-local function OnAttackOther(inst, data)
+local function OnSleepIn(inst)
 
 end
 
+local function OnWakeUp()
+
+end
+
+local function GetStatus(inst, viewer)
+    local list = {
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+    }
+    local datingmanager = TheWorld.components.datingmanager
+    local isdatingrelationship = datingmanager ~= nil and datingmanager:GetIsDatingRelationship() or false
+    if viewer ~= nil and viewer:HasTag("naughtychild") and isdatingrelationship then
+        return list[math.random(1, #list)]
+    end
+end
+
+local function OnHitOtherFn(inst, target, damage, stimuli, weapon, damageresolved, spdamage, damageredirecttarget)
+    if weapon ~= nil and target ~= nil and target:IsValid() then
+        local fx = SpawnPrefab("wanda_attack_shadowweapon_old_fx")
+        local x, y, z = target.Transform:GetWorldPosition()
+        local radius = target:GetPhysicsRadius(.5)
+        local angle = (inst.Transform:GetRotation() - 90) * DEGREES
+        fx.Transform:SetPosition(x + math.sin(angle) * radius, 0, z + math.cos(angle) * radius)
+	end
+end
+
+local function StartFencing()
+
+end
+
+local function StartDialogue(inst)
+    for i = 1, #STRINGS.MOMO.DIALOGUE.HELLO do
+        inst:DoTaskInTime(i * 3, function(inst)
+            inst.components.talker:Say(STRINGS.MOMO.DIALOGUE.HELLO[i])
+        end)
+    end
+
+    inst:DoTaskInTime(18, function(inst)
+        local AcceptRequest = function()
+            for i = 1, #STRINGS.MOMO.DIALOGUE.ACCEPT do
+                inst:DoTaskInTime(i * 3, function(inst)
+                    inst.components.talker:Say(STRINGS.MOMO.DIALOGUE.ACCEPT[i])
+                end)
+            end
+
+            TheFrontEnd:PopScreen()
+        end
+
+        local RejectRequest = function()
+            for i = 1, #STRINGS.MOMO.DIALOGUE.REJECT do
+                inst:DoTaskInTime(i * 3, function(inst)
+                    inst.components.talker:Say(STRINGS.MOMO.DIALOGUE.REJECT[i])
+                end)
+            end
+
+            TheFrontEnd:PopScreen()
+        end
+
+        local str = STRINGS.MOMO.SELECT_REQUEST
+        local confirmation = PopupDialogScreen(str.TITLE, str.BODY, {
+            { text = str.OK,     cb = AcceptRequest },
+            { text = str.CANCEL, cb = RejectRequest  },
+        })
+
+        TheFrontEnd:PushScreen(confirmation)
+    end)
+end
+
 local function RegisterMasterEventListeners(inst)
-    inst:ListenForEvent("onattackother", OnAttackOther)
     inst:ListenForEvent("admitdefeated", Defeated)
+    inst:ListenForEvent("onstartadate", OnStartADate)
+    inst:ListenForEvent("start_dialogue", StartDialogue)
 end
 
 local function RegisterWorldStateWatchers(inst)
     inst:WatchWorldState("phase", OnChangePhase)
+    OnChangePhase(inst, TheWorld.state.phase)
 end
 
 local function SetInstanceValue(inst)
@@ -263,6 +383,7 @@ local function SetInstanceValue(inst)
     inst.customidleanim = "idle_wanda"
     inst.soundsname = "wendy"
     inst.momo_skins = momo_skins
+    inst.profile_chat_icon = profile_chat_icon
 end
 
 local function SetInstanceFunctions(inst)
@@ -276,9 +397,15 @@ local function SetInstanceFunctions(inst)
     inst.TheHoney = TheHoney
     inst.CreateLight = CreateLight
     inst.OnStartADate = OnStartADate
+    inst.FindItemInInventory = FindItemInInventory
+    inst.StartDialogue = StartDialogue
+
+    inst.OnSleepIn = OnSleepIn
+    inst.OnWakeUp = OnWakeUp
 
     inst.OnSave = OnSave
     inst.OnLoad = OnLoad
+    inst.OnPreload = OnPreLoad
 end
 
 local function fn()
@@ -323,6 +450,8 @@ local function fn()
     inst:AddTag("character")
     inst:AddTag("girl")
 
+    inst:AddTag("pocketwatchcaster")
+
     -- inst:AddTag("momo_npc")
 
     -- trader (from trader component) added to pristine state for optimization
@@ -331,9 +460,13 @@ local function fn()
     inst:AddComponent("spawnfader")
 
     inst:AddComponent("talker")
+    inst.components.talker.fontsize = 30
     inst.components.talker.offset = Vector3(0, -400, 0)
     inst.components.talker.font = TALKINGFONT
     inst.components.talker.colour = Vector3(238 / 255, 69 / 255, 105 / 255)
+    inst.components.talker.chaticon = profile_chat_icon[math.random(1, #profile_chat_icon)]
+    inst.components.talker.chaticonbg = "playerlevel_bg_lavaarena"
+    inst.components.talker:MakeChatter()
 
 	inst.entity:SetPristine()
 
@@ -345,8 +478,10 @@ local function fn()
     inst:AddComponent("inventory")
     inst:AddComponent("entitytracker")
     inst:AddComponent("tracktargetstatus")
-    inst:AddComponent("inspectable")
     inst:AddComponent("colouradder")
+
+    inst:AddComponent("inspectable")
+    inst.components.inspectable.getstatus = GetStatus
 
     inst:AddComponent("follower")
     inst.components.follower.canaccepttarget = true
@@ -375,11 +510,9 @@ local function fn()
     inst.components.combat.hiteffectsymbol = "torso"
     inst.components.combat:SetAttackPeriod(0.2)
     inst.components.combat:SetRange(TUNING.DEFAULT_ATTACK_RANGE)
+    inst.components.combat.onhitotherfn = OnHitOtherFn
 
     MakeMediumBurnableCharacter(inst, "torso")
-    inst.components.burnable:SetBurnTime(TUNING.PLAYER_BURN_TIME)
-    inst.components.burnable.nocharring = true
-
     MakeLargeFreezableCharacter(inst, "torso")
 
 	inst:SetStateGraph("SGmomo")

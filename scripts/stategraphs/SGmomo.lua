@@ -96,15 +96,59 @@ local function DoneTeleporting(inst)
     inst.DynamicShadow:Enable(true)
 end
 
+local NOTENTCHECK_CANT_TAGS = { "FX", "INLIMBO" }
+
+local function NoHoles(pt)
+    return not TheWorld.Map:IsPointNearHole(pt)
+end
+
+local function NoEntCheckFn(pt)
+    return NoHoles(pt) and #TheSim:FindEntities(pt.x, pt.y, pt.z, 1, nil, NOTENTCHECK_CANT_TAGS) == 0
+end
+
+local function SpawnPortalEntrance(inst)
+    local pt = inst:GetPosition()
+    local offset = FindWalkableOffset(pt, math.random() * 2 * PI, 3 + math.random(), 16, false, true, NoEntCheckFn, true, true)
+                    or FindWalkableOffset(pt, math.random() * 2 * PI, 5 + math.random(), 16, false, true, NoEntCheckFn, true, true)
+                    or FindWalkableOffset(pt, math.random() * 2 * PI, 7 + math.random(), 16, false, true, NoEntCheckFn, true, true)
+    if offset ~= nil then
+        pt = pt + offset
+    end
+
+    local portal = SpawnPrefab("pocketwatch_portal_entrance")
+    portal.Transform:SetPosition(pt:Get())
+    inst.SoundEmitter:PlaySound("wanda1/wanda/portal_entrance_pre")
+    return portal
+end
+
+local function CalculateLandPoint(pt, radius)
+    radius = radius or 8
+    if not TheWorld.Map:IsAboveGroundAtPoint(pt:Get()) then
+        pt = FindNearbyLand(pt, 1) or pt
+    end
+    local offset = FindWalkableOffset(pt, math.random() * 2 * PI, radius, 12, true, true, NoHoles)
+    if offset ~= nil then
+        offset.x = offset.x + pt.x
+        offset.z = offset.z + pt.z
+        return offset
+    end
+end
+
 local actionhandlers = {
     ActionHandler(ACTIONS.GIVE, "give"),
+    ActionHandler(ACTIONS.SLEEPIN, function(inst, action)
+        if action.invobject ~= nil then
+            if action.invobject.onuse ~= nil then
+                action.invobject:onuse(inst)
+            end
+            return "bedroll"
+        else
+            return "tent"
+        end
+    end),
 }
 
 local events = {
-    -- EventHandler("admitdefeated", function(inst, data)
-    -- end),
-    -- EventHandler("taunt", function(inst, data)
-    -- end),
     CommonHandlers.OnLocomote(true, false),
     CommonHandlers.OnAttacked(),
     EventHandler("ontalk", function(inst, data)
@@ -112,7 +156,6 @@ local events = {
             inst.sg:GoToState("talk", data.noanim)
 		end
     end),
-    -- c_select():PushEvent("useteleport", {pos = ThePlayer:GetPosition()})
     EventHandler("use_portal_jumpin", function(inst, data)
         inst.sg:GoToState("portal_jumpin_pre", data)
     end),
@@ -120,11 +163,13 @@ local events = {
         if data ~= nil then
             local watch = data.watch
             if watch ~= nil then
-                inst.sg:GoToState((watch.prefab == "pocketwatch_portal" and "pocketwatch_openportal")
-                    or (watch:HasTag("pocketwatch_warp_casting" and "pocketwatch_warpback_pre")
-                    or "pocketwatch_cast"), watch)
+                inst.sg:GoToState((watch:HasTag("pocketwatch_warp_casting" and "pocketwatch_warpback_pre")
+                or "pocketwatch_cast"), watch)
             end
         end
+    end),
+    EventHandler("use_pocketwatch_portal", function(inst, data)
+        inst.sg:GoToState("pocketwatch_openportal", data)
     end),
     EventHandler("releaselight", function(inst, data)
         inst.sg:GoToState("releaselight", data)
@@ -291,47 +336,29 @@ local states = {
     },
 
     State{
-        name = "defeated",
-        tags = {"idle", "defeated"},
-        onenter = function(inst)
-
-        end
-    },
-
-    State{
         name = "pocketwatch_openportal",
         tags = { "doing", "busy", "canrotate" },
 
-        onenter = function(inst, watch)
+        onenter = function(inst, data)
             inst.AnimState:PlayAnimation("useitem_pre")
             inst.AnimState:PushAnimation("pocketwatch_portal", false)
 			inst.AnimState:PushAnimation("useitem_pst", false)
 
-            inst.components.locomotor:Stop()
+            if data.target_pos ~= nil then
+                inst.sg.statemem.target_pos = data.target_pos
+            end
 
-            if watch ~= nil then
-		        inst.AnimState:OverrideSymbol("watchprop", watch.AnimState:GetBuild(), "watchprop")
-	            inst.sg.statemem.castsound = watch.castsound
-				inst.sg.statemem.same_shard = watch.components.recallmark ~= nil and watch.components.recallmark:IsMarkedForSameShard()
-			end
+            inst.components.locomotor:Stop()
+            inst.AnimState:OverrideSymbol("watchprop", "pocketwatch_portal", "watchprop")
         end,
 
         timeline =
         {
             TimeEvent(18 * FRAMES, function(inst)
-				if not inst:PerformBufferedAction() then
-					inst.sg.statemem.action_failed = true
-					inst.AnimState:Hide("gemshard")
-	                inst.SoundEmitter:PlaySound("dontstarve/wilson/hit")
-				else
-	                inst.SoundEmitter:PlaySound("turnoftides/common/together/moon_glass/mine")
-                end
+                inst.SoundEmitter:PlaySound("turnoftides/common/together/moon_glass/mine")
+                local portal = SpawnPortalEntrance(inst)
+                inst.sg.statemem.portal = portal
             end),
-			TimeEvent(32 * FRAMES, function(inst)
-				if inst.sg.statemem.action_failed then
-					inst.AnimState:Show("gemshard")
-				end
-			end),
 			TimeEvent(37 * FRAMES, function(inst)
 				inst.sg:RemoveStateTag("busy")
 			end),
@@ -341,19 +368,18 @@ local states = {
         {
             EventHandler("animqueueover", function(inst)
                 if inst.AnimState:AnimDone() then
-					inst.sg:GoToState("idle")
+                    inst:ForceFacePoint(inst.sg.statemem.portal:GetPosition():Get())
+                    if inst.sg.statemem.portal ~= nil then
+                        inst.sg:GoToState("jumpin_pre", {teleporter = inst.sg.statemem.portal, target_pos = inst.sg.statemem.target_pos})
+                    end
                 end
             end),
         },
 
         onexit = function(inst)
 			inst.AnimState:ClearOverrideSymbol("watchprop")
-			if inst.sg.statemem.action_failed then
-				inst.AnimState:Show("gemshard")
-			end
         end,
     },
-
 
     State{
         name = "pocketwatch_cast",
@@ -451,35 +477,28 @@ local states = {
         name = "pocketwatch_warpback_pre",
         tags = { "busy" },
 
-        onenter = function(inst)
+        onenter = function(inst, data)
             inst.components.locomotor:Stop()
             inst.AnimState:PlayAnimation("pocketwatch_warp_pre")
 
-			local buffaction = inst:GetBufferedAction()
-			if buffaction ~= nil then
-		        inst.AnimState:OverrideSymbol("watchprop", buffaction.invobject.AnimState:GetBuild(), "watchprop")
-
-				inst.sg.statemem.castfxcolour = buffaction.invobject.castfxcolour
-			end
+            inst.sg.statemem.dest_pos = data.dest_pos
+            inst.AnimState:OverrideSymbol("watchprop", "pocketwatch_recall", "watchprop")
         end,
 
         timeline=
         {
-            TimeEvent(1*FRAMES, function(inst) inst.SoundEmitter:PlaySound("wanda2/characters/wanda/watch/warp") end),
+            TimeEvent(1*FRAMES, function(inst)
+                inst.SoundEmitter:PlaySound("wanda2/characters/wanda/watch/warp")
+            end),
         },
 
         events =
         {
             EventHandler("animover", function(inst)
                 if inst.AnimState:AnimDone() then
-					if inst:PerformBufferedAction() then
-						-- statemem.warpback is set by the action function
-						local data = shallowcopy(inst.sg.statemem)
-						inst.sg.statemem.portaljumping = true
-						inst.sg:GoToState("pocketwatch_warpback", data)
-					else
-	                    inst.sg:GoToState("idle")
-					end
+                    local dest_pos = inst.sg.statemem.dest_pos
+                    inst.sg.statemem.portaljumping = true
+                    inst.sg:GoToState("pocketwatch_warpback", {dest_pos = dest_pos})
                 end
             end),
         },
@@ -499,12 +518,11 @@ local states = {
             inst.components.locomotor:Stop()
             inst.AnimState:PlayAnimation("pocketwatch_warp")
 
-			inst.sg.statemem.warpback_data = data.warpback -- 'warpback' passed in through the previous state bug is set by the action function
-			inst.sg.statemem.castfxcolour = data.castfxcolour
+            inst.sg.statemem.dest_pos = data.dest_pos
 
 			inst.sg.statemem.stafffx = SpawnPrefab("pocketwatch_warpback_fx")
 			inst.sg.statemem.stafffx.entity:SetParent(inst.entity)
-			inst.sg.statemem.stafffx:SetUp(data.castfxcolour or { 1, 1, 1 })
+			inst.sg.statemem.stafffx:SetUp({ 1, 1, 1 })
         end,
 
         timeline =
@@ -527,20 +545,9 @@ local states = {
 						inst.sg.statemem.stafffx = nil
 					end
 
-					local data = shallowcopy(inst.sg.statemem)
-					local warpback_data = data.warpback_data
-					local dest_worldid = warpback_data.dest_worldid
+					local dest_pos = inst.sg.statemem.dest_pos
 					inst.sg.statemem.portaljumping = true
-					if dest_worldid ~= nil and dest_worldid ~= TheShard:GetShardId() then
-						if Shard_IsWorldAvailable(dest_worldid) then
-							TheWorld:PushEvent("ms_playerdespawnandmigrate", { player = inst, portalid = nil, worldid = dest_worldid, x = warpback_data.dest_x, y = warpback_data.dest_y, z = warpback_data.dest_z })
-						else
-							warpback_data.dest_x, warpback_data.dest_y, warpback_data.dest_z = inst.Transform:GetWorldPosition()
-							inst.sg:GoToState("pocketwatch_warpback_pst", data)
-						end
-					else
-						inst.sg:GoToState("pocketwatch_warpback_pst", data)
-					end
+                    inst.sg:GoToState("pocketwatch_warpback_pst", {dest_pos = dest_pos})
                 end
             end),
         },
@@ -569,19 +576,27 @@ local states = {
 
             inst.AnimState:PlayAnimation("pocketwatch_warp_pst")
 
-            if data.warpback_data ~= nil then
-                inst.Physics:Teleport(data.warpback_data.dest_x, data.warpback_data.dest_y, data.warpback_data.dest_z)
+            local dest_x, dest_y, dest_z
+            local dest_pos = data.dest_pos
+
+            if dest_pos == nil then
+                dest_x, dest_y, dest_z = inst.Transform:GetWorldPosition()
+            else
+                dest_pos = CalculateLandPoint(dest_pos)
+                dest_x, dest_y, dest_z = dest_pos.x, dest_pos.y, dest_pos.z
             end
-            inst:PushEvent("onwarpback", data.warpback_data)
+
+            inst.Physics:Teleport(dest_x, dest_y, dest_z)
 
 			local fx = SpawnPrefab("pocketwatch_warpbackout_fx")
-			fx.Transform:SetPosition(data.warpback_data.dest_x, data.warpback_data.dest_y, data.warpback_data.dest_z)
-			fx:SetUp(data.castfxcolour or { 1, 1, 1 })
+			fx.Transform:SetPosition(dest_x, dest_y, dest_z)
+			fx:SetUp({ 1, 1, 1 })
         end,
 
         timeline =
         {
-            TimeEvent(1*FRAMES, function(inst) inst.SoundEmitter:PlaySound("wanda2/characters/wanda/watch/recall")
+            TimeEvent(1*FRAMES, function(inst)
+                inst.SoundEmitter:PlaySound("wanda2/characters/wanda/watch/recall")
             end),
 
             TimeEvent(3 * FRAMES, function(inst)
@@ -621,7 +636,6 @@ local states = {
             end
         end,
     },
-
 
     State{
         name = "pocketwatch_portal_land",
@@ -1483,6 +1497,205 @@ local states = {
         onexit = function(inst)
             if not inst.sg.statemem.playedfx then
                 SpawnPrefab("lucy_transform_fx").entity:AddFollower():FollowSymbol(inst.GUID, "swap_object", 50, -25, 0)
+            end
+        end,
+    },
+
+    State{
+        name = "jumpin_pre",
+        tags = { "doing", "busy", "canrotate" },
+
+        onenter = function(inst, data)
+            inst.sg.statemem.portal = data.teleporter
+
+            if data.target_pos ~= nil then
+                inst.sg.statemem.target_pos = data.target_pos
+            end
+
+            inst.components.locomotor:Stop()
+            inst.AnimState:PlayAnimation("jump_pre", false)
+        end,
+
+        events =
+        {
+            EventHandler("animover", function(inst)
+                if inst.AnimState:AnimDone() then
+                    inst.sg:GoToState("jumpin", {teleporter = inst.sg.statemem.portal, target_pos = inst.sg.statemem.target_pos})
+                end
+            end),
+        },
+    },
+
+    State{
+        name = "jumpin",
+        tags = { "doing", "busy", "canrotate", "nopredict", "nomorph" },
+
+        onenter = function(inst, data)
+            ToggleOffPhysics(inst)
+            inst.components.locomotor:Stop()
+
+            inst.sg.statemem.portal = data.teleporter
+
+            if data ~= nil then
+                inst.sg.statemem.target_pos = data.target_pos
+            end
+
+            inst.AnimState:PlayAnimation("jump")
+
+            local pos = data ~= nil and data.teleporter and data.teleporter:GetPosition() or nil
+
+            local MAX_JUMPIN_DIST = 3
+            local MAX_JUMPIN_DIST_SQ = MAX_JUMPIN_DIST * MAX_JUMPIN_DIST
+            local MAX_JUMPIN_SPEED = 6
+
+            local dist
+            if pos ~= nil then
+                local distsq = inst:GetDistanceSqToPoint(pos:Get())
+                if distsq <= .25 * .25 then
+                    dist = 0
+                    inst.sg.statemem.speed = 0
+                elseif distsq >= MAX_JUMPIN_DIST_SQ then
+                    dist = MAX_JUMPIN_DIST
+                    inst.sg.statemem.speed = MAX_JUMPIN_SPEED
+                else
+                    dist = math.sqrt(distsq)
+                    inst.sg.statemem.speed = MAX_JUMPIN_SPEED * dist / MAX_JUMPIN_DIST
+                end
+            else
+                inst.sg.statemem.speed = 0
+                dist = 0
+            end
+
+            inst.Physics:SetMotorVel(inst.sg.statemem.speed * .5, 0, 0)
+        end,
+
+        timeline =
+        {
+            TimeEvent(.5 * FRAMES, function(inst)
+                inst.Physics:SetMotorVel(inst.sg.statemem.speed * .75, 0, 0)
+            end),
+            TimeEvent(1 * FRAMES, function(inst)
+                inst.Physics:SetMotorVel(inst.sg.statemem.speed, 0, 0)
+            end),
+            TimeEvent(15 * FRAMES, function(inst)
+                inst.Physics:Stop()
+            end),
+        },
+
+        events =
+        {
+            EventHandler("animover", function(inst)
+                if inst.AnimState:AnimDone() then
+                    local target_pos = inst.sg.statemem.target_pos
+                    local x, y, z
+                    if target_pos ~= nil then
+                        target_pos = CalculateLandPoint(target_pos)
+                        x, y, z = target_pos.x, target_pos.y, target_pos.z
+                    else
+                        local honey = inst:TheHoney()
+                        if honey ~= nil then
+                            local honey_pos = CalculateLandPoint(honey:GetPosition(), 4)
+                            x, y, z = honey_pos.x, honey_pos.y, honey_pos.z
+                        end
+                    end
+                    if x ~= nil and y ~= nil and z ~= nil then
+                        inst.Physics:Teleport(x, y, z)
+                    end
+                    inst.sg:GoToState("pocketwatch_portal_land")
+                end
+            end),
+        },
+
+        onexit = function(inst)
+            if inst.sg.statemem.isphysicstoggle then
+                ToggleOnPhysics(inst)
+            end
+            inst.Physics:Stop()
+
+            if inst.sg.statemem.isteleporting then
+                inst.components.health:SetInvincible(false)
+                inst:Show()
+                inst.DynamicShadow:Enable(true)
+            end
+        end,
+    },
+
+    State{
+        name = "bedroll",
+        tags = { "bedroll", "busy", "nomorph" },
+
+        onenter = function(inst)
+            inst.components.locomotor:Stop()
+
+            inst.AnimState:OverrideSymbol("swap_bedroll", "swap_bedroll_furry", "bedroll_furry")
+
+            inst.AnimState:PlayAnimation("action_uniqueitem_pre")
+            inst.AnimState:PushAnimation("bedroll", false)
+            SetSleeperSleepState(inst)
+
+            --Hack since we've already temp unequipped hand items at this point
+            --but we want to show the correct arms for action_uniqueitem_pre
+            if inst._sleepinghandsitem ~= nil then
+                inst.AnimState:Show("ARM_carry")
+                inst.AnimState:Hide("ARM_normal")
+            end
+        end,
+
+        timeline =
+        {
+            TimeEvent(20 * FRAMES, function(inst)
+                inst.SoundEmitter:PlaySound("dontstarve/wilson/use_bedroll")
+            end),
+        },
+
+        events =
+        {
+            EventHandler("firedamage", function(inst)
+                if inst.sg:HasStateTag("sleeping") then
+                    inst.sg.statemem.iswaking = true
+                    inst.sg:GoToState("wakeup")
+                end
+            end),
+            EventHandler("animqueueover", function(inst)
+                if inst.AnimState:AnimDone() then
+                    if TheWorld.state.isday or
+                        (inst.components.health ~= nil and inst.components.health.takingfiredamage) or
+                        (inst.components.burnable ~= nil and inst.components.burnable:IsBurning()) then
+                        inst:PushEvent("performaction", { action = inst.bufferedaction })
+                        inst:ClearBufferedAction()
+                        inst.sg.statemem.iswaking = true
+                        inst.sg:GoToState("wakeup")
+                    elseif inst:GetBufferedAction() then
+                        inst:PerformBufferedAction()
+                        if inst.components.playercontroller ~= nil then
+                            inst.components.playercontroller:Enable(true)
+                        end
+                        inst.sg:AddStateTag("sleeping")
+                        inst.sg:AddStateTag("silentmorph")
+                        inst.sg:RemoveStateTag("nomorph")
+                        inst.sg:RemoveStateTag("busy")
+                        inst.AnimState:PlayAnimation("bedroll_sleep_loop", true)
+                    else
+                        inst.sg.statemem.iswaking = true
+                        inst.sg:GoToState("wakeup")
+                    end
+                end
+            end),
+        },
+
+        onexit = function(inst)
+            if not inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS) then
+                inst.AnimState:Hide("ARM_carry")
+                inst.AnimState:Show("ARM_normal")
+            end
+            if inst.sleepingbag ~= nil then
+                --Interrupted while we are "sleeping"
+                inst.sleepingbag.components.sleepingbag:DoWakeUp(true)
+                inst.sleepingbag = nil
+                SetSleeperAwakeState(inst)
+            elseif not inst.sg.statemem.iswaking then
+                --Interrupted before we are "sleeping"
+                SetSleeperAwakeState(inst)
             end
         end,
     },

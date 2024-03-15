@@ -19,6 +19,7 @@ PrefabFiles = {
     "special_katana",
     "tokijin",
     "vscode",
+    "momocube",
 }
 
 Assets = {

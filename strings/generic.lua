@@ -28,7 +28,8 @@ return {
         VSCODE = "Tools from another world.",
         YARI = "This spear look different.",
         M_PANTSU = "..?",
-        MOMO_HAT = "...Oh",
+        MOMO_HAT = "This is not a nightmare, this is magic.",
         MOMO = "Hello?",
+        MOMOCUBE = "A cube with magic surrounding it..."
     },
 }

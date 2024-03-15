@@ -55,7 +55,6 @@ Assets = {
 PreloadAssets = {
 }
 
-modimport("main/glassicapi")
 modimport("main/constants")
 modimport("main/config")
 modimport("main/mutil")

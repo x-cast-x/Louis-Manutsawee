@@ -6,5 +6,6 @@ AddPrefabPostInit("world", function(inst)
         return
     end
 
-
+    -- Do not misunderstand :P
+    inst:AddComponent("datingmanager")
 end)

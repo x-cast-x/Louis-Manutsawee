@@ -27,7 +27,7 @@ end)
 
 function MomoBrain:OnStart()
     local root = PriorityNode({
-        Follow(self.inst, self.inst.TheHoney, MIN_FOLLOW_DIST, TARGET_FOLLOW_DIST, MAX_FOLLOW_DIST),
+        -- Follow(self.inst, self.inst.TheHoney, MIN_FOLLOW_DIST, TARGET_FOLLOW_DIST, MAX_FOLLOW_DIST),
     })
 
 	self.bt = BT(self.inst, root)

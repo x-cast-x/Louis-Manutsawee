@@ -19,6 +19,9 @@ local function CreateLight()
     return inst
 end
 
+local datingmanager = TheWorld.components.datingmanager
+local isdatingrelationship = datingmanager ~= nil and datingmanager:GetIsDatingRelationship() or false
+
 local TrackTargetStatus = Class(function(self, inst)
     self.inst = inst
 
@@ -139,7 +142,7 @@ local AddWorldStateWatchers = function(self, honey)
 end
 
 function TrackTargetStatus:StartTrack(honey)
-    if honey ~= nil then
+    if honey ~= nil and isdatingrelationship then
         self.honey = honey
         AddEventListeners(self.inst, honey)
         AddWorldStateWatchers(self, honey)
@@ -177,11 +180,11 @@ end
 TrackTargetStatus.OnRemoveEntity = TrackTargetStatus.StopTrack
 TrackTargetStatus.OnRemoveFromEntity = TrackTargetStatus.StopTrack
 
-function TrackTargetStatus:OnLoad()
-    local honey = self.inst:TheHoney()
-    if honey ~= nil then
-        self.inst.components.tracktargetstatus:StartTrack(honey)
-    end
-end
+-- function TrackTargetStatus:OnLoad()
+--     local honey = self.inst:TheHoney()
+--     if honey ~= nil then
+--         self.inst.components.tracktargetstatus:StartTrack(honey)
+--     end
+-- end
 
 return TrackTargetStatus

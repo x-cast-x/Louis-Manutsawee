@@ -40,8 +40,6 @@ end
 
 ----------------------------------------------------------------------------------------------
 
-local katanarnd = 1
-
 local events = {
     EventHandler("putglasses", function(inst)
         inst.sg:GoToState("putglasses")
@@ -103,6 +101,8 @@ local states = {
             elseif equip ~= nil and equip:HasTag("mkatana") then
                 inst.sg.statemem.iskatana = true
 				inst.AnimState:SetDeltaTimeMultiplier(1.2)
+
+                local katanarnd = 1
 
                 if katanarnd == 1 then
                     inst.AnimState:PlayAnimation("atk_prop_pre")
