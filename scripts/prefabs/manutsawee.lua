@@ -163,8 +163,10 @@ local function OnUpgrades(inst, kenjutsulevel, kenjutsuexp)
         inst.components.kenjutsuka:StartRegenMindPower()
     end
 
-    if kenjutsulevel >= 5 and not inst:HasTag("katanakaji") then
-        inst:AddTag("katanakajimaster")
+    if kenjutsulevel >= 5 then
+        if not inst:HasTag("katanakaji") then
+            inst:AddTag("katanakaji")
+        end
         inst.components.sanity:AddSanityAuraImmunity("ghost")
 		inst.components.workmultiplier:AddMultiplier(ACTIONS.CHOP,   1, inst)
 		inst.components.workmultiplier:AddMultiplier(ACTIONS.MINE,   1, inst)
@@ -178,7 +180,6 @@ local function OnUpgrades(inst, kenjutsulevel, kenjutsuexp)
     end
 
     if kenjutsulevel >= 10 then
-        inst:AddTag("kenjutsunoshihan")
         kenjutsuexp = 0
     end
 

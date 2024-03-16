@@ -33,7 +33,7 @@ local function DoSpawnMomo(inst, bait, summoner)
 
             momo:PushEvent("start_dialogue")
 
-            TheWorld:PushEvent("ms_momo_spawn", true)
+            TheWorld:PushEvent("ms_momo_spawn")
         end
     end
 end
@@ -45,7 +45,7 @@ end
 local function OnBaitedFn(inst, bait, summoner)
     local datingmanager = TheWorld.components.datingmanager
     local momo_in_the_world = datingmanager ~= nil and datingmanager:GetMomoInTheWorld() or false
-    if bait ~= nil and bait.prefab == "m_pantsu" and summoner ~= nil then
+    if bait ~= nil and bait.prefab == "m_pantsu" and summoner ~= nil and not momo_in_the_world then
         if summoner:HasTag("naughtychild") then
             TrySpawnMomo(inst, bait, summoner)
         end

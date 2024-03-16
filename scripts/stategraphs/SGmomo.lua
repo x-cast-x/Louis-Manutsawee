@@ -136,16 +136,6 @@ end
 
 local actionhandlers = {
     ActionHandler(ACTIONS.GIVE, "give"),
-    ActionHandler(ACTIONS.SLEEPIN, function(inst, action)
-        if action.invobject ~= nil then
-            if action.invobject.onuse ~= nil then
-                action.invobject:onuse(inst)
-            end
-            return "bedroll"
-        else
-            return "tent"
-        end
-    end),
 }
 
 local events = {
@@ -1631,10 +1621,8 @@ local states = {
 
             inst.AnimState:PlayAnimation("action_uniqueitem_pre")
             inst.AnimState:PushAnimation("bedroll", false)
-            SetSleeperSleepState(inst)
+            inst:OnSleepIn()
 
-            --Hack since we've already temp unequipped hand items at this point
-            --but we want to show the correct arms for action_uniqueitem_pre
             if inst._sleepinghandsitem ~= nil then
                 inst.AnimState:Show("ARM_carry")
                 inst.AnimState:Hide("ARM_normal")
@@ -1658,26 +1646,15 @@ local states = {
             end),
             EventHandler("animqueueover", function(inst)
                 if inst.AnimState:AnimDone() then
-                    if TheWorld.state.isday or
-                        (inst.components.health ~= nil and inst.components.health.takingfiredamage) or
-                        (inst.components.burnable ~= nil and inst.components.burnable:IsBurning()) then
-                        inst:PushEvent("performaction", { action = inst.bufferedaction })
-                        inst:ClearBufferedAction()
+                    if TheWorld.state.isday then
                         inst.sg.statemem.iswaking = true
                         inst.sg:GoToState("wakeup")
-                    elseif inst:GetBufferedAction() then
-                        inst:PerformBufferedAction()
-                        if inst.components.playercontroller ~= nil then
-                            inst.components.playercontroller:Enable(true)
-                        end
+                    elseif inst.AnimState:IsCurrentAnimation("bedroll") or inst.AnimState:IsCurrentAnimation("bedroll_sleep_loop") then
                         inst.sg:AddStateTag("sleeping")
                         inst.sg:AddStateTag("silentmorph")
                         inst.sg:RemoveStateTag("nomorph")
                         inst.sg:RemoveStateTag("busy")
                         inst.AnimState:PlayAnimation("bedroll_sleep_loop", true)
-                    else
-                        inst.sg.statemem.iswaking = true
-                        inst.sg:GoToState("wakeup")
                     end
                 end
             end),
@@ -1688,14 +1665,269 @@ local states = {
                 inst.AnimState:Hide("ARM_carry")
                 inst.AnimState:Show("ARM_normal")
             end
-            if inst.sleepingbag ~= nil then
-                --Interrupted while we are "sleeping"
-                inst.sleepingbag.components.sleepingbag:DoWakeUp(true)
-                inst.sleepingbag = nil
-                SetSleeperAwakeState(inst)
-            elseif not inst.sg.statemem.iswaking then
-                --Interrupted before we are "sleeping"
-                SetSleeperAwakeState(inst)
+
+            if not inst.sg.statemem.iswaking then
+                inst:OnWakeUp()
+            end
+        end,
+    },
+
+    State{
+        name = "wakeup",
+        tags = { "busy", "waking", "nomorph", "nodangle" },
+
+        onenter = function(inst, data)
+            if inst.AnimState:IsCurrentAnimation("bedroll") or
+                inst.AnimState:IsCurrentAnimation("bedroll_sleep_loop") then
+                inst.AnimState:PlayAnimation("bedroll_wakeup")
+            elseif not (inst.AnimState:IsCurrentAnimation("bedroll_wakeup") or
+                        inst.AnimState:IsCurrentAnimation("wakeup")) then
+                inst.AnimState:PlayAnimation("wakeup")
+            end
+        end,
+
+        events =
+        {
+            EventHandler("animover", function(inst)
+                if inst.AnimState:AnimDone() then
+                    inst.sg:GoToState("idle")
+                end
+            end),
+        },
+
+        onexit = function(inst)
+            inst:OnWakeUp()
+            inst.components.talker:Say(STRINGS.MOMO.COZY_SLEEP)
+        end,
+    },
+
+    State{
+        name = "attack",
+        tags = { "attack", "notalking", "abouttoattack", "autopredict" },
+
+        onenter = function(inst)
+            if inst.components.combat:InCooldown() then
+                inst.sg:RemoveStateTag("abouttoattack")
+                inst:ClearBufferedAction()
+                inst.sg:GoToState("idle", true)
+                return
+            end
+            if inst.sg.laststate == inst.sg.currentstate then
+                inst.sg.statemem.chained = true
+            end
+            local buffaction = inst:GetBufferedAction()
+            local target = buffaction ~= nil and buffaction.target or nil
+            local equip = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
+            inst.components.combat:SetTarget(target)
+            inst.components.combat:StartAttack()
+            inst.components.locomotor:Stop()
+            local cooldown = inst.components.combat.min_attack_period
+
+            if inst.components.rider:IsRiding() then
+                if equip ~= nil and (equip.components.projectile ~= nil or equip:HasTag("rangedweapon")) then
+                    inst.AnimState:PlayAnimation("player_atk_pre")
+                    inst.AnimState:PushAnimation("player_atk", false)
+
+                    if (equip.projectiledelay or 0) > 0 then
+                        --V2C: Projectiles don't show in the initial delayed frames so that
+                        --     when they do appear, they're already in front of the player.
+                        --     Start the attack early to keep animation in sync.
+                        inst.sg.statemem.projectiledelay = 8 * FRAMES - equip.projectiledelay
+                        if inst.sg.statemem.projectiledelay > FRAMES then
+                            inst.sg.statemem.projectilesound =
+                                (equip:HasTag("icestaff") and "dontstarve/wilson/attack_icestaff") or
+                                (equip:HasTag("firestaff") and "dontstarve/wilson/attack_firestaff") or
+                                (equip:HasTag("firepen") and "wickerbottom_rework/firepen/launch") or
+                                "dontstarve/wilson/attack_weapon"
+                        elseif inst.sg.statemem.projectiledelay <= 0 then
+                            inst.sg.statemem.projectiledelay = nil
+                        end
+                    end
+                    if inst.sg.statemem.projectilesound == nil then
+                        inst.SoundEmitter:PlaySound(
+                            (equip:HasTag("icestaff") and "dontstarve/wilson/attack_icestaff") or
+                            (equip:HasTag("firestaff") and "dontstarve/wilson/attack_firestaff") or
+                            (equip:HasTag("firepen") and "wickerbottom_rework/firepen/launch") or
+                            "dontstarve/wilson/attack_weapon",
+                            nil, nil, true
+                        )
+                    end
+                    cooldown = math.max(cooldown, 13 * FRAMES)
+                else
+                    inst.AnimState:PlayAnimation("atk_pre")
+                    inst.AnimState:PushAnimation("atk", false)
+                    DoMountSound(inst, inst.components.rider:GetMount(), "angry", true)
+                    cooldown = math.max(cooldown, 16 * FRAMES)
+                end
+            elseif equip ~= nil and equip:HasTag("toolpunch") then
+
+                -- **** ANIMATION WARNING ****
+                -- **** ANIMATION WARNING ****
+                -- **** ANIMATION WARNING ****
+
+                --  THIS ANIMATION LAYERS THE LANTERN GLOW UNDER THE ARM IN THE UP POSITION SO CANNOT BE USED IN STANDARD LANTERN GLOW ANIMATIONS.
+
+                inst.AnimState:PlayAnimation("toolpunch")
+                inst.sg.statemem.istoolpunch = true
+                inst.SoundEmitter:PlaySound("dontstarve/wilson/attack_whoosh", nil, inst.sg.statemem.attackvol, true)
+                cooldown = math.max(cooldown, 13 * FRAMES)
+            elseif equip ~= nil and equip:HasTag("whip") then
+                inst.AnimState:PlayAnimation("whip_pre")
+                inst.AnimState:PushAnimation("whip", false)
+                inst.sg.statemem.iswhip = true
+                inst.SoundEmitter:PlaySound("dontstarve/common/whip_pre", nil, nil, true)
+                cooldown = math.max(cooldown, 17 * FRAMES)
+			elseif equip ~= nil and equip:HasTag("pocketwatch") then
+				inst.AnimState:PlayAnimation(inst.sg.statemem.chained and "pocketwatch_atk_pre_2" or "pocketwatch_atk_pre" )
+				inst.AnimState:PushAnimation("pocketwatch_atk", false)
+				inst.sg.statemem.ispocketwatch = true
+				cooldown = math.max(cooldown, 15 * FRAMES)
+                if equip:HasTag("shadow_item") then
+	                inst.SoundEmitter:PlaySound("wanda2/characters/wanda/watch/weapon/pre_shadow", nil, nil, true)
+					inst.AnimState:Show("pocketwatch_weapon_fx")
+					inst.sg.statemem.ispocketwatch_fueled = true
+                else
+	                inst.SoundEmitter:PlaySound("wanda2/characters/wanda/watch/weapon/pre", nil, nil, true)
+					inst.AnimState:Hide("pocketwatch_weapon_fx")
+                end
+            elseif equip ~= nil and equip:HasTag("book") then
+                inst.AnimState:PlayAnimation("attack_book")
+                inst.sg.statemem.isbook = true
+                inst.SoundEmitter:PlaySound("dontstarve/wilson/attack_whoosh", nil, nil, true)
+                cooldown = math.max(cooldown, 19 * FRAMES)
+            elseif equip ~= nil and equip:HasTag("chop_attack") and inst:HasTag("woodcutter") then
+				inst.AnimState:PlayAnimation(inst.AnimState:IsCurrentAnimation("woodie_chop_loop") and inst.AnimState:GetCurrentAnimationFrame() <= 7 and "woodie_chop_atk_pre" or "woodie_chop_pre")
+                inst.AnimState:PushAnimation("woodie_chop_loop", false)
+                inst.sg.statemem.ischop = true
+                cooldown = math.max(cooldown, 11 * FRAMES)
+            elseif equip ~= nil and equip:HasTag("jab") then
+                inst.AnimState:PlayAnimation("spearjab_pre")
+                inst.AnimState:PushAnimation("spearjab", false)
+                inst.SoundEmitter:PlaySound("dontstarve/wilson/attack_whoosh", nil, nil, true)
+                cooldown = math.max(cooldown, 21 * FRAMES)
+            elseif equip ~= nil and equip.components.weapon ~= nil and not equip:HasTag("punch") then
+                inst.AnimState:PlayAnimation("atk_pre")
+                inst.AnimState:PushAnimation("atk", false)
+                if (equip.projectiledelay or 0) > 0 then
+                    --V2C: Projectiles don't show in the initial delayed frames so that
+                    --     when they do appear, they're already in front of the player.
+                    --     Start the attack early to keep animation in sync.
+                    inst.sg.statemem.projectiledelay = 8 * FRAMES - equip.projectiledelay
+                    if inst.sg.statemem.projectiledelay > FRAMES then
+                        inst.sg.statemem.projectilesound =
+                            (equip:HasTag("icestaff") and "dontstarve/wilson/attack_icestaff") or
+                            (equip:HasTag("firestaff") and "dontstarve/wilson/attack_firestaff") or
+                            (equip:HasTag("firepen") and "wickerbottom_rework/firepen/launch") or
+                            "dontstarve/wilson/attack_weapon"
+                    elseif inst.sg.statemem.projectiledelay <= 0 then
+                        inst.sg.statemem.projectiledelay = nil
+                    end
+                end
+                if inst.sg.statemem.projectilesound == nil then
+                    inst.SoundEmitter:PlaySound(
+                        (equip:HasTag("icestaff") and "dontstarve/wilson/attack_icestaff") or
+                        (equip:HasTag("shadow") and "dontstarve/wilson/attack_nightsword") or
+                        (equip:HasTag("firestaff") and "dontstarve/wilson/attack_firestaff") or
+                        (equip:HasTag("firepen") and "wickerbottom_rework/firepen/launch") or
+                        "dontstarve/wilson/attack_weapon",
+                        nil, nil, true
+                    )
+                end
+                cooldown = math.max(cooldown, 13 * FRAMES)
+            elseif equip ~= nil and (equip:HasTag("light") or equip:HasTag("nopunch")) then
+                inst.AnimState:PlayAnimation("atk_pre")
+                inst.AnimState:PushAnimation("atk", false)
+                inst.SoundEmitter:PlaySound("dontstarve/wilson/attack_weapon", nil, nil, true)
+                cooldown = math.max(cooldown, 13 * FRAMES)
+            elseif inst:HasTag("beaver") then
+                inst.sg.statemem.isbeaver = true
+                inst.AnimState:PlayAnimation("atk_pre")
+                inst.AnimState:PushAnimation("atk", false)
+                inst.SoundEmitter:PlaySound("dontstarve/wilson/attack_whoosh", nil, nil, true)
+                cooldown = math.max(cooldown, 13 * FRAMES)
+            elseif inst:HasTag("weremoose") then
+                inst.sg.statemem.ismoose = true
+				if inst.AnimState:IsCurrentAnimation("punch_a") or inst.AnimState:IsCurrentAnimation("punch_c") then
+					inst.AnimState:PlayAnimation("punch_b")
+					if inst:HasTag("weremoosecombo") then
+						inst.sg:AddStateTag("nointerrupt")
+					end
+				elseif inst.AnimState:IsCurrentAnimation("punch_b") then
+					if inst:HasTag("weremoosecombo") then
+						inst.sg.statemem.ismoosesmash = true
+						inst.sg:AddStateTag("nointerrupt")
+						inst.AnimState:PlayAnimation("moose_slam")
+						inst.SoundEmitter:PlaySound("meta2/woodie/weremoose_groundpound", nil, nil, true)
+					else
+						inst.AnimState:PlayAnimation("punch_c")
+					end
+				else
+					inst.AnimState:PlayAnimation("punch_a")
+				end
+                cooldown = math.max(cooldown, 15 * FRAMES)
+            else
+                inst.AnimState:PlayAnimation("punch")
+                inst.SoundEmitter:PlaySound("dontstarve/wilson/attack_whoosh", nil, nil, true)
+                cooldown = math.max(cooldown, 24 * FRAMES)
+            end
+
+            inst.sg:SetTimeout(cooldown)
+
+            if target ~= nil then
+                inst.components.combat:BattleCry()
+                if target:IsValid() then
+                    inst:FacePoint(target:GetPosition())
+                    inst.sg.statemem.attacktarget = target
+                    inst.sg.statemem.retarget = target
+                end
+            end
+        end,
+
+        onupdate = function(inst, dt)
+            if (inst.sg.statemem.projectiledelay or 0) > 0 then
+                inst.sg.statemem.projectiledelay = inst.sg.statemem.projectiledelay - dt
+                if inst.sg.statemem.projectiledelay <= FRAMES then
+                    if inst.sg.statemem.projectilesound ~= nil then
+                        inst.SoundEmitter:PlaySound(inst.sg.statemem.projectilesound, nil, nil, true)
+                        inst.sg.statemem.projectilesound = nil
+                    end
+                    if inst.sg.statemem.projectiledelay <= 0 then
+                        inst:PerformBufferedAction()
+                        inst.sg:RemoveStateTag("abouttoattack")
+                    end
+                end
+            end
+        end,
+
+        timeline =
+        {
+            TimeEvent(6 * FRAMES, function(inst)
+                if inst.sg.statemem.ischop then
+                    inst.SoundEmitter:PlaySound("dontstarve/wilson/attack_weapon", nil, nil, true)
+                end
+            end),
+        },
+
+        ontimeout = function(inst)
+            inst.sg:RemoveStateTag("attack")
+            inst.sg:AddStateTag("idle")
+        end,
+
+        events =
+        {
+            EventHandler("equip", function(inst) inst.sg:GoToState("idle") end),
+            EventHandler("unequip", function(inst) inst.sg:GoToState("idle") end),
+            EventHandler("animqueueover", function(inst)
+                if inst.AnimState:AnimDone() then
+                    inst.sg:GoToState("idle")
+                end
+            end),
+        },
+
+        onexit = function(inst)
+            inst.components.combat:SetTarget(nil)
+            if inst.sg:HasStateTag("abouttoattack") then
+                inst.components.combat:CancelAttack()
             end
         end,
     },

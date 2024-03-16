@@ -38,6 +38,8 @@ local function SpawnShadowFx(inst, target, fxscale)
     inst.SoundEmitter:PlaySound("dontstarve/creatures/spiderqueen/swipe")
 end
 
+local katanarnd = 1
+
 ----------------------------------------------------------------------------------------------
 
 local events = {
@@ -101,8 +103,6 @@ local states = {
             elseif equip ~= nil and equip:HasTag("mkatana") then
                 inst.sg.statemem.iskatana = true
 				inst.AnimState:SetDeltaTimeMultiplier(1.2)
-
-                local katanarnd = 1
 
                 if katanarnd == 1 then
                     inst.AnimState:PlayAnimation("atk_prop_pre")
@@ -1388,26 +1388,26 @@ end
 local function fn(sg)
     local attack_actionhandler = sg.actionhandlers[ACTIONS.ATTACK].deststate
     sg.actionhandlers[ACTIONS.ATTACK].deststate = function(inst, action, ...)
-            inst.sg.mem.localchainattack = not action.forced or nil
-            local playercontroller = inst.components.playercontroller
-            local attack_tag =
-                playercontroller ~= nil and
-                playercontroller.remote_authority and
-                playercontroller.remote_predicting and
-                "abouttoattack" or
-                "attack"
-            if not (inst.sg:HasStateTag(attack_tag) and action.target == inst.sg.statemem.attacktarget or inst.components.health:IsDead()) then
-                local weapon = inst.components.combat ~= nil and inst.components.combat:GetWeapon() or nil
-                if weapon ~= nil then
-                    if weapon:HasTag("mkatana") then
-                        return "mkatana"
-                    elseif weapon:HasTag("iai") then
-                        return "iai"
-                    elseif weapon:HasTag("yari") then
-                        return "yari"
-                    end
+        inst.sg.mem.localchainattack = not action.forced or nil
+        local playercontroller = inst.components.playercontroller
+        local attack_tag =
+            playercontroller ~= nil and
+            playercontroller.remote_authority and
+            playercontroller.remote_predicting and
+            "abouttoattack" or
+            "attack"
+        if not (inst.sg:HasStateTag(attack_tag) and action.target == inst.sg.statemem.attacktarget or inst.components.health:IsDead()) then
+            local weapon = inst.components.combat ~= nil and inst.components.combat:GetWeapon() or nil
+            if weapon ~= nil then
+                if weapon:HasTag("mkatana") then
+                    return "mkatana"
+                elseif weapon:HasTag("iai") then
+                    return "iai"
+                elseif weapon:HasTag("yari") then
+                    return "yari"
                 end
             end
+        end
 
         if attack_actionhandler ~= nil then
             return attack_actionhandler(inst, action, ...)

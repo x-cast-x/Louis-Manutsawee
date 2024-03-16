@@ -211,12 +211,12 @@ return {
                 "I'm looking for you all over the world.",
                 "Of course don't ask why I'm here, you summoned me here.",
                 "Still the same, I want your memory.",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
+                -- "",
+                -- "",
+                -- "",
+                -- "",
+                -- "",
+                -- "",
             },
             ACCEPT = {
                 "",
@@ -243,7 +243,7 @@ return {
                 "",
             },
         },
-
+        COZY_SLEEP = "Honey, did you sleep well last night?"
     },
     M_EPITAPHS = {
         -- These epitaphs reference lines spoken by the beggar in the film Kung Fu Hustle :P

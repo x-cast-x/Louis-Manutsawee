@@ -1,4 +1,6 @@
 local PopupDialogScreen = require("screens/redux/popupdialog")
+local SpawnUtil = require("utils/spawnutil")
+local CreateLight = SpawnUtil.CreateLight
 
 local function PushConfirmDatingRelationship()
     local ConfirmDatingRelationship = function()
@@ -17,29 +19,6 @@ local function PushConfirmDatingRelationship()
     })
 
     TheFrontEnd:PushScreen(confirmation)
-end
-
-local LIGHT_INTENSITY_MAX = .94
-
-local function CreateLight()
-    local inst = CreateEntity()
-
-    inst:AddTag("FX")
-    --[[Non-networked entity]]
-    inst.entity:SetCanSleep(false)
-    inst.persists = false
-
-    inst.entity:AddTransform()
-    inst.entity:AddLight()
-    inst.entity:AddFollower()
-
-    inst.Light:SetFalloff(.9)
-    inst.Light:SetIntensity(LIGHT_INTENSITY_MAX)
-    inst.Light:SetRadius(TUNING.WINONA_SPOTLIGHT_RADIUS)
-    inst.Light:SetColour(255 / 255, 248 / 255, 198 / 255)
-    inst.Light:Enable(true)
-
-    return inst
 end
 
 local assets = {
@@ -97,6 +76,14 @@ local brain = require("brain/momobrain")
 
 local function IsPantsu(item)
     return item:HasTag("pantsu")
+end
+
+local function MomoSay(inst, str_table)
+    for i = 1, #str_table do
+        inst:DoTaskInTime(i * 3, function(inst)
+            inst.components.talker:Say(str_table[i])
+        end)
+    end
 end
 
 local function TheHoney(inst)
@@ -225,15 +212,12 @@ local function OnSave(inst, data)
 end
 
 local function OnPreLoad(inst, data)
-    if data ~= nil then
-        inst.honey_userid = data.honey_userid
-    end
 end
 
 local function OnLoad(inst, data)
-    -- if data ~= nil then
-    --     inst.honey_userid = data.honey_userid
-    -- end
+    if data ~= nil then
+        inst.honey_userid = data.honey_userid
+    end
 end
 
 -- initialization
@@ -292,27 +276,50 @@ local function OnStartADate(inst)
 end
 
 local function OnSleepIn(inst)
+    if inst._sleepinghandsitem ~= nil then
+        inst._sleepinghandsitem:Show()
+        inst.components.inventory:GiveItem(inst._sleepinghandsitem)
+    end
+    if inst._sleepingactiveitem ~= nil then
+        inst.components.inventory:GiveItem(inst._sleepingactiveitem)
+    end
 
+    inst._sleepinghandsitem = inst.components.inventory:Unequip(EQUIPSLOTS.HANDS)
+    if inst._sleepinghandsitem ~= nil then
+        inst._sleepinghandsitem:Hide()
+    end
+    inst._sleepingactiveitem = inst.components.inventory:GetActiveItem()
+    if inst._sleepingactiveitem ~= nil then
+        inst.components.inventory:SetActiveItem(nil)
+    end
 end
 
-local function OnWakeUp()
-
+local function OnWakeUp(inst)
+    if inst._sleepinghandsitem ~= nil then
+        inst._sleepinghandsitem:Show()
+        inst.components.inventory:Equip(inst._sleepinghandsitem)
+        inst._sleepinghandsitem = nil
+    end
+    if inst._sleepingactiveitem ~= nil then
+        inst.components.inventory:GiveActiveItem(inst._sleepingactiveitem)
+        inst._sleepingactiveitem = nil
+    end
 end
 
 local function GetStatus(inst, viewer)
-    local list = {
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-    }
-    local datingmanager = TheWorld.components.datingmanager
-    local isdatingrelationship = datingmanager ~= nil and datingmanager:GetIsDatingRelationship() or false
-    if viewer ~= nil and viewer:HasTag("naughtychild") and isdatingrelationship then
-        return list[math.random(1, #list)]
-    end
+    -- local list = {
+    --     "",
+    --     "",
+    --     "",
+    --     "",
+    --     "",
+    --     "",
+    -- }
+    -- local datingmanager = TheWorld.components.datingmanager
+    -- local isdatingrelationship = datingmanager ~= nil and datingmanager:GetIsDatingRelationship() or false
+    -- if viewer ~= nil and viewer:HasTag("naughtychild") and isdatingrelationship then
+    --     return list[math.random(1, #list)]
+    -- end
 end
 
 local function OnHitOtherFn(inst, target, damage, stimuli, weapon, damageresolved, spdamage, damageredirecttarget)
@@ -330,29 +337,17 @@ local function StartFencing()
 end
 
 local function StartDialogue(inst)
-    for i = 1, #STRINGS.MOMO.DIALOGUE.HELLO do
-        inst:DoTaskInTime(i * 3, function(inst)
-            inst.components.talker:Say(STRINGS.MOMO.DIALOGUE.HELLO[i])
-        end)
-    end
+    MomoSay(inst, STRINGS.MOMO.DIALOGUE.HELLO)
 
     inst:DoTaskInTime(18, function(inst)
         local AcceptRequest = function()
-            for i = 1, #STRINGS.MOMO.DIALOGUE.ACCEPT do
-                inst:DoTaskInTime(i * 3, function(inst)
-                    inst.components.talker:Say(STRINGS.MOMO.DIALOGUE.ACCEPT[i])
-                end)
-            end
+            MomoSay(inst, STRINGS.MOMO.DIALOGUE.ACCEPT)
 
             TheFrontEnd:PopScreen()
         end
 
         local RejectRequest = function()
-            for i = 1, #STRINGS.MOMO.DIALOGUE.REJECT do
-                inst:DoTaskInTime(i * 3, function(inst)
-                    inst.components.talker:Say(STRINGS.MOMO.DIALOGUE.REJECT[i])
-                end)
-            end
+            MomoSay(inst, STRINGS.MOMO.DIALOGUE.REJECT)
 
             TheFrontEnd:PopScreen()
         end
