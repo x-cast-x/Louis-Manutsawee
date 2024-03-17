@@ -3,16 +3,16 @@ local assets = {
 }
 
 local function OnPutInInventory(inst, owner)
-	if owner ~= nil and owner.components.inventory ~= nil then
-		if not (owner:HasTag("kenjutsu") or not owner:HasTag("bladesmith")) then
-			inst:DoTaskInTime(0.1, function()
+    if owner ~= nil and owner.components.inventory ~= nil then
+        if not (owner:HasTag("kenjutsu") or not owner:HasTag("bladesmith")) then
+            inst:DoTaskInTime(0.1, function()
                 local fx = SpawnPrefab("electrichitsparks")
-				fx:AlignToTarget(owner, inst, true)
-				owner.components.combat:GetAttacked(inst, 10)
-				owner.components.inventory:DropItem(inst)
-			end)
-		end
-	end
+                fx:AlignToTarget(owner, inst, true)
+                owner.components.combat:GetAttacked(inst, 10)
+                owner.components.inventory:DropItem(inst)
+            end)
+        end
+    end
 end
 
 local function fn()
@@ -28,7 +28,7 @@ local function fn()
     inst.AnimState:SetBuild("mfruit")
     inst.AnimState:PlayAnimation("idle")
 
-	inst:AddTag("nosteal")
+    inst:AddTag("nosteal")
     inst:AddTag("mfruit")
 
     MakeInventoryFloatable(inst, "small", 0.1)
@@ -40,6 +40,7 @@ local function fn()
     end
 
     inst:AddComponent("inspectable")
+    inst:AddComponent("tradable")
 
     inst:AddComponent("stackable")
     inst.components.stackable.maxsize = TUNING.STACK_SIZE_SMALLITEM
@@ -49,9 +50,9 @@ local function fn()
     inst.components.edible.hungervalue = 1
 
     inst:AddComponent("inventoryitem")
-	inst.components.inventoryitem.keepondeath = true
-	inst.components.inventoryitem.keepondrown = true
-	inst.components.inventoryitem:SetOnPutInInventoryFn(OnPutInInventory)
+    inst.components.inventoryitem.keepondeath = true
+    inst.components.inventoryitem.keepondrown = true
+    inst.components.inventoryitem:SetOnPutInInventoryFn(OnPutInInventory)
 
     return inst
 end

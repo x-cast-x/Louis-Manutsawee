@@ -29,6 +29,7 @@ local function fn()
     inst:AddComponent("bait")
     inst:AddComponent("inspectable")
     inst:AddComponent("inventoryitem")
+    inst:AddComponent("tradable")
 
     return inst
 end

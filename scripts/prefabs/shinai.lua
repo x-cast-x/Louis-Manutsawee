@@ -7,10 +7,10 @@ local DMG = 25
 local function OnEquip(inst, owner)
     owner.AnimState:Show("ARM_carry")
     owner.AnimState:Hide("ARM_normal")
-	owner.AnimState:OverrideSymbol("swap_object", "swap_shinai", "swap_shinai")
+    owner.AnimState:OverrideSymbol("swap_object", "swap_shinai", "swap_shinai")
 
-	if owner.components.kenjutsuka:GetKenjutsuLevel() ~= nil then --Owner
-    	inst.components.spellcaster.canusefrominventory = true
+    if owner.components.kenjutsuka:GetKenjutsuLevel() ~= nil then --Owner
+        inst.components.spellcaster.canusefrominventory = true
 
         if owner.components.kenjutsuka:GetKenjutsuLevel() >= 1 and not inst:HasTag("mkatana") then
             inst:AddTag("mkatana")
@@ -19,13 +19,13 @@ local function OnEquip(inst, owner)
 end
 
 local function OnUnequip(inst, owner)
-	owner.AnimState:Hide("ARM_carry")
+    owner.AnimState:Hide("ARM_carry")
     owner.AnimState:Show("ARM_normal")
 
-	if owner.components.kenjutsuka:GetKenjutsuLevel() ~= nil then --Owner
+    if owner.components.kenjutsuka:GetKenjutsuLevel() ~= nil then --Owner
         inst.components.spellcaster.canusefrominventory = false
         inst:RemoveTag("mkatana")
-	end
+    end
 end
 
 local trainingcount = 0
@@ -34,24 +34,24 @@ local function CastFn(inst, target, pos, owner)
     local kenjutsuexp = kenjutsuka:GetKenjutsuExp()
     local kenjutsumaxexp = kenjutsuka.kenjutsumaxexp
     local kenjutsulevel = kenjutsuka:GetKenjutsuLevel()
-	if kenjutsulevel ~= nil then
-		if kenjutsulevel < 10 and kenjutsuexp < kenjutsumaxexp - (kenjutsumaxexp/2) then
+    if kenjutsulevel ~= nil then
+        if kenjutsulevel < 10 and kenjutsuexp < kenjutsumaxexp - (kenjutsumaxexp/2) then
             kenjutsuexp = owner.kenjutsuexp + 1
-			trainingcount = trainingcount +1
-			owner.components.hunger:DoDelta(-1)
-			if trainingcount == 5 then
+            trainingcount = trainingcount +1
+            owner.components.hunger:DoDelta(-1)
+            if trainingcount == 5 then
                 kenjutsuexp = kenjutsuexp + 1
                 owner.SoundEmitter:PlaySound("turnoftides/common/together/boat/jump")
                 trainingcount = 0
-			end
-		else
+            end
+        else
             owner.components.talker:Say("Enough for training.")
-		end
-	end
+        end
+    end
 end
 
 local function OnAttack(inst, owner, target)
-	if owner.components.rider:IsRiding() then
+    if owner.components.rider ~= nil and owner.components.rider:IsRiding() then
         return
     end
     local kenjutsuka = owner.components.kenjutsuka
@@ -84,14 +84,14 @@ local function fn()
     inst.AnimState:SetBuild("shinai")
     inst.AnimState:PlayAnimation("idle")
 
-	inst:AddTag("katanaskill")
-	inst:AddTag("woodensword")
+    inst:AddTag("katanaskill")
+    inst:AddTag("woodensword")
 
-	inst.spelltype = "SCIENCE"
+    inst.spelltype = "SCIENCE"
     inst:AddTag("quickcast")
 
-	MakeInventoryFloatable(inst)
-	inst.components.floater:SetSize("small")
+    MakeInventoryFloatable(inst)
+    inst.components.floater:SetSize("small")
     inst.components.floater:SetVerticalOffset(0.1)
 
     inst.entity:SetPristine()
@@ -111,23 +111,23 @@ local function fn()
     inst.components.equippable:SetOnUnequip(OnUnequip)
 
     inst:AddComponent("weapon")
-	inst.components.weapon:SetDamage(DMG)
-	inst.components.weapon:SetOnAttack(OnAttack)
-	inst.components.weapon:SetRange(.6, 1)
+    inst.components.weapon:SetDamage(DMG)
+    inst.components.weapon:SetOnAttack(OnAttack)
+    inst.components.weapon:SetRange(.6, 1)
 
-	inst:AddComponent("finiteuses")
+    inst:AddComponent("finiteuses")
     inst.components.finiteuses:SetMaxUses(300)
     inst.components.finiteuses:SetUses(300)
     inst.components.finiteuses:SetOnFinished(inst.Remove)
 
-	inst:AddComponent("spellcaster")
+    inst:AddComponent("spellcaster")
     inst.components.spellcaster:SetSpellFn(CastFn)
-	inst.components.spellcaster.quickcast = true
-	inst.components.spellcaster.canusefrominventory = false
+    inst.components.spellcaster.quickcast = true
+    inst.components.spellcaster.canusefrominventory = false
 
     MakeSmallBurnable(inst, TUNING.SMALL_BURNTIME)
     MakeSmallPropagator(inst)
-	MakeHauntableLaunch(inst)
+    MakeHauntableLaunch(inst)
 
     return inst
 end

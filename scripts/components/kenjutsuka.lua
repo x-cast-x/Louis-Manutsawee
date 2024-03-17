@@ -4,7 +4,7 @@ local hitcount = 0
 local criticalrate = 5
 
 local function OnAttackOther(inst, data)
-    if inst.components.rider:IsRiding() then
+	if inst.components.rider ~= nil and inst.components.rider:IsRiding() then
         return
     end
 

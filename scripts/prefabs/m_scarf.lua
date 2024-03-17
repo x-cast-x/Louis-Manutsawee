@@ -1,14 +1,14 @@
 local Assets = {
-	Asset("ANIM", "anim/m_scarf.zip"),
-	Asset("ANIM", "anim/mface_scarf.zip"),
+    Asset("ANIM", "anim/m_scarf.zip"),
+    Asset("ANIM", "anim/mface_scarf.zip"),
 }
 
 local function OnEquip(inst, owner)
     owner.AnimState:OverrideSymbol("swap_body", "m_scarf", "swap_body")
 
-	if owner:HasTag("bladesmith") then
+    if owner:HasTag("bladesmith") then
         owner.AnimState:OverrideSymbol("beard", "mface_scarf", "beard_short")
-	end
+    end
 
     if inst.components.fueled ~= nil then
         inst.components.fueled:StartConsuming()
@@ -18,42 +18,42 @@ end
 local function OnUnequip(inst, owner)
     owner.AnimState:ClearOverrideSymbol("swap_body")
 
-	if owner:HasTag("bladesmith") then
+    if owner:HasTag("bladesmith") then
         owner.AnimState:ClearOverrideSymbol("beard")
-	end
+    end
 
-	if inst.components.fueled ~= nil then
+    if inst.components.fueled ~= nil then
         inst.components.fueled:StopConsuming()
     end
 end
 
 local function fn()
-	local inst = CreateEntity()
+    local inst = CreateEntity()
 
-	inst.entity:AddTransform()
-	inst.entity:AddAnimState()
-	inst.entity:AddNetwork()
+    inst.entity:AddTransform()
+    inst.entity:AddAnimState()
+    inst.entity:AddNetwork()
     inst.entity:AddMiniMapEntity()
 
     MakeInventoryPhysics(inst)
 
-	inst.MiniMapEntity:SetIcon("m_scarf.tex")
+    inst.MiniMapEntity:SetIcon("m_scarf.tex")
 
     inst:AddTag("scarf")
 
-	inst.AnimState:SetBank("m_scarf")
-	inst.AnimState:SetBuild("m_scarf")
+    inst.AnimState:SetBank("m_scarf")
+    inst.AnimState:SetBuild("m_scarf")
     inst.AnimState:PlayAnimation("anim")
 
-	MakeInventoryFloatable(inst, "small", 0.2, 1.1)
+    MakeInventoryFloatable(inst, "small", 0.2, 1.1)
 
-	inst.entity:SetPristine()
+    inst.entity:SetPristine()
 
-	if not TheWorld.ismastersim then
-	    return inst
+    if not TheWorld.ismastersim then
+        return inst
     end
 
-	inst:AddComponent("inspectable")
+    inst:AddComponent("inspectable")
     inst:AddComponent("inventoryitem")
 
     inst:AddComponent("insulator")
@@ -72,11 +72,11 @@ local function fn()
 
     inst:AddComponent("equippable")
     inst.components.equippable.equipslot = EQUIPSLOTS.BODY
-	inst.components.equippable:SetOnEquip(OnEquip)
+    inst.components.equippable:SetOnEquip(OnEquip)
     inst.components.equippable:SetOnUnequip(OnUnequip)
-	inst.components.equippable.dapperness = TUNING.DAPPERNESS_MED
+    inst.components.equippable.dapperness = TUNING.DAPPERNESS_MED
 
-	MakeHauntableLaunch(inst)
+    MakeHauntableLaunch(inst)
 
     return inst
 end

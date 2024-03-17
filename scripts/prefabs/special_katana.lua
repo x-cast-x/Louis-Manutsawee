@@ -1,27 +1,27 @@
 local MakeKatana = require "prefabs/katana_def"
 
 local function TryStartFx(inst, owner)
-	owner = owner
-		or inst.components.equippable:IsEquipped() and inst.components.inventoryitem.owner
-		or nil
+    owner = owner
+        or inst.components.equippable:IsEquipped() and inst.components.inventoryitem.owner
+        or nil
 
-	if owner == nil then
-		return
-	end
+    if owner == nil then
+        return
+    end
 
-	if inst._vfx_fx_inst == nil then
-		inst._vfx_fx_inst = SpawnPrefab("pocketwatch_weapon_fx")
-		inst._vfx_fx_inst.entity:AddFollower()
-		inst._vfx_fx_inst.entity:SetParent(owner.entity)
-		inst._vfx_fx_inst.Follower:FollowSymbol(owner.GUID, "swap_object", 15, 0, 0)
-	end
+    if inst._vfx_fx_inst == nil then
+        inst._vfx_fx_inst = SpawnPrefab("pocketwatch_weapon_fx")
+        inst._vfx_fx_inst.entity:AddFollower()
+        inst._vfx_fx_inst.entity:SetParent(owner.entity)
+        inst._vfx_fx_inst.Follower:FollowSymbol(owner.GUID, "swap_object", 15, 0, 0)
+    end
 end
 
 local function StopFx(inst)
-	if inst._vfx_fx_inst ~= nil then
-		inst._vfx_fx_inst:Remove()
-		inst._vfx_fx_inst = nil
-	end
+    if inst._vfx_fx_inst ~= nil then
+        inst._vfx_fx_inst:Remove()
+        inst._vfx_fx_inst = nil
+    end
 end
 
 local shadow_fx = {"wanda_attack_shadowweapon_old_fx", "wanda_attack_pocketwatch_old_fx", "hitsparks_fx"}
@@ -39,17 +39,17 @@ local CANT_TAGS = {"player", "INLIMBO", "structure", "companion", "abigial", "bi
 --             shadowfx.Transform:SetPosition(v:GetPosition():Get())
 
 --             if v ~= target then
--- 				v.components.health:DoDelta(-20)
--- 			end
+--                 v.components.health:DoDelta(-20)
+--             end
 --         end
 --     end
 -- end
 
 local hitsparks_fx_colouroverride = {1, 0, 0}
 local mortalblade_onattack = function(inst, owner, target)
-    if inst.IsShadow(target) then
-		target.components.combat:GetAttacked(owner, inst.components.weapon.damage * 10)
-	end
+    if inst.IsShadow(target) or inst.IsLunar(target) then
+        target.components.combat:GetAttacked(owner, inst.components.weapon.damage * 10)
+    end
 
     local shadowfx
     local radius = 10
@@ -74,12 +74,12 @@ local mortalblade_onattack = function(inst, owner, target)
                 spark.black:set(true)
             end
             shadowfx.Transform:SetScale(3, 3, 3)
-			shadowfx.Transform:SetPosition(v:GetPosition():Get())
+            shadowfx.Transform:SetPosition(v:GetPosition():Get())
             inst.SoundEmitter:PlaySound("dontstarve/common/nightmareAddFuel")
 
             if v ~= target then
-				v.components.health:DoDelta(-TUNING.KATANA.TRUE_DAMAGE)
-			end
+                v.components.health:DoDelta(-TUNING.KATANA.TRUE_DAMAGE)
+            end
         end
     end
 end

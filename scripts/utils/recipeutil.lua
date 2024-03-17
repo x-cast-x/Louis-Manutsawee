@@ -1,7 +1,7 @@
 local shipwrecked_recipes = {}
 
 local function AddShipwreckedRecipes(recipes)
-    assert(type(recipes) == "table")
+    assert(checkentity(recipes))
 
     for k,v in pairs(recipes) do
         shipwrecked_recipes[k] = {
@@ -15,7 +15,7 @@ end
 local porkland_recipes = {}
 
 local function AddPorklandRecipes(recipes)
-    assert(type(recipes) == "table")
+    assert(checkentity(recipes))
 
     for k,v in pairs(recipes) do
         porkland_recipes[k] = {

@@ -112,7 +112,7 @@ local function OnTimerDone(inst, data)
                 break
             end
         end
-	end
+    end
 end
 
 local SkillReleaser = Class(function(self, inst)
@@ -134,7 +134,7 @@ function SkillReleaser:OnRemoveEntity()
 end
 
 function SkillReleaser:AddCooldownSkillFx(skill, fx)
-    if type(skill) == "string" and type(fx) == "string" then
+    if checkstring(skill) and checkstring(fx) then
         fxs[skill] = fx
     end
 end
@@ -144,7 +144,7 @@ function SkillReleaser:AddSkill(skill_name, fn)
 end
 
 function SkillReleaser:AddSkills(skills)
-    if type(skills) == "table" then
+    if checkentity(skills) then
         for k, v in pairs(skills) do
             local name = string.lower(k)
             local fn = SkillUtil.Skill_CommonFn(self.inst, v.tag, name, v.time, v.mindpower, v.fn)

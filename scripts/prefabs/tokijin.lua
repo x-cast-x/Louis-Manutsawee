@@ -1,7 +1,7 @@
 local assets = {
-	Asset("ANIM", "anim/tokijin.zip"),
-	Asset("ANIM", "anim/swap_tokijin.zip"),
-	Asset("ANIM", "anim/sc_tokijin.zip"),
+    Asset("ANIM", "anim/tokijin.zip"),
+    Asset("ANIM", "anim/swap_tokijin.zip"),
+    Asset("ANIM", "anim/sc_tokijin.zip"),
 }
 
 local prefabs = {
@@ -40,13 +40,13 @@ local function OnPutInInventory(inst, owner)
 end
 
 local function TryStartFx(inst, owner)
-	owner = owner
-			or inst.components.equippable:IsEquipped() and inst.components.inventoryitem.owner
-			or nil
+    owner = owner
+            or inst.components.equippable:IsEquipped() and inst.components.inventoryitem.owner
+            or nil
 
-	if owner == nil then
-		return
-	end
+    if owner == nil then
+        return
+    end
 
     if inst._vfx_fx_inst ~= nil and inst._vfx_fx_inst.entity:GetParent() ~= owner then
         inst._vfx_fx_inst:Remove()
@@ -69,11 +69,11 @@ local function StopFx(inst)
 end
 
 local function OnIsNightmareWild(inst, isnightmarewild)
-	local owner = inst.components.inventoryitem.owner
+    local owner = inst.components.inventoryitem.owner
 
-	if owner == nil then
-		return
-	end
+    if owner == nil then
+        return
+    end
 
     if owner ~= nil and isnightmarewild and owner.components.areaaware:CurrentlyInTag("Nightmare") and not owner:HasTag("controlled") then
         inst:DoTaskInTime(10, function()
@@ -94,17 +94,17 @@ end
 local function OnEquip(inst, owner)
     owner.AnimState:Show("ARM_carry")
     owner.AnimState:Hide("ARM_normal")
-	owner.AnimState:OverrideSymbol("swap_object", "swap_tokijin" , "swap_tokijin")
+    owner.AnimState:OverrideSymbol("swap_object", "swap_tokijin" , "swap_tokijin")
 
     if TheWorld:HasTag("cave") then
         OnIsNightmareWild(inst, TheWorld.state.isnightmarewild)
     end
 
-	if not owner:HasTag("notshowscabbard")  then
+    if not owner:HasTag("notshowscabbard")  then
         owner.AnimState:ClearOverrideSymbol("swap_body_tall")
     end
 
-	if inst:HasTag("mkatana")then
+    if inst:HasTag("mkatana")then
         inst:RemoveTag("mkatana")
     end
 
@@ -112,7 +112,7 @@ local function OnEquip(inst, owner)
         inst:RemoveTag("iai")
     end
 
-	if owner:HasTag("kenjutsu") and not inst:HasTag("mkatana") then
+    if owner:HasTag("kenjutsu") and not inst:HasTag("mkatana") then
         inst:AddTag("mkatana")
     end
 
@@ -128,12 +128,12 @@ local function OnEquip(inst, owner)
 end
 
 local function OnUnequip(inst, owner)
-	owner.AnimState:Hide("ARM_carry")
+    owner.AnimState:Hide("ARM_carry")
     owner.AnimState:Show("ARM_normal")
 
     inst.components.weapon:SetDamage(TUNING.TOKIJIN_DAMAGE)
 
-	if inst:HasTag("mkatana") then
+    if inst:HasTag("mkatana") then
         inst:RemoveTag("mkatana")
     end
 
@@ -141,7 +141,7 @@ local function OnUnequip(inst, owner)
         inst:AddTag("iai")
     end
 
-	if not owner:HasTag("notshowscabbard") then
+    if not owner:HasTag("notshowscabbard") then
         owner.AnimState:OverrideSymbol("swap_body_tall", "sc_tokijin", "tail")
     end
 
@@ -188,9 +188,9 @@ local function OnPickupFn(inst, picker, src_pos)
         inst.swirl.ReleaseSwirl(inst or picker)
     end
 
-	if inst.components.sanityaura ~= nil then
-		inst:RemoveComponent("sanityaura")
-	end
+    if inst.components.sanityaura ~= nil then
+        inst:RemoveComponent("sanityaura")
+    end
 
     if inst.m_shadowhand_fx ~= nil then
         inst.m_shadowhand_fx:ListenForEvent("animover", inst.m_shadowhand_fx.Remove)

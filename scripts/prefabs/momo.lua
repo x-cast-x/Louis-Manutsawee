@@ -1,25 +1,6 @@
-local PopupDialogScreen = require("screens/redux/popupdialog")
 local SpawnUtil = require("utils/spawnutil")
+local PushDialogueScreen = require("utils/dialogueutil")
 local CreateLight = SpawnUtil.CreateLight
-
-local function PushConfirmDatingRelationship()
-    local ConfirmDatingRelationship = function()
-        TheWorld:PushEvent("ms_dating_relationship")
-        TheFrontEnd:PopScreen()
-    end
-
-    local CancelDatingRelationship = function()
-        TheFrontEnd:PopScreen()
-    end
-
-    local str = STRINGS.MOMO.START_DATING_RELATIONSHIP
-    local confirmation = PopupDialogScreen(str.TITLE, str.BODY, {
-        { text = str.OK,     cb = ConfirmDatingRelationship },
-        { text = str.CANCEL, cb = CancelDatingRelationship  },
-    })
-
-    TheFrontEnd:PushScreen(confirmation)
-end
 
 local assets = {
     Asset("ANIM", "anim/player_basic.zip"),
@@ -41,6 +22,10 @@ local assets = {
     Asset("ANIM", "anim/wanda_casting.zip"),
 	Asset("ANIM", "anim/wendy_recall.zip"),
     Asset("ANIM", "anim/player_jump.zip"),
+    Asset("ANIM", "anim/player_actions_scythe.zip"),
+    Asset("ANIM", "anim/player_actions_axe.zip"),
+    Asset("ANIM", "anim/player_actions_pickaxe.zip"),
+    Asset("ANIM", "anim/player_actions_pickaxe_recoil.zip"),
 
     Asset("ANIM", "anim/momo.zip"),
     Asset("ANIM", "anim/momo_maid.zip"),
@@ -98,13 +83,13 @@ end
 local function ShouldAcceptItem(inst, item, giver, count)
     local honey = inst:TheHoney()
     if honey ~= nil then
-        return giver == honey and ((item:HasTag("mfruit")) or (inst:IsPantsu(item)))
+        return (giver == honey) and (item:HasTag("pantsu")) or (item:HasTag("mfruit"))
     end
 end
 
 local function OnAccept(inst, giver, item)
     if item ~= nil then
-        if (inst:IsPantsu(item)) or (inst.numberofbribes > 3) then
+        if (item:HasTag("pantsu")) or (inst.numberofbribes >= 3) then
             inst:PushEvent("admitdefeated")
         end
 
@@ -126,8 +111,12 @@ end
 local function Defeated(inst)
     local honey = inst:TheHoney()
     if honey ~= nil then
-        honey.momo_light:Remove()
-        inst.momo_light:Remove()
+        if honey.momo_light ~= nil then
+            honey.momo_light:Remove()
+        end
+        if inst.momo_light ~= nil then
+            inst.momo_light:Remove()
+        end
     end
 end
 
@@ -187,7 +176,7 @@ end
 -- switch weapon, mnaginata or mortalblade
 local function SwitchWeapon(inst, weapon)
     local inventory = inst.components.inventory
-    if inventory ~= nil and type(weapon) == "string" then
+    if inventory ~= nil and checkstring(weapon) then
         -- first take off the weapon in your hand and equip it with a new weapon
         local _weapon = inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
         if _weapon ~= nil then
@@ -341,24 +330,15 @@ local function StartDialogue(inst)
 
     inst:DoTaskInTime(18, function(inst)
         local AcceptRequest = function()
-            MomoSay(inst, STRINGS.MOMO.DIALOGUE.ACCEPT)
-
-            TheFrontEnd:PopScreen()
+            -- MomoSay(inst, STRINGS.MOMO.DIALOGUE.ACCEPT)
         end
 
         local RejectRequest = function()
-            MomoSay(inst, STRINGS.MOMO.DIALOGUE.REJECT)
-
-            TheFrontEnd:PopScreen()
+            OnStartADate(inst)
+            -- MomoSay(inst, STRINGS.MOMO.DIALOGUE.REJECT)
         end
 
-        local str = STRINGS.MOMO.SELECT_REQUEST
-        local confirmation = PopupDialogScreen(str.TITLE, str.BODY, {
-            { text = str.OK,     cb = AcceptRequest },
-            { text = str.CANCEL, cb = RejectRequest  },
-        })
-
-        TheFrontEnd:PushScreen(confirmation)
+        PushDialogueScreen(inst, STRINGS.MOMO.SELECT_REQUEST, AcceptRequest, RejectRequest)
     end)
 end
 
@@ -370,6 +350,9 @@ end
 
 local function RegisterWorldStateWatchers(inst)
     inst:WatchWorldState("phase", OnChangePhase)
+end
+
+local function DoWorldStateInit(inst)
     OnChangePhase(inst, TheWorld.state.phase)
 end
 
@@ -446,6 +429,7 @@ local function fn()
     inst:AddTag("girl")
 
     inst:AddTag("pocketwatchcaster")
+    inst:AddTag("naughtychild")
 
     -- inst:AddTag("momo_npc")
 
@@ -518,10 +502,12 @@ local function fn()
     RegisterWorldStateWatchers(inst)
     RegisterMasterEventListeners(inst)
 
-    inst:DoTaskInTime(0, OnPostInit)
+    inst:DoTaskInTime(0, function(inst)
+        OnPostInit(inst)
+        DoWorldStateInit(inst)
+    end)
 
     return inst
 end
 
 return Prefab("momo", fn, assets, prefabs)
-    -- Prefab("momo_npc", fn, assets, prefabs)

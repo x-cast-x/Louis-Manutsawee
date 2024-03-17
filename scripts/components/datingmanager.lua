@@ -45,7 +45,7 @@ end
 --------------------------------------------------------------------------
 
 function self:GetMomoDefeatedCount()
-	return _momo_defeated_count
+    return _momo_defeated_count
 end
 
 function self:GetIsDatingRelationship()

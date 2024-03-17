@@ -3,13 +3,13 @@ local assets = {
 }
 
 local function OnEquip(inst, owner)
-	owner.AnimState:OverrideSymbol("swap_hat", "momo_hat", "swap_hat")
-	owner.AnimState:Show("HAT")
+    owner.AnimState:OverrideSymbol("swap_hat", "momo_hat", "swap_hat")
+    owner.AnimState:Show("HAT")
 end
 
 local function OnUnequip(inst, owner)
-	owner.AnimState:ClearOverrideSymbol("swap_hat")
-	owner.AnimState:Hide("HAT")
+    owner.AnimState:ClearOverrideSymbol("swap_hat")
+    owner.AnimState:Hide("HAT")
 end
 
 local function fn()
@@ -28,7 +28,7 @@ local function fn()
 
     inst:AddTag("hat")
 
-	MakeInventoryFloatable(inst, "small", 0.1)
+    MakeInventoryFloatable(inst, "small", 0.1)
 
     inst.entity:SetPristine()
 

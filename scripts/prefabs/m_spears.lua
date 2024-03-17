@@ -25,7 +25,7 @@ local function OnUnequip(inst, owner)
 end
 
 local function OnAttack(inst, owner, target)
-	if owner.components.rider:IsRiding() then
+	if owner.components.rider ~= nil and owner.components.rider:IsRiding() then
         return
     end
 

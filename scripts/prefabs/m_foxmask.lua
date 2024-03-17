@@ -6,13 +6,13 @@ local assets= {
 }
 
 local function SwitchMode(inst, owner)
-	if inst.maskstatus == 0 then
-	   owner.AnimState:OverrideSymbol("swap_hat", "m_foxmask_swap", "swap_hat")
-	elseif inst.maskstatus == 1 then
+    if inst.maskstatus == 0 then
+       owner.AnimState:OverrideSymbol("swap_hat", "m_foxmask_swap", "swap_hat")
+    elseif inst.maskstatus == 1 then
         owner.AnimState:OverrideSymbol("swap_hat", "m_sfoxmask_swap", "swap_hat")
-	else
+    else
         owner.AnimState:OverrideSymbol("swap_hat", "m_foxmask2_swap", "swap_hat")
-	end
+    end
 end
 
 local function OnEquip(inst, owner)
@@ -26,19 +26,19 @@ end
 
 local function OnUnequip(inst, owner)
     owner.AnimState:Hide("HAT")
-	if inst.components.fueled ~= nil then
+    if inst.components.fueled ~= nil then
         inst.components.fueled:StopConsuming()
     end
 end
 
 local function CastFn(inst, target, position, doer)
-	if inst.maskstatus >= 2 then
+    if inst.maskstatus >= 2 then
         inst.maskstatus = 0
     else
         inst.maskstatus = inst.maskstatus + 1
     end
 
-	SwitchMode(inst, doer)
+    SwitchMode(inst, doer)
 end
 
 local function OnSave(inst, data)
@@ -53,61 +53,61 @@ end
 
 local function fn()
     local inst = CreateEntity()
-	inst.entity:AddTransform()
+    inst.entity:AddTransform()
     inst.entity:AddAnimState()
     inst.entity:AddNetwork()
 
-	inst:AddTag("hat")
-	inst:AddTag("quickcast")
+    inst:AddTag("hat")
+    inst:AddTag("quickcast")
     inst:AddTag("waterproofer")
 
-	inst.spelltype = "SCIENCE"
+    inst.spelltype = "SCIENCE"
 
     MakeInventoryPhysics(inst)
 
-	inst.AnimState:SetBank("m_foxmask")
+    inst.AnimState:SetBank("m_foxmask")
     inst.AnimState:SetBuild("m_foxmask")
     inst.AnimState:PlayAnimation("idle")
 
-	MakeInventoryFloatable(inst, "med", 0.1)
+    MakeInventoryFloatable(inst, "med", 0.1)
 
     inst.entity:SetPristine()
 
-	if not TheWorld.ismastersim then
+    if not TheWorld.ismastersim then
         return inst
     end
 
-	inst:AddComponent("inspectable")
+    inst:AddComponent("inspectable")
     inst:AddComponent("inventoryitem")
-	inst:AddComponent("tradable")
+    inst:AddComponent("tradable")
 
-	inst:AddComponent("spellcaster")
+    inst:AddComponent("spellcaster")
     inst.components.spellcaster:SetSpellFn(CastFn)
     inst.components.spellcaster.canusefrominventory = true
-	inst.components.spellcaster.quickcast = true
+    inst.components.spellcaster.quickcast = true
 
     inst:AddComponent("fueled")
     inst.components.fueled.fueltype = FUELTYPE.USAGE
     inst.components.fueled:InitializeFuelLevel(TUNING.GOGGLES_PERISHTIME)
     inst.components.fueled:SetDepletedFn(inst.Remove)
 
-	inst:AddComponent("fuel")
+    inst:AddComponent("fuel")
     inst.components.fuel.fuelvalue = TUNING.LARGE_FUEL
 
-	inst:AddComponent("waterproofer")
+    inst:AddComponent("waterproofer")
     inst.components.waterproofer:SetEffectiveness(TUNING.WATERPROOFNESS_SMALL)
 
     inst:AddComponent("equippable")
-	inst.components.equippable.dapperness = TUNING.DAPPERNESS_MED
+    inst.components.equippable.dapperness = TUNING.DAPPERNESS_MED
     inst.components.equippable.equipslot = EQUIPSLOTS.HEAD
     inst.components.equippable:SetOnEquip(OnEquip)
     inst.components.equippable:SetOnUnequip(OnUnequip)
 
-	inst.maskstatus = 0
-	inst.OnSave = OnSave
+    inst.maskstatus = 0
+    inst.OnSave = OnSave
     inst.OnLoad = OnLoad
 
-	MakeHauntableLaunch(inst)
+    MakeHauntableLaunch(inst)
 
     return inst
 end

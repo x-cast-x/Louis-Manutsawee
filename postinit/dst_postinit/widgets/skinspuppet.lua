@@ -63,7 +63,7 @@ function SkinsPuppet:DoIdleEmote(...)
         local skin = self.last_skins.base_skin
         local emote_anim = M_Idle_Anim[skin]
         if self.prefabname == "manutsawee" and emote_anim ~= nil then
-            if type(emote_anim) == "table" then
+            if checkentity(emote_anim) then
                 local fn = emote_anim.fn
                 emote_anim = emote_anim.anim
                 fn(self)

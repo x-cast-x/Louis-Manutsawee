@@ -3,8 +3,8 @@ local assets = {
 }
 
 local function OnPutInInventory(inst, owner)
-	if owner ~= nil and owner.components.inventory and (owner.prefab ~= "momo") or (owner.prefab == "manutsawee") then
-		inst:DoTaskInTime(0.1, function()
+	if owner ~= nil and owner.components.inventory and not owner:HasTag("naughtychild") then
+        inst:DoTaskInTime(0.1, function()
             owner.components.inventory:DropItem(inst)
         end)
 	end

@@ -6,9 +6,9 @@ local function SheathMode(inst, owner)
     inst.spelltype = "PULLOUT"
 
     owner = owner or inst.components.inventoryitem.owner or nil
-	owner.AnimState:OverrideSymbol("swap_object", "swap_S" .. inst.build, "swap_S" .. inst.build)
+    owner.AnimState:OverrideSymbol("swap_object", "swap_S" .. inst.build, "swap_S" .. inst.build)
 
-	inst.AnimState:SetBank(inst.build)
+    inst.AnimState:SetBank(inst.build)
     inst.AnimState:SetBuild(inst.build)
 
     if IA_ENABLED or PL_ENABLED then
@@ -17,15 +17,15 @@ local function SheathMode(inst, owner)
         end
     end
 
-	inst.components.weapon:SetRange(1, 1.5)
+    inst.components.weapon:SetRange(1, 1.5)
 
-	if not owner:HasTag("notshowscabbard")  then
+    if not owner:HasTag("notshowscabbard")  then
         owner.AnimState:ClearOverrideSymbol("swap_body_tall")
     end
 
-	inst.components.equippable.walkspeedmult = 1.25
+    inst.components.equippable.walkspeedmult = 1.25
 
-	if inst:HasTag("mkatana") then
+    if inst:HasTag("mkatana") then
         inst:RemoveTag("mkatana")
     end
 
@@ -40,9 +40,9 @@ local function UnsheathMode(inst, owner)
     inst.spelltype = "INSERT"
 
     owner = owner or inst.components.inventoryitem.owner or nil
-	owner.AnimState:OverrideSymbol("swap_object", "swap_" .. inst.build, "swap_" .. inst.build)
+    owner.AnimState:OverrideSymbol("swap_object", "swap_" .. inst.build, "swap_" .. inst.build)
 
-	inst.AnimState:SetBank(inst.build .. "2")
+    inst.AnimState:SetBank(inst.build .. "2")
     inst.AnimState:SetBuild(inst.build .. "2")
 
     if IA_ENABLED or PL_ENABLED then
@@ -52,15 +52,15 @@ local function UnsheathMode(inst, owner)
         end
     end
 
-	if not owner:HasTag("notshowscabbard") then
+    if not owner:HasTag("notshowscabbard") then
         owner.AnimState:OverrideSymbol("swap_body_tall", "sc_" .. inst.build, "tail")
     end
 
-	inst.components.weapon:SetRange(.8, 1.2)
+    inst.components.weapon:SetRange(.8, 1.2)
 
-	inst.components.equippable.walkspeedmult = 1.15
+    inst.components.equippable.walkspeedmult = 1.15
 
-	if inst:HasTag("mkatana")then
+    if inst:HasTag("mkatana")then
         inst:RemoveTag("mkatana")
     end
 
@@ -68,7 +68,7 @@ local function UnsheathMode(inst, owner)
         inst:RemoveTag("iai")
     end
 
-	if owner:HasTag("kenjutsu") and not inst:HasTag("mkatana") then
+    if owner:HasTag("kenjutsu") and not inst:HasTag("mkatana") then
         inst:AddTag("mkatana")
     end
 
@@ -76,7 +76,7 @@ local function UnsheathMode(inst, owner)
 end
 
 local function CastFn(inst, target, position, doer)
-	if not inst.weaponstatus then
+    if not inst.weaponstatus then
         inst.UnsheathMode(inst, doer)
     else
         inst.SheathMode(inst, doer)
@@ -114,15 +114,15 @@ local function OnEquip(inst, owner)
     owner.AnimState:Show("ARM_carry")
     owner.AnimState:Hide("ARM_normal")
 
-	if owner:HasTag("kenjutsu") then
-		inst.components.weapon:SetDamage(inst.components.weapon.damage + (owner.components.kenjutsuka:GetKenjutsuLevel() * 2))
-	end
+    if owner:HasTag("kenjutsu") then
+        inst.components.weapon:SetDamage(inst.components.weapon.damage + (owner.components.kenjutsuka:GetKenjutsuLevel() * 2))
+    end
 
     if inst:HasTag("mortalblade") then
         inst.TryStartFx(inst, owner)
     end
 
-	if not inst.weaponstatus then
+    if not inst.weaponstatus then
         inst.SheathMode(inst, owner)
     else
         inst.UnsheathMode(inst, owner)
@@ -130,14 +130,14 @@ local function OnEquip(inst, owner)
 end
 
 local function OnUnequip(inst, owner)
-	owner.AnimState:Hide("ARM_carry")
+    owner.AnimState:Hide("ARM_carry")
     owner.AnimState:Show("ARM_normal")
 
     if inst:HasTag("mortalblade") then
         inst.StopFx(inst)
     end
 
-	inst.components.weapon:SetDamage(TUNING.KATANA.DAMAGE)
+    inst.components.weapon:SetDamage(TUNING.KATANA.DAMAGE)
 end
 
 local function OnPocket(inst, owner)
@@ -178,7 +178,7 @@ end
 local function OnPutInInventory(inst, owner)
     local damage = 10
     local fx
-	if owner ~= nil and owner.components.inventory ~= nil and owner:HasTag("player") and not owner:HasTag("bladesmith") then
+    if owner ~= nil and owner.components.inventory ~= nil and owner:HasTag("player") and not owner:HasTag("bladesmith") then
         owner.components.talker:Say("it doesn't seem to like me very much...")
         local pos = inst:GetPosition():Get()
         inst:DoTaskInTime(0.1, function()
@@ -190,11 +190,11 @@ local function OnPutInInventory(inst, owner)
                 fx = SpawnPrefab("wanda_attack_pocketwatch_old_fx")
                 fx.Transform:SetPosition(pos)
             end
-			if owner.components.combat ~= nil then
-				owner.components.combat:GetAttacked(inst, damage)
-			end
-			owner.components.inventory:DropItem(inst)
-		end)
+            if owner.components.combat ~= nil then
+                owner.components.combat:GetAttacked(inst, damage)
+            end
+            owner.components.inventory:DropItem(inst)
+        end)
     end
 end
 
@@ -254,7 +254,7 @@ local MakeKatana = function(data)
 
         inst.entity:AddTransform()
         inst.entity:AddAnimState()
-    	inst.entity:AddSoundEmitter()
+        inst.entity:AddSoundEmitter()
         inst.entity:AddNetwork()
 
         MakeInventoryPhysics(inst)
@@ -266,15 +266,15 @@ local MakeKatana = function(data)
         inst.spelltype = "PULLOUT"
 
         inst:AddTag("nosteal")
-    	inst:AddTag("sharp")
+        inst:AddTag("sharp")
         inst:AddTag("veryquickcast")
         inst:AddTag("katanaskill")
-    	inst:AddTag("waterproofer")
+        inst:AddTag("waterproofer")
 
         --weapon (from weapon component) added to pristine state for optimization
         inst:AddTag("weapon")
 
-    	MakeInventoryFloatable(inst, nil, 0.1)
+        MakeInventoryFloatable(inst, nil, 0.1)
 
         if data.common_postinit ~= nil then
             data.common_postinit(inst)
@@ -292,8 +292,8 @@ local MakeKatana = function(data)
         inst.components.waterproofer:SetEffectiveness(0)
 
         inst:AddComponent("weapon")
-    	inst.components.weapon:SetDamage(data.damage)
-    	inst.components.weapon:SetOnAttack(OnAttack)
+        inst.components.weapon:SetDamage(data.damage)
+        inst.components.weapon:SetOnAttack(OnAttack)
 
         inst:AddComponent("inventoryitem")
         inst.components.inventoryitem.nobounce = true
@@ -302,20 +302,20 @@ local MakeKatana = function(data)
         inst.components.inventoryitem.canonlygoinpocket = true
         inst.components.inventoryitem:SetOnPutInInventoryFn(OnPutInInventory)
 
-    	inst:AddComponent("finiteuses")
-    	inst.components.finiteuses:SetMaxUses(TUNING.KATANA.USES)
-    	inst.components.finiteuses:SetUses(TUNING.KATANA.USES)
-    	inst.components.finiteuses:SetOnFinished(OnFinished)
+        inst:AddComponent("finiteuses")
+        inst.components.finiteuses:SetMaxUses(TUNING.KATANA.USES)
+        inst.components.finiteuses:SetUses(TUNING.KATANA.USES)
+        inst.components.finiteuses:SetOnFinished(OnFinished)
 
-    	inst:AddComponent("spellcaster")
+        inst:AddComponent("spellcaster")
         inst.components.spellcaster:SetSpellFn(CastFn)
-    	inst.components.spellcaster.canusefrominventory = true
-    	inst.components.spellcaster.veryquickcast = true
+        inst.components.spellcaster.canusefrominventory = true
+        inst.components.spellcaster.veryquickcast = true
 
-    	inst:AddComponent("equippable")
-    	inst.components.equippable:SetOnEquip(OnEquip)
+        inst:AddComponent("equippable")
+        inst.components.equippable:SetOnEquip(OnEquip)
         inst.components.equippable:SetOnUnequip(OnUnequip)
-    	inst.components.equippable:SetOnPocket(OnPocket)
+        inst.components.equippable:SetOnPocket(OnPocket)
 
         inst.build = build
         inst.weaponstatus = false
@@ -328,7 +328,7 @@ local MakeKatana = function(data)
         inst.OnSave = OnSave
         inst.OnLoad = OnLoad
 
-    	MakeHauntableLaunch(inst)
+        MakeHauntableLaunch(inst)
 
         if data.master_postinit ~= nil then
             data.master_postinit(inst)

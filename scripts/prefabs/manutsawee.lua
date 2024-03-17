@@ -4,38 +4,38 @@ local Skill_Data = require "skill_data"
 local assets = {
     Asset("SCRIPT", "scripts/prefabs/player_common.lua"),
 
-	Asset("ANIM", "anim/hair_cut.zip"),
-	Asset("ANIM", "anim/hair_short.zip"),
-	Asset("ANIM", "anim/hair_medium.zip"),
-	Asset("ANIM", "anim/hair_long.zip"),
+    Asset("ANIM", "anim/hair_cut.zip"),
+    Asset("ANIM", "anim/hair_short.zip"),
+    Asset("ANIM", "anim/hair_medium.zip"),
+    Asset("ANIM", "anim/hair_long.zip"),
 
-	Asset("ANIM", "anim/hair_short_pony.zip"),
-	Asset("ANIM", "anim/hair_medium_pony.zip"),
-	Asset("ANIM", "anim/hair_long_pony.zip"),
+    Asset("ANIM", "anim/hair_short_pony.zip"),
+    Asset("ANIM", "anim/hair_medium_pony.zip"),
+    Asset("ANIM", "anim/hair_long_pony.zip"),
 
-	Asset("ANIM", "anim/hair_short_twin.zip"),
-	Asset("ANIM", "anim/hair_medium_twin.zip"),
-	Asset("ANIM", "anim/hair_long_twin.zip"),
+    Asset("ANIM", "anim/hair_short_twin.zip"),
+    Asset("ANIM", "anim/hair_medium_twin.zip"),
+    Asset("ANIM", "anim/hair_long_twin.zip"),
 
-	Asset("ANIM", "anim/hair_short_htwin.zip"),
-	Asset("ANIM", "anim/hair_medium_htwin.zip"),
-	Asset("ANIM", "anim/hair_long_htwin.zip"),
+    Asset("ANIM", "anim/hair_short_htwin.zip"),
+    Asset("ANIM", "anim/hair_medium_htwin.zip"),
+    Asset("ANIM", "anim/hair_long_htwin.zip"),
 
-	Asset("ANIM", "anim/hair_short_yoto.zip"),
-	Asset("ANIM", "anim/hair_medium_yoto.zip"),
-	Asset("ANIM", "anim/hair_long_yoto.zip"),
+    Asset("ANIM", "anim/hair_short_yoto.zip"),
+    Asset("ANIM", "anim/hair_medium_yoto.zip"),
+    Asset("ANIM", "anim/hair_long_yoto.zip"),
 
-	Asset("ANIM", "anim/hair_short_ronin.zip"),
-	Asset("ANIM", "anim/hair_medium_ronin.zip"),
-	Asset("ANIM", "anim/hair_long_ronin.zip"),
+    Asset("ANIM", "anim/hair_short_ronin.zip"),
+    Asset("ANIM", "anim/hair_medium_ronin.zip"),
+    Asset("ANIM", "anim/hair_long_ronin.zip"),
 
-	Asset("ANIM", "anim/hair_short_ball.zip"),
-	Asset("ANIM", "anim/hair_medium_ball.zip"),
-	Asset("ANIM", "anim/hair_long_ball.zip"),
+    Asset("ANIM", "anim/hair_short_ball.zip"),
+    Asset("ANIM", "anim/hair_medium_ball.zip"),
+    Asset("ANIM", "anim/hair_long_ball.zip"),
 
-	Asset("ANIM", "anim/eyeglasses.zip"),
-	Asset("ANIM", "anim/sunglasses.zip"),
-	Asset("ANIM", "anim/starglasses.zip"),
+    Asset("ANIM", "anim/eyeglasses.zip"),
+    Asset("ANIM", "anim/sunglasses.zip"),
+    Asset("ANIM", "anim/starglasses.zip"),
 
     Asset("ANIM", "anim/face_controlled.zip"),
 
@@ -78,12 +78,12 @@ local function OnDeath(inst)
 end
 
 local function OnMindPowerRegen(inst, mindpower)
-	local mindregenfx = SpawnPrefab("m_battlesong_instant_electric_fx")
-	mindregenfx.Transform:SetScale(.7, .7, .7)
-	mindregenfx.Transform:SetPosition(inst:GetPosition():Get())
-	mindregenfx.entity:AddFollower()
+    local mindregenfx = SpawnPrefab("m_battlesong_instant_electric_fx")
+    mindregenfx.Transform:SetScale(.7, .7, .7)
+    mindregenfx.Transform:SetPosition(inst:GetPosition():Get())
+    mindregenfx.entity:AddFollower()
     mindregenfx.Follower:FollowSymbol(inst.GUID, "swap_body", 0, 0, 0)
-	if mindpower >= 3 then
+    if mindpower >= 3 then
         inst.components.talker:Say("󰀈: ".. mindpower .."\n", 2, true)
     end
 end
@@ -133,29 +133,29 @@ local function PutGlasses(inst)
 end
 
 local function OnUpgrades(inst, kenjutsulevel, kenjutsuexp)
-	if kenjutsulevel >= 1 then
-		inst.components.sanity.neg_aura_mult = 1 - ((kenjutsulevel / 2) / 10)
-		inst.components.kenjutsuka.kenjutsumaxexp = 500 * kenjutsulevel
+    if kenjutsulevel >= 1 then
+        inst.components.sanity.neg_aura_mult = 1 - ((kenjutsulevel / 2) / 10)
+        inst.components.kenjutsuka.kenjutsumaxexp = 500 * kenjutsulevel
 
-		local hunger_percent = inst.components.hunger:GetPercent()
-		local health_percent = inst.components.health:GetPercent()
-		local sanity_percent = inst.components.sanity:GetPercent()
+        local hunger_percent = inst.components.hunger:GetPercent()
+        local health_percent = inst.components.health:GetPercent()
+        local sanity_percent = inst.components.sanity:GetPercent()
 
-		if M_CONFIG.HEALTH_MAX > 0 then
+        if M_CONFIG.HEALTH_MAX > 0 then
             inst.components.health.maxhealth = math.ceil(TUNING.MANUTSAWEE.HEALTH + kenjutsulevel * M_CONFIG.HEALTH_MAX)
             inst.components.health:SetPercent(health_percent)
-		end
-		if M_CONFIG.HUNGER_MAX > 0 then
+        end
+        if M_CONFIG.HUNGER_MAX > 0 then
             inst.components.hunger.max = math.ceil(TUNING.MANUTSAWEE.HUNGER + kenjutsulevel * M_CONFIG.HUNGER_MAX)
             inst.components.hunger:SetPercent(hunger_percent)
-		end
-		if M_CONFIG.SANITY_MAX > 0 then
+        end
+        if M_CONFIG.SANITY_MAX > 0 then
             inst.components.sanity.max = math.ceil(TUNING.MANUTSAWEE.SANITY + kenjutsulevel * M_CONFIG.SANITY_MAX)
             inst.components.sanity:SetPercent(sanity_percent)
-		end
-	end
+        end
+    end
 
-	if kenjutsulevel >= 2 and not inst:HasTag("kenjutsu") then
+    if kenjutsulevel >= 2 and not inst:HasTag("kenjutsu") then
         inst:AddTag("kenjutsu")
     end
 
@@ -168,58 +168,58 @@ local function OnUpgrades(inst, kenjutsulevel, kenjutsuexp)
             inst:AddTag("katanakaji")
         end
         inst.components.sanity:AddSanityAuraImmunity("ghost")
-		inst.components.workmultiplier:AddMultiplier(ACTIONS.CHOP,   1, inst)
-		inst.components.workmultiplier:AddMultiplier(ACTIONS.MINE,   1, inst)
-		inst.components.workmultiplier:AddMultiplier(ACTIONS.HAMMER, 1, inst)
+        inst.components.workmultiplier:AddMultiplier(ACTIONS.CHOP,   1, inst)
+        inst.components.workmultiplier:AddMultiplier(ACTIONS.MINE,   1, inst)
+        inst.components.workmultiplier:AddMultiplier(ACTIONS.HAMMER, 1, inst)
     end
 
-	if kenjutsulevel >= 6 then
-		inst.components.temperature.inherentinsulation = TUNING.INSULATION_TINY /2
-		inst.components.temperature.inherentsummerinsulation = TUNING.INSULATION_TINY /2
-		inst.components.sanity:SetPlayerGhostImmunity(true)
+    if kenjutsulevel >= 6 then
+        inst.components.temperature.inherentinsulation = TUNING.INSULATION_TINY /2
+        inst.components.temperature.inherentsummerinsulation = TUNING.INSULATION_TINY /2
+        inst.components.sanity:SetPlayerGhostImmunity(true)
     end
 
     if kenjutsulevel >= 10 then
         kenjutsuexp = 0
     end
 
-	inst.components.kenjutsuka:SetMaxMindpower(M_CONFIG.MIND_MAX + kenjutsulevel)
+    inst.components.kenjutsuka:SetMaxMindpower(M_CONFIG.MIND_MAX + kenjutsulevel)
 
-	local fx = SpawnPrefab("fx_book_light_upgraded")
+    local fx = SpawnPrefab("fx_book_light_upgraded")
     fx.Transform:SetScale(.9, 2.5, 1)
     fx.entity:AddFollower()
     fx.Follower:FollowSymbol(inst.GUID, "swap_body", 0, 0, 0)
 end
 
 local function OnKilled(inst, data)
-	local target = data.victim
-	local scale = (target:HasTag("smallcreature") and 1) or (target:HasTag("largecreature") and 4) or 2
+    local target = data.victim
+    local scale = (target:HasTag("smallcreature") and 1) or (target:HasTag("largecreature") and 4) or 2
 
     if target ~= nil and scale ~= nil then
-		if not ((target:HasTag("prey")or target:HasTag("bird")or target:HasTag("insect")) and not target:HasTag("hostile")) and inst.components.sanity:GetPercent() <= .8  then
+        if not ((target:HasTag("prey")or target:HasTag("bird")or target:HasTag("insect")) and not target:HasTag("hostile")) and inst.components.sanity:GetPercent() <= .8  then
             inst.components.sanity:DoDelta(scale)
         end
-	end
+    end
 end
 
 local function OnSave(inst, data)
-	data._louis_health = inst.components.health.currenthealth
+    data._louis_health = inst.components.health.currenthealth
     data._louis_sanity = inst.components.sanity.current
     data._louis_hunger = inst.components.hunger.current
-	data.hair_long = inst.hair_long
-	data.hair_type = inst.hair_type
+    data.hair_long = inst.hair_long
+    data.hair_type = inst.hair_type
     data.glasses_status = inst.glasses_status
 end
 
 local function OnLoad(inst, data)
-	if data ~= nil then
-		if inst.components.kenjutsuka ~= nil and inst.components.kenjutsuka:GetKenjutsuLevel() > 0 and data._louis_health ~= nil and data._mlouis_sanity ~= nil and data._louis_hunger ~= nil then
-			inst.components.health:SetCurrentHealth(data._louis_health)
-			inst.components.sanity.current = data._louis_sanity
-			inst.components.hunger.current = data._louis_hunger
-		end
+    if data ~= nil then
+        if inst.components.kenjutsuka ~= nil and inst.components.kenjutsuka:GetKenjutsuLevel() > 0 and data._louis_health ~= nil and data._mlouis_sanity ~= nil and data._louis_hunger ~= nil then
+            inst.components.health:SetCurrentHealth(data._louis_health)
+            inst.components.sanity.current = data._louis_sanity
+            inst.components.hunger.current = data._louis_hunger
+        end
 
-		if data.hair_long ~= nil then
+        if data.hair_long ~= nil then
             inst.hair_long = data.hair_long
         end
 
@@ -237,7 +237,7 @@ local function OnLoad(inst, data)
         end
 
         OnChangeHair(inst)
-	end
+    end
 end
 
 local function OnEat(inst, food)
@@ -249,17 +249,17 @@ local function OnEat(inst, food)
 end
 
 local function GetPointSpecialActions(inst, pos, useitem, right)
-	local equip = inst.replica.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
+    local equip = inst.replica.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
     local rider = inst.replica.rider
     if equip ~= nil and not (equip:HasTag("iai") or equip:HasTag("katana_quickdraw")) and equip:HasTag("katanaskill") and inst:HasTag("kenjutsu") and right and GetTime() - inst.last_dodge_time > inst.dodge_cooldown and not inst:HasTag("sitting_on_chair") and not inst.sg:HasStateTag("boating") then
-		if rider == nil or not rider:IsRiding() then
-			return {ACTIONS.MDODGE}
-		end
+        if rider == nil or not rider:IsRiding() then
+            return {ACTIONS.MDODGE}
+        end
     elseif inst:HasTag("kenjutsu") and right and GetTime() - inst.last_dodge_time > inst.dodge_cooldown and not inst:HasTag("sitting_on_chair") then
-		if rider == nil or not rider:IsRiding() and not inst.sg:HasStateTag("boating") then
-			return {ACTIONS.MDODGE2}
-		end
-	end
+        if rider == nil or not rider:IsRiding() and not inst.sg:HasStateTag("boating") then
+            return {ACTIONS.MDODGE2}
+        end
+    end
     return {}
 end
 
@@ -270,7 +270,7 @@ local function OnSetOwner(inst)
 end
 
 local common_postinit = function(inst)
-	inst.MiniMapEntity:SetIcon("manutsawee.tex")
+    inst.MiniMapEntity:SetIcon("manutsawee.tex")
 
     if M_CONFIG.IDLE_ANIMATION then
         inst.AnimState:AddOverrideBuild("player_idles_wes")
@@ -278,9 +278,9 @@ local common_postinit = function(inst)
         inst.AnimState:AddOverrideBuild("player_idles_wanda")
     end
 
-	inst:AddTag("bearded")
-	inst:AddTag("bladesmith")
-	inst:AddTag("stronggrip")
+    inst:AddTag("bearded")
+    inst:AddTag("bladesmith")
+    inst:AddTag("stronggrip")
     inst:AddTag("handyperson")
     inst:AddTag("fastbuilder")
     inst:AddTag("hungrybuilder")
@@ -296,7 +296,7 @@ local common_postinit = function(inst)
         inst:AddTag("surfer")
     end
 
-	if M_CONFIG.CANCRAFTTENT then
+    if M_CONFIG.CANCRAFTTENT then
         inst:AddTag("pinetreepioneer")
     end
 
@@ -305,22 +305,22 @@ local common_postinit = function(inst)
         inst:AddTag("pebblemaker")
     end
 
-	inst:AddComponent("keyhandler")
-	inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.LEVEL_CHECK_KEY, "levelcheck")
-	inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.PUT_GLASSES_KEY, "glasses")
-	inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.CHANGE_HAIRS_KEY, "Hairs")
+    inst:AddComponent("keyhandler")
+    inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.LEVEL_CHECK_KEY, "levelcheck")
+    inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.PUT_GLASSES_KEY, "glasses")
+    inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.CHANGE_HAIRS_KEY, "Hairs")
 
-	if M_CONFIG.ENABLE_SKILL then
+    if M_CONFIG.ENABLE_SKILL then
         inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.SKILL1_KEY, "skill1")
         inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.SKILL2_KEY, "skill2")
         inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.SKILL3_KEY, "skill3")
         inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.SKILL_COUNTER_ATK_KEY, "counterattack")
         inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.QUICK_SHEATH_KEY, "quicksheath")
         inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.SKILL_CANCEL_KEY, "skillcancel")
-	end
+    end
 
     if M_CONFIG.ENABLE_DODGE then
-    	inst.dodgetime = net_bool(inst.GUID, "player.dodgetime", "dodgetimedirty")
+        inst.dodgetime = net_bool(inst.GUID, "player.dodgetime", "dodgetimedirty")
         inst:ListenForEvent("dodgetimedirty", function()
             inst.last_dodge_time = GetTime()
         end)
@@ -333,31 +333,31 @@ end
 local BEARD_DAYS = {3, 7, 16}
 local BEARD_BITS = {2, 3, 3}
 local function OnGrowShortHair(inst, skinname)
-	inst.hair_long = 2
-	inst.components.beard.bits = BEARD_BITS[1]
+    inst.hair_long = 2
+    inst.components.beard.bits = BEARD_BITS[1]
     OnChangeHair(inst, skinname)
 end
 
 local function OnGrowMediumHair(inst, skinname)
-	inst.hair_long = 3
-	inst.components.beard.bits = BEARD_BITS[2]
-	OnChangeHair(inst, skinname)
+    inst.hair_long = 3
+    inst.components.beard.bits = BEARD_BITS[2]
+    OnChangeHair(inst, skinname)
 end
 
 local function OnGrowLongHair(inst, skinname)
-	inst.hair_long = 4
-	inst.components.beard.bits = BEARD_BITS[3]
-	OnChangeHair(inst, skinname)
+    inst.hair_long = 4
+    inst.components.beard.bits = BEARD_BITS[3]
+    OnChangeHair(inst, skinname)
 end
 
 local function OnResetHair(inst, skinname)
-	if inst.hair_long == 4 then
-		inst.components.beard.daysgrowth = BEARD_DAYS[2]
-		OnGrowMediumHair(inst, skinname)
-	elseif inst.hair_long == 3 then
-		inst.components.beard.daysgrowth = BEARD_DAYS[1]
-		OnGrowShortHair(inst, skinname)
-	else
+    if inst.hair_long == 4 then
+        inst.components.beard.daysgrowth = BEARD_DAYS[2]
+        OnGrowMediumHair(inst, skinname)
+    elseif inst.hair_long == 3 then
+        inst.components.beard.daysgrowth = BEARD_DAYS[1]
+        OnGrowShortHair(inst, skinname)
+    else
         inst.hair_long = 1
         inst.hair_type = 1
         inst.AnimState:ClearOverrideSymbol("hairpigtails")
@@ -365,7 +365,7 @@ local function OnResetHair(inst, skinname)
         inst.AnimState:ClearOverrideSymbol("hair_hat")
         inst.AnimState:ClearOverrideSymbol("headbase")
         inst.AnimState:ClearOverrideSymbol("headbase_hat")
-	end
+    end
 end
 
 local function OnEquip(inst, data)
@@ -521,18 +521,18 @@ local function SetInstanceFunctions(inst)
     inst.OnGrowShortHair = OnGrowShortHair
     inst.OnGrowMediumHair = OnGrowMediumHair
     inst.OnGrowLongHair = OnGrowLongHair
-	inst.OnLoad = OnLoad
-	inst.OnSave = OnSave
+    inst.OnLoad = OnLoad
+    inst.OnSave = OnSave
     inst.SwitchControlled = SwitchControlled
 end
 
 local function SetInstanceValue(inst)
     inst.soundsname = "wortox"
 
-	inst.glasses_status = false
-	inst.hair_long = 1
-	inst.hair_type = 1
-	inst._range = inst.components.combat.hitrange
+    inst.glasses_status = false
+    inst.hair_long = 1
+    inst.hair_type = 1
+    inst._range = inst.components.combat.hitrange
 
     inst.skeleton_prefab = nil
 
@@ -553,7 +553,7 @@ local function DoPostInit(inst)
 end
 
 local master_postinit = function(inst)
-	inst.starting_inventory = start_inv[TheNet:GetServerGameMode()] or start_inv.default
+    inst.starting_inventory = start_inv[TheNet:GetServerGameMode()] or start_inv.default
 
     inst.AnimState:SetScale(0.88, 0.9, 1)
 
@@ -565,13 +565,13 @@ local master_postinit = function(inst)
     inst.components.kenjutsuka:SetOnUpgradeFn(OnUpgrades)
     inst.components.kenjutsuka:SetOnMindPowerRegenFn(OnMindPowerRegen)
 
-	inst:AddComponent("houndedtarget")
+    inst:AddComponent("houndedtarget")
     inst.components.houndedtarget.target_weight_mult:SetModifier(inst, TUNING.WES_HOUND_TARGET_MULT, "misfortune")
-	inst.components.houndedtarget.hound_thief = true
+    inst.components.houndedtarget.hound_thief = true
 
-	inst.components.foodaffinity:AddPrefabAffinity("baconeggs", TUNING.AFFINITY_15_CALORIES_HUGE)
-	inst.components.foodaffinity:AddPrefabAffinity("unagi", TUNING.AFFINITY_15_CALORIES_TINY)
-	inst.components.foodaffinity:AddPrefabAffinity("kelp_cooked", 1)
+    inst.components.foodaffinity:AddPrefabAffinity("baconeggs", TUNING.AFFINITY_15_CALORIES_HUGE)
+    inst.components.foodaffinity:AddPrefabAffinity("unagi", TUNING.AFFINITY_15_CALORIES_TINY)
+    inst.components.foodaffinity:AddPrefabAffinity("kelp_cooked", 1)
     -- The original author is Thai
     inst.components.foodaffinity:AddPrefabAffinity("durian", 1)
     inst.components.foodaffinity:AddPrefabAffinity("durian_cooked", 1)
@@ -589,7 +589,7 @@ local master_postinit = function(inst)
         inst.components.foodaffinity:AddPrefabAffinity("blueberrypancakes", TUNING.AFFINITY_15_CALORIES_TINY)
     end
 
-	inst:AddComponent("beard")
+    inst:AddComponent("beard")
     inst.components.beard.insulation_factor = 1
     inst.components.beard.onreset = OnResetHair
     inst.components.beard.prize = "beardhair"
@@ -598,19 +598,19 @@ local master_postinit = function(inst)
     inst.components.beard:AddCallback(BEARD_DAYS[2], OnGrowMediumHair)
     inst.components.beard:AddCallback(BEARD_DAYS[3], OnGrowLongHair)
 
-	-- Stats
-	inst.components.health:SetMaxHealth(TUNING.MANUTSAWEE.HEALTH)
+    -- Stats
+    inst.components.health:SetMaxHealth(TUNING.MANUTSAWEE.HEALTH)
     inst.components.hunger:SetMax(TUNING.MANUTSAWEE.HUNGER)
     inst.components.sanity:SetMax(TUNING.MANUTSAWEE.SANITY)
     -- inst.components.hunger:SetRate(TUNING.WILSON_HUNGER_RATE * .5)
 
-	-- Damage multiplier (optional)
+    -- Damage multiplier (optional)
     inst.components.combat.damagemultiplier = 1
-	-- grogginess rate (optional)
-	inst.components.grogginess.decayrate = TUNING.WES_GROGGINESS_DECAY_RATE
-	-- clothing is less effective
-	inst.components.temperature.inherentinsulation = -TUNING.INSULATION_TINY
-	inst.components.temperature.inherentsummerinsulation = -TUNING.INSULATION_TINY
+    -- grogginess rate (optional)
+    inst.components.grogginess.decayrate = TUNING.WES_GROGGINESS_DECAY_RATE
+    -- clothing is less effective
+    inst.components.temperature.inherentinsulation = -TUNING.INSULATION_TINY
+    inst.components.temperature.inherentsummerinsulation = -TUNING.INSULATION_TINY
 
     if inst.components.eater ~= nil then
         inst.components.eater:SetCanEatMfruit()
@@ -621,16 +621,16 @@ local master_postinit = function(inst)
         inst.components.playerlightningtarget:SetOnStrikeFn(OnStrike)
     end
 
-	-- Slow Worker
-	inst.components.workmultiplier:AddMultiplier(ACTIONS.CHOP,   TUNING.WES_WORKEFFECTIVENESS_MODIFIER, inst)
-	inst.components.workmultiplier:AddMultiplier(ACTIONS.MINE,   TUNING.WES_WORKEFFECTIVENESS_MODIFIER, inst)
-	inst.components.workmultiplier:AddMultiplier(ACTIONS.HAMMER, TUNING.WES_WORKEFFECTIVENESS_MODIFIER, inst)
+    -- Slow Worker
+    inst.components.workmultiplier:AddMultiplier(ACTIONS.CHOP,   TUNING.WES_WORKEFFECTIVENESS_MODIFIER, inst)
+    inst.components.workmultiplier:AddMultiplier(ACTIONS.MINE,   TUNING.WES_WORKEFFECTIVENESS_MODIFIER, inst)
+    inst.components.workmultiplier:AddMultiplier(ACTIONS.HAMMER, TUNING.WES_WORKEFFECTIVENESS_MODIFIER, inst)
 
     inst:AddComponent("efficientuser")
     inst.components.efficientuser:AddMultiplier(ACTIONS.CHOP,   TUNING.WES_WORKEFFECTIVENESS_MODIFIER, inst)
-	inst.components.efficientuser:AddMultiplier(ACTIONS.MINE,   TUNING.WES_WORKEFFECTIVENESS_MODIFIER, inst)
-	inst.components.efficientuser:AddMultiplier(ACTIONS.HAMMER, TUNING.WES_WORKEFFECTIVENESS_MODIFIER, inst)
-	inst.components.efficientuser:AddMultiplier(ACTIONS.ATTACK, TUNING.WES_WORKEFFECTIVENESS_MODIFIER, inst)
+    inst.components.efficientuser:AddMultiplier(ACTIONS.MINE,   TUNING.WES_WORKEFFECTIVENESS_MODIFIER, inst)
+    inst.components.efficientuser:AddMultiplier(ACTIONS.HAMMER, TUNING.WES_WORKEFFECTIVENESS_MODIFIER, inst)
+    inst.components.efficientuser:AddMultiplier(ACTIONS.ATTACK, TUNING.WES_WORKEFFECTIVENESS_MODIFIER, inst)
 
     DoPostInit(inst)
 end

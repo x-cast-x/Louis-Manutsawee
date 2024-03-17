@@ -25,7 +25,7 @@ local function OnAttackCommonFn(inst, owner, target)
         slash.Transform:SetScale(x, y, z)
     end
 
-    inst.components.weapon.attackwear = inst.IsShadow(target) and TUNING.GLASSCUTTER.SHADOW_WEAR or 1
+    inst.components.weapon.attackwear = (inst.IsShadow(target) or inst.IsLunar(target)) and TUNING.GLASSCUTTER.SHADOW_WEAR or 1
 end
 
 local function GroundPoundFx(inst, scale)

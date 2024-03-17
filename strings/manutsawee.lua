@@ -543,9 +543,9 @@ return {
             GRATEFUL = "",
             DETERMINED = "",
             WORRIED = "",
-            FRUSTRATED = "Why haven't we found a way out yet? It's really hard here.",
+            FRUSTRATED = "",
             SURPRISED = "Darkness incarnate? Greek mythology?",
-            CURIOUS = "",
+            CURIOUS = "Why haven't we found a way out yet? It's really hard here.",
         },
         MOMOCUBE = "She said it was used to protect me, but I don't know how to use it.",
         ABIGAIL = {

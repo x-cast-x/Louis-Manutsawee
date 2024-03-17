@@ -305,19 +305,19 @@ end
 
 local function item_ondeploy(inst, pt, deployer)
     local boat = inst.components.pocket:RemoveItem(inst.boat) or SpawnPrefab(inst.boat)
-	if boat then
+    if boat then
         local value = inst.boatname:value()
         local name = value and value ~= "" and value or ""
         boat.components.writeable:SetText(name)
         boat.boatname:set(name)
 
         local x, y, z = pt:Get()
-		boat.components.flotsamspawner.inpocket = false
-		boat.Physics:SetCollides(false)
-		boat.Physics:Teleport(x, y, z)
-		boat.Physics:SetCollides(true)
-		inst:Remove()
-	end
+        boat.components.flotsamspawner.inpocket = false
+        boat.Physics:SetCollides(false)
+        boat.Physics:Teleport(x, y, z)
+        boat.Physics:SetCollides(true)
+        inst:Remove()
+    end
 end
 
 local function surfboarditemfn()
@@ -364,11 +364,11 @@ local function surfboarditemfn()
 
     inst:AddComponent("deployable")
     inst.components.deployable:SetDeployMode(DEPLOYMODE.CUSTOM)
-	inst._custom_candeploy_fn = function(_inst, pt)
-		local tile = TheWorld.Map:GetTileAtPoint(pt:Get())
+    inst._custom_candeploy_fn = function(_inst, pt)
+        local tile = TheWorld.Map:GetTileAtPoint(pt:Get())
         local IsWaterMode = IA_CONFIG.aquaticplacedstwater and IsWaterAny or IsWater
-		return IsWaterMode(tile)
-	end
+        return IsWaterMode(tile)
+    end
     inst.components.deployable.ondeploy = item_ondeploy
     inst.components.deployable.candeployonland = false
     inst.components.deployable.candeployonbuildableocean = true

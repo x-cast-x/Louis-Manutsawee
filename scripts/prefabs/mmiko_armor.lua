@@ -1,5 +1,5 @@
 local Assets = {
-	Asset("ANIM", "anim/mmiko_armor.zip"),
+    Asset("ANIM", "anim/mmiko_armor.zip"),
 }
 
 local prefabs = {
@@ -69,18 +69,18 @@ local function tryproc(inst, owner, data)
 end
 
 local function Armormode(inst, owner)
-	if not inst.armorstatus then
-    	owner.AnimState:OverrideSymbol("swap_body", "mmiko_armor", "swap_body")
+    if not inst.armorstatus then
+        owner.AnimState:OverrideSymbol("swap_body", "mmiko_armor", "swap_body")
         inst:AddComponent("armor")
         inst.components.armor:InitCondition(TUNING.MMIKO_ARMOR_AMOUNT, TUNING.MMIKO_ARMOR_PRECENT)
-	else
+    else
         owner.AnimState:ClearOverrideSymbol("swap_body")
         inst:RemoveComponent("armor")
-	end
+    end
 end
 
 local function OnEquip(inst, owner)
-	Armormode(inst, owner)
+    Armormode(inst, owner)
     inst.onattach(owner)
 end
 
@@ -90,7 +90,7 @@ local function OnUnequip(inst, owner)
 end
 
 local function CastFn(inst, target, position, owner)
-	local owner = inst.components.inventoryitem.owner
+    local owner = inst.components.inventoryitem.owner
 
     if owner.prefab ~= "manutsawee" then
         return
@@ -102,7 +102,7 @@ local function CastFn(inst, target, position, owner)
         inst.armorstatus = true
     end
 
-	Armormode(inst, owner)
+    Armormode(inst, owner)
 end
 
 local function OnSave(inst, data)
@@ -123,12 +123,12 @@ local function miko_onremove(inst)
 end
 
 local function MainFunction()
-	local inst = CreateEntity()
+    local inst = CreateEntity()
 
-	inst.entity:AddTransform()
-	inst.entity:AddAnimState()
-	inst.entity:AddNetwork()
-	inst.entity:AddSoundEmitter()
+    inst.entity:AddTransform()
+    inst.entity:AddAnimState()
+    inst.entity:AddNetwork()
+    inst.entity:AddSoundEmitter()
 
     MakeInventoryPhysics(inst)
 
@@ -136,24 +136,24 @@ local function MainFunction()
     inst.AnimState:SetBuild("mmiko_armor")
     inst.AnimState:PlayAnimation("anim")
 
-	inst:AddTag("mikoarmor")
-	inst.spelltype = "SCIENCE"
+    inst:AddTag("mikoarmor")
+    inst.spelltype = "SCIENCE"
 
-	MakeInventoryFloatable(inst, "small", 0.2, 1.1)
+    MakeInventoryFloatable(inst, "small", 0.2, 1.1)
 
-	inst.entity:SetPristine()
+    inst.entity:SetPristine()
 
-	if not TheWorld.ismastersim then
+    if not TheWorld.ismastersim then
         return inst
     end
 
-	inst:AddComponent("inspectable")
+    inst:AddComponent("inspectable")
     inst:AddComponent("inventoryitem")
 
     inst:AddComponent("fuel")
     inst.components.fuel.fuelvalue = TUNING.LARGE_FUEL
 
-	inst:AddComponent("waterproofer")
+    inst:AddComponent("waterproofer")
     inst.components.waterproofer:SetEffectiveness(TUNING.WATERPROOFNESS_MED)
 
     inst:AddComponent("spellcaster")
@@ -162,9 +162,9 @@ local function MainFunction()
     inst.components.spellcaster.quickcast = true
 
     inst:AddComponent("equippable")
-	inst.components.equippable.dapperness = TUNING.DAPPERNESS_SMALL
+    inst.components.equippable.dapperness = TUNING.DAPPERNESS_SMALL
     inst.components.equippable.equipslot = EQUIPSLOTS.BODY
-	inst.components.equippable:SetOnEquip(OnEquip)
+    inst.components.equippable:SetOnEquip(OnEquip)
     inst.components.equippable:SetOnUnequip(OnUnequip)
 
     inst.OnRemoveEntity = miko_onremove
@@ -198,8 +198,8 @@ local function MainFunction()
         end
     end
 
-	inst.armorstatus = false
-	inst.OnSave = OnSave
+    inst.armorstatus = false
+    inst.OnSave = OnSave
     inst.OnLoad = OnLoad
 
     MakeHauntableLaunch(inst)

@@ -15,8 +15,8 @@ local function fn()
     inst.AnimState:SetBuild("vscode")
     inst.AnimState:PlayAnimation("idle")
 
-	inst:AddTag("nosteal")
-	inst:AddTag("vscode")
+    inst:AddTag("nosteal")
+    inst:AddTag("vscode")
 
     MakeInventoryFloatable(inst, "small", 0.1)
 

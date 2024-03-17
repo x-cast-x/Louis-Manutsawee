@@ -45,7 +45,7 @@ end
 local function OnBaitedFn(inst, bait, summoner)
     local datingmanager = TheWorld.components.datingmanager
     local momo_in_the_world = datingmanager ~= nil and datingmanager:GetMomoInTheWorld() or false
-    if bait ~= nil and bait.prefab == "m_pantsu" and summoner ~= nil and not momo_in_the_world then
+    if bait ~= nil and bait.prefab == "m_pantsu" and summoner ~= nil then
         if summoner:HasTag("naughtychild") then
             TrySpawnMomo(inst, bait, summoner)
         end

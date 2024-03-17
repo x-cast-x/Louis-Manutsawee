@@ -65,7 +65,7 @@ local function shirasaya_onattack(inst, owner, target)
         local hitsparks_fx = SpawnPrefab("brilliance_projectile_blast_fx")
         hitsparks_fx.Transform:SetPosition(target:GetPosition():Get())
 
-        if inst.IsShadow(target) then
+        if inst.IsShadow(target) or inst.IsLunar(target) then
             if target.components.combat ~= nil then
                 target.components.combat:GetAttacked(owner, inst.components.weapon.damage * .5)
             end

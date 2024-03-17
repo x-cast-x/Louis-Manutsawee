@@ -94,8 +94,8 @@ M_Util.RegisterImageAtlas("images/inventoryimages/m_inventoryimages.xml")
 M_Util.AddMinimapAtlas("m_minimaps", Assets)
 
 -- if not TheNet:IsDedicated() then
--- 	table.insert(Assets, Asset("SOUND", "sound/louis.fsb"))
--- 	table.insert(Assets, Asset("SOUNDPACKAGE", "sound/louis.fev"))
+--     table.insert(Assets, Asset("SOUND", "sound/louis.fsb"))
+--     table.insert(Assets, Asset("SOUNDPACKAGE", "sound/louis.fev"))
 -- end
 
 -- Deprecate
