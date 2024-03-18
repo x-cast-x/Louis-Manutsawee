@@ -62,6 +62,11 @@ local tuning = {
     MOMO_HEALTH = 20000,
     MOMO_WALKSPEED = 2.7,
     MOMO_RUNSPEED = 9,
+
+    MOMO = {
+        MOMOAXE_DAMAGE = 40,
+        MOMOAXE_USES = 300,
+    },
 }
 
 if IA_ENABLED then

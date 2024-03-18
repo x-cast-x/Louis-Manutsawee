@@ -291,6 +291,7 @@ local common_postinit = function(inst)
     inst:AddTag("ore_alchemistI")
     inst:AddTag("ick_alchemistI")
     inst:AddTag("ick_alchemistII")
+    inst:AddTag("momocubecaster")
 
     if IA_ENABLED then
         inst:AddTag("surfer")

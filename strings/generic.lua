@@ -30,6 +30,7 @@ return {
         M_PANTSU = "..?",
         MOMO_HAT = "This is not a nightmare, this is magic.",
         MOMO = "Hello?",
-        MOMOCUBE = "A cube with magic surrounding it..."
+        MOMOCUBE = "A cube with magic surrounding it...",
+        MOMOAXE = "Axe made from 'Weakly'",
     },
 }

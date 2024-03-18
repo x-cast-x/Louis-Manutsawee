@@ -4,6 +4,7 @@ require("behaviours/leash")
 require("behaviours/standstill")
 require("behaviours/wander")
 require("behaviours/follow")
+require "behaviours/doaction"
 
 local MIN_FOLLOW_DIST = 0
 local TARGET_FOLLOW_DIST = 6

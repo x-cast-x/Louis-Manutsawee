@@ -2,6 +2,7 @@ local EQUIPSLOTS = GLOBAL.EQUIPSLOTS
 local AddStategraphEvent = AddStategraphEvent
 local AddStategraphState = AddStategraphState
 local AddStategraphPostInit = AddStategraphPostInit
+local AddStategraphActionHandler= AddStategraphActionHandler
 GLOBAL.setfenv(1, GLOBAL)
 
 local SkillUtil = require("utils/skillutil")
@@ -41,6 +42,9 @@ end
 local katanarnd = 1
 
 ----------------------------------------------------------------------------------------------
+
+local actionhandlers = {
+}
 
 local events = {
     EventHandler("putglasses", function(inst)
@@ -1375,6 +1379,48 @@ local states = {
             end),
         },
     },
+
+    State{
+        name = "transfiguration_item",
+        tags = { "doing", "busy", "canrotate" },
+
+        onenter = function(inst)
+            inst.AnimState:PlayAnimation("useitem_pre")
+            inst.AnimState:PushAnimation("transfiguration_item", false)
+			inst.AnimState:PushAnimation("useitem_pst", false)
+
+            inst.components.locomotor:Stop()
+
+            local momocube = inst.bufferedaction ~= nil and inst.bufferedaction.invobject
+            if momocube ~= nil then
+                inst.AnimState:OverrideSymbol("momocube", momocube.AnimState:GetBuild(), "momocube")
+            end
+        end,
+
+        timeline =
+        {
+            TimeEvent(18 * FRAMES, function(inst)
+                inst.SoundEmitter:PlaySound("turnoftides/common/together/moon_glass/mine")
+            end),
+			TimeEvent(37 * FRAMES, function(inst)
+				inst.sg:RemoveStateTag("busy")
+			end),
+        },
+
+        events =
+        {
+            EventHandler("animqueueover", function(inst)
+                if inst.AnimState:AnimDone() then
+					inst.sg:GoToState("idle")
+                end
+            end),
+        },
+
+        onexit = function(inst)
+			inst.AnimState:ClearOverrideSymbol("momocube")
+        end,
+    },
+
 }
 
 for _, event in ipairs(events) do
@@ -1384,6 +1430,10 @@ end
 for _, state in ipairs(states) do
     AddStategraphState("wilson", state)
 end
+
+-- for _, actionhandler in ipairs(actionhandlers) do
+--     AddStategraphActionHandler("wilson", actionhandler)
+-- end
 
 local function fn(sg)
     local attack_actionhandler = sg.actionhandlers[ACTIONS.ATTACK].deststate

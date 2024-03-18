@@ -3,23 +3,86 @@ local assets = {
 }
 
 local function OnPutInInventory(inst, owner)
-	if owner ~= nil and owner.components.inventory and not owner:HasTag("naughtychild") then
+	if owner ~= nil and owner.components.inventory ~= nil and not owner:HasTag("naughtychild") then
         inst:DoTaskInTime(0.1, function()
             owner.components.inventory:DropItem(inst)
         end)
 	end
 end
 
+local function AbleToAcceptTest(inst, item, giver)
+    if item ~= nil and giver ~= nil and giver:HasTag("momocubecaster") then
+        local _item = item.prefab
+        return (_item == "axe") or (_item == "pickaxe") or (_item == "goldenaxe") or (_item == "goldenpickaxe")
+    end
+end
+
+local function OnAccept(inst, giver, item)
+    if item ~= nil and giver:HasTag("momocubecaster") then
+        local _item = item.prefab
+        local is_tool = (_item == "axe") or (_item == "pickaxe")
+        local is_gold = (_item == "goldenaxe") or (_item == "goldenpickaxe")
+        if is_tool or is_gold then
+            inst.changetoaxe = true
+            if is_gold then
+                inst.is_gold = true
+            end
+        end
+    end
+end
+
+local function Transformation(inst, giver, target, pos)
+    if giver ~= nil and giver:HasTag("momocubecaster") then
+        local incarnation
+        local inventory = giver.components.inventory
+
+        if inst.changetoaxe then
+            incarnation = SpawnPrefab("momoaxe")
+            incarnation.Transform:SetPosition(inst.Transform:GetWorldPosition())
+            if inst.is_gold then
+                incarnation.components.finiteuses:SetUses(incarnation.components.finiteuses.current * 2)
+            end
+        end
+
+        if incarnation ~= nil and inventory ~= nil then
+            inventory:GiveItem(incarnation)
+        end
+
+        return true
+    end
+end
+
+local function OnSave(inst, data)
+    if inst.is_gold then
+        data.is_gold = inst.is_gold
+    end
+    if inst.changetoaxe then
+        data.changetoaxe = inst.changetoaxe
+    end
+end
+
+local function OnLoad(inst, data)
+    if data.is_gold then
+        inst.is_gold = inst.is_gold
+    end
+    if data.changetoaxe then
+        inst.changetoaxe = inst.changetoaxe
+    end
+end
+
 local function fn()
 	local inst = CreateEntity()
     inst.entity:AddTransform()
     inst.entity:AddAnimState()
-	-- inst.entity:AddMiniMapEntity()
+	inst.entity:AddMiniMapEntity()
     inst.entity:AddNetwork()
 
     MakeInventoryPhysics(inst)
 
-	-- inst.MiniMapEntity:SetIcon("momocube.tex")
+    inst:AddTag("momocube")
+    inst:AddTag("momocube_mountedcast")
+
+	inst.MiniMapEntity:SetIcon("momocube.tex")
 
     inst.AnimState:SetBank("momocube")
     inst.AnimState:SetBuild("momocube_build")
@@ -35,10 +98,20 @@ local function fn()
 
 	inst:AddComponent("inspectable")
 
+    inst:AddComponent("momocube")
+    inst.components.momocube.Transformation = Transformation
+
+    inst:AddComponent("trader")
+    inst.components.trader.onaccept = OnAccept
+    inst.components.trader:SetAbleToAcceptTest(AbleToAcceptTest)
+
     inst:AddComponent("inventoryitem")
 	inst.components.inventoryitem.keepondeath = true
 	inst.components.inventoryitem.keepondrown = true
 	inst.components.inventoryitem:SetOnPutInInventoryFn(OnPutInInventory)
+
+    inst.OnSave = OnSave
+    inst.OnLoad = OnLoad
 
     MakeHauntableLaunchAndSmash(inst)
 

@@ -30,7 +30,6 @@ local function DoSpawnMomo(inst, bait, summoner)
             momo.honey = summoner
             momo.honey_userid = summoner.userid
             momo.components.health:SetInvincible(false)
-
             momo:PushEvent("start_dialogue")
 
             TheWorld:PushEvent("ms_momo_spawn")

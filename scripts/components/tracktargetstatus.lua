@@ -1,31 +1,12 @@
-local function CreateLight()
-    local inst = CreateEntity()
-
-    inst:AddTag("FX")
-    --[[Non-networked entity]]
-    inst.entity:SetCanSleep(false)
-    inst.persists = false
-
-    inst.entity:AddTransform()
-    inst.entity:AddLight()
-    inst.entity:AddFollower()
-
-    inst.Light:SetFalloff(.9)
-    inst.Light:SetIntensity(.94)
-    inst.Light:SetRadius(TUNING.WINONA_SPOTLIGHT_RADIUS)
-    inst.Light:SetColour(255 / 255, 248 / 255, 198 / 255)
-    inst.Light:Enable(true)
-
-    return inst
-end
-
+local SpawnUtil = require("utils/spawnutil")
+local CreateLight = SpawnUtil.CreateLight
 local datingmanager = TheWorld.components.datingmanager
 local isdatingrelationship = datingmanager ~= nil and datingmanager:GetIsDatingRelationship() or false
 
 local TrackTargetStatus = Class(function(self, inst)
     self.inst = inst
 
-    self.honey = nil
+    inst:DoTaskInTime(0, self.DoWorldStateInit)
 end)
 
 local function OnSanityDelta(inst, data)
@@ -33,7 +14,7 @@ local function OnSanityDelta(inst, data)
     local newpercent = data.newpercent
 
     if newpercent <= 0.1 then
-
+        inst:PushEvent("")
     end
 end
 
@@ -84,7 +65,7 @@ local function OnHearGrue(inst)
         -- before Charlie's attack, set the light to be released after 0.5 seconds
         honey:DoTaskInTime(0.5, function()
             if honey.momo_light == nil then
-                honey.momo_light = CreateLight()
+                honey.momo_light = CreateLight(true)
                 honey.momo_light.Follower:FollowSymbol(honey.GUID)
             else
                 honey.momo_light.Light:Enable(true)
@@ -112,16 +93,19 @@ local function ToggleLunarHail(self, active)
     local onimpact_canttags = TheWorld.components.lunarhailmanager.onimpact_canttags
     if active then
         table.insert(onimpact_canttags, "manutsawee")
-    elseif onimpact_canttags["manutsawee"] ~= nil then
-        table.remove(onimpact_canttags, onimpact_canttags["manutsawee"])
+    else
+        RemoveByValue(onimpact_canttags, "manutsawee")
     end
 end
 
 local function ToggleAcidRain(self, active)
-    if active then
-        self.inst:AddTag("acidrainimmune")
-    else
-        self.inst:RemoveTag("acidrainimmune")
+    local honey = self.inst:TheHoney()
+    if honey ~= nil then
+        if active then
+            honey:AddTag("acidrainimmune")
+        else
+            honey:RemoveTag("acidrainimmune")
+        end
     end
 end
 
@@ -143,7 +127,6 @@ end
 
 function TrackTargetStatus:StartTrack(honey)
     if honey ~= nil and isdatingrelationship then
-        self.honey = honey
         AddEventListeners(self.inst, honey)
         AddWorldStateWatchers(self, honey)
     end
@@ -171,10 +154,15 @@ end
 
 function TrackTargetStatus:StopTrack(honey)
     if honey ~= nil then
-        self.honey = nil
         RemoveEventListeners(self.inst, honey)
         RemoveWorldStateWatchers(self, honey)
     end
+end
+
+function TrackTargetStatus:DoWorldStateInit()
+    OnIsDay(self, TheWorld.state.isday)
+    ToggleLunarHail(self, TheWorld.state.islunarhailing)
+    ToggleAcidRain(self, TheWorld.state.isacidraining)
 end
 
 TrackTargetStatus.OnRemoveEntity = TrackTargetStatus.StopTrack

@@ -2,6 +2,14 @@ local assets = {
     Asset("ANIM", "anim/momo_hat.zip"),
 }
 
+local function OnPutInInventory(inst, owner)
+	if owner ~= nil and owner.components.inventory ~= nil and not owner:HasTag("naughtychild") then
+        inst:DoTaskInTime(0.1, function()
+            owner.components.inventory:DropItem(inst)
+        end)
+	end
+end
+
 local function OnEquip(inst, owner)
     owner.AnimState:OverrideSymbol("swap_hat", "momo_hat", "swap_hat")
     owner.AnimState:Show("HAT")
@@ -18,9 +26,12 @@ local function fn()
 
     inst.entity:AddTransform()
     inst.entity:AddAnimState()
+	inst.entity:AddMiniMapEntity()
     inst.entity:AddNetwork()
 
     MakeInventoryPhysics(inst)
+
+	inst.MiniMapEntity:SetIcon("momo_hat.tex")
 
     inst.AnimState:SetBank("momo_hat")
     inst.AnimState:SetBuild("momo_hat")
@@ -38,6 +49,7 @@ local function fn()
 
     inst:AddComponent("inspectable")
     inst:AddComponent("inventoryitem")
+    inst.components.inventoryitem:SetOnPutInInventoryFn(OnPutInInventory)
 
     inst:AddComponent("equippable")
     inst.components.equippable.equipslot = EQUIPSLOTS.HEAD

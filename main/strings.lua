@@ -23,6 +23,7 @@ local languages = {
 }
 
 local strings = {
+    MOMO = M_Util.ImportStringsFile("momo", ENV),
     CHARACTERS = {
         GENERIC = M_Util.ImportStringsFile("generic", ENV),
         MANUTSAWEE = M_Util.ImportStringsFile("manutsawee", ENV),

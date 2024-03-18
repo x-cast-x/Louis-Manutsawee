@@ -7,6 +7,7 @@ return {
         },
         MDODGE = "Dash",
         MDODGE2 = "Dodge",
+        TRANSFORMATION = "Transformation",
     },
     CHARACTER_ABOUTME = {
         manutsawee = "Manutsawee is too long so just louis.",
@@ -87,6 +88,7 @@ return {
         MOMO_HAT = "Erebus Crown",
         MOMO = "Momo",
         MOMOCUBE = "Erebus Cube",
+        MOMOAXE = "Erebus(Axe Mode)",
     },
     RECIPE_DESC = {
         HARAKIRI = "Pay your mistake.",
@@ -177,77 +179,12 @@ return {
         manutsawee_yukatalong = "\"Kon ni chi wa ..?'\"",
         manutsawee_yukatalong_purple = "\"Kon ni chi wa ..?'\"",
     },
-    MOMO = {
-        -- [[
-        --]]
-        START_DATING_RELATIONSHIP = {
-            TITLE  = "交往",
-            BODY   = "与埃里巴斯的女儿交♂往, 你将与她确定一种奇怪的关系, 并且她将保护你, 直到你逃出永恒领域。\n\n确定要开始这个关系吗?",
-            OK     = "搞快点!♂",
-            CANCEL = "让我再想想。",
-        },
-        SELECT_REQUEST = {
-            TITLE  = "妥协?反抗?",
-            BODY   = "将你的记忆交给埃里巴斯的女儿, 答应还是拒绝?",
-            OK     = "好, 我答应.",
-            CANCEL = "开始♂击剑吧.",
-        },
-        ONREFUSE = {
-            LIST = {
-                "Honey, don't make trouble, I don't need this.",
-                "I just want something related to you, even memories",
-                "Honey, Don't you know what I want?",
-            },
-            IRRELEVANT = "No, what does this have to do with you? I just want her to give it to me.",
-        },
-        ONNIGHT = {
-            FORHONEY = "Don't worry, honey, I will turn on the light.",
-            OFSELF = "Don't worry you can't see me.",
-            SAMETIME = "Don't worry, honey, I will turn on the light."
-        },
-        DIALOGUE = {
-            HELLO = {
-                "Hi honey, long time no see. Why did you end up in this wasteland?",
-                "I'm looking for you all over the world.",
-                "Of course don't ask why I'm here, you summoned me here.",
-                "Still the same, I want your memory.",
-                -- "",
-                -- "",
-                -- "",
-                -- "",
-                -- "",
-                -- "",
-            },
-            ACCEPT = {
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-            },
-            REJECT = {
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-            },
-        },
-        COZY_SLEEP = "Honey, did you sleep well last night?"
-    },
     M_EPITAPHS = {
-        -- These epitaphs reference lines spoken by the beggar in the film Kung Fu Hustle :P
+        -- these epitaphs reference lines spoken by the beggar in Kung Fu Hustle :P
         "\nHey, my friend, I see you have extraordinary talent, you are a rare genius.\nIt's up to you to maintain the peace of the underworld.\nI have a katana here called tenseiga.\nI see that you are destined for it, so I will give it to you directly, provided you can pick it up.",
-        "\nWow, incredible!\nYou have a flash of inspiration bursting out of your head, you know?\nDespite your young age, you have remarkable aptitude.\nYou are a prodigy rarely seen even once in ten thousand years!\nAs the saying goes: If I don't enter the underworld, who will?\nI'll leave the task of maintaining peace in the underworld to you. Okay?\nThis Tensaiga is a priceless treasure.\nI see that we are fated, so I shall bestow it upon you, as long as you can lift it"
+        "\nWow, incredible!\nYou have a flash of inspiration bursting out of your head, you know?\nDespite your young age, you have remarkable aptitude.\nYou are a prodigy rarely seen even once in ten thousand years!\nAs the saying goes: If I don't enter the underworld, who will?\nI'll leave the task of maintaining peace in the underworld to you. Okay?\nThis Tensaiga is a priceless treasure.\nI see that we are fated, so I shall bestow it upon you, as long as you can lift it",
+        -- these epitaphs come from 长城 of the album Belief of the Hong Kong band Beyond
+        "\n\"Cover ears, Close eyes, Deceive self.\"",
+        "\n\"Around the aging country, around the truth of the facts, around the vast years, around desire and ideals\""
     },
 }
