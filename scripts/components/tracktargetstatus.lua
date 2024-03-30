@@ -81,15 +81,16 @@ local function OnTeleported(inst)
     end
 end
 
-local function OnIsDay(self, active)
+local function OnIsDay(inst, active)
+    local honey = inst:TheHoney()
     if active then
-        if self.honey.momo_light ~= nil then
-            self.honey.momo_light:Remove()
+        if honey ~= nil and honey.momo_light ~= nil then
+            honey.momo_light:Remove()
         end
     end
 end
 
-local function ToggleLunarHail(self, active)
+local function ToggleLunarHail(inst, active)
     local onimpact_canttags = TheWorld.components.lunarhailmanager.onimpact_canttags
     if active then
         table.insert(onimpact_canttags, "manutsawee")
@@ -98,8 +99,8 @@ local function ToggleLunarHail(self, active)
     end
 end
 
-local function ToggleAcidRain(self, active)
-    local honey = self.inst:TheHoney()
+local function ToggleAcidRain(inst, active)
+    local honey = inst:TheHoney()
     if honey ~= nil then
         if active then
             honey:AddTag("acidrainimmune")

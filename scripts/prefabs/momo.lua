@@ -1,5 +1,9 @@
-local PushDialogueScreen = require("utils/dialogueutil")
+local dialogueutil = require("utils/dialogueutil")
 local momo_extensions = require("prefabs/momo_extensions")
+local privatefn = momo_extensions.privatefn
+local publicfn = momo_extensions.publicfn
+local SpawnStartingItems = privatefn.SpawnStartingItems
+local PushDialogueScreen = dialogueutil.PushDialogueScreen
 
 local assets = {
     Asset("ANIM", "anim/player_basic.zip"),
@@ -50,6 +54,7 @@ local momo_skins = {
 	"momo_sailor",
 	"momo_school",
 	"momo_maid",
+    "momo_dark",
 }
 
 local profile_chat_icon = {
@@ -65,6 +70,15 @@ local starting_inventory = {
     "momo_hat",
     "mortalblade",
     "momocube",
+}
+
+local health_phase = {
+    [1] = {
+        hp = 0.5,
+        fn = function(inst)
+            inst:SwitchEquip("mortalblade", "HANDS")
+        end
+    },
 }
 
 local brain = require("brain/momobrain")
@@ -99,10 +113,13 @@ local function OnRefuse(inst, giver, item)
 end
 
 local function OnMinHealth(inst, data)
-    if data and data.str ~= nil then
-        inst:MomoSay(data.str)
-    -- else
-    --     inst:MomoSay("")
+    if data ~= nil then
+        if data.str == nil then
+            data.str = "defeated"
+        end
+        if data.str ~= nil then
+            inst:MomoSay(data.str)
+        end
     end
     inst:RemoveLight()
 end
@@ -124,12 +141,15 @@ local function OnSave(inst, data)
 end
 
 local function OnPreLoad(inst, data)
-end
-
-local function OnLoad(inst, data)
     if data ~= nil then
         inst.honey_userid = data.honey_userid
     end
+end
+
+local function OnLoad(inst, data)
+    -- if data ~= nil then
+    --     inst.honey_userid = data.honey_userid
+    -- end
 end
 
 -- initialization
@@ -141,7 +161,7 @@ local function OnPostInit(inst)
     inst.components.spawnfader:FadeIn()
 
     -- get starting items on spawn
-    momo_extensions.privatefn.SpawnStartingItems(inst, inst.starting_inventory)
+    SpawnStartingItems(inst, inst.starting_inventory)
 
     -- Release Light on spawn
     inst:ReleaseLight(TheWorld.state.isnight)
@@ -166,6 +186,10 @@ local function OnStartADate(inst)
         -- track all status of target, health, hunger, san
         inst.components.tracktargetstatus:StartTrack(honey)
     end
+
+    for i, v in pairs(health_phase) do
+        inst.components.healthtrigger:AddTrigger(v.hp, v.fn)
+	end
 end
 
 local CheckLineList = {
@@ -198,12 +222,8 @@ local function OnHitOtherFn(inst, target, damage, stimuli, weapon, damageresolve
 	end
 end
 
-local function StartFencing()
-
-end
-
 local function StartDialogue(inst)
-    inst:MomoSay(inst, "HELLO")
+    inst:MomoSay("HELLO")
 
     inst:DoTaskInTime(18, function(inst)
         local AcceptRequest = function()
@@ -244,7 +264,7 @@ local function SetInstanceValue(inst)
 end
 
 local function SetInstanceFunctions(inst)
-    for k, v in pairs(momo_extensions) do
+    for k, v in pairs(publicfn) do
         inst[k] = v
     end
 
@@ -303,7 +323,7 @@ local function fn()
     inst:AddTag("pocketwatchcaster")
     inst:AddTag("naughtychild")
     inst:AddTag("momo_npc")
-    inst:AddTag("momocubecaster")
+    -- inst:AddTag("momocubecaster")
 
     -- trader (from trader component) added to pristine state for optimization
     inst:AddTag("trader")
@@ -331,6 +351,7 @@ local function fn()
     inst:AddComponent("entitytracker")
     inst:AddComponent("tracktargetstatus")
     inst:AddComponent("colouradder")
+    inst:AddComponent("healthtrigger")
 
     inst:AddComponent("inspectable")
     inst.components.inspectable.getstatus = GetStatus
@@ -338,18 +359,15 @@ local function fn()
     inst:AddComponent("follower")
     inst.components.follower.canaccepttarget = true
 
-    -- inst:AddComponent("healthtrigger")
-	-- for i, v in pairs(PHASES) do
-        -- 	inst.components.healthtrigger:AddTrigger(v.hp, v.fn)
-	-- end
+	inst:AddComponent("health")
+	inst.components.health:SetMinHealth(1)
+	inst.components.health:SetMaxHealth(TUNING.MOMO_HEALTH)
 
 	inst:AddComponent("locomotor")
 	inst.components.locomotor.walkspeed = TUNING.MOMO_WALKSPEED
 	inst.components.locomotor.runspeed = TUNING.MOMO_RUNSPEED
-
-	inst:AddComponent("health")
-	inst.components.health:SetMinHealth(1)
-	inst.components.health:SetMaxHealth(TUNING.MOMO_HEALTH)
+    inst.components.locomotor.pathcaps = { allowocean = true, ignorecreep = true }
+    inst.components.locomotor:SetTriggersCreep(false)
 
     inst:AddComponent("trader")
     inst.components.trader:SetAcceptTest(ShouldAcceptItem)
@@ -367,8 +385,8 @@ local function fn()
     MakeMediumBurnableCharacter(inst, "torso")
     MakeLargeFreezableCharacter(inst, "torso")
 
-	inst:SetStateGraph("SGmomo")
 	inst:SetBrain(brain)
+	inst:SetStateGraph("SGmomo")
 
     SetInstanceValue(inst)
     SetInstanceFunctions(inst)

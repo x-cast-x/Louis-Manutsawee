@@ -27,9 +27,8 @@ end
 
 function MomoCube:Transform(doer, target, pos)
 	if self.Transformation ~= nil and self.inactive then
-		return self.Transformation(self.inst, doer, target, pos)
+		self.Transformation(self.inst, doer, target, pos)
 	end
-	return false
 end
 
 return MomoCube

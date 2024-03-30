@@ -33,8 +33,42 @@ end
 ACTIONS.TRANSFORMATION.fn = function(act)
     local caster = act.doer
     if act.invobject ~= nil and caster ~= nil and caster:HasTag("momocubecaster") then
-		return act.invobject.components.momocube:Transformation(caster, act.target, act:GetActionPoint())
+		act.invobject.components.momocube:Transform(caster, act.target, act:GetActionPoint())
 	end
+    return true
+end
+
+local M_COMPONENT_ACTIONS = {
+    SCENE = {
+    },
+
+    USEITEM = {
+    },
+
+    POINT = {
+    },
+
+    EQUIPPED = {
+    },
+
+    INVENTORY = {
+        momocube = function(inst, doer, actions)
+            if inst:HasTag("momocube_inactive") and doer:HasTag("momocubecaster") and inst:HasTag("momocube") then
+                if not (doer.replica.rider ~= nil and doer.replica.rider:IsRiding()) or inst:HasTag("momocube_mountedcast") then
+                    table.insert(actions, ACTIONS.TRANSFORMATION)
+                end
+            end
+        end,
+    },
+
+    ISVALID = {
+    },
+}
+
+for actiontype, actons in pairs(M_COMPONENT_ACTIONS) do
+    for component, fn in pairs(actons) do
+        AddComponentAction(actiontype, component, fn)
+    end
 end
 
 modimport("postinit/actions")

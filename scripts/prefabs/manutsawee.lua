@@ -39,6 +39,8 @@ local assets = {
 
     Asset("ANIM", "anim/face_controlled.zip"),
 
+	Asset("ANIM", "anim/wendy_recall.zip"),
+
     Asset("ANIM", "anim/player_idles_bocchi.zip"),
     Asset("ANIM", "anim/player_idles_walter.zip"),
     Asset("ANIM", "anim/player_idles_winona.zip"),
@@ -533,7 +535,7 @@ local function SetInstanceValue(inst)
     inst.glasses_status = false
     inst.hair_long = 1
     inst.hair_type = 1
-    inst._range = inst.components.combat.hitrange
+    inst._hitrange = inst.components.combat.hitrange
 
     inst.skeleton_prefab = nil
 

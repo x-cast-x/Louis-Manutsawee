@@ -89,7 +89,7 @@ local skill_data = {
                         inst:DoTaskInTime(.9, function()
                             SkillUtil.SlashFx(inst, inst, "shadowstrike_slash_fx", 3)
                             SkillUtil.AoeAttack(inst, 1,6.5)
-                            inst.components.combat:SetRange(inst._range)
+                            inst.components.combat:SetRange(inst._hitrange)
                             inst.components.talker:Say(STRINGS.SKILL.SKILL3ATTACK, 2, true)
                             local fx = SpawnPrefab("groundpoundring_fx")
                             fx.Transform:SetScale(.8, .8, .8)
@@ -189,7 +189,7 @@ local skill_data = {
                 inst:DoTaskInTime(2.1, function()
                     SkillUtil.GroundPoundFx(inst, .6)
                     SkillUtil.AoeAttack(inst, 1, 4)
-                    inst.components.combat:SetRange(inst._range)
+                    inst.components.combat:SetRange(inst._hitrange)
                 end)
             end)
         end
@@ -364,7 +364,7 @@ local skill_data = {
                 inst:DoTaskInTime(2.1, function()
                     SkillUtil.SlashFx(inst, inst, "shadowstrike_slash_fx", 3)
                     SkillUtil.AoeAttack(inst, 2,4)
-                    inst.components.combat:SetRange(inst._range)
+                    inst.components.combat:SetRange(inst._hitrange)
                 end)
             end)
         end

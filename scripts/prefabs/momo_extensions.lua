@@ -24,10 +24,12 @@ local function ToggleLight(inst, phase)
         if honey.momo_light ~= nil and inst.momo_light ~= nil then
             honey.momo_light.Light:Enable(bool)
             inst.momo_light.Light:Enable(bool)
-        else
+        elseif bool then
             inst:ReleaseLight(bool)
         end
-        inst:PushEvent("releaselight", {phase = phase})
+        if bool then
+            inst:PushEvent("releaselight", {phase = phase})
+        end
     end
 end
 
@@ -51,8 +53,7 @@ end
 
 local function MomoSay(inst, str)
     if checkstring(str) then
-        str = string.upper(str)
-        local str_table = STRINGS.MOMO.DIALOGUE[str]
+        local str_table = STRINGS.MOMO.DIALOGUE[string.upper(str)]
         for i = 1, #str_table do
             inst:DoTaskInTime(i * 3, function(inst)
                 inst.components.talker:Say(str_table[i])
@@ -156,7 +157,6 @@ end
 
 local function SpawnStartingItems(inst, items)
     if items ~= nil and #items > 0 and inst.components.inventory ~= nil then
-        inst.components.inventory.ignoresound = true
         if inst.components.inventory:GetNumSlots() > 0 then
             for i, v in ipairs(items) do
                 inst.components.inventory:GiveItem(SpawnPrefab(v))

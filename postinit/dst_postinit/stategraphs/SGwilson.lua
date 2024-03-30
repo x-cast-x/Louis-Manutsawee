@@ -44,6 +44,9 @@ local katanarnd = 1
 ----------------------------------------------------------------------------------------------
 
 local actionhandlers = {
+    ActionHandler(ACTIONS.TRANSFORMATION, function(inst, action)
+        return action.invobject ~= nil and "transfiguration_item"
+    end),
 }
 
 local events = {
@@ -474,7 +477,7 @@ local states = {
             if inst.components.playercontroller ~= nil then
                 inst.components.playercontroller:Enable(false)
             end
-            inst.components.combat:SetRange(inst._range)
+            inst.components.combat:SetRange(inst._hitrange)
             inst.AnimState:PlayAnimation("atk_leap_pre")
             inst.Physics:SetMotorVelOverride(30,0,0)
         end,
@@ -615,7 +618,7 @@ local states = {
             end),
 
             TimeEvent(4 * FRAMES, function(inst)
-                inst.components.combat:SetRange(inst._range)
+                inst.components.combat:SetRange(inst._hitrange)
             end),
         },
 
@@ -638,7 +641,7 @@ local states = {
         onexit = function(inst)
             if inst.components.combat ~= nil then
                 inst.components.combat:SetTarget(nil)
-                inst.components.combat:SetRange(inst._range)
+                inst.components.combat:SetRange(inst._hitrange)
             end
             inst.inspskill = nil
             inst.mafterskillndm = inst:DoTaskInTime(1.5, function()
@@ -845,7 +848,7 @@ local states = {
                 inst.components.combat:DoAttack(inst.sg.statemem.target)
                 inst.components.combat:DoAttack(inst.sg.statemem.target)
                 inst:PerformBufferedAction()
-                inst.components.combat:SetRange(inst._range)
+                inst.components.combat:SetRange(inst._hitrange)
             end),
         },
 
@@ -869,7 +872,7 @@ local states = {
         onexit = function(inst)
             if inst.components.combat ~= nil then
                 inst.components.combat:SetTarget(nil)
-                inst.components.combat:SetRange(inst._range)
+                inst.components.combat:SetRange(inst._hitrange)
             end
             inst.mafterskillndm = inst:DoTaskInTime(2, function()
                 inst.mafterskillndm = nil
@@ -934,7 +937,7 @@ local states = {
                 inst.components.combat:DoAttack(inst.sg.statemem.target)
                 inst.components.combat:DoAttack(inst.sg.statemem.target)
                 inst:PerformBufferedAction()
-                inst.components.combat:SetRange(inst._range)
+                inst.components.combat:SetRange(inst._hitrange)
                 inst.components.combat:SetAreaDamage(1, 1)
                 inst.SoundEmitter:PlaySound("turnoftides/common/together/moon_glass/mine")
                 inst.AnimState:SetDeltaTimeMultiplier(1)
@@ -963,7 +966,7 @@ local states = {
         onexit = function(inst)
             if inst.components.combat ~= nil then
                 inst.components.combat:SetTarget(nil)
-                inst.components.combat:SetRange(inst._range)
+                inst.components.combat:SetRange(inst._hitrange)
             end
             inst.inspskill = nil
             inst.components.combat:EnableAreaDamage(false)
@@ -1025,7 +1028,7 @@ local states = {
                 inst.components.combat:DoAttack(inst.sg.statemem.target)
                 inst.components.combat:DoAttack(inst.sg.statemem.target)
                 inst:PerformBufferedAction()
-                inst.components.combat:SetRange(inst._range)
+                inst.components.combat:SetRange(inst._hitrange)
                 inst.components.combat:SetAreaDamage(1, 1)
                 inst.SoundEmitter:PlaySound("turnoftides/common/together/moon_glass/mine")
                 inst.AnimState:SetDeltaTimeMultiplier(1)
@@ -1054,7 +1057,7 @@ local states = {
         onexit = function(inst)
             if inst.components.combat ~= nil then
                 inst.components.combat:SetTarget(nil)
-                inst.components.combat:SetRange(inst._range)
+                inst.components.combat:SetRange(inst._hitrange)
             end
             inst.inspskill = nil
             inst.components.combat:EnableAreaDamage(false)
@@ -1112,7 +1115,7 @@ local states = {
 
                 --if not inst.doubleichimonji then inst.components.combat:DoAttack(inst.sg.statemem.target) end
                 inst:PerformBufferedAction()
-                inst.components.combat:SetRange(inst._range)
+                inst.components.combat:SetRange(inst._hitrange)
                 inst.components.combat:SetAreaDamage(1, 1)
             end),
         },
@@ -1133,7 +1136,7 @@ local states = {
         onexit = function(inst)
             if inst.components.combat ~= nil then
                 inst.components.combat:SetTarget(nil)
-                inst.components.combat:SetRange(inst._range)
+                inst.components.combat:SetRange(inst._hitrange)
             end
             inst.inspskill = nil
             inst.components.combat:EnableAreaDamage(false)
@@ -1214,7 +1217,7 @@ local states = {
                 inst.components.combat:DoAttack(inst.sg.statemem.target)
                 SpawnShadowFx(inst, inst.sg.statemem.target, 2)
                 inst:PerformBufferedAction()
-                inst.components.combat:SetRange(inst._range)
+                inst.components.combat:SetRange(inst._hitrange)
                 inst.components.combat:SetAreaDamage(1, 1)
                 inst.SoundEmitter:PlaySound("turnoftides/common/together/moon_glass/mine")
                 inst.Physics:ClearMotorVelOverride()
@@ -1252,7 +1255,7 @@ local states = {
         onexit = function(inst)
             if inst.components.combat ~= nil then
                 inst.components.combat:SetTarget(nil)
-                inst.components.combat:SetRange(inst._range)
+                inst.components.combat:SetRange(inst._hitrange)
             end
             inst.inspskill = nil
             inst.components.combat:EnableAreaDamage(false)
@@ -1382,43 +1385,33 @@ local states = {
 
     State{
         name = "transfiguration_item",
-        tags = { "doing", "busy", "canrotate" },
+        tags = { "doing", "busy", "nodangle" },
 
         onenter = function(inst)
-            inst.AnimState:PlayAnimation("useitem_pre")
-            inst.AnimState:PushAnimation("transfiguration_item", false)
-			inst.AnimState:PushAnimation("useitem_pst", false)
-
             inst.components.locomotor:Stop()
-
-            local momocube = inst.bufferedaction ~= nil and inst.bufferedaction.invobject
-            if momocube ~= nil then
-                inst.AnimState:OverrideSymbol("momocube", momocube.AnimState:GetBuild(), "momocube")
-            end
+            inst.AnimState:PlayAnimation("wendy_recall")
+            inst.AnimState:PushAnimation("wendy_recall_pst", false)
         end,
 
         timeline =
         {
-            TimeEvent(18 * FRAMES, function(inst)
-                inst.SoundEmitter:PlaySound("turnoftides/common/together/moon_glass/mine")
+            TimeEvent(6*FRAMES, function(inst)
+                inst.SoundEmitter:PlaySound("dontstarve/characters/wendy/summon_pre")
             end),
-			TimeEvent(37 * FRAMES, function(inst)
-				inst.sg:RemoveStateTag("busy")
-			end),
+            TimeEvent(30 * FRAMES, function(inst)
+                inst.SoundEmitter:PlaySound("dontstarve/characters/wendy/recall")
+                inst.sg:RemoveStateTag("busy")
+            end),
         },
 
         events =
         {
             EventHandler("animqueueover", function(inst)
                 if inst.AnimState:AnimDone() then
-					inst.sg:GoToState("idle")
+                    inst.sg:GoToState("idle")
                 end
             end),
         },
-
-        onexit = function(inst)
-			inst.AnimState:ClearOverrideSymbol("momocube")
-        end,
     },
 
 }
@@ -1431,9 +1424,9 @@ for _, state in ipairs(states) do
     AddStategraphState("wilson", state)
 end
 
--- for _, actionhandler in ipairs(actionhandlers) do
---     AddStategraphActionHandler("wilson", actionhandler)
--- end
+for _, actionhandler in ipairs(actionhandlers) do
+    AddStategraphActionHandler("wilson", actionhandler)
+end
 
 local function fn(sg)
     local attack_actionhandler = sg.actionhandlers[ACTIONS.ATTACK].deststate

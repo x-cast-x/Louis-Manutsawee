@@ -72,6 +72,9 @@ return {
             "",
             "",
         },
+        DEFEATED = {
+
+        },
     },
     COZY_SLEEP = "Honey, did you sleep well last night?"
 }

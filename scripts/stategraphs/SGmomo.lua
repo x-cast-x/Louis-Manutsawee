@@ -1,5 +1,5 @@
 --[[
-Most of the code comes from SGwilson
+    Most of the code comes from SGwilson
 ]]
 
 require("stategraphs/commonstates")
@@ -151,7 +151,8 @@ end
 
 local katanarnd = 1
 
-local actionhandlers = {
+local actionhandlers =
+{
     ActionHandler(ACTIONS.HAMMER, function(inst)
         return not inst.sg:HasStateTag("prehammer")
             and (inst.sg:HasStateTag("hammering") and
@@ -173,13 +174,13 @@ local actionhandlers = {
             "mine_start")
         or nil
     end),
-    ActionHandler(ACTIONS.HACK, function(inst)
-        return not inst.sg:HasStateTag("prehack")
-        and (inst.sg:HasStateTag("hacking") and
-            "hack" or
-            "hack_start")
-        or nil
-    end),
+    -- ActionHandler(ACTIONS.HACK, function(inst)
+    --     return not inst.sg:HasStateTag("prehack")
+    --     and (inst.sg:HasStateTag("hacking") and
+    --         "hack" or
+    --         "hack_start")
+    --     or nil
+    -- end),
     ActionHandler(ACTIONS.DIG, function(inst)
         return not inst.sg:HasStateTag("predig")
         and (inst.sg:HasStateTag("digging") and
@@ -3301,8 +3302,6 @@ local states = {
 
         timeline =
         {
-
-
             TimeEvent(9 * FRAMES, function(inst)
                 inst.sg:RemoveStateTag("prechop")
                 inst:RemoveTag("prechop")
@@ -3630,6 +3629,69 @@ local states = {
                 end
             end),
         },
+    },
+
+    State{
+        name = "dig_start",
+        tags = { "predig", "working" },
+
+        onenter = function(inst)
+            inst.components.locomotor:Stop()
+            inst.AnimState:PlayAnimation("shovel_pre")
+			inst:AddTag("predig")
+        end,
+
+        events =
+        {
+            EventHandler("unequip", function(inst) inst.sg:GoToState("idle") end),
+            EventHandler("animover", function(inst)
+                if inst.AnimState:AnimDone() then
+					inst.sg.statemem.digging = true
+                    inst.sg:GoToState("dig")
+                end
+            end),
+        },
+
+		onexit = function(inst)
+			if not inst.sg.statemem.digging then
+				inst:RemoveTag("predig")
+			end
+		end,
+    },
+
+    State{
+        name = "dig",
+        tags = { "predig", "digging", "working" },
+
+        onenter = function(inst)
+            inst.AnimState:PlayAnimation("shovel_loop")
+			inst:AddTag("predig")
+        end,
+
+        timeline =
+        {
+            TimeEvent(15 * FRAMES, function(inst)
+                inst.sg:RemoveStateTag("predig")
+				inst:RemoveTag("predig")
+                inst.SoundEmitter:PlaySound("dontstarve/wilson/dig")
+				inst:PerformBufferedAction()
+            end),
+        },
+
+        events =
+        {
+            EventHandler("unequip", function(inst) inst.sg:GoToState("idle") end),
+            EventHandler("animover", function(inst)
+                if inst.AnimState:AnimDone() then
+                    inst.AnimState:PlayAnimation("shovel_pst")
+                    inst.sg:GoToState("idle", true)
+                end
+            end),
+        },
+
+		onexit = function(inst)
+			inst:RemoveTag("predig")
+		end,
     },
 }
 

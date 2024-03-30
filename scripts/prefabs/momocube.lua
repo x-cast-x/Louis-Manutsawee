@@ -11,28 +11,30 @@ local function OnPutInInventory(inst, owner)
 end
 
 local function AbleToAcceptTest(inst, item, giver)
-    if item ~= nil and giver ~= nil and giver:HasTag("momocubecaster") then
-        local _item = item.prefab
-        return (_item == "axe") or (_item == "pickaxe") or (_item == "goldenaxe") or (_item == "goldenpickaxe")
-    end
+    return true
+    -- if item ~= nil and giver ~= nil and giver:HasTag("momocubecaster") then
+    --     local _item = item.prefab
+    --     return (_item == "axe") or (_item == "pickaxe") or (_item == "goldenaxe") or (_item == "goldenpickaxe")
+    -- end
 end
 
 local function OnAccept(inst, giver, item)
-    if item ~= nil and giver:HasTag("momocubecaster") then
-        local _item = item.prefab
-        local is_tool = (_item == "axe") or (_item == "pickaxe")
-        local is_gold = (_item == "goldenaxe") or (_item == "goldenpickaxe")
-        if is_tool or is_gold then
+    if item ~= nil then
+        -- local _item = item.prefab
+        -- local is_tool = (_item == "axe") or (_item == "pickaxe")
+        -- local is_gold = (_item == "goldenaxe") or (_item == "goldenpickaxe")
+        -- if is_tool or is_gold then
             inst.changetoaxe = true
-            if is_gold then
-                inst.is_gold = true
-            end
-        end
+            -- giver:AddTag("momocubecaster")
+            -- if is_gold then
+            --     inst.is_gold = true
+            -- end
+        -- end
     end
 end
 
 local function Transformation(inst, giver, target, pos)
-    if giver ~= nil and giver:HasTag("momocubecaster") then
+    if giver ~= nil then
         local incarnation
         local inventory = giver.components.inventory
 
@@ -42,13 +44,13 @@ local function Transformation(inst, giver, target, pos)
             if inst.is_gold then
                 incarnation.components.finiteuses:SetUses(incarnation.components.finiteuses.current * 2)
             end
-        end
 
-        if incarnation ~= nil and inventory ~= nil then
-            inventory:GiveItem(incarnation)
-        end
+            if incarnation ~= nil and inventory ~= nil then
+                inventory:GiveItem(incarnation)
+            end
 
-        return true
+            inst:Remove()
+        end
     end
 end
 
@@ -62,11 +64,13 @@ local function OnSave(inst, data)
 end
 
 local function OnLoad(inst, data)
-    if data.is_gold then
-        inst.is_gold = inst.is_gold
-    end
-    if data.changetoaxe then
-        inst.changetoaxe = inst.changetoaxe
+    if data ~= nil then
+        if data.is_gold then
+            inst.is_gold = inst.is_gold
+        end
+        if data.changetoaxe then
+            inst.changetoaxe = inst.changetoaxe
+        end
     end
 end
 
@@ -81,6 +85,7 @@ local function fn()
 
     inst:AddTag("momocube")
     inst:AddTag("momocube_mountedcast")
+    inst:AddTag("trader")
 
 	inst.MiniMapEntity:SetIcon("momocube.tex")
 

@@ -170,7 +170,7 @@ function SkillReleaser:SkillRemove()
     end
 
     self.inst.inspskill = nil
-    self.inst.components.combat:SetRange(self.inst._range)
+    self.inst.components.combat:SetRange(self.inst._hitrange)
     self.inst.components.combat:EnableAreaDamage(false)
     self.inst.AnimState:SetDeltaTimeMultiplier(1)
 end

@@ -30,6 +30,9 @@ local postinit = {
     widgets = {
         "skinspuppet",
     },
+    multipleprefabs = {
+        "tradable",
+    },
 }
 
 for k, v in pairs(postinit) do
