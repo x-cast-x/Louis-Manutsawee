@@ -28,8 +28,38 @@ local _momo_in_the_world = false
 --[[ Private member functions ]]
 --------------------------------------------------------------------------
 
-local OnMomoSpawn = function(inst)
-    _momo_in_the_world = true
+local function NoHoles(pt)
+    return not TheWorld.Map:IsPointNearHole(pt)
+end
+
+local function GetSpawnPoint(pt)
+    local radius_override = 8
+    if not TheWorld.Map:IsAboveGroundAtPoint(pt:Get()) then
+        pt = FindNearbyLand(pt, 1) or pt
+    end
+    local offset = FindWalkableOffset(pt, math.random() * 2 * PI, radius_override, 12, true, true, NoHoles)
+    if offset ~= nil then
+        offset.x = offset.x + pt.x
+        offset.z = offset.z + pt.z
+        return offset
+    end
+end
+
+local OnMomoSpawn = function(inst, pt, honey)
+    local spawn_pt = GetSpawnPoint(pt)
+
+    if spawn_pt ~= nil then
+        local momo = SpawnPrefab("momo")
+        if momo ~= nil then
+            momo.Transform:SetPosition(spawn_pt:Get())
+            momo:FacePoint(pt)
+            momo.honey = honey
+            momo.honey_userid = honey.userid
+            momo.components.health:SetInvincible(false)
+            momo:PushEvent("start_dialogue")
+            _momo_in_the_world = true
+        end
+    end
 end
 
 local OnMomoDefeated = function(inst, honey)

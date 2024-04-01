@@ -239,11 +239,16 @@ local function StartDialogue(inst)
     end)
 end
 
+local function OnRemove(inst)
+
+end
+
 local function RegisterMasterEventListeners(inst)
     inst:ListenForEvent("onstartadate", OnStartADate)
     inst:ListenForEvent("start_dialogue", StartDialogue)
     inst:ListenForEvent("minhealth", OnMinHealth)
     inst:ListenForEvent("admitdefeated", OnMinHealth)
+    inst:ListenForEvent("onremove", OnRemove)
 end
 
 local function RegisterWorldStateWatchers(inst)

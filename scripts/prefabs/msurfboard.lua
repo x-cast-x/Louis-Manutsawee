@@ -18,62 +18,60 @@ local prefabs = {
     "boat_hit_fx",
 }
 
-local function sink(inst)
+local function Sink(inst)
     local sailor = inst.components.sailable:GetSailor()
     if sailor then
-        if sailor.components.health ~= nil then
-            sailor.components.health:Drown(true)
-        end
-        --moved to after drown call because of double drown for wurt and because otherwise when you drown too close to shore you can get put back onto shore due to keeponland
-        sailor.components.sailor:Disembark()
+        sailor.components.sailor:Disembark(nil, nil, true)
 
-        --im pretty sure its here because otherwise it will play twice due to keeponland, plus it needs the boats sinksound -Half
-        inst.SoundEmitter:PlaySound(inst.sinksound) --Not sure why this is here and not in the SG -M
+        -- sailor:PushEvent("onsink", {ia_boat = inst})
+
+        sailor.SoundEmitter:PlaySound(inst.sinksound)
     end
-    if inst.components.container ~= nil then
+    if inst.components.container then
         inst.components.container:DropEverything()
     end
 
     inst:Remove()
 end
 
-local function onhit(inst, worker)
-    inst.AnimState:PlayAnimation("hit")
-    inst.AnimState:PushAnimation("run_loop", true)
+local function OnHit(inst)
+    inst.components.lootdropper:DropLoot()
+    if inst.components.container then
+        inst.components.container:DropEverything()
+    end
+    local fx = SpawnPrefab("collapse_small")
+    fx.Transform:SetPosition(inst.Transform:GetWorldPosition())
+    inst.SoundEmitter:PlaySound("dontstarve/common/destroy_wood")
+    inst:Remove()
 end
 
-local function onrepaired(inst, doer, repair_item)
+local function OnRepaired(inst, doer, repair_item)
     inst.SoundEmitter:PlaySound("ia/common/boatrepairkit")
 end
 
-local function ondisembarked(inst)
-    inst.components.workable.workable = false
+local function OnDisEmbarked(inst)
+    inst.components.workable:SetWorkable(false)
 end
 
-local function onembarked(inst)
-    inst.components.workable.workable = true
+local function OnEmbarked(inst)
+    inst.components.workable:SetWorkable(true)
 end
 
-local function onopen(inst)
+local function OnOpen(inst)
     if inst.components.sailable.sailor == nil then
-        inst.SoundEmitter:PlaySound("ia/common/boat/inventory_open")
+        inst.SoundEmitter:PlaySound("dontstarve_DLC002/common/boat/inventory_open")
     end
 end
 
-local function onclose(inst)
+local function OnClose(inst)
     if inst.components.sailable.sailor == nil then
-        inst.SoundEmitter:PlaySound("ia/common/boat/inventory_close")
+        inst.SoundEmitter:PlaySound("dontstarve_DLC002/common/boat/inventory_close")
     end
 end
 
-local function onworked(inst, worker)
-    inst.components.lootdropper:DropLoot()
-    if inst.components.container ~= nil then
-        inst.components.container:DropEverything()
-    end
-    SpawnAt("collapse_small", inst)
-    inst.SoundEmitter:PlaySound("dontstarve/common/destroy_wood")
-    inst:Remove()
+local function OnWorked(inst)
+    inst.AnimState:PlayAnimation("hit")
+    inst.AnimState:PushAnimation("run_loop", true)
 end
 
 local function common()
@@ -111,6 +109,14 @@ local function common()
     inst.entity:SetPristine()
 
     if not TheWorld.ismastersim then
+        function inst.OnEntityReplicated(_inst)
+            _inst.replica.sailable.creaksound = "ia/common/boat/creaks/creaks"
+            _inst.replica.sailable.sailsound = "ia/common/sail_LP/surfboard"
+            _inst.replica.sailable.sailloopanim = "surf_loop"
+            _inst.replica.sailable.sailstartanim = "surf_pre"
+            _inst.replica.sailable.sailstopanim = "surf_pst"
+            _inst.replica.sailable.alwayssail = true
+        end
         return inst
     end
 
@@ -179,8 +185,8 @@ local function common()
     inst.components.repairable.repairmaterial = "boat"
     inst.components.repairable.onrepaired = onrepaired
 
-    inst:ListenForEvent("embarked", onembarked)
-    inst:ListenForEvent("disembarked", ondisembarked)
+    inst:ListenForEvent("embarked", OnEmbarked)
+    inst:ListenForEvent("disembarked", OnDisEmbarked)
 
     inst.onworked = onworked
 

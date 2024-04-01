@@ -138,6 +138,8 @@ end
 
 local tenseiga_common_postinit = function(inst)
     inst:AddTag("tenseiga")
+    -- inst.AnimState:SetMultColour(0, 0, 0, 0.9)
+    -- inst.AnimState:SetMultColour(0.4, 0.4, 0.4, 1)
 end
 
 local tenseiga_master_postinit = function(inst)

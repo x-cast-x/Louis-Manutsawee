@@ -52,7 +52,16 @@ return {
         manutsawee = "The Red-Eyes Girl",
     },
     M_LOADINGTIPS = {
-        TOKIJIN = "I can't suppress its evil spirit, I can't control tokijin -L",
+        TOKIJIN = "\"I can't suppress its evil spirit, I can't control tokijin.\" - L",
+        ABIGAIL_TENSEIGA = "\"I'm sorry, Tenseiga can't do anything to save her.\" - L",
+        WICKERBOTTOM_REDEYES = "\"Modern science can't explain why your eyes turn red, and neither can magic.\" - W",
+        WAXWELL_REDEYES = "\"I guess your eyes turned red, not from magic, but from a curse, a curse that doesn't belong here.\" - W",
+        WOODIE_REDEYES = "\"Like me, cursed?\" - W",
+        WILSON_REDEYES = "\"It doesn't matter, nothing is strange here, including this girl with red eyes.\" - W",
+        WANDA_REDEYES = "\"emmmm, that's weird, I can't see your past timeline, it's shrouded in a white mist.\" - W",
+        WEBBER_REDEYES = "\"Sorry, Miss Louis, I thought you were wearing red contact lenses\" - W",
+        WORTOX_REDEYES = "\"Miss, I guess you can see things that we can't see?\" - W",
+        WATHGRITHR_REDEYES = "\"Loki has given power to you!\" - W",
     },
     NAMES = {
         BOAT_MSURFBOARD = "Louis's Surf board",
