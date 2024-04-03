@@ -3111,7 +3111,7 @@ return {
         },
         STATUEHARP = "Such a nice statue. Shame if something were to happen to it.",
         STATUEHARP_HEDGESPAWNER = "The flowers grew back, but the head didn't.",
-        STATUEMAXWELL = "A big stone nerd.",
+        STATUEMAXWELL = "Carefully constructed cults of personality are vulnerable.",
         STATUE_MARBLE = {
             GENERIC = "It's an okay statue, I guess.",
             TYPE1 = "Yikes. I'd cover that up too if I were her.",

@@ -1,4 +1,4 @@
-STRINGS.M_EPITAPHS = {
+STRINGS.DEV_EPITAPHS.SYDNEY = {
     -- these epitaphs reference lines spoken by the beggar in Kung Fu Hustle :P
     "\nHey, my friend, I see you have extraordinary talent, you are a rare genius.\nIt's up to you to maintain the peace of the underworld.\nI have a katana here called tenseiga.\nI see that you are destined for it, so I will give it to you directly, provided you can pick it up.",
     "\nWow, incredible!\nYou have a flash of inspiration bursting out of your head, you know?\nDespite your young age, you have remarkable aptitude.\nYou are a prodigy rarely seen even once in ten thousand years!\nAs the saying goes: If I don't enter the underworld, who will?\nI'll leave the task of maintaining peace in the underworld to you. Okay?\nThis Tensaiga is a priceless treasure.\nI see that we are fated, so I shall bestow it upon you, as long as you can lift it",
@@ -80,7 +80,7 @@ return {
                     height = 0,
                     visible = true,
                     properties = {
-                        ["data.setepitaph"] = "Sydney" .. STRINGS.M_EPITAPHS[math.random(1, #STRINGS.M_EPITAPHS)]
+                        ["data.setepitaph"] = "Sydney" .. STRINGS.DEV_EPITAPHS.SYDNEY[math.random(1, #STRINGS.DEV_EPITAPHS.SYDNEY)]
                     }
                 },
                 {

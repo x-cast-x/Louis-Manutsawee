@@ -152,6 +152,7 @@ return {
         manutsawee_shinsengumi = "Laws of the Shinsengumi\nOne must not infringe the samurai code\nOne is not authorized to escape from office\nOne is not allowed to arbitrarily raise money\nOne must not arbitrarily handle litigations\nOne is not authorized to engage in personal conflicts\n",
         manutsawee_taohuu = "Taohuu",
         manutsawee_uniform_black = "I'm Agent L.",
+        manutsawee_lycoris = "Takina's outfit from Lycoris Recoil",
         manutsawee_yukata = "Japan's outfit mini version.",
         manutsawee_yukatalong = "Japan's outfit.",
         manutsawee_yukatalong_purple = "Japan's outfit purple version.",
@@ -168,6 +169,7 @@ return {
         manutsawee_shinsengumi = "Shinsengumi",
         manutsawee_taohuu = "Taohuu",
         manutsawee_uniform_black = "MIB",
+        manutsawee_lycoris = "Lycoris",
         manutsawee_yukata = "Kimono(M) ",
         manutsawee_yukatalong = "Kimono",
         manutsawee_yukatalong_purple = "Kimono(P)",
@@ -184,16 +186,27 @@ return {
         manutsawee_shinsengumi = "\"One must not infringe the samurai code!\"",
         manutsawee_taohuu = "\"I'm cute, please give me money.\"",
         manutsawee_uniform_black = "\"It's because the light from Venus is reflected on...the swamp gas...so...\"",
+        manutsawee_lycoris = "\"Heart is running away! ! !\"",
         manutsawee_yukata = "\"Shine omae! haha.'\"",
         manutsawee_yukatalong = "\"Kon ni chi wa ..?'\"",
         manutsawee_yukatalong_purple = "\"Kon ni chi wa ..?'\"",
     },
-    M_EPITAPHS = {
-        -- these epitaphs reference lines spoken by the beggar in Kung Fu Hustle :P
-        "\nHey, my friend, I see you have extraordinary talent, you are a rare genius.\nIt's up to you to maintain the peace of the underworld.\nI have a katana here called tenseiga.\nI see that you are destined for it, so I will give it to you directly, provided you can pick it up.",
-        "\nWow, incredible!\nYou have a flash of inspiration bursting out of your head, you know?\nDespite your young age, you have remarkable aptitude.\nYou are a prodigy rarely seen even once in ten thousand years!\nAs the saying goes: If I don't enter the underworld, who will?\nI'll leave the task of maintaining peace in the underworld to you. Okay?\nThis Tensaiga is a priceless treasure.\nI see that we are fated, so I shall bestow it upon you, as long as you can lift it",
-        -- these epitaphs come from 长城 of the album Belief of the Hong Kong band Beyond
-        "\n\"Cover ears, Close eyes, Deceive self.\"",
-        "\n\"Around the aging country, around the truth of the facts, around the vast years, around desire and ideals\""
+    DEV_EPITAPHS = {
+        SYDNEY = {
+            -- these epitaphs reference lines spoken by the beggar in Kung Fu Hustle :P
+            "\nHey, my friend, I see you have extraordinary talent, you are a rare genius.\nIt's up to you to maintain the peace of the underworld.\nI have a katana here called tenseiga.\nI see that you are destined for it, so I will give it to you directly, provided you can pick it up.",
+            "\nWow, incredible!\nYou have a flash of inspiration bursting out of your head, you know?\nDespite your young age, you have remarkable aptitude.\nYou are a prodigy rarely seen even once in ten thousand years!\nAs the saying goes: If I don't enter the underworld, who will?\nI'll leave the task of maintaining peace in the underworld to you. Okay?\nThis Tensaiga is a priceless treasure.\nI see that we are fated, so I shall bestow it upon you, as long as you can lift it",
+            -- these epitaphs come from 长城 of the album Belief of the Hong Kong band Beyond
+            "\n\"Cover ears, Close eyes, Deceive self.\"",
+            "\n\"Around the aging country, around the truth of the facts, around the vast years, around desire and ideals\"",
+            -- Google's former motto
+            "\n\"Don't be evil",
+
+            -- nothing
+            "\n\"This is a tombstone I built for myself.\"",
+        }
+        -- no thing
+        -- FFFFFF = {
+        -- },
     },
 }

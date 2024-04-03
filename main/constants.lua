@@ -66,4 +66,5 @@ M_SKIN_NAMES = {
     "taohuu",
     "uniform_black",
     "bocchi",
+    "lycoris",
 }

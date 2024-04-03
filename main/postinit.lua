@@ -12,6 +12,7 @@ local postinit = {
         "world",
         "humanmeat",
         "sacred_chest",
+        "gravestone",
     },
     stategraphs = {
         "SGwilson",
