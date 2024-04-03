@@ -10,6 +10,8 @@ local postinit = {
         "trap",
         "winter_tree",
         "world",
+        "humanmeat",
+        "sacred_chest",
     },
     stategraphs = {
         "SGwilson",

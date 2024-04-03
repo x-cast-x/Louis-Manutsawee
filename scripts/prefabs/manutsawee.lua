@@ -618,6 +618,8 @@ local master_postinit = function(inst)
     if inst.components.eater ~= nil then
         inst.components.eater:SetCanEatMfruit()
         inst.components.eater:SetOnEatFn(OnEat)
+        -- No, No, absolutely not
+        inst.components.eater:SetPrefersEatingTag("humanmeat")
     end
 
     if inst.components.playerlightningtarget ~= nil then

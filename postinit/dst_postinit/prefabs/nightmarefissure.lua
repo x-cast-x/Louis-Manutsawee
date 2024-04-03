@@ -4,7 +4,7 @@ GLOBAL.setfenv(1, GLOBAL)
 
 local function GetStatus(inst, viewer)
     if not inst.AnimState:GetBuild() == "nightmare_crack_upper_tomb" then
-        return "HASKATANA"
+        return "TOMB"
     end
 end
 

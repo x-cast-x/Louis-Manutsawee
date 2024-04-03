@@ -4,13 +4,13 @@ local AddComponentAction = AddComponentAction
 local modimport = modimport
 GLOBAL.setfenv(1, GLOBAL)
 
-local ACTIONS = {
+local M_ACTIONS = {
     MDODGE = Action({distance = math.huge, instant = true}),
     MDODGE2 = Action({distance = math.huge, instant = true}),
     TRANSFORMATION = Action({ priority=-1, rmb=true, mount_valid=true }),
 }
 
-for name, ACTION in pairs(ACTIONS) do
+for name, ACTION in pairs(M_ACTIONS) do
     ACTION.id = name
     ACTION.str = STRINGS.ACTIONS[name] or "Unknown ACTION"
     AddAction(ACTION)

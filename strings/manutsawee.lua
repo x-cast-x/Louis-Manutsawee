@@ -531,6 +531,9 @@ return {
         SPIDER_WARRIOR = "Not so tough now!",
     },
     DESCRIBE = {
+        HUMANMEAT = "Man eat man......will go down in history.",
+        HUMANMEAT_COOKED = "I will never accept this kind of behavior, no matter what.",
+        HUMANMEAT_DRIED = "I'm not in that era, nor in that place, I would never touch it.",
         M_PANTSU = "Hentai.",
         MOMO_HAT = "The next Princess of Darkness.",
         MOMOAXE = "Hmm...I seem to feel strange.",

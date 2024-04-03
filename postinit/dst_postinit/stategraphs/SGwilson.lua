@@ -1393,19 +1393,14 @@ local states = {
             inst.AnimState:PushAnimation("wendy_recall_pst", false)
         end,
 
-        timeline =
-        {
-            TimeEvent(6*FRAMES, function(inst)
-                inst.SoundEmitter:PlaySound("dontstarve/characters/wendy/summon_pre")
-            end),
+        timeline = {
             TimeEvent(30 * FRAMES, function(inst)
-                inst.SoundEmitter:PlaySound("dontstarve/characters/wendy/recall")
+                inst.SoundEmitter:PlaySound("turnoftides/common/together/moon_glass/mine")
                 inst.sg:RemoveStateTag("busy")
             end),
         },
 
-        events =
-        {
+        events = {
             EventHandler("animqueueover", function(inst)
                 if inst.AnimState:AnimDone() then
                     inst.sg:GoToState("idle")
