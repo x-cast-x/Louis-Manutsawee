@@ -83,6 +83,15 @@ local starting_inventory = {
     "momocube",
 }
 
+local starting_foods = {
+    pumpkincookie = 20,
+    honeyham = 20,
+    baconeggs = 20,
+    bananajuice = 20,
+    lobsterdinner = 20,
+    potatotornado = 20,
+}
+
 local health_phase = {
     [1] = {
         hp = 0.5,
@@ -172,7 +181,8 @@ local function OnPostInit(inst)
     inst.components.spawnfader:FadeIn()
 
     -- get starting items on spawn
-    SpawnStartingItems(inst, inst.starting_inventory)
+    privatefn.SpawnStartingItems(inst, starting_inventory)
+    privatefn.SpawnFoods(inst, starting_foods)
 
     -- Release Light on spawn
     inst:ReleaseLight(TheWorld.state.isnight)

@@ -1,3 +1,5 @@
+local AssetUtil = require("utils/assetutil")
+
 PrefabFiles = {
     "manutsawee",
     "manutsawee_none",
@@ -93,22 +95,5 @@ Assets = {
     Asset("ATLAS", "bigportraits/manutsawee_lycoris.xml"),
 }
 
-M_Util.RegisterImageAtlas("images/inventoryimages/m_inventoryimages.xml")
-M_Util.AddMinimapAtlas("m_minimaps", Assets)
-
--- if not TheNet:IsDedicated() then
---     table.insert(Assets, Asset("SOUND", "sound/louis.fsb"))
---     table.insert(Assets, Asset("SOUNDPACKAGE", "sound/louis.fev"))
--- end
-
--- Deprecate
--- RemapSoundEvent("dontstarve/characters/louis/death_voice", "louis/louis/death_voice")
--- RemapSoundEvent("dontstarve/characters/louis/hurt", "louis/louis/hurt")
--- RemapSoundEvent("dontstarve/characters/louis/talk_LP", "louis/louis/talk_LP")
-
--- if IA_ENABLED then
---     table.insert(PrefabFiles, "msurfboard")
--- end
-
--- if PL_ENABLED then
--- end
+AssetUtil.RegisterImageAtlas("images/inventoryimages/m_inventoryimages.xml")
+AssetUtil.AddMinimap("m_minimaps", Assets)

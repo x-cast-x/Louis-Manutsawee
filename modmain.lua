@@ -2,7 +2,6 @@ local modimport = modimport
 
 local modules = {
     "config",
-    "mutil",
     "assets",
     "strings",
     "fx",

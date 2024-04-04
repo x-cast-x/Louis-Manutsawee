@@ -4,6 +4,8 @@ local MODROOT = MODROOT
 local modimport = modimport
 GLOBAL.setfenv(1, GLOBAL)
 
+local StringUtil = require("utils/stringutil")
+
 local languages = {
     -- en = "strings.pot",
     -- de = "german",  -- german
@@ -23,14 +25,14 @@ local languages = {
 }
 
 local strings = {
-    MOMO = M_Util.ImportStringsFile("momo", ENV),
+    MOMO = StringUtil.ImportStringsFile("momo", ENV),
     CHARACTERS = {
-        GENERIC = M_Util.ImportStringsFile("generic", ENV),
-        MANUTSAWEE = M_Util.ImportStringsFile("manutsawee", ENV),
+        GENERIC = StringUtil.ImportStringsFile("generic", ENV),
+        MANUTSAWEE = StringUtil.ImportStringsFile("manutsawee", ENV),
     }
 }
 
-local common = M_Util.ImportStringsFile("common", ENV)
+local common = StringUtil.ImportStringsFile("common", ENV)
 
 GlassicAPI.MergeStringsToGLOBAL(common)
 GlassicAPI.MergeStringsToGLOBAL(strings)

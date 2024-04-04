@@ -1,4 +1,5 @@
 local AddModRPCHandler = AddModRPCHandler
+local AddShardModRPCHandler = AddShardModRPCHandler
 local STRINGS = GLOBAL.STRINGS
 GLOBAL.setfenv(1, GLOBAL)
 
@@ -361,3 +362,15 @@ AddModRPCHandler("manutsawee", "quicksheath", QuickSheathFn)
 AddModRPCHandler("manutsawee", "skillcancel", SkillCancelFn)
 AddModRPCHandler("manutsawee", "glasses", GlassesFn)
 AddModRPCHandler("manutsawee", "hairs", HairsFn)
+
+AddShardModRPCHandler("manutsawee", "SyncKatanaData", function(shardid, active, katana)
+    if not TheWorld.ismastershard then
+        return
+    end
+
+    if active then
+        TheWorld:PushEvent("ms_trackkatana", {name = katana.prefab, katana = katana})
+    else
+        TheWorld:PushEvent("ms_forgetkatana", {name = katana.prefab})
+    end
+end)

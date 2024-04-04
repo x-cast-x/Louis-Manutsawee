@@ -8,6 +8,8 @@ if not UM_ENABLED then
     return
 end
 
+local StringUtil = require("utils/stringutil")
+
 local languages = {
     -- en = "strings.pot",
     -- de = "german",  -- german
@@ -26,5 +28,5 @@ local languages = {
     cht = "chinese_t",  -- simple chinese
 }
 
-M_Util.merge_table(STRINGS.CHARACTERS.MANUTSAWEE, M_Util.ImportStringsFile("um_manutsawee", ENV), true)
+M_Util.merge_table(STRINGS.CHARACTERS.MANUTSAWEE, StringUtil.ImportStringsFile("um_manutsawee", ENV), true)
 GlassicAPI.MergeTranslationFromPO(MODROOT.."postinit/um_postinit/languages/um_", languages[M_CONFIG.locale])

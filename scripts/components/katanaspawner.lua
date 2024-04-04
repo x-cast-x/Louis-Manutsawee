@@ -1,36 +1,73 @@
 --------------------------------------------------------------------------
---[[ katanaspawner class definition ]]
+--[[ katana spawner class definition ]]
 --------------------------------------------------------------------------
 
 return Class(function(self, inst)
 
     assert(TheWorld.ismastersim, "Katana Spawner should not exist on client")
 
+    --------------------------------------------------------------------------
+    --[[ Member variables ]]
+    --------------------------------------------------------------------------
+
     self.inst = inst
+
+    local _world = TheWorld
+    local _ismastersim = _world.ismastersim
+    local _ismastershard = _world.ismastershard
 
     local katanas = {}
 
-    function self:TrackKatana(name, katana)
-        local function onremove()
-            katanas[name] = nil
+    --------------------------------------------------------------------------
+    --[[ Private member functions ]]
+    --------------------------------------------------------------------------
+
+    local TrackKatana = _ismastersim and function(name, katana)
+        if _ismastershard then
+            local function onremove()
+                katanas[name] = nil
+            end
+            katanas[name] = { inst = inst, onremove = onremove }
+            _world:ListenForEvent("onremove", onremove, inst)
+            katanas[name] = katana
+        else
+            SendModRPCToShard(SHARD_MOD_RPC["manutsawee"]["SyncKatanaData"], 1, false, katana)
         end
-        katanas[name] = { inst = inst, onremove = onremove }
-        self.inst:ListenForEvent("onremove", onremove, inst)
-        katanas[name] = katana
+    end or nil
+
+    local ForgetKatana =  _ismastersim and function(name)
+        if _ismastershard then
+            if katanas[name] ~= nil then
+                _world:RemoveEventCallback("onremove", katanas[name].onremove, katanas[name].inst)
+                katanas[name] = nil
+            end
+        else
+            SendModRPCToShard(SHARD_MOD_RPC["manutsawee"]["SyncKatanaData"], 1, false, name)
+        end
+    end or nil
+
+    --------------------------------------------------------------------------
+    --[[ Initialization ]]
+    --------------------------------------------------------------------------
+
+    if _ismastersim then
+        inst:ListenForEvent("ms_trackkatana", TrackKatana, _world)
+        inst:ListenForEvent("ms_forgetkatana", ForgetKatana, _world)
     end
 
-    function self:ForgetKatana(name)
-        if katanas[name] ~= nil then
-            self.inst:RemoveEventCallback("onremove", katanas[name].onremove, katanas[name].inst)
-            katanas[name] = nil
-        end
-    end
+    --------------------------------------------------------------------------
+    --[[ Public member functions ]]
+    --------------------------------------------------------------------------
 
     function self:GetKatana(name)
         return katanas[name] ~= nil and katanas[name].inst or nil
     end
 
-    function self:OnSave()
+    --------------------------------------------------------------------------
+    --[[ Save/Load ]]
+    --------------------------------------------------------------------------
+
+    if _ismastersim then function self:OnSave()
         if next(katanas) == nil then
             return
         end
@@ -44,9 +81,9 @@ return Class(function(self, inst)
         end
 
         return { katanas = ents }, refs
-    end
+    end end
 
-    function self:LoadPostPass(ents, data)
+    if _ismastersim then function self:LoadPostPass(ents, data)
         if data.katanas ~= nil then
             for i, v in ipairs(data.katanas) do
                 local ent = ents[v.GUID]
@@ -55,7 +92,11 @@ return Class(function(self, inst)
                 end
             end
         end
-    end
+    end end
+
+    --------------------------------------------------------------------------
+    --[[ Debug ]]
+    --------------------------------------------------------------------------
 
     function self:GetDebugString()
         local str = "\n"
@@ -64,5 +105,9 @@ return Class(function(self, inst)
         end
         return str
     end
+
+    --------------------------------------------------------------------------
+    --[[ End ]]
+    --------------------------------------------------------------------------
 
 end)
