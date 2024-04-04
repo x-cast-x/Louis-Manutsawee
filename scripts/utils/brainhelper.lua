@@ -38,6 +38,7 @@ local function FilterAnyWorkableTargets(targets, ignorethese, leader, worker)
     return nil
 end
 
+local TOWORK_CANT_TAGS = { "fire", "smolder", "event_trigger", "waxedplant", "INLIMBO", "NOCLICK", "carnivalgame_part" }
 local ANY_TOWORK_ACTIONS = {ACTIONS.CHOP, ACTIONS.MINE, ACTIONS.DIG}
 local ANY_TOWORK_MUSTONE_TAGS = {"CHOP_workable", "MINE_workable", "DIG_workable"}
 local function PickValidActionFrom(target)
@@ -58,8 +59,8 @@ local function FindAnyEntityToWorkActionsOn(inst, ignorethese) -- This is simila
 	if inst.sg:HasStateTag("busy") then
 		return nil
 	end
-    local leader = GetLeader(inst)
-    if leader == nil then -- There is no purpose for a puppet without strings attached.
+    local honey = inst:TheHoney()
+    if honey == nil then -- There is no purpose for a puppet without strings attached.
         return nil
     end
 
@@ -79,25 +80,9 @@ local function FindAnyEntityToWorkActionsOn(inst, ignorethese) -- This is simila
             return BufferedAction(inst, target, action)
         end
     end
-    -- 'target' is invalid at this point, find a new one.
 
-    local spawn = GetSpawn(inst)
-    if spawn == nil then
-        return nil
-    end
-
-    local px, py, pz = inst.Transform:GetWorldPosition()
-    local target = FilterAnyWorkableTargets(TheSim:FindEntities(px, py, pz, TUNING.SHADOWWAXWELL_WORKER_WORK_RADIUS_LOCAL, nil, TOWORK_CANT_TAGS, ANY_TOWORK_MUSTONE_TAGS), ignorethese, leader, inst)
-    if target ~= nil then
-        local maxdist = TUNING.SHADOWWAXWELL_WORKER_WORK_RADIUS + TUNING.SHADOWWAXWELL_WORKER_WORK_RADIUS_LOCAL
-        local dx, dz = px - spawn.x, pz - spawn.z
-        if dx * dx + dz * dz > maxdist * maxdist then
-            target = nil
-        end
-    end
-    if target == nil then
-        target = FilterAnyWorkableTargets(TheSim:FindEntities(spawn.x, spawn.y, spawn.z, TUNING.SHADOWWAXWELL_WORKER_WORK_RADIUS, nil, TOWORK_CANT_TAGS, ANY_TOWORK_MUSTONE_TAGS), ignorethese, leader, inst)
-    end
+    local x, y, z = inst.Transform:GetWorldPosition()
+    local target = FilterAnyWorkableTargets(TheSim:FindEntities(x, y, z, TUNING.SHADOWWAXWELL_WORKER_WORK_RADIUS_LOCAL, nil, TOWORK_CANT_TAGS, ANY_TOWORK_MUSTONE_TAGS), ignorethese, leader, inst)
     action = target ~= nil and PickValidActionFrom(target) or nil
     return action ~= nil and BufferedAction(inst, target, action) or nil
 end

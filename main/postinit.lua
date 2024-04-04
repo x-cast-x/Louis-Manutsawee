@@ -35,6 +35,7 @@ local postinit = {
     },
     multipleprefabs = {
         "tradable",
+        "eater",
     },
 }
 

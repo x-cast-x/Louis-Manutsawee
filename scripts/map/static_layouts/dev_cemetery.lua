@@ -1,3 +1,4 @@
+STRINGS.DEV_EPITAPHS = {}
 STRINGS.DEV_EPITAPHS.SYDNEY = {
     -- these epitaphs reference lines spoken by the beggar in Kung Fu Hustle :P
     "\nHey, my friend, I see you have extraordinary talent, you are a rare genius.\nIt's up to you to maintain the peace of the underworld.\nI have a katana here called tenseiga.\nI see that you are destined for it, so I will give it to you directly, provided you can pick it up.",

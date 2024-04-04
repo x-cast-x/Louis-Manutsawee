@@ -5,6 +5,38 @@ require("fns")
 
 characters = {
     "generic",  -- wilson
+    "willow",
+    "wolfgang",
+    "wendy",
+    "wx78",
+    "wickerbottom",
+    "woodie",
+    -- "wes",
+    "waxwell",
+    "wathgrithr",
+    "webber",
+    "wormwood",
+    "warly",
+
+    -- sw character
+    "walani",
+    -- "wilbur",  -- monkey,no speech
+    "woodlegs",
+
+    -- hamlet character
+    "wheeler",
+    "wilba",
+    "wagstaff",
+    -- "warbucks"  -- discard
+
+    -- dst_new_character
+    "winona",
+    "wortox",
+    "wurt",
+    "walter",
+    "wanda",
+
+    -- mod character
     "manutsawee",
 }
 

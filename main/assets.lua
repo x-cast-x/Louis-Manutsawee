@@ -7,7 +7,7 @@ PrefabFiles = {
     "m_foxmask",
     "m_scarf",
     "momo_hat",
-    "momo",
+    -- "momo",
     "momoaxe",
     "m_pantsu",
     "harakiri",

@@ -58,6 +58,8 @@ local prefabs = {
     "fx_book_light_upgraded",
 }
 
+local enable_idle_anim = M_CONFIG.IDLE_ANIMATION
+
 local start_inv = {}
 
 for k, v in pairs(TUNING.GAMEMODE_STARTING_ITEMS) do
@@ -473,6 +475,7 @@ local Idle_Anim = {
     ["manutsawee_sailor"] = "idle_walter",
     ["manutsawee_jinbei"] = "idle_wortox",
     ["manutsawee_maid"] = "idle_wanda",
+    ["manutsawee_lycoris"] = "idle_wanda",
     ["manutsawee_uniform_black"] = "idle_wanda",
     ["manutsawee_taohuu"] = "idle_winona",
     ["manutsawee_miko"] = "emote_impatient",
@@ -484,22 +487,30 @@ local Funny_Idle_Anim = {
 }
 
 local function CustomIdleAnimFn(inst)
-    local build = inst.AnimState:GetBuild()
-    local idle_anim = Idle_Anim[build]
+    if enable_idle_anim == "Random" then
+        return Idle_Anim[math.random(1, #Idle_Anim)]
+    elseif enable_idle_anim == "Default" then
+        local build = inst.AnimState:GetBuild()
+        local idle_anim = Idle_Anim[build]
 
-    if build == "manutsawee" then
-        local item = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
-        return item ~= nil and item.prefab == "bernie_inactive" and "idle_willow" or "idle_wilson"
-    else
-        return idle_anim ~= nil and idle_anim or nil
+        if build == "manutsawee" then
+            local item = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
+            return item ~= nil and item.prefab == "bernie_inactive" and "idle_willow" or "idle_wilson"
+        else
+            return idle_anim ~= nil and idle_anim or nil
+        end
     end
 end
 
 local function CustomIdleStateFn(inst)
-    local build = inst.AnimState:GetBuild()
-    local funny_idle_anim = Funny_Idle_Anim[build]
+    if enable_idle_anim == "Random" then
+        return Funny_Idle_Anim[math.random(1, #Funny_Idle_Anim)]
+    elseif enable_idle_anim == "Default" then
+        local build = inst.AnimState:GetBuild()
+        local funny_idle_anim = Funny_Idle_Anim[build]
 
-    return funny_idle_anim ~= nil and funny_idle_anim or nil
+        return funny_idle_anim ~= nil and funny_idle_anim or nil
+    end
 end
 
 local function SetUpCustomIdle(inst)
@@ -546,7 +557,7 @@ local function SetInstanceValue(inst)
 end
 
 local function DoPostInit(inst)
-    if M_CONFIG.IDLE_ANIMATION then
+    if enable_idle_anim then
         SetUpCustomIdle(inst)
     end
 
@@ -618,8 +629,8 @@ local master_postinit = function(inst)
     if inst.components.eater ~= nil then
         inst.components.eater:SetCanEatMfruit()
         inst.components.eater:SetOnEatFn(OnEat)
-        -- No, No, absolutely not
-        inst.components.eater:SetPrefersEatingTag("humanmeat")
+
+        inst.components.eater:SetRejectEatingTag("terriblefood")
     end
 
     if inst.components.playerlightningtarget ~= nil then

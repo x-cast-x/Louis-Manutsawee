@@ -33,5 +33,6 @@ return {
         MOMOCUBE = "A cube with magic surrounding it...",
         MOMOAXE = "Axe made from 'Weakly'",
         TENSEIGA = "On its blade, there is no sharpness or killing intent.",
+        DREADSTONE_STACK_TOMB = "",
     },
 }

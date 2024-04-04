@@ -12,7 +12,7 @@ local function OnPutInInventory(inst, owner)
         if owner.prefab == "manutsawee" and owner.components.inventory ~= nil then
             inst:DoTaskInTime(0.1, function()
                 owner.components.inventory:DropItem(inst)
-                owner.components.talker:Say(STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE[string.upper(inst.prefab)])
+                owner.components.talker:Say(STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE[string.upper(humanmeat[math.random(1, #humanmeat)])])
             end)
         end
 	end
@@ -22,7 +22,7 @@ for _, v in ipairs(humanmeat) do
     AddPrefabPostInit(v, function(inst)
         inst:AddTag("humanmeat")
 
-        if TheWorld.ismastersim then
+        if not TheWorld.ismastersim then
             return
         end
 

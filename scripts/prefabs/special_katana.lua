@@ -104,7 +104,6 @@ local function OnRemove(inst)
 end
 
 local mortalblade_master_postinit = function(inst)
-    inst.components.weapon:SetDamage(TUNING.KATANA.TRUE_DAMAGE)
     inst.first_time_unsheathed = true
 
     inst:ListenForEvent("onremove", OnRemove)
@@ -159,6 +158,16 @@ local tenseiga_master_postinit = function(inst)
     inst:RemoveComponent("finiteuses")
 end
 
+local function kage_common_postinit(inst)
+    inst:AddTag("kage")
+end
+
+local function kage_master_postinit(inst)
+
+end
+
+local kage_onattack = mortalblade_onattack
+
 local katana_data = {
     shusui = {
         build = "shusui",
@@ -180,6 +189,13 @@ local katana_data = {
         master_postinit = tenseiga_master_postinit,
         onattack = tenseiga_onattack,
         damage = 0,
+    },
+    kage = {
+        build = "kage",
+        common_postinit = kage_common_postinit,
+        master_postinit = kage_master_postinit,
+        onattack = kage_onattack,
+        damage = TUNING.KATANA.TRUE_DAMAGE,
     }
 }
 

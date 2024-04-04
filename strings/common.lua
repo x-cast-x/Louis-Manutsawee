@@ -37,7 +37,7 @@ return {
         },
     },
     CHARACTER_DESCRIPTIONS = {
-        manutsawee = "*Art of the Japanese sword\n*Brave\n*Benevolent",
+        manutsawee = "*Art of the Japanese sword\n*Brave\n*Benevolent\n*Love to eat",
     },
     CHARACTER_NAMES = {
         manutsawee = "Manutsawee",
@@ -54,6 +54,7 @@ return {
     M_LOADINGTIPS = {
         TOKIJIN = "\"I can't suppress its evil spirit, I can't control tokijin.\" - L",
         ABIGAIL_TENSEIGA = "\"I'm sorry, Tenseiga can't do anything to save her.\" - L",
+        MOMO_REDEYES = "\"That samurai sword sealed countless wronged souls of Yokai and Oni. At the moment it was touched, countless wronged souls sealed in the sword were released. At the same time, they released their demonic power, which gathered into a curse in the eyes of those who touched it. \" - M",
         WICKERBOTTOM_REDEYES = "\"Modern science can't explain why your eyes turn red, and neither can magic.\" - W",
         WAXWELL_REDEYES = "\"I guess your eyes turned red, not from magic, but from a curse, a curse that doesn't belong here.\" - W",
         WOODIE_REDEYES = "\"Like me, cursed?\" - W",
@@ -150,8 +151,8 @@ return {
         manutsawee_qipao = "China's dress",
         manutsawee_sailor = "Japan's school uniform",
         manutsawee_shinsengumi = "Laws of the Shinsengumi\nOne must not infringe the samurai code\nOne is not authorized to escape from office\nOne is not allowed to arbitrarily raise money\nOne must not arbitrarily handle litigations\nOne is not authorized to engage in personal conflicts\n",
-        manutsawee_taohuu = "Taohuu",
-        manutsawee_uniform_black = "I'm Agent L.",
+        manutsawee_taohuu = "Vtuber: Taohuu's outfit",
+        manutsawee_uniform_black = "Agent's uniform from Men in Black.",
         manutsawee_lycoris = "Takina's outfit from Lycoris Recoil",
         manutsawee_yukata = "Japan's outfit mini version.",
         manutsawee_yukatalong = "Japan's outfit.",

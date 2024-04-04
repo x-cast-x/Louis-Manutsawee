@@ -2,7 +2,7 @@ local AddPrefabPostInit = AddPrefabPostInit
 GLOBAL.setfenv(1, GLOBAL)
 
 AddPrefabPostInit("gravestone", function(inst)
-    if TheWorld.ismastersim then
+    if not TheWorld.ismastersim then
         return
     end
 
@@ -11,7 +11,6 @@ AddPrefabPostInit("gravestone", function(inst)
         if epitaph ~= nil then
             for i, v in ipairs(DEV_EPITAPHS) do
                 if v == epitaph then
-                    break
                     return true
                 end
                 return false
@@ -38,7 +37,7 @@ AddPrefabPostInit("gravestone", function(inst)
     local mound = inst.mound
     local is_dev_epitaph = GetDevEpitaph(inst.setepitaph)
     if mound ~= nil and is_dev_epitaph and mound ~= nil then
-        local _onfinish = inst.mound.components.workable.onfinish
+        local _onfinish = mound.components.workable.onfinish
         local function OnFinishCallback(inst, worker, ...)
             if is_dev_epitaph then
                 inst.AnimState:PlayAnimation("dug")

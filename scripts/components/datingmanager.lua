@@ -16,8 +16,10 @@ self.inst = inst
 --[[ Private Member Variables ]]
 --------------------------------------------------------------------------
 
-local _world = inst
-local _map = _world.Map
+local _map = inst.Map
+
+local void_stand_point = {x = 0, y = 30, z = 0}
+local prefab_type = "momo_npc"
 
 local _momo_defeated_count = 0
 
@@ -29,12 +31,12 @@ local _momo_in_the_world = false
 --------------------------------------------------------------------------
 
 local function NoHoles(pt)
-    return not TheWorld.Map:IsPointNearHole(pt)
+    return not _map:IsPointNearHole(pt)
 end
 
 local function GetSpawnPoint(pt)
     local radius_override = 8
-    if not TheWorld.Map:IsAboveGroundAtPoint(pt:Get()) then
+    if not _map:IsAboveGroundAtPoint(pt:Get()) then
         pt = FindNearbyLand(pt, 1) or pt
     end
     local offset = FindWalkableOffset(pt, math.random() * 2 * PI, radius_override, 12, true, true, NoHoles)
@@ -70,6 +72,10 @@ local ConfirmDatingRelationship = function(inst, honey)
     _dating_relationship = true
 end
 
+local ReturnIdlePointWait = function(inst, momo)
+    momo:PushEvent("use_pocketwatch_portal", void_stand_point)
+end
+
 --------------------------------------------------------------------------
 --[[ Public member functions ]]
 --------------------------------------------------------------------------
@@ -93,6 +99,7 @@ end
 inst:ListenForEvent("ms_momo_spawn", OnMomoSpawn)
 inst:ListenForEvent("ms_momo_defeated", OnMomoDefeated)
 inst:ListenForEvent("ms_dating_relationship", ConfirmDatingRelationship)
+inst:ListenForEvent("ms_return_point", ReturnIdlePointWait)
 
 --------------------------------------------------------------------------
 --[[ Save/Load ]]

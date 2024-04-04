@@ -52,7 +52,7 @@ local random_gift2 =
 }
 
 local function fn(inst)
-    if TheWorld.ismastersim then
+    if not TheWorld.ismastersim then
         return
     end
 

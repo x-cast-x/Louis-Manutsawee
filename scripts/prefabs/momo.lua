@@ -35,6 +35,17 @@ local assets = {
     Asset("ANIM", "anim/momo_school.zip"),
     Asset("ANIM", "anim/momo_sailor.zip"),
     Asset("ANIM", "anim/momo_dark.zip"),
+
+    Asset("ANIM", "anim/player_idles_bocchi.zip"),
+    Asset("ANIM", "anim/player_idles_walter.zip"),
+    Asset("ANIM", "anim/player_idles_winona.zip"),
+    Asset("ANIM", "anim/player_idles_wathgrithr.zip"),
+    Asset("ANIM", "anim/player_idles_wanda.zip"),
+    Asset("ANIM", "anim/player_idles_wendy.zip"),
+    Asset("ANIM", "anim/player_idles_wilson.zip"),
+    Asset("ANIM", "anim/player_idles_wortox.zip"),
+    Asset("ANIM", "anim/player_idles_wes.zip"),
+    Asset("ANIM", "anim/player_idles_willow.zip"),
 }
 
 local prefabs = {
@@ -268,6 +279,31 @@ local function SetInstanceValue(inst)
     inst.starting_inventory = starting_inventory
 end
 
+local Idle_Anim = {
+    "idle_wendy",
+    "idle_wathgrithr",
+    "idle_walter",
+    "idle_wortox",
+    "idle_wanda",
+    "idle_winona",
+    "idle_wilson",
+    "idle_wilson",
+    "emote_impatient",
+}
+
+local Funny_Idle_Anim = {
+    "wes_funnyidle",
+    "idle_bocchi",
+}
+
+local function CustomIdleAnimFn(inst)
+    return Idle_Anim[math.random(1, #Idle_Anim)]
+end
+
+local function CustomIdleStateFn(inst)
+    return Funny_Idle_Anim[math.random(1, #Funny_Idle_Anim)]
+end
+
 local function SetInstanceFunctions(inst)
     for k, v in pairs(publicfn) do
         inst[k] = v
@@ -277,6 +313,9 @@ local function SetInstanceFunctions(inst)
     inst.SetUpEquip = SetUpEquip
     inst.OnStartADate = OnStartADate
     inst.StartDialogue = StartDialogue
+
+    inst.customidleanim = CustomIdleAnimFn
+    inst.customidlestate = CustomIdleStateFn
 
     inst.OnSave = OnSave
     inst.OnLoad = OnLoad
@@ -310,11 +349,14 @@ local function fn()
     inst.AnimState:Hide("HEAD_HAT_NOHELM")
     inst.AnimState:Hide("HEAD_HAT_HELM")
 
-    inst.AnimState:AddOverrideBuild("player_idles_wanda")
     inst.AnimState:AddOverrideBuild("player_multithrust")
     inst.AnimState:AddOverrideBuild("player_attack_leap")
     inst.AnimState:AddOverrideBuild("player_superjump")
     inst.AnimState:AddOverrideBuild("player_actions_uniqueitem")
+
+    inst.AnimState:AddOverrideBuild("player_idles_wes")
+    inst.AnimState:AddOverrideBuild("player_idles_wendy")
+    inst.AnimState:AddOverrideBuild("player_idles_wanda")
 
     inst.DynamicShadow:SetSize(1.3, .6)
 
@@ -360,9 +402,6 @@ local function fn()
 
     inst:AddComponent("inspectable")
     inst.components.inspectable.getstatus = GetStatus
-
-    inst:AddComponent("follower")
-    inst.components.follower.canaccepttarget = true
 
 	inst:AddComponent("health")
 	inst.components.health:SetMinHealth(1)

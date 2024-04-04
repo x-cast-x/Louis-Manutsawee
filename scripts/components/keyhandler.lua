@@ -9,30 +9,18 @@ end
 local function OnRawKey(self, key, down)
     local player = self.inst
     if player ~= nil then
-          if (key and not down) and not self.paused and not self.ignore_ then
-              player:PushEvent("keyup", {inst = self.inst, player = player, key = key})
-        elseif key and down and not self.paused and not self.ignore_ then
-              player:PushEvent("keydown", {inst = self.inst, player = player, key = key})
+        if (key and not down) then
+            player:PushEvent("keyup", {inst = self.inst, player = player, key = key})
+        elseif key and down then
+            player:PushEvent("keydown", {inst = self.inst, player = player, key = key})
         end
-      end
-end
-
-local function OnGamePaused(inst, paused)
-    inst.components.keyhandler.paused = paused
+    end
 end
 
 local KeyHandler = Class(function(self, inst)
     self.inst = inst
-    self.paused = false
-    self.ignore_ = false
     self.handler = TheInput:AddKeyHandler(function(key, down) OnRawKey(self, key, down) end)
-
-    self.inst:ListenForEvent("gamepaused", OnGamePaused)
 end)
-
-function KeyHandler:SetTickTime(time)
-    self.ticktime = time or self.ticktime or 0
-end
 
 function KeyHandler:AddActionListener(namespace, key, action, event)
     if event == nil then

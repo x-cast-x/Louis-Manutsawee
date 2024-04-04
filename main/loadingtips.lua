@@ -32,7 +32,6 @@ local function setup_custom_loading_tips()
 
     SetLoadingTipCategoryWeights(LOADING_SCREEN_TIP_CATEGORY_WEIGHTS_END, tipcategoryendweights)
 
-    -- Recalculate loading tip & category weights.
     TheLoadingTips.loadingtipweights = TheLoadingTips:CalculateLoadingTipWeights()
     TheLoadingTips.categoryweights = TheLoadingTips:CalculateCategoryWeights()
 

@@ -3,7 +3,7 @@ local UpvalueUtil = require("utils/upvalueutil")
 GLOBAL.setfenv(1, GLOBAL)
 
 AddPrefabPostInit("sacred_chest", function(inst)
-    if TheWorld.ismastersim then
+    if not TheWorld.ismastersim then
         return
     end
 

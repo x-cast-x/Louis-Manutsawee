@@ -1,8 +1,5 @@
 GLOBAL.setfenv(1, GLOBAL)
 
----@param event string
----@param source entityscript | nil
----@param source_file string | nil
 if not rawget(EntityScript, "GetEventCallbacks") then
     function EntityScript:GetEventCallbacks(event, source, source_file)
         source = source or self

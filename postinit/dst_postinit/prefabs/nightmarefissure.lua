@@ -18,15 +18,17 @@ AddPrefabPostInit("fissure", function(inst)
     end
 
     local katanaspawner = TheWorld.components.katanaspawner
-    local _OnFissureMinedFinished = inst.components.workable.onfinish
-    function inst.components.workable.onfinish(inst, worker)
-        _OnFissureMinedFinished(inst, worker)
+    local _onfinish = inst.components.workable.onfinish
+    local function OnFinishCallback(inst, worker)
+        _onfinish(inst, worker)
         local pt = inst:GetPosition()
-        if katanaspawner ~= nil and not katanaspawner:GetHasKatana("mortalblade") then
-            inst.components.lootdropper:SpawnLootPrefab("mortalblade", pt)
-            katanaspawner:SetHasKatana("mortalblade", true)
+        if katanaspawner ~= nil and not katanaspawner:GetKatana("mortalblade") then
+            local mortalblade = inst.components.lootdropper:SpawnLootPrefab("mortalblade", pt)
+            katanaspawner:TrackKatana("mortalblade", mortalblade)
         end
     end
+
+    inst.components.workable:SetOnFinishCallback(OnFinishCallback)
 
     local _OnNightmarePhaseChanged = inst.OnNightmarePhaseChanged
     local _ShowPhaseState = UpvalueUtil.GetUpvalue(_OnNightmarePhaseChanged, "ShowPhaseState")
@@ -34,9 +36,10 @@ AddPrefabPostInit("fissure", function(inst)
     local _controlled = _states.controlled
     function _states.controlled(inst, instant, oldstate)
         _controlled(inst, instant, oldstate)
-        if katanaspawner ~= nil and not not katanaspawner:GetHasKatana("mortalblade") and inst.AnimState:IsCurrentAnimation("idle_open_rift") then
+        if katanaspawner ~= nil and not not katanaspawner:GetKatana("mortalblade") and inst.AnimState:IsCurrentAnimation("idle_open_rift") then
             local fx = SpawnPrefab("dreadstone_spawn_fx")
             fx.entity:SetParent(inst.entity)
+            inst:SetPrefabNameOverride("dreadstone_stack_tomb")
             inst.AnimState:SetBank("nightmare_crack_upper_tomb")
             inst.AnimState:SetBuild("nightmare_crack_upper_tomb")
             inst.AnimState:PushAnimation("idle_open_rift", true)
