@@ -91,7 +91,7 @@ local function CooldownSkillFx(inst, fx)
     fx.Follower:FollowSymbol(inst.GUID, "swap_body", 0, 0, 0)
 end
 
-local fxs = {
+local skill_fxs = {
     ["ichimonji"] = "ghostlyelixir_retaliation_dripfx",
     ["flip"] = "ghostlyelixir_shield_dripfx",
     ["thrust"] = "ghostlyelixir_speed_dripfx",
@@ -106,7 +106,7 @@ local fxs = {
 local function OnTimerDone(inst, data)
     local name = data.name
     if name ~= nil then
-        for k, v in pairs(fxs) do
+        for k, v in pairs(skill_fxs) do
             if name == k then
                 CooldownSkillFx(inst, v)
                 break
@@ -135,7 +135,7 @@ end
 
 function SkillReleaser:AddCooldownSkillFx(skill, fx)
     if checkstring(skill) and checkstring(fx) then
-        fxs[skill] = fx
+        skill_fxs[skill] = fx
     end
 end
 

@@ -374,7 +374,7 @@ local skill_data = {
     --     tag = "soryuha",
     --     time = M_CONFIG.SKILL3_COOLDOWN,
     --     mindpower = 20,
-    --     fn = function(inst, target, weapon)
+    --     fn = function(inst, weapon)
 
     --     end
     -- }

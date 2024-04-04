@@ -3514,7 +3514,7 @@ return {
             FIRESTARTER = "I don't think you were supposed to start that fire.",
             GENERIC = "Hi %s!",
             GHOST = "Did you mean to do that?",
-            MURDERER = "I'm gonna kill you!",
+            MURDERER = "Stay away from me, the further away the better!",
             REVIVER = "%s would never leave anyone behind.",
         },
         WAR_BLUEPRINT = "Ooooh, looks dangerous!",
@@ -3765,7 +3765,7 @@ return {
             FIRESTARTER = "I don't think it's safe for you to be around fire.",
             GENERIC = "Hi %s!",
             GHOST = "I think %s needs some help.",
-            MURDERER = "I'm gonna kill you!",
+            MURDERER = "Stay away from me, the further away the better!",
             REVIVER = "Hey, thanks a bunch there, %s!",
         },
         WORMWOOD_MUTANTPROXY_CARRAT = {

@@ -14232,7 +14232,7 @@ msgstr "你是想这么做吗？"
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WARLY.MURDERER
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WARLY.MURDERER"
-msgid "I'm gonna kill you!"
+msgid "Stay away from me, the further away the better!"
 msgstr "我会杀了你！"
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WARLY.REVIVER
@@ -15197,7 +15197,7 @@ msgstr "我认为 %s 需要一些帮助。"
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WORMWOOD.MURDERER
 msgctxt "STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WORMWOOD.MURDERER"
-msgid "I'm gonna kill you!"
+msgid "Stay away from me, the further away the better!"
 msgstr "我会杀了你！"
 
 #. STRINGS.CHARACTERS.MANUTSAWEE.DESCRIBE.WORMWOOD.REVIVER
