@@ -371,7 +371,7 @@ return {
     ANNOUNCE_HUNT_WRONG_FORK = "Did you hear something? Er... must be my imagination...",
     ANNOUNCE_INSUFFICIENTFERTILIZER = "It looks slightly happier.",
     ANNOUNCE_INV_FULL = "I can only carry so much!!",
-    ANNOUNCE_ISNIGHTMAREWILD = "我好像不太舒服......",
+    ANNOUNCE_ISNIGHTMAREWILD = "I don't seem to feel well......",
     ANNOUNCE_IS_FEASTING = "Can't talk, must eat.",
     ANNOUNCE_KITCOON_FOUND_IN_THE_WILD = "I knew I saw something hiding over here!",
     ANNOUNCE_KITCOON_HIDANDSEEK_FOUND = {

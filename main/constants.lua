@@ -67,4 +67,5 @@ M_SKIN_NAMES = {
     "uniform_black",
     "bocchi",
     "lycoris",
+    "maid_m",
 }
