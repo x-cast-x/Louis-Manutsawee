@@ -155,28 +155,14 @@ local function OnWakeUp(inst)
     end
 end
 
-local function SpawnFoods(inst, items)
-    if items ~= nil and #items > 0 and inst.components.inventory ~= nil then
-        if inst.components.inventory:GetNumSlots() > 0 then
-            for k, v in pairs(items) do
-                v = checknumber(v) and v or 1
-                for i = 1, v do
-                    local item = SpawnPrefab(k)
-                    if item:HasTag("preparedfood") and item.components.perishable ~= nil then
-                        item.components.perishable:StopPerishing()
-                    end
-                    inst.components.inventory:GiveItem(item)
-                end
-            end
-        end
-    end
-end
-
 local function SpawnStartingItems(inst, items)
     if items ~= nil and #items > 0 and inst.components.inventory ~= nil then
         if inst.components.inventory:GetNumSlots() > 0 then
-            for i, v in ipairs(items) do
-                inst.components.inventory:GiveItem(SpawnPrefab(v))
+            for k, v in pairs(items) do
+                for _ = 1, v do
+                    local item = SpawnPrefab(k)
+                    inst.components.inventory:GiveItem(item)
+                end
             end
         end
     end
@@ -199,7 +185,6 @@ return {
     },
 
     privatefn = {
-        SpawnFoods = SpawnFoods,
         SpawnStartingItems = SpawnStartingItems,
     },
 }

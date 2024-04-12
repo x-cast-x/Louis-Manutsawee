@@ -2,7 +2,6 @@ local dialogueutil = require("utils/dialogueutil")
 local momo_extensions = require("prefabs/momo_extensions")
 local privatefn = momo_extensions.privatefn
 local publicfn = momo_extensions.publicfn
-local SpawnStartingItems = privatefn.SpawnStartingItems
 local PushDialogueScreen = dialogueutil.PushDialogueScreen
 
 local assets = {
@@ -77,10 +76,16 @@ local profile_chat_icon = {
 }
 
 local starting_inventory = {
-    "mnaginata",
-    "momo_hat",
-    "mortalblade",
-    "momocube",
+    mnaginata = 1,
+    momo_hat = 1,
+    mortalblade = 1,
+    momocube = 1,
+    pumpkincookie = 20,
+    honeyham = 20,
+    baconeggs = 20,
+    bananajuice = 20,
+    lobsterdinner = 20,
+    potatotornado = 20,
 }
 
 local starting_foods = {
@@ -182,7 +187,6 @@ local function OnPostInit(inst)
 
     -- get starting items on spawn
     privatefn.SpawnStartingItems(inst, starting_inventory)
-    privatefn.SpawnFoods(inst, starting_foods)
 
     -- Release Light on spawn
     inst:ReleaseLight(TheWorld.state.isnight)

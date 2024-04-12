@@ -1,7 +1,7 @@
 local foods = {
     momo_pizza = {
 		test = function(cooker, names, tags) return tags.meat and names.kyno_flour and tags.dairy and (names.tomato or names.tomato_cooked) end,
-		name = "gorge_pizza",
+		build = "gorge_pizza",
         priority = 35,
 		foodtype = FOODTYPE.MEAT,
 		perishtime = TUNING.PERISH_SUPERSLOW,
@@ -15,7 +15,8 @@ local foods = {
 }
 
 for k, v in pairs(foods) do
-    v.name = k.name
+    v.name = k
+    v.build = v.build
     v.weight = v.weight or 1
     v.priority = v.priority or 0
 
