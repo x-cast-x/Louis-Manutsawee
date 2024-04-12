@@ -97,9 +97,20 @@ local mortalblade_common_postinit = function(inst)
 end
 
 local function OnRemove(inst)
-    local katanaspawner = TheWorld.components.katanaspawner
-    if katanaspawner ~= nil and katanaspawner:GetHasKatana(inst.prefab) then
-        katanaspawner:SetHasKatana(inst.prefab, true)
+    SendModRPCToShard(SHARD_MOD_RPC["manutsawee"]["SyncKatanaData"], 1, false, inst.prefab)
+end
+
+local function OnSave(inst, data)
+    if inst.first_time_unsheathed ~= nil then
+        data.first_time_unsheathed = inst.first_time_unsheathed
+    end
+end
+
+local function OnLoad(inst, data)
+    if data ~= nil then
+        if inst.first_time_unsheathed ~= nil then
+            inst.first_time_unsheathed = data.first_time_unsheathed
+        end
     end
 end
 
@@ -110,6 +121,17 @@ local mortalblade_master_postinit = function(inst)
 
     inst.TryStartFx = TryStartFx
     inst.StopFx = StopFx
+
+    inst.OnSave = OnSave
+    inst.OnLoad = OnLoad
+
+    inst.onequip_fn = function(inst, owner)
+        inst.TryStartFx(inst, owner)
+    end
+
+    inst.onunequip_fn = function(inst, owner)
+        inst.StopFx(inst)
+    end
 end
 
 local tenseiga_onattack = function(inst, owner, target)
@@ -163,7 +185,13 @@ local function kage_common_postinit(inst)
 end
 
 local function kage_master_postinit(inst)
+    inst.onequip_fn = function(inst, owner)
+        inst.TryStartFx(inst, owner)
+    end
 
+    inst.onunequip_fn = function(inst, owner)
+        inst.StopFx(inst)
+    end
 end
 
 local kage_onattack = mortalblade_onattack

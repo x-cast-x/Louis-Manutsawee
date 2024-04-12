@@ -10,10 +10,7 @@ AddPrefabPostInit("gravestone", function(inst)
     local function GetDevEpitaph(epitaph)
         if epitaph ~= nil then
             for i, v in ipairs(DEV_EPITAPHS) do
-                if v == epitaph then
-                    return true
-                end
-                return false
+                return v == epitaph
             end
         end
     end
@@ -42,12 +39,12 @@ AddPrefabPostInit("gravestone", function(inst)
             if is_dev_epitaph then
                 inst.AnimState:PlayAnimation("dug")
                 inst:RemoveComponent("workable")
+                inst.components.lootdropper:SpawnLootPrefab("m_pantsu")
 
                 if worker ~= nil then
                     if worker.components.sanity ~= nil then
                         worker.components.sanity:DoDelta(-TUNING.SANITY_SMALL)
                     end
-                    inst.components.lootdropper:SpawnLootPrefab("m_pantsu")
                 end
             else
                 _onfinish(inst, worker, ...)

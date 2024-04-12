@@ -11,25 +11,23 @@ local function OnPutInInventory(inst, owner)
 end
 
 local function AbleToAcceptTest(inst, item, giver)
-    return true
-    -- if item ~= nil and giver ~= nil and giver:HasTag("momocubecaster") then
-    --     local _item = item.prefab
-    --     return (_item == "axe") or (_item == "pickaxe") or (_item == "goldenaxe") or (_item == "goldenpickaxe")
-    -- end
+    if item ~= nil and giver ~= nil and giver:HasTag("momocubecaster") then
+        local _item = item.prefab
+        return (_item == "axe") or (_item == "pickaxe") or (_item == "goldenaxe") or (_item == "goldenpickaxe")
+    end
 end
 
 local function OnAccept(inst, giver, item)
     if item ~= nil then
-        -- local _item = item.prefab
-        -- local is_tool = (_item == "axe") or (_item == "pickaxe")
-        -- local is_gold = (_item == "goldenaxe") or (_item == "goldenpickaxe")
-        -- if is_tool or is_gold then
-            inst.changetoaxe = true
-            -- giver:AddTag("momocubecaster")
-            -- if is_gold then
-            --     inst.is_gold = true
-            -- end
-        -- end
+        local _item = item.prefab
+        local is_tool = (_item == "axe") or (_item == "pickaxe")
+        local is_gold = (_item == "goldenaxe") or (_item == "goldenpickaxe")
+        if is_tool or is_gold then
+            inst.transtoaxe = true
+            if is_gold then
+                inst.is_gold = true
+            end
+        end
     end
 end
 
@@ -38,7 +36,7 @@ local function Transformation(inst, giver, target, pos)
         local incarnation
         local inventory = giver.components.inventory
 
-        if inst.changetoaxe then
+        if inst.transtoaxe then
             incarnation = SpawnPrefab("momoaxe")
             incarnation.Transform:SetPosition(inst.Transform:GetWorldPosition())
             if inst.is_gold then

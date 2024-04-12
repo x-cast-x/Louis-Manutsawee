@@ -75,7 +75,7 @@ local function OnIsNightmareWild(inst, isnightmarewild)
         return
     end
 
-    if owner ~= nil and isnightmarewild and owner.components.areaaware:CurrentlyInTag("Nightmare") and not owner:HasTag("controlled") then
+    if isnightmarewild and owner.components.areaaware:CurrentlyInTag("Nightmare") and not owner:HasTag("controlled") then
         inst:DoTaskInTime(10, function()
             if owner.SwitchControlled ~= nil then
                 owner.components.talker:Say(GetString(owner, "ANNOUNCE_ISNIGHTMAREWILD"))

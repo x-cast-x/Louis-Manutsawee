@@ -31,7 +31,7 @@ return Class(function(self, inst)
             _world:ListenForEvent("onremove", onremove, inst)
             katanas[name] = katana
         else
-            SendModRPCToShard(SHARD_MOD_RPC["manutsawee"]["SyncKatanaData"], 1, false, katana)
+            SendModRPCToShard(SHARD_MOD_RPC["manutsawee"]["SyncKatanaData"], 1, true, katana)
         end
     end or nil
 

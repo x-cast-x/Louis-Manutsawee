@@ -556,16 +556,6 @@ local function SetInstanceValue(inst)
     inst.glasses_map = glasses_map
 end
 
-local function DoPostInit(inst)
-    if enable_idle_anim then
-        SetUpCustomIdle(inst)
-    end
-
-    SetInstanceFunctions(inst)
-    SetInstanceValue(inst)
-    RegisterEventListeners(inst)
-end
-
 local master_postinit = function(inst)
     inst.starting_inventory = start_inv[TheNet:GetServerGameMode()] or start_inv.default
 
@@ -648,7 +638,13 @@ local master_postinit = function(inst)
     inst.components.efficientuser:AddMultiplier(ACTIONS.HAMMER, TUNING.WES_WORKEFFECTIVENESS_MODIFIER, inst)
     inst.components.efficientuser:AddMultiplier(ACTIONS.ATTACK, TUNING.WES_WORKEFFECTIVENESS_MODIFIER, inst)
 
-    DoPostInit(inst)
+    if enable_idle_anim then
+        SetUpCustomIdle(inst)
+    end
+
+    SetInstanceFunctions(inst)
+    SetInstanceValue(inst)
+    RegisterEventListeners(inst)
 end
 
 return MakePlayerCharacter("manutsawee", prefabs, assets, common_postinit, master_postinit, start_inv)

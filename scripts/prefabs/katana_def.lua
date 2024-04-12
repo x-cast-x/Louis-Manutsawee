@@ -118,14 +118,14 @@ local function OnEquip(inst, owner)
         inst.components.weapon:SetDamage(inst.components.weapon.damage + (owner.components.kenjutsuka:GetKenjutsuLevel() * 2))
     end
 
-    if inst:HasTag("mortalblade") then
-        inst.TryStartFx(inst, owner)
-    end
-
     if not inst.weaponstatus then
         inst.SheathMode(inst, owner)
     else
         inst.UnsheathMode(inst, owner)
+    end
+
+    if inst.onequip_fn ~= nil then
+        inst.onequip_fn(inst, owner)
     end
 end
 
@@ -133,11 +133,11 @@ local function OnUnequip(inst, owner)
     owner.AnimState:Hide("ARM_carry")
     owner.AnimState:Show("ARM_normal")
 
-    if inst:HasTag("mortalblade") then
-        inst.StopFx(inst)
-    end
-
     inst.components.weapon:SetDamage(TUNING.KATANA.DAMAGE)
+
+    if inst.onunequip_fn ~= nil then
+        inst.onunequip_fn(inst, owner)
+    end
 end
 
 local function OnPocket(inst, owner)
@@ -156,10 +156,6 @@ local has_broken = {
 }
 
 local function OnFinished(inst)
-    if inst:HasTag("mortalblade") then
-        inst.StopFx(inst)
-    end
-
     if has_broken[inst.prefab] then
         local katana_broken = SpawnPrefab(inst.build .. "_broken")
         local x,y,z = inst.Transform:GetWorldPosition()
@@ -170,6 +166,10 @@ local function OnFinished(inst)
 
     if owner ~= nil and not owner:HasTag("notshowscabbard") then
         owner.AnimState:ClearOverrideSymbol("swap_body_tall")
+    end
+
+    if inst.onunequip_fn ~= nil then
+        inst.onunequip_fn(inst, owner)
     end
 
     inst:Remove()
@@ -201,8 +201,8 @@ end
 local function OnSave(inst, data)
     data.weaponstatus = inst.weaponstatus
 
-    if inst.first_time_unsheathed ~= nil then
-        data.first_time_unsheathed = inst.first_time_unsheathed
+    if inst._OnSave ~= nil then
+        inst:_OnSave(data)
     end
 end
 
@@ -210,13 +210,13 @@ local function OnLoad(inst, data)
     if data ~= nil then
         inst.weaponstatus = data.weaponstatus
 
-        if inst.first_time_unsheathed ~= nil then
-            inst.first_time_unsheathed = data.first_time_unsheathed
-        end
-
         local owner = inst.components.inventoryitem ~= nil and inst.components.inventoryitem:GetGrandOwner()
         if owner ~= nil and owner:HasTag("kenjutsu") then
             inst.components.weapon:SetDamage(inst.components.weapon.damage + (owner.components.kenjutsuka:GetKenjutsuLevel() * 2))
+        end
+
+        if inst._OnLoad ~= nil then
+            inst:_OnLoad(data)
         end
     end
 end
@@ -325,6 +325,8 @@ local MakeKatana = function(data)
         inst.SheathMode = SheathMode
         inst.UnsheathMode = UnsheathMode
 
+        inst._OnSave = inst.OnSave
+        inst._OnLoad = inst.OnLoad
         inst.OnSave = OnSave
         inst.OnLoad = OnLoad
 

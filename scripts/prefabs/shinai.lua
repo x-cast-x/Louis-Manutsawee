@@ -90,9 +90,7 @@ local function fn()
     inst.spelltype = "SCIENCE"
     inst:AddTag("quickcast")
 
-    MakeInventoryFloatable(inst)
-    inst.components.floater:SetSize("small")
-    inst.components.floater:SetVerticalOffset(0.1)
+    MakeInventoryFloatable(inst, "small", 0.1)
 
     inst.entity:SetPristine()
 
