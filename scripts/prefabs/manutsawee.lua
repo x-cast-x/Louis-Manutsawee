@@ -475,6 +475,7 @@ local Idle_Anim = {
     ["manutsawee_sailor"] = "idle_walter",
     ["manutsawee_jinbei"] = "idle_wortox",
     ["manutsawee_maid"] = "idle_wanda",
+    ["manutsawee_maid_m"] = "idle_wanda",
     ["manutsawee_lycoris"] = "idle_wanda",
     ["manutsawee_uniform_black"] = "idle_wanda",
     ["manutsawee_taohuu"] = "idle_winona",

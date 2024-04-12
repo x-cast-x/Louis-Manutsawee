@@ -9,5 +9,6 @@ end
 table.insert(manutsawee, "manutsawee_none")
 
 GlassicAPI.SkinHandler.AddModSkins({
-    manutsawee = manutsawee
+    manutsawee = manutsawee,
+    cane = {"lcane"}
 })

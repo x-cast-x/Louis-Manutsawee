@@ -10,7 +10,7 @@ PrefabFiles = {
     "m_foxmask",
     "m_scarf",
     "momo_hat",
-    "momo",
+    -- "momo",
     "momoaxe",
     "m_pantsu",
     "harakiri",
@@ -39,6 +39,9 @@ Assets = {
     Asset("IMAGE", "images/inventoryimages/m_inventoryimages.tex"),
     Asset("ATLAS", "images/inventoryimages/m_inventoryimages.xml"),
     Asset("ATLAS_BUILD", "images/inventoryimages/m_inventoryimages.xml", 256),  -- for minisign
+
+    Asset("ATLAS", "images/map_icons/m_minimaps.xml"),
+    Asset("IMAGE", "images/map_icons/m_minimaps.tex"),
 
     Asset("IMAGE", "images/saveslot_portraits/manutsawee.tex"),
     Asset("ATLAS", "images/saveslot_portraits/manutsawee.xml"),
@@ -94,7 +97,8 @@ Assets = {
     Asset("ATLAS", "bigportraits/manutsawee_bocchi.xml"),
     Asset("IMAGE", "bigportraits/manutsawee_lycoris.tex"),
     Asset("ATLAS", "bigportraits/manutsawee_lycoris.xml"),
+    Asset("IMAGE", "bigportraits/manutsawee_maid_m.tex"),
+    Asset("ATLAS", "bigportraits/manutsawee_maid_m.xml"),
 }
 
 AssetUtil.RegisterImageAtlas("images/inventoryimages/m_inventoryimages.xml")
-AssetUtil.AddMinimap("m_minimaps", Assets)

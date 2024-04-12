@@ -142,6 +142,8 @@ return {
         SKILL7START = "SHICHI NO KATA!\n󰀈: ",
     },
     SKIN_DESCRIPTIONS = {
+        LCANE = "Moon cane",
+        manutsawee_maid_m = "Maid's outfit",
         manutsawee_bocchi = "Goto Hitori's sportswear from Bocchi The Rock",
         manutsawee_fuka = "Fu hua hawk of the fog's outfit from honkai impact 3d",
         manutsawee_jinbei = "Japan's outfit.",
@@ -159,6 +161,8 @@ return {
         manutsawee_yukatalong_purple = "Japan's outfit purple version.",
     },
     SKIN_NAMES = {
+        LCANE = "Moon cane",
+        manutsawee_maid_m = "Maid",
         manutsawee_bocchi = "Guitar Hero",
         manutsawee_fuka = "Cosplay",
         manutsawee_jinbei = "Jinbei",
@@ -176,6 +180,7 @@ return {
         manutsawee_yukatalong_purple = "Kimono(P)",
     },
     SKIN_QUOTES = {
+        manutsawee_maid_m = "\"I'm not a maid but i like this.\"",
         manutsawee_bocchi = "\"mu mu mu mu mu mu mu mu\"",
         manutsawee_fuka = "\"I'm a kung-fu master now.\"",
         manutsawee_jinbei = "\"Relax Feeling good.\"",

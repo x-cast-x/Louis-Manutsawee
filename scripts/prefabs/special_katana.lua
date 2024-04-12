@@ -185,6 +185,9 @@ local function kage_common_postinit(inst)
 end
 
 local function kage_master_postinit(inst)
+    inst.TryStartFx = TryStartFx
+    inst.StopFx = StopFx
+
     inst.onequip_fn = function(inst, owner)
         inst.TryStartFx(inst, owner)
     end
@@ -198,28 +201,24 @@ local kage_onattack = mortalblade_onattack
 
 local katana_data = {
     shusui = {
-        build = "shusui",
         common_postinit = shusui_common_postinit,
         -- master_postinit = shusui_master_postinit,
         -- onattack = shusui_onattack,
         damage = TUNING.KATANA.TRUE_DAMAGE
     },
     mortalblade = {
-        build = "mortalblade",
         common_postinit = mortalblade_common_postinit,
         master_postinit = mortalblade_master_postinit,
         onattack = mortalblade_onattack,
         damage = TUNING.KATANA.TRUE_DAMAGE
     },
     tenseiga = {
-        build = "kurokatana",
         common_postinit = tenseiga_common_postinit,
         master_postinit = tenseiga_master_postinit,
         onattack = tenseiga_onattack,
         damage = 0,
     },
     kage = {
-        build = "kage",
         common_postinit = kage_common_postinit,
         master_postinit = kage_master_postinit,
         onattack = kage_onattack,
@@ -231,7 +230,7 @@ local ret = {}
 for k, v in pairs(katana_data) do
     local data = {
         name = k,
-        build = v.build,
+        build = k,
         onattack = v.onattack,
         common_postinit = v.common_postinit,
         master_postinit = v.master_postinit,
