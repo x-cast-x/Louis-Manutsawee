@@ -9,7 +9,7 @@ require("behaviours/wander")
 require("behaviours/follow")
 require("behaviours/doaction")
 
-local BrainHelper = require("utils/brainhelper")
+local BrainUtil = require("utils/brainutil")
 local MomoData = require("utils/momodata")
 
 local MIN_FOLLOW_DIST = 0

@@ -1,6 +1,5 @@
-GLOBAL.setfenv(1, GLOBAL)
-
 local Trap = require("components/trap")
+GLOBAL.setfenv(1, GLOBAL)
 
 local _SetBait = Trap.SetBait
 -- override this function

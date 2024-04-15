@@ -370,6 +370,15 @@ local skill_data = {
         end
     },
 
+    ImmortalSlash = {
+        tag = "immortalslash",
+        time = M_CONFIG.SKILL4_COOLDOWN,
+        mindpower = 20,
+        fn = function(inst, weapon)
+
+        end
+    },
+
     -- Soryuha = {
     --     tag = "soryuha",
     --     time = M_CONFIG.SKILL3_COOLDOWN,

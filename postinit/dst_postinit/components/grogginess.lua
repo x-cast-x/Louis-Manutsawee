@@ -1,6 +1,5 @@
-GLOBAL.setfenv(1, GLOBAL)
-
 local Grogginess = require("components/grogginess")
+GLOBAL.setfenv(1, GLOBAL)
 
 local _SetEnableSpeedMod = Grogginess.SetEnableSpeedMod
 function Grogginess:SetEnableSpeedMod(enabled)

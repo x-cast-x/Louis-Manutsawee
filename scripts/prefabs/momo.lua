@@ -434,7 +434,7 @@ local function fn()
     MakeMediumBurnableCharacter(inst, "torso")
     MakeLargeFreezableCharacter(inst, "torso")
 
-	inst:SetBrain(brain)
+	-- inst:SetBrain(brain)
 	inst:SetStateGraph("SGmomo")
 
     SetInstanceValue(inst)

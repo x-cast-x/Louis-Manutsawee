@@ -531,6 +531,7 @@ return {
         SPIDER_WARRIOR = "Not so tough now!",
     },
     DESCRIBE = {
+        KAGE = "At the end of its blueprint it reads:\n\"We are dust and shadows\"",
         HUMANMEAT = "Man eat man......will go down in history.",
         HUMANMEAT_COOKED = "I will never accept this kind of behavior, no matter what.",
         HUMANMEAT_DRIED = "I'm not in that era, nor in that place, I would never touch it.",
@@ -1332,7 +1333,7 @@ return {
             HELD = "Not so smart now, are you?",
         },
         CRUMBS = "Haha. That little guy is losing his parts.",
-        CURSED_MONKEY_TOKEN = "Is that a real tooth on it? Haha, cool.",
+        CURSED_MONKEY_TOKEN = "I already have a curse more powerful than this. This one has no effect on me.",
         CUTGRASS = "Cut grass, ready for burning. Or maybe crafting.",
         CUTLESS = "At least it'll make good firewood.",
         CUTLICHEN = "Blah, tastes like sawdust.",

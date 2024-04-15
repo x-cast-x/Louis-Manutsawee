@@ -2,6 +2,8 @@ local modimport = modimport
 local ENV = env
 if not GLOBAL.IsInFrontEnd() then return end
 
+local AssetUtil = require("utils/assetutil")
+
 PrefabFiles = {
 	"manutsawee_none"
 }
@@ -61,7 +63,6 @@ PreloadAssets = {
 
 modimport("main/constants")
 modimport("main/config")
-modimport("main/mutil")
 modimport("main/strings")
 modimport("main/tuning")
 modimport("main/characters")
@@ -69,7 +70,7 @@ modimport("main/prefabskin")
 
 GLOBAL.setfenv(1, GLOBAL)
 
-M_Util.RegisterImageAtlas("images/inventoryimages/m_inventoryimages.xml")
+AssetUtil.RegisterImageAtlas("images/inventoryimages/m_inventoryimages.xml")
 
 if ENV.is_mim_enabled then
     modimport("postinit/dst_postinit/widgets/skinspuppet")

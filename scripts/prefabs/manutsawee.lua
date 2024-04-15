@@ -311,17 +311,17 @@ local common_postinit = function(inst)
     end
 
     inst:AddComponent("keyhandler")
-    inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.LEVEL_CHECK_KEY, "levelcheck")
-    inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.PUT_GLASSES_KEY, "glasses")
-    inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.CHANGE_HAIRS_KEY, "Hairs")
+    inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.LEVEL_CHECK_KEY, "LevelCheck")
+    inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.PUT_GLASSES_KEY, "PutGlasses")
+    inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.CHANGE_HAIRS_KEY, "ChangeHairsStyle")
 
     if M_CONFIG.ENABLE_SKILL then
-        inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.SKILL1_KEY, "skill1")
-        inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.SKILL2_KEY, "skill2")
-        inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.SKILL3_KEY, "skill3")
-        inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.SKILL_COUNTER_ATK_KEY, "counterattack")
-        inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.QUICK_SHEATH_KEY, "quicksheath")
-        inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.SKILL_CANCEL_KEY, "skillcancel")
+        inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.SKILL1_KEY, "Skill1")
+        inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.SKILL2_KEY, "Skill2")
+        inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.SKILL3_KEY, "Skill3")
+        inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.SKILL_COUNTER_ATK_KEY, "CounterAttack")
+        inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.QUICK_SHEATH_KEY, "QuickSheath")
+        inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.SKILL_CANCEL_KEY, "SkillCancel")
     end
 
     if M_CONFIG.ENABLE_DODGE then
@@ -577,6 +577,7 @@ local master_postinit = function(inst)
     inst.components.foodaffinity:AddPrefabAffinity("baconeggs", TUNING.AFFINITY_15_CALORIES_HUGE)
     inst.components.foodaffinity:AddPrefabAffinity("unagi", TUNING.AFFINITY_15_CALORIES_TINY)
     inst.components.foodaffinity:AddPrefabAffinity("kelp_cooked", 1)
+    inst.components.foodaffinity:AddPrefabAffinity("justeggs", 1)
     -- The original author is Thai
     inst.components.foodaffinity:AddPrefabAffinity("durian", 1)
     inst.components.foodaffinity:AddPrefabAffinity("durian_cooked", 1)

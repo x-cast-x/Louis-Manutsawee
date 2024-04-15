@@ -1155,6 +1155,36 @@ local states = {
     },
 
     State{
+        name = "immortalslash",
+        tags = {"busy", "nopredict", "nointerrupt", "nomorph", "doing","notalking","skilling"},
+
+        onenter = function(inst, target)
+
+        end,
+
+        timeline = {
+
+        },
+
+        ontimeout = function(inst)
+            inst.sg:RemoveStateTag("attack")
+            inst.sg:AddStateTag("idle")
+        end,
+
+        events = {
+            EventHandler("animqueueover", function(inst)
+                if inst.AnimState:AnimDone() then
+                    inst.sg:GoToState("idle")
+                end
+            end),
+        },
+
+        onexit = function(inst)
+
+        end,
+    },
+
+    State{
         name = "habakiri",
         tags = {"busy", "nopredict", "nointerrupt", "nomorph", "doing","notalking","skilling","mdashing"},
 

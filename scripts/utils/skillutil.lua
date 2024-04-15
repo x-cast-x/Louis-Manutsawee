@@ -105,7 +105,66 @@ local function Skill_CommonFn(inst, tag, name, time, mindpower, fn)
     end
 end
 
+local ARC = 90 * DEGREES
+local AOE_RANGE_PADDING = 3
+local AOE_TARGET_MUSTHAVE_TAGS = { "_combat" }
+local AOE_TARGET_CANT_TAGS = { "INLIMBO", "flight", "invisible", "notarget", "noattack" }
+local MAX_SIDE_TOSS_STR = 0.8
+
+local SWIPE_OFFSET = 2
+local SWIPE_RADIUS = 3.5
+
+local function DoArcAttack(inst, dist, radius, heavymult, mult, targets)
+	inst.components.combat.ignorehitrange = true
+	local x, y, z = inst.Transform:GetWorldPosition()
+	local rot = inst.Transform:GetRotation() * DEGREES
+	local x0, z0
+	if dist ~= 0 then
+		if dist > 0 and ((mult ~= nil and mult > 1) or (heavymult ~= nil and heavymult > 1)) then
+			x0, z0 = x, z
+		end
+		x = x + dist * math.cos(rot)
+		z = z - dist * math.sin(rot)
+	end
+	for i, v in ipairs(TheSim:FindEntities(x, y, z, radius + AOE_RANGE_PADDING, AOE_TARGET_MUSTHAVE_TAGS, AOE_TARGET_CANT_TAGS)) do
+		if v ~= inst and
+			not (targets ~= nil and targets[v]) and
+			v:IsValid() and not v:IsInLimbo()
+			and not (v.components.health ~= nil and v.components.health:IsDead())
+		then
+			local range = radius + v:GetPhysicsRadius(0)
+			local x1, y1, z1 = v.Transform:GetWorldPosition()
+			local dx = x1 - x
+			local dz = z1 - z
+			local distsq = dx * dx + dz * dz
+			if distsq > 0 and distsq < range * range and
+				DiffAngleRad(rot, math.atan2(-dz, dx)) < ARC and
+				inst.components.combat:CanTarget(v)
+			then
+				inst.components.combat:DoAttack(v)
+				if mult ~= nil then
+					local strengthmult = (v.components.inventory ~= nil and v.components.inventory:ArmorHasTag("heavyarmor") or v:HasTag("heavybody")) and heavymult or mult
+					if strengthmult > MAX_SIDE_TOSS_STR and x0 ~= nil then
+						dx = x1 - x0
+						dz = z1 - z0
+						if dx ~= 0 or dz ~= 0 then
+							local rot1 = math.atan2(-dz, dx) + PI
+							local k = math.max(0, math.cos(math.min(PI, DiffAngleRad(rot1, rot) * 2)))
+							strengthmult = MAX_SIDE_TOSS_STR + (strengthmult - MAX_SIDE_TOSS_STR) * k * k
+						end
+					end
+				end
+				if targets ~= nil then
+					targets[v] = true
+				end
+			end
+		end
+	end
+	inst.components.combat.ignorehitrange = false
+end
+
 return {
+    DoArcAttack = DoArcAttack,
     OnAttackCommonFn = OnAttackCommonFn,
     SlashFx = SlashFx,
     GroundPoundFx = GroundPoundFx,

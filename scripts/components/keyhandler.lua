@@ -23,12 +23,14 @@ local KeyHandler = Class(function(self, inst)
 end)
 
 function KeyHandler:AddActionListener(namespace, key, action, event)
+    local _ismastersim = TheWorld.ismastersim
+
     if event == nil then
         self.inst:ListenForEvent("keyup", function(inst, data)
             if data.inst == self.inst then
                 if data.key == key then
                     if CanCastSkill(self.inst) then
-                        if TheWorld.ismastersim then
+                        if _ismastersim then
                             self.inst:PushEvent("keyaction"..namespace..action, { namespace = namespace, action = action, fn = MOD_RPC_HANDLERS[namespace][MOD_RPC[namespace][action].id]})
                         else
                             SendModRPCToServer(MOD_RPC[namespace][action])
@@ -42,7 +44,7 @@ function KeyHandler:AddActionListener(namespace, key, action, event)
             if data.inst == self.inst then
                 if data.key == key then
                     if CanCastSkill(self.inst) then
-                        if TheWorld.ismastersim then
+                        if _ismastersim then
                             self.inst:PushEvent("keyaction".. namespace .. action, { namespace = namespace, action = action, fn = MOD_RPC_HANDLERS[namespace][MOD_RPC[namespace][action].id]})
                         else
                             SendModRPCToServer(MOD_RPC[namespace][action])
@@ -53,7 +55,7 @@ function KeyHandler:AddActionListener(namespace, key, action, event)
         end)
     end
 
-    if TheWorld.ismastersim then
+    if _ismastersim then
         self.inst:ListenForEvent("keyaction".. namespace .. action, function(inst, data)
             if not data.action == action and not data.namespace == namespace then
                 return

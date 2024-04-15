@@ -19,12 +19,12 @@ AddPrefabPostInit("fissure", function(inst)
 
     local katanaspawner = TheWorld.components.katanaspawner
     local _onfinish = inst.components.workable.onfinish
-    local function OnFinishCallback(inst, worker)
-        _onfinish(inst, worker)
+    local function OnFinishCallback(inst, worker, ...)
+        _onfinish(inst, worker, ...)
         local pt = inst:GetPosition()
         if katanaspawner ~= nil and not katanaspawner:GetKatana("mortalblade") then
             local mortalblade = inst.components.lootdropper:SpawnLootPrefab("mortalblade", pt)
-            katanaspawner:TrackKatana("mortalblade", mortalblade)
+            TheWorld:PushEvent("ms_trackkatana", {name = mortalblade.prefab, katana = mortalblade})
         end
     end
 
@@ -34,8 +34,8 @@ AddPrefabPostInit("fissure", function(inst)
     local _ShowPhaseState = UpvalueUtil.GetUpvalue(_OnNightmarePhaseChanged, "ShowPhaseState")
     local _states = UpvalueUtil.GetUpvalue(_ShowPhaseState, "states")
     local _controlled = _states.controlled
-    function _states.controlled(inst, instant, oldstate)
-        _controlled(inst, instant, oldstate)
+    function _states.controlled(inst, instant, oldstate, ...)
+        _controlled(inst, instant, oldstate, ...)
         if katanaspawner ~= nil and not not katanaspawner:GetKatana("mortalblade") and inst.AnimState:IsCurrentAnimation("idle_open_rift") then
             local fx = SpawnPrefab("dreadstone_spawn_fx")
             fx.entity:SetParent(inst.entity)

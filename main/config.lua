@@ -23,6 +23,7 @@ M_CONFIG = {
     SKILL1_COOLDOWN = GetModConfigData("skill1_cooldown_time"),
     SKILL2_COOLDOWN = GetModConfigData("skill2_cooldown_time"),
     SKILL3_COOLDOWN = GetModConfigData("skill3_cooldown_time"),
+    SKILL4_COOLDOWN = GetModConfigData("skill4_cooldown_time"),
     ISSHIN_COOLDOWN = GetModConfigData("isshin_skill_cooldown_time"),
     RYUSEN_SUSANOO_COOLDOWN = GetModConfigData("ryusen_and_susanoo_skill_cooldown_time"),
     IS_MASTER = GetModConfigData("is_master"),

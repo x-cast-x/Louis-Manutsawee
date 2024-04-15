@@ -6,5 +6,4 @@ AddPrefabPostInitAny(function(inst)
         return
     end
 
-    inst:AddComponent("katanaspawner")
 end)

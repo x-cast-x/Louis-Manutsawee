@@ -7,7 +7,7 @@ AddPrefabPostInit("gravestone", function(inst)
     end
 
     local DEV_EPITAPHS = STRINGS.DEV_EPITAPHS.SYDNEY
-    local function GetDevEpitaph(epitaph)
+    local function IsDevEpitaph(epitaph)
         if epitaph ~= nil then
             for i, v in ipairs(DEV_EPITAPHS) do
                 return v == epitaph
@@ -15,15 +15,15 @@ AddPrefabPostInit("gravestone", function(inst)
         end
     end
 
-    inst.GetDevEpitaph = GetDevEpitaph
+    inst.IsDevEpitaph = IsDevEpitaph
 
     local _OnLoad = inst.OnLoad
     local function OnLoad(inst, data, newents)
         _OnLoad(inst, data, newents)
 
         if data ~= nil then
-            if GetDevEpitaph(data.setepitaph) then
-                local _setepitaph = "Sydney" .. DEV_EPITAPHS[math.random(1, #DEV_EPITAPHS)]
+            local _setepitaph = DEV_EPITAPHS[math.random(1, #DEV_EPITAPHS)]
+            if IsDevEpitaph(data.setepitaph) then
                 inst.components.inspectable:SetDescription("'".._setepitaph.."'")
                 inst.setepitaph = _setepitaph
             end
@@ -32,7 +32,7 @@ AddPrefabPostInit("gravestone", function(inst)
     inst.OnLoad = OnLoad
 
     local mound = inst.mound
-    local is_dev_epitaph = GetDevEpitaph(inst.setepitaph)
+    local is_dev_epitaph = IsDevEpitaph(inst.setepitaph)
     if mound ~= nil and is_dev_epitaph and mound ~= nil then
         local _onfinish = mound.components.workable.onfinish
         local function OnFinishCallback(inst, worker, ...)

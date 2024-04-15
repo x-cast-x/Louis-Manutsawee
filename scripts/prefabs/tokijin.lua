@@ -116,15 +116,19 @@ local function OnEquip(inst, owner)
         inst:AddTag("mkatana")
     end
 
-    inst.components.weapon:SetDamage(TUNING.TOKIJIN_DAMAGE + (owner.components.kenjutsuka:GetKenjutsuLevel() * 2))
+    local kenjutsuka = owner.components.kenjutsuka
 
-    inst:DoTaskInTime(10, function()
-        if owner.SwitchControlled ~= nil and owner.components.kenjutsuka:GetKenjutsuLevel() < 10 then
-            inst.components.equippable.dapperness = TUNING.CRAZINESS_MED
-            owner.SwitchControlled(owner, true)
-            TryStartFx(inst, owner)
-        end
-    end)
+    if kenjutsuka ~= nil then
+        inst.components.weapon:SetDamage(TUNING.TOKIJIN_DAMAGE + (kenjutsuka:GetKenjutsuLevel() * 2))
+
+        inst:DoTaskInTime(10, function()
+            if owner.SwitchControlled ~= nil and owner.components.kenjutsuka:GetKenjutsuLevel() < 10 then
+                inst.components.equippable.dapperness = TUNING.CRAZINESS_MED
+                owner.SwitchControlled(owner, true)
+                TryStartFx(inst, owner)
+            end
+        end)
+    end
 end
 
 local function OnUnequip(inst, owner)

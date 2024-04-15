@@ -1,5 +1,4 @@
 local Cursable = require("components/cursable")
-
 GLOBAL.setfenv(1, GLOBAL)
 
 local _IsCursable = Cursable.IsCursable

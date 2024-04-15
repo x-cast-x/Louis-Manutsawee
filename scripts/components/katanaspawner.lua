@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------
---[[ katana spawner class definition ]]
+--[[ Katana Spawner class definition ]]
 --------------------------------------------------------------------------
 
 return Class(function(self, inst)
@@ -22,13 +22,20 @@ return Class(function(self, inst)
     --[[ Private member functions ]]
     --------------------------------------------------------------------------
 
+    --------------------------------------------------------------------------
+    --[[ Private event handlers ]]
+    --------------------------------------------------------------------------
+
     local TrackKatana = _ismastersim and function(name, katana)
         if _ismastershard then
+            if katanas[name] then
+                return
+            end
             local function onremove()
                 katanas[name] = nil
             end
-            katanas[name] = { inst = inst, onremove = onremove }
-            _world:ListenForEvent("onremove", onremove, inst)
+            katanas[name] = { inst = katana, onremove = onremove }
+            self.inst:ListenForEvent("onremove", onremove, katana)
             katanas[name] = katana
         else
             SendModRPCToShard(SHARD_MOD_RPC["manutsawee"]["SyncKatanaData"], 1, true, katana)
@@ -37,8 +44,11 @@ return Class(function(self, inst)
 
     local ForgetKatana =  _ismastersim and function(name)
         if _ismastershard then
+            if not katanas[name] then
+                return
+            end
             if katanas[name] ~= nil then
-                _world:RemoveEventCallback("onremove", katanas[name].onremove, katanas[name].inst)
+                self.inst:RemoveEventCallback("onremove", katanas[name].onremove, katanas[name].inst)
                 katanas[name] = nil
             end
         else

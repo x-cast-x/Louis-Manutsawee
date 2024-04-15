@@ -164,8 +164,8 @@ local tenseiga_common_postinit = function(inst)
 end
 
 local tenseiga_master_postinit = function(inst)
-    local onhaunt = inst.components.hauntable.onhaunt
-    function inst.components.hauntable.onhaunt(inst, player)
+    local _onhaunt = inst.components.hauntable.onhaunt
+    local function OnHaunt(inst, player)
         if player ~= nil and player:HasTag("playerghost") then
             player:PushEvent("respawnfromghost", { source = inst, user = inst })
             local fx = SpawnPrefab("fx_book_light_upgraded")
@@ -174,8 +174,10 @@ local tenseiga_master_postinit = function(inst)
             fx.Follower:FollowSymbol(inst.GUID)
         end
 
-        return onhaunt(inst, player)
+        return _onhaunt(inst, player)
     end
+
+    inst.components.hauntable.onhaunt = OnHaunt
 
     inst:RemoveComponent("finiteuses")
 end

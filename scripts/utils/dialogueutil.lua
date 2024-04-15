@@ -9,7 +9,7 @@ local function PushDialogueScreen(inst, str, onconfirm, oncancel)
         TheFrontEnd:PopScreen()
     end
 
-    local OnCANCEL = function()
+    local OnCancel = function()
         if oncancel ~= nil then
             oncancel(inst)
         end
@@ -19,7 +19,7 @@ local function PushDialogueScreen(inst, str, onconfirm, oncancel)
 
     local confirmation = PopupDialogScreen(str.TITLE, str.BODY, {
         { text = str.OK,     cb = OnConfirm },
-        { text = str.CANCEL, cb = OnCANCEL  },
+        { text = str.CANCEL, cb = OnCancel  },
     })
 
     TheFrontEnd:PushScreen(confirmation)

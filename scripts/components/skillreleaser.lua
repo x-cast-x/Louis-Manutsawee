@@ -175,37 +175,12 @@ function SkillReleaser:SkillRemove()
     self.inst.AnimState:SetDeltaTimeMultiplier(1)
 end
 
-function SkillReleaser:CanUseSkill(target, rpc)
-    if rpc then
-        local inst = self.inst
-
-        local isdead = inst.components.health ~= nil and inst.components.health:IsDead() and (inst.sg:HasStateTag("dead") or inst:HasTag("playerghost"))
-        local isasleep = inst.components.sleeper ~= nil and inst.components.sleeper:IsAsleep()
-        local isfrozen = inst.components.freezable ~= nil and inst.components.freezable:IsFrozen()
-        local isriding = inst.components.rider ~= nil and inst.components.rider:IsRiding()
-        local isheavylifting = inst.components.inventory ~= nil and inst.components.inventory:IsHeavyLifting()
-        local weapon = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
-        local weapon_has_tags = weapon ~= nil and weapon:HasOneOfTags({"projectile", "whip", "rangedweapon"})
-        local weapon_not_has_tags = weapon ~= nil and not weapon:HasOneOfTags({"tool", "sharp", "weapon", "katanaskill"})
-
-        if inst.mafterskillndm ~= nil then
-            inst.mafterskillndm:Cancel()
-            inst.mafterskillndm = nil
-        end
-
-        if (isdead or isasleep or isfrozen or isriding or isheavylifting) or (weapon == nil) or (weapon_has_tags or weapon_not_has_tags) then
-            return false
-        end
-
-        return true
-    else
-        if target == nil then
-            return false
-        end
-        local is_vaild_target = target:HasOneOfTags({"prey", "bird", "buzzard", "butterfly"})
-        local canskill = (is_vaild_target and not target:HasTag("hostile") and true) or nil
-        return canskill
+function SkillReleaser:CanUseSkill(target)
+    if target == nil then
+        return false
     end
+    local is_vaild_target = target:HasOneOfTags({"prey", "bird", "buzzard", "butterfly"})
+    return (is_vaild_target and not target:HasTag("hostile")) or nil
 end
 
 -- function SkillReleaser:GetDebugString()
