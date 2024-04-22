@@ -2048,7 +2048,7 @@ return {
         MAXWELLLIGHT = "These are no fun. They light themselves.",
         MAXWELLLOCK = "It just needs a key.",
         MAXWELLPHONOGRAPH = "I like more exciting music.",
-        MAXWELLTHRONE = "Looks sticky.",
+        MAXWELLTHRONE = "\"Theocratic Throne\"and it looks sticky.",
         MEAT = "This could be made better with FIRE!",
         MEATBALLS = "Meat made into spheres and improved with fire.",
         MEATRACK = {

@@ -31,6 +31,10 @@ return {
                 title = "Her Past...",
             },
             {
+                desc = "The origin of red eye",
+                title = "",
+            },
+            {
                 desc = "Tokijin\nThe cursed sword made from the fangs of the Ghost of God is full of evil, and ordinary people can easily be controlled by it.\nIt was originally broken by Sesshomaru, but Louis found it in an abandoned shrine.. .",
                 title = "Cursed Sword",
             },
@@ -150,7 +154,7 @@ return {
         SKILL7START = "SHICHI NO KATA!\n󰀈: ",
     },
     SKIN_DESCRIPTIONS = {
-        LCANE = "Moon cane",
+        lcane = "Would you believe a stick fell from the moon?",
         manutsawee_maid_m = "Maid's outfit",
         manutsawee_bocchi = "Goto Hitori's sportswear from Bocchi The Rock",
         manutsawee_fuka = "Fu hua hawk of the fog's outfit from honkai impact 3d",
@@ -169,7 +173,7 @@ return {
         manutsawee_yukatalong_purple = "Japan's outfit purple version.",
     },
     SKIN_NAMES = {
-        LCANE = "Moon cane",
+        lcane = "Moon cane",
         manutsawee_maid_m = "Maid",
         manutsawee_bocchi = "Guitar Hero",
         manutsawee_fuka = "Cosplay",

@@ -18,20 +18,19 @@ local modules = {
     "loadingtips",
 }
 
-if IA_ENABLED then
-    table.insert(modules, "ia_postinit")
-end
-
-if PL_ENABLED then
-    table.insert(modules, "pl_postinit")
-end
-
-if UM_ENABLED then
-    table.insert(modules, "um_postinit")
-end
+local mod_modules = {
+    "pl_postinit",
+    "um_postinit",
+    "ia_postinit",
+    "hof_postinit",
+}
 
 for i = 1, #modules do
     modimport("main/" .. modules[i])
+end
+
+for i = 1, #mod_modules do
+    modimport("postinit/main/" .. mod_modules[i])
 end
 
 GLOBAL.setfenv(1, GLOBAL)

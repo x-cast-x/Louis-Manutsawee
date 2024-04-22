@@ -145,5 +145,5 @@ local recipes_data = {
 
 RecipeUtil.AddRecipes(recipes_data)
 
-modimport("postinit/dst_postinit/modules/ia_recipes")
-modimport("postinit/dst_postinit/modules/pl_recipes")
+-- modimport("postinit/dst_postinit/modules/ia_recipes")
+-- modimport("postinit/dst_postinit/modules/pl_recipes")

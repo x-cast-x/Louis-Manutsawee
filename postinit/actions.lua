@@ -1,7 +1,6 @@
 GLOBAL.setfenv(1, GLOBAL)
 
 local _BAIT_fn = ACTIONS.BAIT.fn
--- override this function
 ACTIONS.BAIT.fn = function(act)
     if act.target.components.trap and act.doer:HasTag("naughtychild") then
         act.target.components.trap:SetBait(act.doer.components.inventory:RemoveItem(act.invobject), act.doer)

@@ -43,6 +43,6 @@ local postinit = {
 
 for k, v in pairs(postinit) do
     for i = 1, #v do
-        modimport("postinit/dst_postinit/" .. k .. "/" .. postinit[k][i])
+        modimport("postinit/reignofgiants/" .. k .. "/" .. postinit[k][i])
     end
 end

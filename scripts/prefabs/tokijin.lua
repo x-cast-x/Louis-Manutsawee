@@ -76,7 +76,7 @@ local function OnIsNightmareWild(inst, isnightmarewild)
     end
 
     if isnightmarewild and owner.components.areaaware:CurrentlyInTag("Nightmare") and not owner:HasTag("controlled") then
-        inst:DoTaskInTime(10, function()
+        inst.nightmare_controlled = inst:DoTaskInTime(10, function()
             if owner.SwitchControlled ~= nil then
                 owner.components.talker:Say(GetString(owner, "ANNOUNCE_ISNIGHTMAREWILD"))
                 owner.SwitchControlled(owner, true)
@@ -87,6 +87,10 @@ local function OnIsNightmareWild(inst, isnightmarewild)
         if owner.SwitchControlled ~= nil and owner:HasTag("controlled") then
             owner.SwitchControlled(owner, false)
             StopFx(inst)
+            if inst.nightmare_controlled ~= nil then
+                inst.nightmare_controlled:Cancel()
+                inst.nightmare_controlled = nil
+            end
         end
     end
 end
@@ -121,7 +125,7 @@ local function OnEquip(inst, owner)
     if kenjutsuka ~= nil then
         inst.components.weapon:SetDamage(TUNING.TOKIJIN_DAMAGE + (kenjutsuka:GetKenjutsuLevel() * 2))
 
-        inst:DoTaskInTime(10, function()
+        inst.controlled = inst:DoTaskInTime(10, function()
             if owner.SwitchControlled ~= nil and owner.components.kenjutsuka:GetKenjutsuLevel() < 10 then
                 inst.components.equippable.dapperness = TUNING.CRAZINESS_MED
                 owner.SwitchControlled(owner, true)
@@ -153,6 +157,10 @@ local function OnUnequip(inst, owner)
         inst.components.equippable.dapperness = 0
         owner.SwitchControlled(owner, false)
         StopFx(inst)
+        if inst.controlled ~= nil then
+            inst.controlled:Cancel()
+            inst.controlled = nil
+        end
     end
 end
 

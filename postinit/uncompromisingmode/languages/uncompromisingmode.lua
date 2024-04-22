@@ -29,4 +29,4 @@ local languages = {
 }
 
 M_Util.merge_table(STRINGS.CHARACTERS.MANUTSAWEE, StringUtil.ImportStringsFile("um_manutsawee", ENV), true)
-GlassicAPI.MergeTranslationFromPO(MODROOT.."postinit/um_postinit/languages/um_", languages[M_CONFIG.locale])
+GlassicAPI.MergeTranslationFromPO(MODROOT.."postinit/uncompromisingmode/languages/um_", languages[M_CONFIG.locale])
