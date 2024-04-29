@@ -27,52 +27,22 @@ end
 local shadow_fx = {"wanda_attack_shadowweapon_old_fx", "wanda_attack_pocketwatch_old_fx", "hitsparks_fx"}
 local CANT_TAGS = {"player", "INLIMBO", "structure", "companion", "abigial", "birds", "prey", "wall" ,"boat", "bird"}
 
--- local shusui_onattack = function(inst, owner, target)
---     local radius = 6
---     local x, y, z = owner.Transform:GetWorldPosition()
---     local ents = TheSim:FindEntities(x, y, z, radius, nil, CANT_TAGS)
-
---     for _, v in pairs(ents) do
---         if v ~= nil and v:IsValid() and v.components.health ~= nil and not v.components.health:IsDead() then
---             local shadowfx = SpawnPrefab(shadow_fx[2])
---             shadowfx.Transform:SetScale(2, 2, 2)
---             shadowfx.Transform:SetPosition(v:GetPosition():Get())
-
---             if v ~= target then
---                 v.components.health:DoDelta(-20)
---             end
---         end
---     end
--- end
-
 local hitsparks_fx_colouroverride = {1, 0, 0}
 local mortalblade_onattack = function(inst, owner, target)
     if inst.IsShadow(target) or inst.IsLunar(target) then
         target.components.combat:GetAttacked(owner, inst.components.weapon.damage * 10)
     end
 
-    local shadowfx
     local radius = 10
     local x, y, z = owner.Transform:GetWorldPosition()
     local ents = TheSim:FindEntities(x, y, z, radius, nil, CANT_TAGS)
 
-    local spark = SpawnPrefab("hitsparks_fx")
-    spark:Setup(owner, target, nil, hitsparks_fx_colouroverride)
-    -- 将hitsparks_fx的black值设置为true
-    spark.black:set(true)
-
     for _, v in pairs(ents) do
         if v ~= nil and v:IsValid() and v.components.health ~= nil and not v.components.health:IsDead() then
-            if math.random(1, 2) == 1 then
-                shadowfx = SpawnPrefab(shadow_fx[math.random(1,2)])
-            else
-                shadowfx = SpawnPrefab(shadow_fx[math.random(1,2)])
-            end
-            if shadowfx.prefab == "hitsparks_fx" then
-                spark:Setup(owner, target, nil, hitsparks_fx_colouroverride)
-                -- 将hitsparks_fx的black值设置为true
-                spark.black:set(true)
-            end
+            local shadowfx = SpawnPrefab("hitsparks_fx")
+            shadowfx:Setup(owner, target, nil, hitsparks_fx_colouroverride)
+            -- 将hitsparks_fx的black值设置为true
+            shadowfx.black:set(true)
             shadowfx.Transform:SetScale(3, 3, 3)
             shadowfx.Transform:SetPosition(v:GetPosition():Get())
             inst.SoundEmitter:PlaySound("dontstarve/common/nightmareAddFuel")
@@ -87,10 +57,6 @@ end
 local shusui_common_postinit = function(inst)
     inst:AddTag("shusui")
 end
-
--- local shusui_master_postinit = function(inst)
---     inst.components.weapon:SetDamage(42)
--- end
 
 local mortalblade_common_postinit = function(inst)
     inst:AddTag("mortalblade")
@@ -159,8 +125,6 @@ end
 
 local tenseiga_common_postinit = function(inst)
     inst:AddTag("tenseiga")
-    -- inst.AnimState:SetMultColour(0, 0, 0, 0.9)
-    -- inst.AnimState:SetMultColour(0.4, 0.4, 0.4, 1)
 end
 
 local tenseiga_master_postinit = function(inst)
@@ -199,7 +163,43 @@ local function kage_master_postinit(inst)
     end
 end
 
-local kage_onattack = mortalblade_onattack
+local kage_onattack = function(inst, owner, target)
+    if inst.IsLunar(target) then
+        target.components.combat:GetAttacked(owner, inst.components.weapon.damage * 10)
+    end
+
+    local shadowfx
+    local radius = 10
+    local x, y, z = owner.Transform:GetWorldPosition()
+    local ents = TheSim:FindEntities(x, y, z, radius, nil, CANT_TAGS)
+
+    local spark = SpawnPrefab("hitsparks_fx")
+    spark:Setup(owner, target, nil, hitsparks_fx_colouroverride)
+    -- 将hitsparks_fx的black值设置为true
+    spark.black:set(true)
+
+    for _, v in pairs(ents) do
+        if v ~= nil and v:IsValid() and v.components.health ~= nil and not v.components.health:IsDead() then
+            if math.random(1, 2) == 1 then
+                shadowfx = SpawnPrefab(shadow_fx[math.random(1,2)])
+            else
+                shadowfx = SpawnPrefab(shadow_fx[math.random(1,2)])
+            end
+            if shadowfx.prefab == "hitsparks_fx" then
+                shadowfx:Setup(owner, target, nil, hitsparks_fx_colouroverride)
+                -- 将hitsparks_fx的black值设置为true
+                shadowfx.black:set(true)
+            end
+            shadowfx.Transform:SetScale(3, 3, 3)
+            shadowfx.Transform:SetPosition(v:GetPosition():Get())
+            inst.SoundEmitter:PlaySound("dontstarve/common/nightmareAddFuel")
+
+            if v ~= target then
+                v.components.health:DoDelta(-TUNING.KATANA.TRUE_DAMAGE)
+            end
+        end
+    end
+end
 
 local katana_data = {
     shusui = {

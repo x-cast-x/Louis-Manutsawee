@@ -152,6 +152,10 @@ return {
         SKILL6START = "ROKU NO KATA!\n󰀈: ",
         SKILL7ATTACK = "SUSANOO!!",
         SKILL7START = "SHICHI NO KATA!\n󰀈: ",
+        SKILL8ATTACK = "IMMORTAL SLASH!!",
+        SKILL8START = "IMMORTAL SLASH NO KATA!\n󰀈: ",
+        SKILL9ATTACK = "SORYUHA !!",
+        SKILL9START = "SORYUHA NO KATA!\n󰀈: ",
     },
     SKIN_DESCRIPTIONS = {
         lcane = "Would you believe a stick fell from the moon?",

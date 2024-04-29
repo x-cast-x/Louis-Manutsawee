@@ -15,6 +15,7 @@ M_CONFIG = {
     SKILL1_KEY = GetModConfigData("skill1_key"),
     SKILL2_KEY = GetModConfigData("skill2_key"),
     SKILL3_KEY = GetModConfigData("skill3_key"),
+    SKILL4_KEY = GetModConfigData("skill4_key"),
     SKILL_COUNTER_ATK_KEY = GetModConfigData("skill_counter_atk"),
     QUICK_SHEATH_KEY = GetModConfigData("quick_sheath_key"),
     SKILL_CANCEL_KEY = GetModConfigData("skill_cancel_key"),

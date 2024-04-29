@@ -2,19 +2,19 @@ local modimport = modimport
 
 local modules = {
     "config",
+    "constants",
     "assets",
     "strings",
     "fx",
-    "constants",
     "tuning",
     "actions",
     "postinit",
     "recipes",
     "containers",
     "RPC",
-    "commands",
     "characters",
     "prefabskin",
+    "commands",
     "loadingtips",
 }
 

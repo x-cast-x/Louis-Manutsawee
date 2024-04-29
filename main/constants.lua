@@ -21,25 +21,7 @@ end
 
 FOODTYPE.MFRUIT = "MFRUIT"
 
-KATANA = {
-    "shinai",
-    "raikiri",
-    "shirasaya",
-    "koshirae",
-    "hitokiri",
-    "katanablade",
-
-    "tokijin",
-
-    "true_raikiri",
-    "true_shirasaya",
-    "true_koshirae",
-    "true_hitokiri",
-
-    "tenseiga",
-    "mortalblade",
-    "shusui",
-}
+ALL_KATANA = {}
 
 M_SKILLS = {
     "ichimonji",

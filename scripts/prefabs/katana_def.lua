@@ -338,6 +338,9 @@ local MakeKatana = function(data)
 
         return inst
     end
+
+    table.insert(ALL_KATANA, name)
+
     return Prefab(name, fn, assets, prefabs)
 end
 

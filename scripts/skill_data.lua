@@ -12,7 +12,7 @@ local skill_data = {
             local target = inst.components.combat.target
             inst.inspskill = true
 
-            if weapon ~= nil and weapon.weaponstatus then
+            if weapon ~= nil and not weapon.weaponstatus then
                 skilltime = .3
                 if inst.components.kenjutsuka:GetMindpower() >= 5 then
                     inst.components.kenjutsuka:SetMindpower(inst.components.kenjutsuka:GetMindpower() - 2)
@@ -41,7 +41,7 @@ local skill_data = {
             local weapon = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
             local target = inst.components.combat.target
             skilltime = .1
-            if weapon ~= nil and weapon.weaponstatus then
+            if weapon ~= nil and not weapon.weaponstatus then
                 skilltime = .05
                 inst:DoTaskInTime(skilltime, function()
                     if weapon ~= nil then
@@ -65,7 +65,7 @@ local skill_data = {
             local weapon = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
             local target = inst.components.combat.target
             skilltime = .1
-            if weapon ~= nil and weapon.weaponstatus then
+            if weapon ~= nil and not weapon.weaponstatus then
                 skilltime = .05
                 inst:DoTaskInTime(skilltime, function()
                     if inst.mafterskillndm ~= nil then
@@ -375,6 +375,13 @@ local skill_data = {
         time = M_CONFIG.SKILL4_COOLDOWN,
         mindpower = 20,
         fn = function(inst, weapon)
+            inst.components.talker:Say(STRINGS.SKILL.SKILL8ATTACK, 2, true)
+
+            if weapon ~= nil and weapon.components.spellcaster ~= nil and weapon.weaponstatus then
+                weapon.components.spellcaster:CastSpell(inst)
+            end
+
+
 
         end
     },

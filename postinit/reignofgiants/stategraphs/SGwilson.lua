@@ -1058,9 +1058,9 @@ local states = {
             if inst.components.combat ~= nil then
                 inst.components.combat:SetTarget(nil)
                 inst.components.combat:SetRange(inst._hitrange)
+                inst.components.combat:EnableAreaDamage(false)
             end
             inst.inspskill = nil
-            inst.components.combat:EnableAreaDamage(false)
         end,
     },
 
@@ -1137,9 +1137,9 @@ local states = {
             if inst.components.combat ~= nil then
                 inst.components.combat:SetTarget(nil)
                 inst.components.combat:SetRange(inst._hitrange)
+                inst.components.combat:EnableAreaDamage(false)
             end
             inst.inspskill = nil
-            inst.components.combat:EnableAreaDamage(false)
             if inst.doubleichimonji ~= nil then
                 inst.doubleichimonji = nil
                 inst.components.talker:Say(STRINGS.SKILL.SKILL1ATTACK, 2, true)
@@ -1159,11 +1159,51 @@ local states = {
         tags = {"busy", "nopredict", "nointerrupt", "nomorph", "doing","notalking","skilling"},
 
         onenter = function(inst, target)
+			inst.components.locomotor:Stop()
+            -- inst.AnimState:SetDeltaTimeMultiplier(4)
+			inst.AnimState:PlayAnimation("scythe_pre")
+			inst.AnimState:PushAnimation("scythe_loop", false)
 
+            local cooldown = inst.components.combat.min_attack_period + .5 * FRAMES
+
+            if target ~= nil and target:IsValid() then
+                inst.sg.statemem.target = target
+                inst:ForceFacePoint(target.Transform:GetWorldPosition())
+            end
+
+            inst.sg:SetTimeout(math.max(cooldown, 13 * FRAMES))
         end,
 
         timeline = {
+            TimeEvent(1 * FRAMES, function(inst)
+                local weapon = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
+                if weapon ~= nil and weapon._vfx_fx_inst ~= nil then
+                    weapon._vfx_fx_inst.Transform:SetScale(2, 2, 2)
+                end
+            end),
 
+            TimeEvent(2 * FRAMES, function(inst)
+                local bearger_swipe_fx = SpawnPrefab("bearger_swipe_fx")
+                if bearger_swipe_fx ~= nil then
+                    bearger_swipe_fx.AnimState:SetScale(2, 2, 2)
+                    -- bearger_swipe_fx.AnimState:SetMultColour(0, 0, 0, 0.9)
+                    bearger_swipe_fx.entity:SetParent(inst.entity)
+                    bearger_swipe_fx.Transform:SetPosition(1, 0, 0)
+                    bearger_swipe_fx:Reverse()
+                end
+                inst.sg.statemem.bearger_swipe_fx = bearger_swipe_fx
+            end),
+
+			TimeEvent(10 * FRAMES, function(inst)
+                inst.SoundEmitter:PlaySound("dontstarve/creatures/spiderqueen/swipe")
+
+                if inst.sg.statemem.target ~= nil then
+                    inst.components.combat:DoAttack(inst.sg.statemem.target)
+                    inst.components.combat:DoAttack(inst.sg.statemem.target)
+                    inst.components.combat:DoAttack(inst.sg.statemem.target)
+                end
+                SkillUtil.DoArcAttack(inst, 2, 8)
+            end),
         },
 
         ontimeout = function(inst)
@@ -1180,7 +1220,15 @@ local states = {
         },
 
         onexit = function(inst)
+            local bearger_swipe_fx = inst.sg.statemem.bearger_swipe_fx
+            if bearger_swipe_fx ~= nil and bearger_swipe_fx:IsValid() then
+				bearger_swipe_fx:Remove()
+			end
 
+            local weapon = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
+            if weapon ~= nil and weapon._vfx_fx_inst ~= nil then
+                weapon._vfx_fx_inst.Transform:SetScale(1, 1, 1)
+            end
         end,
     },
 

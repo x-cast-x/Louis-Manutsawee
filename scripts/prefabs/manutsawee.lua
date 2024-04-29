@@ -59,6 +59,7 @@ local prefabs = {
 }
 
 local enable_idle_anim = M_CONFIG.IDLE_ANIMATION
+local LouisManutsawee = "LouisManutsawee"
 
 local start_inv = {}
 
@@ -311,17 +312,18 @@ local common_postinit = function(inst)
     end
 
     inst:AddComponent("keyhandler")
-    inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.LEVEL_CHECK_KEY, "LevelCheck")
-    inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.PUT_GLASSES_KEY, "PutGlasses")
-    inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.CHANGE_HAIRS_KEY, "ChangeHairsStyle")
+    inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.LEVEL_CHECK_KEY, "LevelCheck")
+    inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.PUT_GLASSES_KEY, "PutGlasses")
+    inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.CHANGE_HAIRS_KEY, "ChangeHairsStyle")
 
     if M_CONFIG.ENABLE_SKILL then
-        inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.SKILL1_KEY, "Skill1")
-        inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.SKILL2_KEY, "Skill2")
-        inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.SKILL3_KEY, "Skill3")
-        inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.SKILL_COUNTER_ATK_KEY, "CounterAttack")
-        inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.QUICK_SHEATH_KEY, "QuickSheath")
-        inst.components.keyhandler:AddActionListener("manutsawee", M_CONFIG.SKILL_CANCEL_KEY, "SkillCancel")
+        inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.SKILL1_KEY, "Skill1")
+        inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.SKILL2_KEY, "Skill2")
+        inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.SKILL3_KEY, "Skill3")
+        inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.SKILL4_KEY, "Skill4")
+        inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.SKILL_COUNTER_ATK_KEY, "CounterAttack")
+        inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.QUICK_SHEATH_KEY, "QuickSheath")
+        inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.SKILL_CANCEL_KEY, "SkillCancel")
     end
 
     if M_CONFIG.ENABLE_DODGE then
