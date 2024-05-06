@@ -277,7 +277,6 @@ end
 
 local function SetInstanceValue(inst)
     inst.numberofbribes = 0
-    inst.customidleanim = "idle_wanda"
     inst.soundsname = "wendy"
     inst.momo_skins = momo_skins
     inst.profile_chat_icon = profile_chat_icon
@@ -298,7 +297,6 @@ local Idle_Anim = {
 
 local Funny_Idle_Anim = {
     "wes_funnyidle",
-    "idle_bocchi",
 }
 
 local function CustomIdleAnimFn(inst)
@@ -375,7 +373,6 @@ local function fn()
     inst:AddTag("pocketwatchcaster")
     inst:AddTag("naughtychild")
     inst:AddTag("momo_npc")
-    -- inst:AddTag("momocubecaster")
 
     -- trader (from trader component) added to pristine state for optimization
     inst:AddTag("trader")

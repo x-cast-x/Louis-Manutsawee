@@ -47,19 +47,23 @@ local function GetSpawnPoint(pt)
     end
 end
 
-local OnMomoSpawn = function(inst, pt, honey)
-    local spawn_pt = GetSpawnPoint(pt)
+local OnMomoSpawn = function(inst, data)
+    if data ~= nil then
+        local pt = data.pt
+        local honey = data.honey
+        local spawn_pt = GetSpawnPoint(pt)
 
-    if spawn_pt ~= nil then
-        local momo = SpawnPrefab("momo")
-        if momo ~= nil then
-            momo.Transform:SetPosition(spawn_pt:Get())
-            momo:FacePoint(pt)
-            momo.honey = honey
-            momo.honey_userid = honey.userid
-            momo.components.health:SetInvincible(false)
-            momo:PushEvent("start_dialogue")
-            _momo_in_the_world = true
+        if spawn_pt ~= nil then
+            local momo = SpawnPrefab("momo")
+            if momo ~= nil then
+                momo.Transform:SetPosition(spawn_pt:Get())
+                momo:FacePoint(pt)
+                momo.honey = honey
+                momo.honey_userid = honey.userid
+                momo.components.health:SetInvincible(false)
+                momo:PushEvent("start_dialogue")
+                _momo_in_the_world = true
+            end
         end
     end
 end

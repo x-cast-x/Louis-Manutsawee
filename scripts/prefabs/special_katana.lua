@@ -180,11 +180,7 @@ local kage_onattack = function(inst, owner, target)
 
     for _, v in pairs(ents) do
         if v ~= nil and v:IsValid() and v.components.health ~= nil and not v.components.health:IsDead() then
-            if math.random(1, 2) == 1 then
-                shadowfx = SpawnPrefab(shadow_fx[math.random(1,2)])
-            else
-                shadowfx = SpawnPrefab(shadow_fx[math.random(1,2)])
-            end
+            shadowfx = SpawnPrefab(shadow_fx[math.random(1, #shadow_fx)])
             if shadowfx.prefab == "hitsparks_fx" then
                 shadowfx:Setup(owner, target, nil, hitsparks_fx_colouroverride)
                 -- 将hitsparks_fx的black值设置为true
