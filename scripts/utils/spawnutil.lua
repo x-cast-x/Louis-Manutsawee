@@ -1,6 +1,6 @@
 local LIGHT_INTENSITY_MAX = .94
 
-local function CreateLight(bool)
+local function CreateLight(bool_var)
     local inst = CreateEntity()
 
     inst:AddTag("FX")
@@ -16,7 +16,7 @@ local function CreateLight(bool)
     inst.Light:SetIntensity(LIGHT_INTENSITY_MAX)
     inst.Light:SetRadius(TUNING.WINONA_SPOTLIGHT_RADIUS)
     inst.Light:SetColour(255 / 255, 248 / 255, 198 / 255)
-    inst.Light:Enable(bool)
+    inst.Light:Enable(bool_var)
 
     return inst
 end

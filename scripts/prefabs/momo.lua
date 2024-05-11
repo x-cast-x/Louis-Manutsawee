@@ -238,6 +238,14 @@ local function OnHitOtherFn(inst, target, damage, stimuli, weapon, damageresolve
 	end
 end
 
+local Boss_Attack_Mode = function(inst)
+    privatefn.SwitchAttackMode(inst, "Boss")
+end
+
+local Player_Attack_Mode = function(inst)
+    privatefn.SwitchAttackMode(inst, "Player")
+end
+
 local function StartDialogue(inst)
     inst:MomoSay("HELLO")
 
@@ -247,8 +255,7 @@ local function StartDialogue(inst)
         end
 
         local RejectRequest = function()
-            OnStartADate(inst)
-            inst:MomoSay("REJECT")
+            inst:MomoSay("REJECT", function(inst) PushDialogueScreen(inst, STRINGS.MOMO.SELECT_ATTACK_MODE, Boss_Attack_Mode, Player_Attack_Mode) end)
         end
 
         PushDialogueScreen(inst, STRINGS.MOMO.SELECT_REQUEST, AcceptRequest, RejectRequest)
@@ -290,7 +297,6 @@ local Idle_Anim = {
     "idle_wortox",
     "idle_wanda",
     "idle_winona",
-    "idle_wilson",
     "idle_wilson",
     "emote_impatient",
 }
@@ -431,7 +437,7 @@ local function fn()
     MakeMediumBurnableCharacter(inst, "torso")
     MakeLargeFreezableCharacter(inst, "torso")
 
-	-- inst:SetBrain(brain)
+	inst:SetBrain(brain)
 	inst:SetStateGraph("SGmomo")
 
     SetInstanceValue(inst)

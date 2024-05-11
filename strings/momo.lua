@@ -11,6 +11,12 @@ return {
         OK     = "好, 我答应.",
         CANCEL = "开始♂击剑吧.",
     },
+    SELECT_ATTACK_MODE = {
+        TITLE  = "让我来狠狠地爱你吧",
+        BODY   = "选择Momo的攻击模式",
+        OK   = "Boss",
+        CANCEL = "Player",
+    },
     ONREFUSE = {
         LIST = {
             "Honey, don't make trouble, I don't need this.",
@@ -49,16 +55,14 @@ return {
             "",
         },
         REJECT = {
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
+            "好吧，你还是那么傻。",
+            "那我就把你揍一顿。",
+            "然后把你的记忆给我。",
+            "OK?",
+            "那好，选一个吧。",
+            "要我像什么一样。",
+            "来狠狠地爱你。",
+            "Boss还是Player?",
         },
         SATISFI = {
             "",

@@ -1,6 +1,3 @@
--- TODO
---
-
 require("behaviours/chaseandattack")
 require("behaviours/faceentity")
 require("behaviours/leash")
