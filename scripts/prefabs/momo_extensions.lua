@@ -1,8 +1,17 @@
 local SpawnUtil = require("utils/spawnutil")
 local CreateLight = SpawnUtil.CreateLight
 
+local ATTACK_MODE = {
+    Boss = function(inst)
+
+    end,
+    Player = function(inst)
+
+    end,
+}
+
 local function IsPantsu(item)
-    return item:HasTag("pantsu")
+    return item ~= nil and item.components.inventoryitem ~= nil and item:HasTag("pantsu") or false
 end
 
 local function ReleaseLight(inst, bool)
@@ -18,16 +27,16 @@ local function ReleaseLight(inst, bool)
 end
 
 local function ToggleLight(inst, phase)
-    local bool = (phase == "night") or false
+    local bool_var = (phase == "night") or false
     local honey = inst:TheHoney()
     if honey ~= nil then
         if honey.momo_light ~= nil and inst.momo_light ~= nil then
-            honey.momo_light.Light:Enable(bool)
-            inst.momo_light.Light:Enable(bool)
-        elseif bool then
-            inst:ReleaseLight(bool)
+            honey.momo_light.Light:Enable(bool_var)
+            inst.momo_light.Light:Enable(bool_var)
+        elseif bool_var then
+            inst:ReleaseLight(bool_var)
         end
-        if bool then
+        if bool_var then
             inst:PushEvent("releaselight", {phase = phase})
         end
     end
@@ -51,12 +60,15 @@ local function FindItemInInventory(inst, item)
     end
 end
 
-local function MomoSay(inst, str)
+local function MomoSay(inst, str, fn)
     if checkstring(str) then
         local str_table = STRINGS.MOMO.DIALOGUE[string.upper(str)]
         for i = 1, #str_table do
             inst:DoTaskInTime(i * 3, function(inst)
                 inst.components.talker:Say(str_table[i])
+                if fn ~= nil and i == #str_table then
+                    fn(inst)
+                end
             end)
         end
     end
@@ -67,7 +79,7 @@ local function TheHoney(inst)
     if inst.honey == nil and inst.honey_userid ~= nil then
         inst.honey = LookupPlayerInstByUserID(inst.honey_userid)
     end
-    return inst.honey or nil
+    return inst.honey
 end
 
 local function ChargeEffects(inst, time)
@@ -168,6 +180,17 @@ local function SpawnStartingItems(inst, items)
     end
 end
 
+local SwitchAttackMode = function(inst, mode)
+    if checkstring(mode) and ATTACK_MODE[mode] then
+        inst.attack_mode = mode
+        ATTACK_MODE[mode](inst)
+    end
+end
+
+local AddAttackMode = function(modename, fn)
+    ATTACK_MODE[modename] = fn
+end
+
 return {
     publicfn = {
         TheHoney = TheHoney,
@@ -186,5 +209,7 @@ return {
 
     privatefn = {
         SpawnStartingItems = SpawnStartingItems,
+        SwitchAttackMode = SwitchAttackMode,
+        AddAttackMode = AddAttackMode,
     },
 }

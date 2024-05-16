@@ -238,6 +238,14 @@ local function OnHitOtherFn(inst, target, damage, stimuli, weapon, damageresolve
 	end
 end
 
+local Boss_Attack_Mode = function(inst)
+    privatefn.SwitchAttackMode(inst, "Boss")
+end
+
+local Player_Attack_Mode = function(inst)
+    privatefn.SwitchAttackMode(inst, "Player")
+end
+
 local function StartDialogue(inst)
     inst:MomoSay("HELLO")
 
@@ -247,8 +255,7 @@ local function StartDialogue(inst)
         end
 
         local RejectRequest = function()
-            OnStartADate(inst)
-            inst:MomoSay("REJECT")
+            inst:MomoSay("REJECT", function(inst) PushDialogueScreen(inst, STRINGS.MOMO.SELECT_ATTACK_MODE, Boss_Attack_Mode, Player_Attack_Mode) end)
         end
 
         PushDialogueScreen(inst, STRINGS.MOMO.SELECT_REQUEST, AcceptRequest, RejectRequest)
@@ -277,7 +284,6 @@ end
 
 local function SetInstanceValue(inst)
     inst.numberofbribes = 0
-    inst.customidleanim = "idle_wanda"
     inst.soundsname = "wendy"
     inst.momo_skins = momo_skins
     inst.profile_chat_icon = profile_chat_icon
@@ -292,13 +298,11 @@ local Idle_Anim = {
     "idle_wanda",
     "idle_winona",
     "idle_wilson",
-    "idle_wilson",
     "emote_impatient",
 }
 
 local Funny_Idle_Anim = {
     "wes_funnyidle",
-    "idle_bocchi",
 }
 
 local function CustomIdleAnimFn(inst)
@@ -375,7 +379,6 @@ local function fn()
     inst:AddTag("pocketwatchcaster")
     inst:AddTag("naughtychild")
     inst:AddTag("momo_npc")
-    -- inst:AddTag("momocubecaster")
 
     -- trader (from trader component) added to pristine state for optimization
     inst:AddTag("trader")
@@ -434,7 +437,7 @@ local function fn()
     MakeMediumBurnableCharacter(inst, "torso")
     MakeLargeFreezableCharacter(inst, "torso")
 
-	-- inst:SetBrain(brain)
+	inst:SetBrain(brain)
 	inst:SetStateGraph("SGmomo")
 
     SetInstanceValue(inst)

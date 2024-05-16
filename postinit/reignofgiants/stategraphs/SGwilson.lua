@@ -44,9 +44,6 @@ local katanarnd = 1
 ----------------------------------------------------------------------------------------------
 
 local actionhandlers = {
-    ActionHandler(ACTIONS.TRANSFORMATION, function(inst, action)
-        return action.invobject ~= nil and "transfiguration_item"
-    end),
 }
 
 local events = {
@@ -1186,9 +1183,11 @@ local states = {
                 local bearger_swipe_fx = SpawnPrefab("bearger_swipe_fx")
                 if bearger_swipe_fx ~= nil then
                     bearger_swipe_fx.AnimState:SetScale(2, 2, 2)
+                    bearger_swipe_fx.AnimState:SetDeltaTimeMultiplier(0.5)
                     -- bearger_swipe_fx.AnimState:SetMultColour(0, 0, 0, 0.9)
                     bearger_swipe_fx.entity:SetParent(inst.entity)
                     bearger_swipe_fx.Transform:SetPosition(1, 0, 0)
+
                     bearger_swipe_fx:Reverse()
                 end
                 inst.sg.statemem.bearger_swipe_fx = bearger_swipe_fx
@@ -1460,33 +1459,6 @@ local states = {
             end),
         },
     },
-
-    State{
-        name = "transfiguration_item",
-        tags = { "doing", "busy", "nodangle" },
-
-        onenter = function(inst)
-            inst.components.locomotor:Stop()
-            inst.AnimState:PlayAnimation("wendy_recall")
-            inst.AnimState:PushAnimation("wendy_recall_pst", false)
-        end,
-
-        timeline = {
-            TimeEvent(30 * FRAMES, function(inst)
-                inst.SoundEmitter:PlaySound("turnoftides/common/together/moon_glass/mine")
-                inst.sg:RemoveStateTag("busy")
-            end),
-        },
-
-        events = {
-            EventHandler("animqueueover", function(inst)
-                if inst.AnimState:AnimDone() then
-                    inst.sg:GoToState("idle")
-                end
-            end),
-        },
-    },
-
 }
 
 for _, event in ipairs(events) do

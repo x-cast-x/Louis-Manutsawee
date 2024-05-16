@@ -23,7 +23,6 @@ function Eater:PrefersToEat(food, ...)
                 return false
             end
         end
-    else
-        return _PrefersToEat(self, food, ...)
     end
+    return _PrefersToEat(self, food, ...)
 end
