@@ -147,7 +147,7 @@ function SkillReleaser:AddSkills(skills)
     if checkentity(skills) then
         for k, v in pairs(skills) do
             local name = string.lower(k)
-            local fn = SkillUtil.Skill_CommonFn(self.inst, v.tag, name, v.time, v.mindpower, v.fn)
+            local fn = SkillUtil.Skill_CommonFn(v.tag, name, v.time, v.mindpower, v.fn)
             self:AddSkill(name, fn)
         end
     end

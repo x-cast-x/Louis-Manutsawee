@@ -174,7 +174,6 @@ return {
         manutsawee_lycoris = "Takina's outfit from Lycoris Recoil",
         manutsawee_yukata = "Japan's outfit mini version.",
         manutsawee_yukatalong = "Japan's outfit.",
-        manutsawee_yukatalong_purple = "Japan's outfit purple version.",
     },
     SKIN_NAMES = {
         lcane = "Moon cane",
@@ -193,7 +192,6 @@ return {
         manutsawee_lycoris = "Lycoris",
         manutsawee_yukata = "Kimono(M) ",
         manutsawee_yukatalong = "Kimono",
-        manutsawee_yukatalong_purple = "Kimono(P)",
     },
     SKIN_QUOTES = {
         manutsawee_maid_m = "\"Guest sama, would you like a cup of coffee?\"",
@@ -211,7 +209,6 @@ return {
         manutsawee_lycoris = "\"Heart is running away! ! !\"",
         manutsawee_yukata = "\"Shine omae! haha.'\"",
         manutsawee_yukatalong = "\"Kon ni chi wa ..?'\"",
-        manutsawee_yukatalong_purple = "\"Kon ni chi wa ..?'\"",
     },
     DEV_EPITAPHS = {
         SYDNEY = {

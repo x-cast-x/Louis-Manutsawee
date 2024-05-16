@@ -18,8 +18,6 @@ Assets = {
     Asset("ATLAS", "bigportraits/manutsawee_yukata.xml"),
     Asset("IMAGE", "bigportraits/manutsawee_yukatalong.tex"),
     Asset("ATLAS", "bigportraits/manutsawee_yukatalong.xml"),
-    Asset("IMAGE", "bigportraits/manutsawee_yukatalong_purple.tex"),
-    Asset("ATLAS", "bigportraits/manutsawee_yukatalong_purple.xml"),
     Asset("IMAGE", "bigportraits/manutsawee_shinsengumi.tex"),
     Asset("ATLAS", "bigportraits/manutsawee_shinsengumi.xml"),
     Asset("IMAGE", "bigportraits/manutsawee_fuka.tex"),
@@ -59,8 +57,7 @@ Assets = {
     Asset("ATLAS", "images/names_gold_cn_manutsawee.xml"),
 }
 
-PreloadAssets = {
-}
+PreloadAssets = {}
 
 modimport("main/constants")
 modimport("main/config")

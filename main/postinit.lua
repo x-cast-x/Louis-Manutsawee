@@ -14,6 +14,8 @@ local postinit = {
         "sacred_chest",
         "world_network",
         "gravestone",
+        "rainhat",
+        "pighouse",
     },
     stategraphs = {
         "SGwilson",
@@ -31,6 +33,7 @@ local postinit = {
         "trader",
         "trap",
         "curseditem",
+        "stewer",
     },
     widgets = {
         "skinspuppet",

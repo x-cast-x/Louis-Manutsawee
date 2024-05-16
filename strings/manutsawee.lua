@@ -290,7 +290,7 @@ return {
     },
     ANNOUNCE_CARRAT_START_RACE = "Alright, let's win that prize!",
     ANNOUNCE_CAVEIN = "I better protect my head!",
-    ANNOUNCE_CHAIR_ON_FIRE = "This is great!",
+    ANNOUNCE_CHAIR_ON_FIRE = "Oops, so hot!",
     ANNOUNCE_CHARLIE = "I'm not afraid of you!",
     ANNOUNCE_CHARLIE_ATTACK = "Hey! You coward!",
     ANNOUNCE_COLD = "So cold!",
@@ -1113,7 +1113,7 @@ return {
         CARNIVAL_VEST_C = "Breezy.",
         CARPENTRY_STATION = {
             BURNT = "See?",
-            GENERIC = "I love stuff made out of wood! It burns so well!",
+            GENERIC = "I love stuff made out of wood!",
         },
         CARRAT = {
             DEAD = "Ew, it's dead.",
@@ -1376,8 +1376,8 @@ return {
         },
         DEERCLOPS = "Holy crap!",
         DEERCLOPSCORPSE = {
-            BURNING = "Nice and toasty!",
-            GENERIC = "That body looks cold. I should fix that.",
+            BURNING = "This is the best way to handle it...",
+            GENERIC = "Quick, toss that Deerclops carcass into the fire, don't give them a chance!",
             REVIVING = "That's... not good.",
         },
         DEERCLOPSEYEBALL_SENTRYWARD = {

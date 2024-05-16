@@ -83,7 +83,8 @@ local function raikiri_onattack(inst, owner, target)
             if electrichitsparks ~= nil and target ~= nil and target:IsValid() and owner ~= nil and owner:IsValid() then
                 electrichitsparks:AlignToTarget(target, owner, true)
                 if target.components.combat ~= nil then
-                    target.components.combat:GetAttacked(owner, inst.components.weapon.damage * (absorblightning and 1.5) or .8)
+                    local damage = absorblightning and 1.5 or .8
+                    target.components.combat:GetAttacked(owner, inst.components.weapon.damage * damage)
                 end
             end
         end

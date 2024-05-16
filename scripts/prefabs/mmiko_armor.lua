@@ -71,11 +71,8 @@ end
 local function Armormode(inst, owner)
     if not inst.armorstatus then
         owner.AnimState:OverrideSymbol("swap_body", "mmiko_armor", "swap_body")
-        inst:AddComponent("armor")
-        inst.components.armor:InitCondition(TUNING.MMIKO_ARMOR_AMOUNT, TUNING.MMIKO_ARMOR_PRECENT)
     else
         owner.AnimState:ClearOverrideSymbol("swap_body")
-        inst:RemoveComponent("armor")
     end
 end
 
@@ -152,6 +149,9 @@ local function MainFunction()
 
     inst:AddComponent("fuel")
     inst.components.fuel.fuelvalue = TUNING.LARGE_FUEL
+
+    inst:AddComponent("armor")
+    inst.components.armor:InitCondition(TUNING.MMIKO_ARMOR_AMOUNT, TUNING.MMIKO_ARMOR_PRECENT)
 
     inst:AddComponent("waterproofer")
     inst.components.waterproofer:SetEffectiveness(TUNING.WATERPROOFNESS_MED)

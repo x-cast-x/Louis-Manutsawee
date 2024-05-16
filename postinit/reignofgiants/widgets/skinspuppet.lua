@@ -27,7 +27,6 @@ local M_Idle_Anim = {
     ["manutsawee_taohuu"] = "idle_winona",
     ["manutsawee_miko"] = "emote_impatient",
     ["manutsawee_bocchi"] = "emote_impatient",
-    ["manutsawee_yukatalong_purple"] = yukata_idle,
     ["manutsawee_yukatalong"] = yukata_idle,
     ["manutsawee_yukata"] = yukata_idle,
 

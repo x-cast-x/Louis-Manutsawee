@@ -80,8 +80,8 @@ local function AddFollowerFx(inst, prefab, scale)
     end
 end
 
-local function Skill_CommonFn(inst, tag, name, time, mindpower, fn)
-    return function()
+local function Skill_CommonFn(tag, name, time, mindpower, fn)
+    return function(inst)
         if inst.components.skillreleaser:CanUseSkill(inst.components.combat.target) then
             inst.sg:GoToState("idle")
             inst.components.skillreleaser:SkillRemove()

@@ -15,6 +15,7 @@ return Class(function(self, inst)
     local _world = TheWorld
     local _ismastersim = _world.ismastersim
     local _ismastershard = _world.ismastershard
+    local LouisManutsawee = "LouisManutsawee"
 
     local katanas = {}
 
@@ -38,7 +39,7 @@ return Class(function(self, inst)
             self.inst:ListenForEvent("onremove", onremove, katana)
             katanas[name] = katana
         else
-            SendModRPCToShard(SHARD_MOD_RPC["manutsawee"]["SyncKatanaData"], 1, true, katana)
+            SendModRPCToShard(SHARD_MOD_RPC[LouisManutsawee]["SyncKatanaData"], 1, true, katana)
         end
     end or nil
 
@@ -52,7 +53,7 @@ return Class(function(self, inst)
                 katanas[name] = nil
             end
         else
-            SendModRPCToShard(SHARD_MOD_RPC["manutsawee"]["SyncKatanaData"], 1, false, name)
+            SendModRPCToShard(SHARD_MOD_RPC[LouisManutsawee]["SyncKatanaData"], 1, false, name)
         end
     end or nil
 

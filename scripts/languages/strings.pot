@@ -16516,11 +16516,6 @@ msgctxt "STRINGS.SKIN_DESCRIPTIONS.manutsawee_yukatalong"
 msgid "Japan's outfit."
 msgstr ""
 
-#. STRINGS.SKIN_DESCRIPTIONS.manutsawee_yukatalong_purple
-msgctxt "STRINGS.SKIN_DESCRIPTIONS.manutsawee_yukatalong_purple"
-msgid "Japan's outfit purple version."
-msgstr ""
-
 #. STRINGS.SKIN_NAMES.manutsawee_bocchi
 msgctxt "STRINGS.SKIN_NAMES.manutsawee_bocchi"
 msgid "Guitar Hero"
@@ -16586,11 +16581,6 @@ msgctxt "STRINGS.SKIN_NAMES.manutsawee_yukatalong"
 msgid "Kimono"
 msgstr ""
 
-#. STRINGS.SKIN_NAMES.manutsawee_yukatalong_purple
-msgctxt "STRINGS.SKIN_NAMES.manutsawee_yukatalong_purple"
-msgid "Kimono(P)"
-msgstr ""
-
 #. STRINGS.SKIN_QUOTES.manutsawee_bocchi
 msgctxt "STRINGS.SKIN_QUOTES.manutsawee_bocchi"
 msgid ""mu mu mu mu mu mu mu mu""
@@ -16653,11 +16643,6 @@ msgstr ""
 
 #. STRINGS.SKIN_QUOTES.manutsawee_yukatalong
 msgctxt "STRINGS.SKIN_QUOTES.manutsawee_yukatalong"
-msgid ""Kon ni chi wa ..?'""
-msgstr ""
-
-#. STRINGS.SKIN_QUOTES.manutsawee_yukatalong_purple
-msgctxt "STRINGS.SKIN_QUOTES.manutsawee_yukatalong_purple"
 msgid ""Kon ni chi wa ..?'""
 msgstr ""
 

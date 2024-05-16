@@ -38,7 +38,6 @@ M_SKIN_NAMES = {
     "sailor",
     "yukata",
     "yukatalong",
-    "yukatalong_purple",
     "miko",
     "qipao",
     "fuka",

@@ -58,6 +58,11 @@ local prefabs = {
     "fx_book_light_upgraded",
 }
 
+local UnlockRecipes = {
+    "rainhat",
+    "portabletent_item",
+}
+
 local enable_idle_anim = M_CONFIG.IDLE_ANIMATION
 local LouisManutsawee = "LouisManutsawee"
 
@@ -176,6 +181,12 @@ local function OnUpgrades(inst, kenjutsulevel, kenjutsuexp)
         inst.components.workmultiplier:AddMultiplier(ACTIONS.CHOP,   1, inst)
         inst.components.workmultiplier:AddMultiplier(ACTIONS.MINE,   1, inst)
         inst.components.workmultiplier:AddMultiplier(ACTIONS.HAMMER, 1, inst)
+
+        if inst.components.builder ~= nil then
+            for k, recipe in pairs(UnlockRecipes) do
+                inst.components.builder:UnlockRecipe(recipe)
+            end
+        end
     end
 
     if kenjutsulevel >= 6 then
@@ -468,7 +479,6 @@ local OnStrike = function(inst)
 end
 
 local Idle_Anim = {
-    ["manutsawee_yukatalong_purple"] = "idle_wendy",
     ["manutsawee_yukatalong"] = "idle_wendy",
     ["manutsawee_yukata"] = "idle_wendy",
     ["manutsawee_shinsengumi"] = "idle_wathgrithr",
@@ -510,7 +520,6 @@ local function CustomIdleStateFn(inst)
     elseif enable_idle_anim == "Default" then
         local build = inst.AnimState:GetBuild()
         local funny_idle_anim = Funny_Idle_Anim[build]
-
         return funny_idle_anim ~= nil and funny_idle_anim or nil
     end
 end
@@ -609,7 +618,7 @@ local master_postinit = function(inst)
     inst.components.health:SetMaxHealth(TUNING.MANUTSAWEE.HEALTH)
     inst.components.hunger:SetMax(TUNING.MANUTSAWEE.HUNGER)
     inst.components.sanity:SetMax(TUNING.MANUTSAWEE.SANITY)
-    -- inst.components.hunger:SetRate(TUNING.WILSON_HUNGER_RATE * .5)
+    inst.components.hunger:SetRate(TUNING.WILSON_HUNGER_RATE * .5)
 
     -- Damage multiplier (optional)
     inst.components.combat.damagemultiplier = 1
