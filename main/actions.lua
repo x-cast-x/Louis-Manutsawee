@@ -7,7 +7,6 @@ GLOBAL.setfenv(1, GLOBAL)
 local M_ACTIONS = {
     MDODGE = Action({distance = math.huge, instant = true}),
     MDODGE2 = Action({distance = math.huge, instant = true}),
-    TRANSFORMATION = Action({ priority=-1, rmb=true, mount_valid=true }),
 }
 
 for name, ACTION in pairs(M_ACTIONS) do

@@ -4,7 +4,7 @@
 
 return Class(function(self, inst)
 
-assert(TheWorld.ismastersim, "Dating Manager should not exist on client")
+assert(inst.ismastersim, "Dating Manager should not exist on client")
 
 --------------------------------------------------------------------------
 --[[ Public Member Variables ]]

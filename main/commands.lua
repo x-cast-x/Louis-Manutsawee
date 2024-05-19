@@ -29,3 +29,7 @@ if not rawget(_G, "c_revealmap") then
         end
     end
 end
+
+-- function c_spawn()
+
+-- end

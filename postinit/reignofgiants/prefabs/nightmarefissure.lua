@@ -36,7 +36,7 @@ AddPrefabPostInit("fissure", function(inst)
     local _controlled = _states.controlled
     function _states.controlled(inst, instant, oldstate, ...)
         _controlled(inst, instant, oldstate, ...)
-        if katanaspawner ~= nil and not not katanaspawner:GetKatana("mortalblade") and inst.AnimState:IsCurrentAnimation("idle_open_rift") then
+        if katanaspawner ~= nil and not katanaspawner:GetKatana("mortalblade") and inst.AnimState:IsCurrentAnimation("idle_open_rift") then
             local fx = SpawnPrefab("dreadstone_spawn_fx")
             fx.entity:SetParent(inst.entity)
             inst:SetPrefabNameOverride("dreadstone_stack_tomb")

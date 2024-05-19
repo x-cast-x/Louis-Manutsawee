@@ -19,6 +19,8 @@ return Class(function(self, inst)
 
     local katanas = {}
 
+    print("Loading KatanaSpawner...")
+
     --------------------------------------------------------------------------
     --[[ Private member functions ]]
     --------------------------------------------------------------------------
@@ -38,9 +40,12 @@ return Class(function(self, inst)
             katanas[name] = { inst = katana, onremove = onremove }
             self.inst:ListenForEvent("onremove", onremove, katana)
             katanas[name] = katana
+            print("TrackKatana" .. tostring(_world.prefab) .. ": " .. _ismastershard)
         else
+            print("Send RPC:" .. LouisManutsawee .. " TrackKatana")
             SendModRPCToShard(SHARD_MOD_RPC[LouisManutsawee]["SyncKatanaData"], 1, true, katana)
         end
+        print("TrackKatana")
     end or nil
 
     local ForgetKatana =  _ismastersim and function(name)
@@ -52,9 +57,12 @@ return Class(function(self, inst)
                 self.inst:RemoveEventCallback("onremove", katanas[name].onremove, katanas[name].inst)
                 katanas[name] = nil
             end
+            print("ForgetKatana" .. tostring(_world.prefab) .. ": " .. _ismastershard)
         else
+            print("Send RPC:" .. LouisManutsawee .. " ForgetKatana")
             SendModRPCToShard(SHARD_MOD_RPC[LouisManutsawee]["SyncKatanaData"], 1, false, name)
         end
+        print("ForgetKatana")
     end or nil
 
     --------------------------------------------------------------------------
@@ -87,7 +95,7 @@ return Class(function(self, inst)
         local refs = {}
 
         for k, v in pairs(katanas) do
-            table.insert(ents, { name = k, GUID = v.inst.GUID })
+            table.insert(ents, { name = k, GUID = v.GUID })
             table.insert(refs, v.inst.GUID)
         end
 
@@ -114,7 +122,7 @@ return Class(function(self, inst)
         for k, v in pairs(katanas) do
             str = str.."    --"..k..": "..tostring(v.inst).."\n"
         end
-        return str
+        return string.format(str)
     end
 
     --------------------------------------------------------------------------

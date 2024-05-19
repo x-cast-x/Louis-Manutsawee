@@ -333,6 +333,7 @@ local function fn()
     inst.components.weapon:SetOnAttack(OnAttack)
 
     inst:AddComponent("inventoryitem")
+    inst.components.inventoryitem.nobounce = true
     inst.components.inventoryitem.canonlygoinpocket = true
     inst.components.inventoryitem:SetOnPutInInventoryFn(OnPutInInventory)
     inst.components.inventoryitem:SetOnDroppedFn(OnDropped)

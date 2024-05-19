@@ -267,12 +267,12 @@ end
 local function GetPointSpecialActions(inst, pos, useitem, right)
     local equip = inst.replica.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
     local rider = inst.replica.rider
-    if equip ~= nil and not (equip:HasTag("iai") or equip:HasTag("katana_quickdraw")) and equip:HasTag("katanaskill") and inst:HasTag("kenjutsu") and right and GetTime() - inst.last_dodge_time > inst.dodge_cooldown and not inst:HasTag("sitting_on_chair") and not inst.sg:HasStateTag("boating") then
+    if equip ~= nil and not (equip:HasTag("iai")) and equip:HasTag("katanaskill") and inst:HasTag("kenjutsu") and right and GetTime() - inst.last_dodge_time > inst.dodge_cooldown and not inst:HasTag("sitting_on_chair") then
         if rider == nil or not rider:IsRiding() then
             return {ACTIONS.MDODGE}
         end
     elseif inst:HasTag("kenjutsu") and right and GetTime() - inst.last_dodge_time > inst.dodge_cooldown and not inst:HasTag("sitting_on_chair") then
-        if rider == nil or not rider:IsRiding() and not inst.sg:HasStateTag("boating") then
+        if rider == nil or not rider:IsRiding() then
             return {ACTIONS.MDODGE2}
         end
     end
@@ -491,6 +491,7 @@ local Idle_Anim = {
     ["manutsawee_uniform_black"] = "idle_wanda",
     ["manutsawee_taohuu"] = "idle_winona",
     ["manutsawee_miko"] = "emote_impatient",
+    ["manutsawee_souji"] = "idle_wathgrithr",
 }
 
 local Funny_Idle_Anim = {

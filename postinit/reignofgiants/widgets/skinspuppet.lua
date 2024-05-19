@@ -21,6 +21,7 @@ local balloon_color = {
 local M_Idle_Anim = {
     ["manutsawee"] = "idle_wilson",
     ["manutsawee_shinsengumi"] = "idle_wathgrithr",
+    ["manutsawee_souji"] = "idle_wathgrithr",
     ["manutsawee_fuka"] = "idle_wathgrithr",
     ["manutsawee_sailor"] = "idle_walter",
     ["manutsawee_jinbei"] = "idle_wortox",
