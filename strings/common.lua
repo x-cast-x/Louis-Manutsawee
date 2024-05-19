@@ -228,4 +228,11 @@ return {
         -- FFFFFF = {
         -- },
     },
+    UI = {
+        WORLDGEN = {
+            NOUNS = {
+                "Louis's pantsu..."
+            }
+        },
+    },
 }

@@ -23,7 +23,7 @@ changelog = en_zh([[
 
 description = en_zh("Version: ", "版本: ") .. version ..
 en_zh("\n\nChanges:\n", "\n\n更新内容:\n") .. changelog .. "\n" ..
-en_zh("Original author:#ffffff", "原作者:#ffffff")
+en_zh("- Original author:#ffffff", "原作者:#ffffff")
 
 author = en_zh("Sydney", "悉尼")
 
@@ -53,8 +53,6 @@ icon = "modicon.tex"
 server_filter_tags = {
     "character",
     "M.louis",
-    "manutsawee",
-    "Manutsawee",
     "Louis",
     "Manutsawee",
 }
