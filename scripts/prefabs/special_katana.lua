@@ -63,7 +63,7 @@ local mortalblade_common_postinit = function(inst)
 end
 
 local function OnRemove(inst)
-    -- SendModRPCToShard(SHARD_MOD_RPC["manutsawee"]["SyncKatanaData"], 1, false, inst.prefab)
+    TheWorld:PushEvent("ms_forgetkatana", {name = inst.prefab})
 end
 
 local function OnSave(inst, data)

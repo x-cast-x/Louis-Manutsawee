@@ -142,63 +142,77 @@ local function PutGlasses(inst)
     end
 end
 
-local function OnUpgrades(inst, kenjutsulevel, kenjutsuexp)
-    if kenjutsulevel >= 1 then
-        inst.components.sanity.neg_aura_mult = 1 - ((kenjutsulevel / 2) / 10)
-        inst.components.kenjutsuka.kenjutsumaxexp = 500 * kenjutsulevel
+local OnKenjutsuLevels = {
+    [1] = function(inst, kenjutsulevel, kenjutsuexp)
+        if kenjutsulevel >= 1 then
+            inst.components.sanity.neg_aura_mult = 1 - ((kenjutsulevel / 2) / 10)
+            inst.components.kenjutsuka.kenjutsumaxexp = 500 * kenjutsulevel
 
-        local hunger_percent = inst.components.hunger:GetPercent()
-        local health_percent = inst.components.health:GetPercent()
-        local sanity_percent = inst.components.sanity:GetPercent()
+            local hunger_percent = inst.components.hunger:GetPercent()
+            local health_percent = inst.components.health:GetPercent()
+            local sanity_percent = inst.components.sanity:GetPercent()
 
-        if M_CONFIG.HEALTH_MAX > 0 then
-            inst.components.health.maxhealth = math.ceil(TUNING.MANUTSAWEE.HEALTH + kenjutsulevel * M_CONFIG.HEALTH_MAX)
-            inst.components.health:SetPercent(health_percent)
-        end
-        if M_CONFIG.HUNGER_MAX > 0 then
-            inst.components.hunger.max = math.ceil(TUNING.MANUTSAWEE.HUNGER + kenjutsulevel * M_CONFIG.HUNGER_MAX)
-            inst.components.hunger:SetPercent(hunger_percent)
-        end
-        if M_CONFIG.SANITY_MAX > 0 then
-            inst.components.sanity.max = math.ceil(TUNING.MANUTSAWEE.SANITY + kenjutsulevel * M_CONFIG.SANITY_MAX)
-            inst.components.sanity:SetPercent(sanity_percent)
-        end
-    end
-
-    if kenjutsulevel >= 2 and not inst:HasTag("kenjutsu") then
-        inst:AddTag("kenjutsu")
-    end
-
-    if kenjutsulevel >= 4 then
-        inst.components.kenjutsuka:StartRegenMindPower()
-    end
-
-    if kenjutsulevel >= 5 then
-        if not inst:HasTag("katanakaji") then
-            inst:AddTag("katanakaji")
-        end
-        inst.components.sanity:AddSanityAuraImmunity("ghost")
-        inst.components.workmultiplier:AddMultiplier(ACTIONS.CHOP,   1, inst)
-        inst.components.workmultiplier:AddMultiplier(ACTIONS.MINE,   1, inst)
-        inst.components.workmultiplier:AddMultiplier(ACTIONS.HAMMER, 1, inst)
-
-        if inst.components.builder ~= nil then
-            for k, recipe in pairs(UnlockRecipes) do
-                inst.components.builder:UnlockRecipe(recipe)
+            if M_CONFIG.HEALTH_MAX > 0 then
+                inst.components.health.maxhealth = math.ceil(TUNING.MANUTSAWEE.HEALTH + kenjutsulevel * M_CONFIG.HEALTH_MAX)
+                inst.components.health:SetPercent(health_percent)
+            end
+            if M_CONFIG.HUNGER_MAX > 0 then
+                inst.components.hunger.max = math.ceil(TUNING.MANUTSAWEE.HUNGER + kenjutsulevel * M_CONFIG.HUNGER_MAX)
+                inst.components.hunger:SetPercent(hunger_percent)
+            end
+            if M_CONFIG.SANITY_MAX > 0 then
+                inst.components.sanity.max = math.ceil(TUNING.MANUTSAWEE.SANITY + kenjutsulevel * M_CONFIG.SANITY_MAX)
+                inst.components.sanity:SetPercent(sanity_percent)
             end
         end
-    end
+    end,
+    [2] = function(inst, kenjutsulevel, kenjutsuexp)
+        if kenjutsulevel >= 2 and not inst:HasTag("kenjutsu") then
+            inst:AddTag("kenjutsu")
+        end
+    end,
+    [3] = function(inst, kenjutsulevel, kenjutsuexp)
+        if kenjutsulevel >= 4 then
+            inst.components.kenjutsuka:StartRegenMindPower()
+        end
+    end,
+    [4] = function(inst, kenjutsulevel, kenjutsuexp)
+        if kenjutsulevel >= 4 then
+            inst.components.kenjutsuka:StartRegenMindPower()
+        end
+    end,
+    [5] = function(inst, kenjutsulevel, kenjutsuexp)
+        if kenjutsulevel >= 5 then
+            if not inst:HasTag("katanakaji") then
+                inst:AddTag("katanakaji")
+            end
+            inst.components.sanity:AddSanityAuraImmunity("ghost")
+            inst.components.workmultiplier:AddMultiplier(ACTIONS.CHOP,   1, inst)
+            inst.components.workmultiplier:AddMultiplier(ACTIONS.MINE,   1, inst)
+            inst.components.workmultiplier:AddMultiplier(ACTIONS.HAMMER, 1, inst)
 
-    if kenjutsulevel >= 6 then
-        inst.components.temperature.inherentinsulation = TUNING.INSULATION_TINY /2
-        inst.components.temperature.inherentsummerinsulation = TUNING.INSULATION_TINY /2
-        inst.components.sanity:SetPlayerGhostImmunity(true)
+            if inst.components.builder ~= nil then
+                for k, recipe in pairs(UnlockRecipes) do
+                    inst.components.builder:UnlockRecipe(recipe)
+                end
+            end
+        end
+    end,
+    [6] = function(inst, kenjutsulevel, kenjutsuexp)
+        if kenjutsulevel >= 6 then
+            inst.components.temperature.inherentinsulation = TUNING.INSULATION_TINY /2
+            inst.components.temperature.inherentsummerinsulation = TUNING.INSULATION_TINY /2
+            inst.components.sanity:SetPlayerGhostImmunity(true)
+        end
+    end,
+    [7] = function(inst, kenjutsulevel, kenjutsuexp)
+        if kenjutsulevel >= 10 then
+            kenjutsuexp = 0
+        end
     end
+}
 
-    if kenjutsulevel >= 10 then
-        kenjutsuexp = 0
-    end
-
+local function OnKenjutsuLevelUp(inst, kenjutsulevel, kenjutsuexp)
     inst.components.kenjutsuka:SetMaxMindpower(M_CONFIG.MIND_MAX + kenjutsulevel)
 
     local fx = SpawnPrefab("fx_book_light_upgraded")
@@ -578,8 +592,9 @@ local master_postinit = function(inst)
     inst.components.skillreleaser:AddSkills(Skill_Data)
 
     inst:AddComponent("kenjutsuka")
-    inst.components.kenjutsuka:SetOnUpgradeFn(OnUpgrades)
+    inst.components.kenjutsuka:SetOnLevelUp(OnKenjutsuLevelUp)
     inst.components.kenjutsuka:SetOnMindPowerRegenFn(OnMindPowerRegen)
+    inst.components.kenjutsuka:AddLevelUpFns(OnKenjutsuLevels)
 
     inst:AddComponent("houndedtarget")
     inst.components.houndedtarget.target_weight_mult:SetModifier(inst, TUNING.WES_HOUND_TARGET_MULT, "misfortune")
