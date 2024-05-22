@@ -307,7 +307,7 @@ return Class(function(self, inst)
     --------------------------------------------------------------------------
 
     function self:GetDebugString()
-        return string.format("Is Kenjutsu Master:%s, Exp:%d, Level:%d, Power:%d", tostring(self.is_master), self.kenjutsuexp, self.kenjutsulevel, self.mindpower)
+        return string.format("Is Kenjutsu Master:%s, Exp:%d, Level:%d, Power:%d", tostring(_is_master), kenjutsuexp, kenjutsulevel, mindpower)
     end
 
     --------------------------------------------------------------------------
