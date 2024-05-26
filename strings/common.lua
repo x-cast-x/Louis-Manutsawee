@@ -103,6 +103,18 @@ return {
         MOMO = "Momo",
         MOMOCUBE = "Erebus Cube",
         MOMOAXE = "Erebus(Axe Mode)",
+        MOMO_GIFTS = {
+            MOMO_GIFT = "Momo gift",
+            AGIFTSTOENFROMKLEI = "A gift stolen from Klei",
+            ATAKEOUT = "A takeout",
+            RESOURCES_COLLECTED_FROM_EVERYWHERE = "Resources collected from everywhere",
+            HEALTHY_VEGETABLES = "Healthy vegetables",
+            HEALTHY_FURIT = "Healthy fruit",
+            AFTERNOON_TEA = "Afternoon tea",
+            A_LITTLE_SNACK = "A Little snack",
+            FEAST = "A Feast",
+            SEAFOOD = "Seafood",
+        },
     },
     RECIPE_DESC = {
         HARAKIRI = "Pay your mistake.",

@@ -58,9 +58,10 @@ local prefabs = {
     "fx_book_light_upgraded",
 }
 
-local UnlockRecipes = {
+local unlockrecipes = {
     "rainhat",
     "portabletent_item",
+    "bedroll_shraw",
 }
 
 local enable_idle_anim = M_CONFIG.IDLE_ANIMATION
@@ -192,7 +193,7 @@ local OnKenjutsuLevels = {
             inst.components.workmultiplier:AddMultiplier(ACTIONS.HAMMER, 1, inst)
 
             if inst.components.builder ~= nil then
-                for k, recipe in pairs(UnlockRecipes) do
+                for k, recipe in pairs(unlockrecipes) do
                     inst.components.builder:UnlockRecipe(recipe)
                 end
             end
@@ -315,12 +316,12 @@ local common_postinit = function(inst)
     inst:AddTag("fastbuilder")
     inst:AddTag("hungrybuilder")
     inst:AddTag("naughtychild")
-    inst:AddTag("miko")
     inst:AddTag("ghostlyfriend")
     inst:AddTag("alchemist")
     inst:AddTag("ore_alchemistI")
     inst:AddTag("ick_alchemistI")
     inst:AddTag("ick_alchemistII")
+    inst:AddTag("kenjutsuka")
 
     if IA_ENABLED then
         inst:AddTag("surfer")
@@ -634,7 +635,7 @@ local master_postinit = function(inst)
     inst.components.health:SetMaxHealth(TUNING.MANUTSAWEE.HEALTH)
     inst.components.hunger:SetMax(TUNING.MANUTSAWEE.HUNGER)
     inst.components.sanity:SetMax(TUNING.MANUTSAWEE.SANITY)
-    inst.components.hunger:SetRate(TUNING.WILSON_HUNGER_RATE * .5)
+    inst.components.hunger:SetRate(TUNING.WILSON_HUNGER_RATE * 1.3)
 
     -- Damage multiplier (optional)
     inst.components.combat.damagemultiplier = 1

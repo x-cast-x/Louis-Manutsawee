@@ -13,6 +13,8 @@ local nskill7 = 8
 local nskill8 = 10
 local ncountskill = 2
 
+local LouisManutsawee, Momo = "LouisManutsawee", "Momo"
+
 local function SkillRemove(inst)
     inst.components.skillreleaser:SkillRemove()
 end
@@ -39,7 +41,7 @@ local function CanUseSkill(inst)
     return true
 end
 
-AddModRPCHandler("LouisManutsawee", "LevelCheck", function(inst)
+AddModRPCHandler(LouisManutsawee, "LevelCheck", function(inst)
     local kenjutsuka = inst.components.kenjutsuka
     local kenjutsuexp = kenjutsuka.kenjutsuexp
     local kenjutsumaxexp = kenjutsuka.kenjutsumaxexp
@@ -57,7 +59,7 @@ AddModRPCHandler("LouisManutsawee", "LevelCheck", function(inst)
     end
 end)
 
-AddModRPCHandler("LouisManutsawee", "Skill1", function(inst)
+AddModRPCHandler(LouisManutsawee, "Skill1", function(inst)
     if inst.components.timer:TimerExists("skill1_key_cd") or not CanUseSkill(inst) then
         return
     end
@@ -112,7 +114,7 @@ AddModRPCHandler("LouisManutsawee", "Skill1", function(inst)
     end
 end)
 
-AddModRPCHandler("LouisManutsawee", "Skill2", function(inst)
+AddModRPCHandler(LouisManutsawee, "Skill2", function(inst)
     if inst.components.timer:TimerExists("skill2_key_cd") or not CanUseSkill(inst) then
         return
     end
@@ -187,7 +189,7 @@ AddModRPCHandler("LouisManutsawee", "Skill2", function(inst)
     end
 end)
 
-AddModRPCHandler("LouisManutsawee", "Skill3", function(inst)
+AddModRPCHandler(LouisManutsawee, "Skill3", function(inst)
     if inst.components.timer:TimerExists("skill3_key_cd") or not CanUseSkill(inst) then
         return
     end
@@ -244,7 +246,7 @@ AddModRPCHandler("LouisManutsawee", "Skill3", function(inst)
 end)
 
 local MUST_TAG = {"mortalblade", "onikiba"}
-AddModRPCHandler("LouisManutsawee", "Skill4", function(inst)
+AddModRPCHandler(LouisManutsawee, "Skill4", function(inst)
     if not inst.components.timer:TimerExists("skill4_key_cd") or not CanUseSkill(inst) then
         inst.components.timer:StartTimer("skill4_key_cd",1)
 
@@ -301,7 +303,7 @@ AddModRPCHandler("LouisManutsawee", "Skill4", function(inst)
     end
 end)
 
-AddModRPCHandler("LouisManutsawee", "CounterAttack", function(inst)
+AddModRPCHandler(LouisManutsawee, "CounterAttack", function(inst)
     if not inst.components.timer:TimerExists("prepare_counter_attack") and CanUseSkill(inst) then
         local kenjutsuLevel = inst.components.kenjutsuka:GetKenjutsuLevel()
         if kenjutsuLevel >= ncountskill then
@@ -317,7 +319,7 @@ AddModRPCHandler("LouisManutsawee", "CounterAttack", function(inst)
     end
 end)
 
-AddModRPCHandler("LouisManutsawee", "QuickSheath", function(inst)
+AddModRPCHandler(LouisManutsawee, "QuickSheath", function(inst)
     if not (inst.components.kenjutsuka:GetKenjutsuLevel() < ncountskill) then
         if not inst.components.timer:TimerExists("quick_sheath_cd") or not CanUseSkill(inst) then
             local weapon = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
@@ -331,7 +333,7 @@ AddModRPCHandler("LouisManutsawee", "QuickSheath", function(inst)
     end
 end)
 
-AddModRPCHandler("LouisManutsawee", "SkillCancel", function(inst)
+AddModRPCHandler(LouisManutsawee, "SkillCancel", function(inst)
     if not inst.components.timer:TimerExists("skill_cancel_cd") and CanUseSkill(inst) then
         inst.components.timer:StartTimer("skill_cancel_cd",1)
         SkillRemove(inst)
@@ -339,7 +341,7 @@ AddModRPCHandler("LouisManutsawee", "SkillCancel", function(inst)
     end
 end)
 
-AddModRPCHandler("LouisManutsawee", "PutGlasses", function(inst, skinname)
+AddModRPCHandler(LouisManutsawee, "PutGlasses", function(inst, skinname)
     local not_dead = not (inst.components.health ~= nil and inst.components.health:IsDead() and inst.sg:HasStateTag("dead")) or not inst:HasTag("playerghost")
     local is_idle = inst.sg:HasStateTag("idle") or inst:HasTag("idle")
     local not_doing = not (inst.sg:HasStateTag("doing") or inst.components.inventory:IsHeavyLifting())
@@ -366,7 +368,7 @@ AddModRPCHandler("LouisManutsawee", "PutGlasses", function(inst, skinname)
     end
 end)
 
-AddModRPCHandler("LouisManutsawee", "ChangeHairsStyle", function(inst, skinname)
+AddModRPCHandler(LouisManutsawee, "ChangeHairsStyle", function(inst, skinname)
     local not_dead = not (inst.components.health ~= nil and inst.components.health:IsDead() and inst.sg:HasStateTag("dead")) or not inst:HasTag("playerghost")
     local is_idle = inst.sg:HasStateTag("idle") or inst:HasTag("idle")
     local not_doing = not (inst.sg:HasStateTag("doing") or inst.components.inventory:IsHeavyLifting())
@@ -394,12 +396,16 @@ AddModRPCHandler("LouisManutsawee", "ChangeHairsStyle", function(inst, skinname)
     end
 end)
 
-AddShardModRPCHandler("LouisManutsawee", "SyncKatanaData", function(shardid, active, name)
+AddShardModRPCHandler(LouisManutsawee, "SyncKatanaSpawnerData", function(shardid, active, name)
     if active then
-        print("Get RPC: Run SyncKatanaData active: " .. tostring(active) ..  " name: " .. tostring(name))
+        print("Get RPC: Run SyncKatanaSpawnerData active: " .. tostring(active) ..  " name: " .. tostring(name))
         TheWorld:PushEvent("ms_trackkatana", {name = name})
     else
-        print("Get RPC: Run SyncKatanaData active: " .. tostring(active) ..  " name: " ..  tostring(name))
+        print("Get RPC: Run SyncKatanaSpawnerData active: " .. tostring(active) ..  " name: " ..  tostring(name))
         TheWorld:PushEvent("ms_forgetkatana", {name = name})
     end
+end)
+
+AddShardModRPCHandler(Momo, "SyncDatingManagerData", function()
+
 end)

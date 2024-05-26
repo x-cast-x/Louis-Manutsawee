@@ -7,6 +7,12 @@ return Class(function(self, inst)
     assert(TheWorld.ismastersim, "Katana Spawner should not exist on client")
 
     --------------------------------------------------------------------------
+    --[[ Dependencies ]]
+    --------------------------------------------------------------------------
+
+    local RPCUtil = require("utils/rpcutil")
+
+    --------------------------------------------------------------------------
     --[[ Member variables ]]
     --------------------------------------------------------------------------
 
@@ -14,7 +20,7 @@ return Class(function(self, inst)
 
     local _world = TheWorld
     local _ismastersim = _world.ismastersim
-    local LouisManutsawee, SyncKatanaData = "LouisManutsawee", "SyncKatanaData"
+    local LouisManutsawee, SyncKatanaSpawnerData = "LouisManutsawee", "SyncKatanaSpawnerData"
 
     local katanas = {}
 
@@ -23,15 +29,6 @@ return Class(function(self, inst)
     --------------------------------------------------------------------------
     --[[ Private member functions ]]
     --------------------------------------------------------------------------
-
-    local SendModRPCToAllShards = function(id_table, ...)
-        local sender_list = {}
-        for i, v in pairs(Shard_GetConnectedShards()) do
-            sender_list[#sender_list + 1] = i
-        end
-
-        SendModRPCToShard(id_table, sender_list, ...)
-    end
 
     --------------------------------------------------------------------------
     --[[ Private event handlers ]]
@@ -46,7 +43,7 @@ return Class(function(self, inst)
         print("TrackKatana: " .. tostring(name))
         katanas[name] = true
         print("Send RPC: " .. LouisManutsawee .. " TrackKatana")
-        SendModRPCToAllShards(GetShardModRPC(LouisManutsawee, SyncKatanaData), true, name)
+        RPCUtil.SendModRPCToAllShards(GetShardModRPC(LouisManutsawee, SyncKatanaSpawnerData), true, name)
     end or nil
 
     local ForgetKatana =  _ismastersim and function(inst, data)
@@ -58,7 +55,7 @@ return Class(function(self, inst)
         print("ForgetKatana: " .. tostring(name))
         katanas[name] = nil
         print("Send RPC: " .. LouisManutsawee .. " ForgetKatana")
-        SendModRPCToAllShards(GetShardModRPC(LouisManutsawee, SyncKatanaData), false, name)
+        RPCUtil.SendModRPCToAllShards(GetShardModRPC(LouisManutsawee, SyncKatanaSpawnerData), false, name)
     end or nil
 
     --------------------------------------------------------------------------
@@ -78,17 +75,11 @@ return Class(function(self, inst)
         return katanas[name] ~= nil and katanas[name] or nil
     end
 
-    function self:PrintKatanas()
-        for k, v in pairs(katanas) do
-           print(k,v)
-        end
-    end
-
     --------------------------------------------------------------------------
     --[[ Save/Load ]]
     --------------------------------------------------------------------------
 
-    if _ismastersim then function self:OnSave(data)
+    if _ismastersim then function self:OnSave()
         local data = {}
         data.katanas = katanas
 

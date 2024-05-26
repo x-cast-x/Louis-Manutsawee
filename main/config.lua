@@ -1,5 +1,4 @@
 local GetModConfigData = GetModConfigData
-local KnownModIndex = GLOBAL.KnownModIndex
 local ENV = env
 GLOBAL.setfenv(1, GLOBAL)
 

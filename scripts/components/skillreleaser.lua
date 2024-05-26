@@ -1,189 +1,156 @@
-local blockcount = 0
-local SkillUtil = require("utils/skillutil")
+--------------------------------------------------------------------------
+--[[ Skill Releaser Status class definition ]]
+--------------------------------------------------------------------------
 
-local function DoCombatPostInit(inst)
-    local self = inst.components.combat
-    local _GetAttacked = self.GetAttacked
+return Class(function(self, inst)
 
-    function self:GetAttacked(attacker, damage, weapon, stimuli, spdamage)
-        if weapon ~= nil and weapon:HasTag("tenseiga") then
-            return
-        end
+    assert(TheWorld.ismastersim, "Skill Releaser should not exist on client")
 
-        if attacker == nil or damage == nil or (inst.components.sleeper ~= nil and inst.components.sleeper:IsAsleep()) or (inst.components.freezable and inst.components.freezable:IsFrozen()) then
-            return _GetAttacked(self, attacker, damage, weapon, stimuli, spdamage)
-        end
-        if attacker ~= nil then
-            inst:ForceFacePoint(attacker.Transform:GetWorldPosition())
-        end
+    --------------------------------------------------------------------------
+    --[[ Dependencies ]]
+    --------------------------------------------------------------------------
 
-        if weapon ~= nil and (inst.mafterskillndm ~= nil and not inst.sg:HasStateTag("mdashing")) then
-            inst.mafterskillndm = inst:DoTaskInTime(1.5, function()
-                inst.mafterskillndm = nil
-            end)
-            if blockcount > 0 then
-                blockcount = 0
-                if inst.blockactive ~= nil then
-                    inst.blockactive:Cancel()
-                    inst.blockactive = nil
-                end
-                inst:PushEvent("heavenlystrike")
-                if attacker.components.combat ~= nil then
-                    --inst.components.combat:DoAttack(attacker)
-                    SkillUtil.AoeAttack(inst, 2,3)
-                    SkillUtil.GroundPoundFx(inst, .6)
-                    SkillUtil.SlashFx(inst, attacker, "shadowstrike_slash_fx", 1.6)
-                    if inst.mafterskillndm ~= nil then
-                        inst.mafterskillndm:Cancel()
-                        inst.mafterskillndm = nil
-                    end
-                end
-                return
-            end
-            inst:PushEvent("blockparry")
-            blockcount = blockcount + 1
-            if inst.blockactive ~= nil then
-                inst.blockactive:Cancel()
-                inst.blockactive = nil
-            end
-            inst.blockactive = inst:DoTaskInTime(3, function()
-                blockcount = 0
-            end)
-            return
-        end
+    local SkillUtil = require("utils/skillutil")
 
-        if inst.sg:HasStateTag("mdashing") or inst.inspskill ~= nil then
-            SkillUtil.AddFollowerFx(inst, "electricchargedfx")
-        elseif inst.sg:HasStateTag("counteractive") then
-            SkillUtil.GroundPoundFx(inst, .6)
-            inst.SoundEmitter:PlaySound("turnoftides/common/together/moon_glass/mine")
-            local sparks = SpawnPrefab("sparks")
-            sparks.Transform:SetPosition(inst:GetPosition():Get())
-            inst.sg:GoToState("counter_attack", attacker)
-            inst.components.timer:StartTimer("counter_attack", M_CONFIG.COUNTER_ATK_COOLDOWN)
-        else
-            return _GetAttacked(self, attacker, damage, weapon, stimuli, spdamage)
-        end
+    --------------------------------------------------------------------------
+    --[[ Member variables ]]
+    --------------------------------------------------------------------------
+
+    -- Public
+    self.inst = inst
+
+    -- Private
+
+    local skills = {}
+
+    local skill_fxs = {
+        ["ichimonji"] = "ghostlyelixir_retaliation_dripfx",
+        ["flip"] = "ghostlyelixir_shield_dripfx",
+        ["thrust"] = "ghostlyelixir_speed_dripfx",
+        ["counter_attack"] = "battlesong_instant_panic_fx",
+        ["isshin"] = "monkey_deform_pre_fx",
+        ["heavenlystrike"] = "fx_book_birds",
+        ["ryusen"] = "fx_book_birds",
+        ["susanoo"] = "fx_book_birds",
+        ["soryuha"] = "thunderbird_fx_idle",
+    }
+
+    --------------------------------------------------------------------------
+    --[[ Private member functions ]]
+    --------------------------------------------------------------------------
+
+    local function CooldownSkillFx(inst, fx)
+        local fx = SpawnPrefab(fx)
+        fx.Transform:SetScale(.9, .9, .9)
+        fx.entity:AddFollower()
+        fx.Follower:FollowSymbol(inst.GUID, "swap_body", 0, 0, 0)
     end
 
-    local _StartAttack = self.StartAttack
-    function self:StartAttack(...)
-        _StartAttack(self, ...)
-        if inst:HasTag("kenjutsu") and self.target ~= nil then
-            for _, v in pairs(M_SKILLS) do
-                if inst:HasTag(v) then
-                    local fn = inst.components.skillreleaser.skills[v]
-                    fn(inst)
+    --------------------------------------------------------------------------
+    --[[ Private event handlers ]]
+    --------------------------------------------------------------------------
+
+    local function OnTimerDone(inst, data)
+        local name = data.name
+        if name ~= nil then
+            for k, v in pairs(skill_fxs) do
+                if name == k then
+                    CooldownSkillFx(inst, v)
                     break
                 end
             end
         end
     end
-end
 
-local function CooldownSkillFx(inst, fx)
-    if fx == nil then
-        fx = "ghostlyelixir_retaliation_dripfx"
+    --------------------------------------------------------------------------
+    --[[ Initialization ]]
+    --------------------------------------------------------------------------
+
+    -- Register events
+
+    self.inst:ListenForEvent("timerdone", OnTimerDone)
+
+    --------------------------------------------------------------------------
+    --[[ Post initialization ]]
+    --------------------------------------------------------------------------
+
+
+
+    --------------------------------------------------------------------------
+    --[[ Public member functions ]]
+    --------------------------------------------------------------------------
+
+    function self:AddCooldownSkillFx(skill, fx)
+        if checkstring(skill) and checkstring(fx) then
+            skill_fxs[skill] = fx
+        end
     end
-    local fx = SpawnPrefab(fx)
-    fx.Transform:SetScale(.9, .9, .9)
-    fx.entity:AddFollower()
-    fx.Follower:FollowSymbol(inst.GUID, "swap_body", 0, 0, 0)
-end
 
-local skill_fxs = {
-    ["ichimonji"] = "ghostlyelixir_retaliation_dripfx",
-    ["flip"] = "ghostlyelixir_shield_dripfx",
-    ["thrust"] = "ghostlyelixir_speed_dripfx",
-    ["counter_attack"] = "battlesong_instant_panic_fx",
-    ["isshin"] = "monkey_deform_pre_fx",
-    ["heavenlystrike"] = "fx_book_birds",
-    ["ryusen"] = "fx_book_birds",
-    ["susanoo"] = "fx_book_birds",
-    ["soryuha"] = "thunderbird_fx_idle",
-}
+    function self:AddSkill(skill_name, fn)
+        skills[skill_name] = fn
+    end
 
-local function OnTimerDone(inst, data)
-    local name = data.name
-    if name ~= nil then
-        for k, v in pairs(skill_fxs) do
-            if name == k then
-                CooldownSkillFx(inst, v)
-                break
+    function self:AddSkills(skills)
+        if checkentity(skills) then
+            for k, v in pairs(skills) do
+                local name = string.lower(k)
+                local fn = SkillUtil.Skill_CommonFn(v.tag, name, v.time, v.mindpower, v.fn)
+                self:AddSkill(name, fn)
             end
         end
     end
-end
 
-local SkillReleaser = Class(function(self, inst)
-    self.inst = inst
+    function self:SkillRemove()
+        for _, tag in ipairs(M_SKILLS) do
+            if self.inst:HasTag(tag) then
+                self.inst:RemoveTag(tag)
+            end
+        end
 
-    self.skills = {}
+        if self.inst.mafterskillndm ~= nil then
+            self.inst.mafterskillndm:Cancel()
+            self.inst.mafterskillndm = nil
+        end
 
-    self.inst:ListenForEvent("timerdone", OnTimerDone)
+        self.inst.inspskill = nil
+        self.inst.components.combat:SetRange(self.inst._hitrange)
+        self.inst.components.combat:EnableAreaDamage(false)
+        self.inst.AnimState:SetDeltaTimeMultiplier(1)
+    end
+
+    function self:CanUseSkill(target)
+        local HasAnyTag = {"prey", "bird", "buzzard", "butterfly"}
+        return target ~= nil and (target:HasOneOfTags(HasAnyTag) and not target:HasTag("hostile")) or nil
+    end
+
+    --------------------------------------------------------------------------
+    --[[ Save/Load ]]
+    --------------------------------------------------------------------------
+
+
+
+    --------------------------------------------------------------------------
+    --[[ OnRemoveEntity ]]
+    --------------------------------------------------------------------------
+
+    function self:OnRemoveEntity()
+        for _, tag in ipairs(M_SKILLS) do
+            if self.inst:HasTag(tag) then
+                self.inst:RemoveTag(tag)
+            end
+        end
+
+        self.inst:RemoveEventCallback("timerdone", OnTimerDone)
+    end
+
+    --------------------------------------------------------------------------
+    --[[ Debug ]]
+    --------------------------------------------------------------------------
+
+
+
+    --------------------------------------------------------------------------
+    --[[ End ]]
+    --------------------------------------------------------------------------
+
 end)
-
-function SkillReleaser:OnRemoveEntity()
-    for _, tag in ipairs(M_SKILLS) do
-        if self.inst:HasTag(tag) then
-            self.inst:RemoveTag(tag)
-        end
-    end
-
-    self.inst:RemoveEventCallback("timerdone", OnTimerDone)
-end
-
-function SkillReleaser:AddCooldownSkillFx(skill, fx)
-    if checkstring(skill) and checkstring(fx) then
-        skill_fxs[skill] = fx
-    end
-end
-
-function SkillReleaser:AddSkill(skill_name, fn)
-    self.skills[skill_name] = fn
-end
-
-function SkillReleaser:AddSkills(skills)
-    if checkentity(skills) then
-        for k, v in pairs(skills) do
-            local name = string.lower(k)
-            local fn = SkillUtil.Skill_CommonFn(v.tag, name, v.time, v.mindpower, v.fn)
-            self:AddSkill(name, fn)
-        end
-    end
-end
-
-function SkillReleaser:OnPostInit()
-    DoCombatPostInit(self.inst)
-end
-
-function SkillReleaser:SkillRemove()
-    for _, tag in ipairs(M_SKILLS) do
-        if self.inst:HasTag(tag) then
-            self.inst:RemoveTag(tag)
-        end
-    end
-
-    if self.inst.mafterskillndm ~= nil then
-        self.inst.mafterskillndm:Cancel()
-        self.inst.mafterskillndm = nil
-    end
-
-    self.inst.inspskill = nil
-    self.inst.components.combat:SetRange(self.inst._hitrange)
-    self.inst.components.combat:EnableAreaDamage(false)
-    self.inst.AnimState:SetDeltaTimeMultiplier(1)
-end
-
-function SkillReleaser:CanUseSkill(target)
-    if target == nil then
-        return false
-    end
-    local is_vaild_target = target:HasOneOfTags({"prey", "bird", "buzzard", "butterfly"})
-    return (is_vaild_target and not target:HasTag("hostile")) or nil
-end
-
--- function SkillReleaser:GetDebugString()
--- end
-
-return SkillReleaser

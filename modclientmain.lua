@@ -1,5 +1,6 @@
 local modimport = modimport
 local ENV = env
+
 if not GLOBAL.IsInFrontEnd() then return end
 
 local AssetUtil = require("utils/assetutil")
