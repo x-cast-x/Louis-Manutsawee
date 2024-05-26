@@ -13,7 +13,7 @@ AddPrefabPostInit("sacred_chest", function(inst)
         local DoLocalOffering = UpvalueUtil.GetUpvalue(onclosefn, "DoLocalOffering")
         local CheckOffering = UpvalueUtil.GetUpvalue(DoLocalOffering, "CheckOffering")
         local offering_recipe = UpvalueUtil.GetUpvalue(CheckOffering, "offering_recipe")
-        offering_recipe.kage_blueprint = {
+        offering_recipe["kage_blueprint"] = {
             "katanablade",
             "livinglog",
             "nightmarefuel",

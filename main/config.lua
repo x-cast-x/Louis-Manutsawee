@@ -4,6 +4,7 @@ GLOBAL.setfenv(1, GLOBAL)
 
 IA_ENABLED = rawget(_G, "IA_CONFIG") ~= nil
 PL_ENABLED = rawget(_G, "PL_CONFIG") ~= nil
+AD_ENABLED = KnownModIndex:IsModEnabled("workshop-1847959350")
 UM_ENABLED = KnownModIndex:IsModEnabled("workshop-2039181790")
 HOF_ENABLED = KnownModIndex:IsModEnabled("workshop-2334209327")
 

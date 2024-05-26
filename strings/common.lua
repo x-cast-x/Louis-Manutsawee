@@ -238,6 +238,8 @@ return {
 
             -- nothing
             "\n\"This is a tombstone I built for myself.\"",
+
+            "'I thought about it for a long time, yes, because I want to live in Zhongnanhai'", -- Cui yongyuan
         }
         -- no thing
         -- FFFFFF = {

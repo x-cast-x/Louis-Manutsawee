@@ -19,26 +19,37 @@ local function SkillRemove(inst)
     inst.components.skillreleaser:SkillRemove()
 end
 
+local MUST_TAG = {"tool", "sharp", "weapon", "katanaskill"}
+local CANT_TAG = {"projectile", "whip", "rangedweapon"}
 local function CanUseSkill(inst)
-    local isdead = inst.components.health ~= nil and inst.components.health:IsDead() and (inst.sg:HasStateTag("dead") or inst:HasTag("playerghost"))
-    local isasleep = inst.components.sleeper ~= nil and inst.components.sleeper:IsAsleep()
-    local isfrozen = inst.components.freezable ~= nil and inst.components.freezable:IsFrozen()
-    local isriding = inst.components.rider ~= nil and inst.components.rider:IsRiding()
-    local isheavylifting = inst.components.inventory ~= nil and inst.components.inventory:IsHeavyLifting()
-    local weapon = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
-    local weapon_has_tags = weapon ~= nil and weapon:HasOneOfTags({"projectile", "whip", "rangedweapon"})
-    local weapon_not_has_tags = weapon ~= nil and not weapon:HasOneOfTags({"tool", "sharp", "weapon", "katanaskill"})
+    local inventory = inst.components.inventory
+    if inventory ~= nil then
+        local weapon = inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
+        if weapon ~= nil then
+            if inst.mafterskillndm ~= nil then
+                inst.mafterskillndm:Cancel()
+                inst.mafterskillndm = nil
+            end
 
-    if inst.mafterskillndm ~= nil then
-        inst.mafterskillndm:Cancel()
-        inst.mafterskillndm = nil
+            return inst.components.sleeper ~= nil and not inst.components.sleeper:IsAsleep() and
+                not inst.components.freezable:IsFrozen() and
+                not inst.components.rider:IsRiding() and
+                not inventory:IsHeavyLifting() and
+                not inst:HasTag("playerghost") and
+                not weapon:HasOneOfTags(CANT_TAG) and
+                weapon:HasOneOfTags(MUST_TAG)
+        end
     end
 
-    if (isdead or isasleep or isfrozen or isriding or isheavylifting) or (weapon == nil) or (weapon_has_tags or weapon_not_has_tags) then
-        return false
-    end
+    -- print("weapon_has_tags" .. tostring(MUST_TAG))
 
-    return true
+    -- print("weapon_not_has_tags" .. tostring(CANT_TAG))
+
+    -- if (isdead or isasleep or isfrozen or isriding or isheavylifting) or (weapon == nil) or (MUST_TAG or CANT_TAG) then
+    --     return false
+    -- end
+
+    -- return true
 end
 
 AddModRPCHandler(LouisManutsawee, "LevelCheck", function(inst)
@@ -60,7 +71,7 @@ AddModRPCHandler(LouisManutsawee, "LevelCheck", function(inst)
 end)
 
 AddModRPCHandler(LouisManutsawee, "Skill1", function(inst)
-    if inst.components.timer:TimerExists("skill1_key_cd") or not CanUseSkill(inst) then
+    if inst.components.timer:TimerExists("skill1_key_cd") or CanUseSkill(inst) then
         return
     end
 
@@ -115,7 +126,7 @@ AddModRPCHandler(LouisManutsawee, "Skill1", function(inst)
 end)
 
 AddModRPCHandler(LouisManutsawee, "Skill2", function(inst)
-    if inst.components.timer:TimerExists("skill2_key_cd") or not CanUseSkill(inst) then
+    if inst.components.timer:TimerExists("skill2_key_cd") or CanUseSkill(inst) then
         return
     end
 
@@ -190,7 +201,7 @@ AddModRPCHandler(LouisManutsawee, "Skill2", function(inst)
 end)
 
 AddModRPCHandler(LouisManutsawee, "Skill3", function(inst)
-    if inst.components.timer:TimerExists("skill3_key_cd") or not CanUseSkill(inst) then
+    if inst.components.timer:TimerExists("skill3_key_cd") or CanUseSkill(inst) then
         return
     end
 
@@ -247,7 +258,7 @@ end)
 
 local MUST_TAG = {"mortalblade", "onikiba"}
 AddModRPCHandler(LouisManutsawee, "Skill4", function(inst)
-    if not inst.components.timer:TimerExists("skill4_key_cd") or not CanUseSkill(inst) then
+    if not inst.components.timer:TimerExists("skill4_key_cd") or CanUseSkill(inst) then
         inst.components.timer:StartTimer("skill4_key_cd",1)
 
         local kenjutsulevel = inst.components.kenjutsuka:GetKenjutsuLevel()
@@ -321,7 +332,7 @@ end)
 
 AddModRPCHandler(LouisManutsawee, "QuickSheath", function(inst)
     if not (inst.components.kenjutsuka:GetKenjutsuLevel() < ncountskill) then
-        if not inst.components.timer:TimerExists("quick_sheath_cd") or not CanUseSkill(inst) then
+        if not inst.components.timer:TimerExists("quick_sheath_cd") or CanUseSkill(inst) then
             local weapon = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
             if weapon ~= nil and weapon:HasTag("katanaskill") then
                 inst.components.timer:StartTimer("quick_sheath_cd",.4)

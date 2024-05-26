@@ -2,6 +2,14 @@ local SkillUtil = require("utils/skillutil")
 
 -- No one will use it, but I wrote it anyway
 
+local IsSheath = function(inst)
+    return inst.weaponstatus == "sheath"
+end
+
+local IsUnsheath = function(inst)
+    return inst.weaponstatus == "unsheath"
+end
+
 local function SheathMode(inst, owner)
     inst.spelltype = "PULLOUT"
 
@@ -33,7 +41,7 @@ local function SheathMode(inst, owner)
         inst:AddTag("iai")
     end
 
-    inst.weaponstatus = false
+    inst.weaponstatus = "sheath"
 end
 
 local function UnsheathMode(inst, owner)
@@ -72,11 +80,11 @@ local function UnsheathMode(inst, owner)
         inst:AddTag("mkatana")
     end
 
-    inst.weaponstatus = true
+    inst.weaponstatus = "unsheath"
 end
 
 local function CastFn(inst, target, position, doer)
-    if not inst.weaponstatus then
+    if not inst:IsUnsheath() then
         inst.UnsheathMode(inst, doer)
     else
         inst.SheathMode(inst, doer)
@@ -118,7 +126,7 @@ local function OnEquip(inst, owner)
         inst.components.weapon:SetDamage(inst.components.weapon.damage + (owner.components.kenjutsuka:GetKenjutsuLevel() * 2))
     end
 
-    if not inst.weaponstatus then
+    if not inst:IsSheath() then
         inst.SheathMode(inst, owner)
     else
         inst.UnsheathMode(inst, owner)
@@ -322,6 +330,9 @@ local MakeKatana = function(data)
 
         inst.IsLunar = IsLunar
         inst.IsShadow = IsShadow
+        inst.IsSheath = IsSheath
+        inst.IsUnsheath = IsUnsheath
+
         inst.SheathMode = SheathMode
         inst.UnsheathMode = UnsheathMode
 

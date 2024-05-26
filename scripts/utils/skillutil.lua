@@ -3,7 +3,7 @@ local function OnAttackCommonFn(inst, owner, target)
         return
     end
 
-    if not inst.weaponstatus and inst:HasTag("iai") then
+    if not inst:IsUnsheath() and inst:HasTag("iai") then
         inst.UnsheathMode(inst)
         if target.components.combat ~= nil then
             target.components.combat:GetAttacked(owner, inst.components.weapon.damage * .8)

@@ -41,13 +41,15 @@ return Class(function(self, inst)
     --------------------------------------------------------------------------
 
     local function IsKenjutsuMaster()
-        kenjutsulevel = _config.LEVEL_VALUE
-        if onlevelupfn ~= nil then
-            onlevelupfn(self.inst, kenjutsulevel, kenjutsuexp)
-        end
-        if #levelup_fns > 0 then
-            for i, v in ipairs(levelup_fns) do
-                levelup_fns[v](self.inst, kenjutsulevel, kenjutsuexp)
+        if _is_master then
+            kenjutsulevel = _config.LEVEL_VALUE
+            if onlevelupfn ~= nil then
+                onlevelupfn(self.inst, kenjutsulevel, kenjutsuexp)
+            end
+            if #levelup_fns > 0 then
+                for i, v in ipairs(levelup_fns) do
+                    v(self.inst, kenjutsulevel, kenjutsuexp)
+                end
             end
         end
     end
@@ -113,7 +115,7 @@ return Class(function(self, inst)
                     hitcount = hitcount + 1
                     if hitcount >= _config.MINDREGEN_COUNT and inst.components.kenjutsuka:GetKenjutsuLevel() >= 1 then
                         if mindpower < kenjutsuka:GetMaxMindpower() then
-                            kenjutsuka.onmindregenfn(inst, mindpower)
+                            onmindregenfn(inst, mindpower)
                         else
                             inst.components.sanity:DoDelta(1)
                         end
@@ -166,6 +168,8 @@ return Class(function(self, inst)
     --------------------------------------------------------------------------
     --[[ Post initialization ]]
     --------------------------------------------------------------------------
+
+    inst:DoTaskInTime(0, IsKenjutsuMaster)
 
     --------------------------------------------------------------------------
     --[[ Public member functions ]]
@@ -244,12 +248,10 @@ return Class(function(self, inst)
         end
     end
 
-    local index = 0
     function self:StartRegenMindPower()
-        print("StartRegenMindPower index: " .. index)
+        self:StopRegenMindPower()
         if regen_task == nil then
             regen_task = self.inst:DoTaskInTime(mindpower_regen_rate, OnRegenMindPower, self)
-            index = index + 1
         end
     end
 
@@ -277,9 +279,6 @@ return Class(function(self, inst)
             kenjutsulevel = data.kenjutsulevel
             kenjutsuexp = data.kenjutsuexp
             mindpower = data.mindpower
-            if _is_master then
-                IsKenjutsuMaster()
-            end
         end
     end
 

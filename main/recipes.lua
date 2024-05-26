@@ -141,6 +141,12 @@ local recipes_data = {
         filters = {"CHARACTER", "WEAPONS"},
         sort = {after = "fence_rotator"}
     },
+    kage = {
+        ingredients = {Ingredient("nightmarefuel", 80)},
+        tech = TECH.LOST,
+        config = {builder_tag = "katanakaji"},
+        filters = {"CHARACTER", "WEAPONS"},
+    }
 }
 
 RecipeUtil.AddRecipes(recipes_data)

@@ -2,13 +2,13 @@ local Combat = require("components/combat")
 local SkillUtil = require("utils/skillutil")
 GLOBAL.setfenv(1, GLOBAL)
 
-local _DoAttack = Combat.DoAttack
-function Combat:DoAttack(targ, weapon, projectile, stimuli, instancemult, instrangeoverride, instpos, ...)
-    if weapon ~= nil and weapon:HasTag("tenseiga") then
-        return
-    end
-    return _DoAttack(self, targ, weapon, projectile, stimuli, instancemult, instrangeoverride, instpos, ...)
-end
+-- local _DoAttack = Combat.DoAttack
+-- function Combat:DoAttack(targ, weapon, projectile, stimuli, instancemult, instrangeoverride, instpos, ...)
+--     if weapon ~= nil and weapon:HasTag("tenseiga") then
+--         return
+--     end
+--     return _DoAttack(self, targ, weapon, projectile, stimuli, instancemult, instrangeoverride, instpos, ...)
+-- end
 
 local blockcount = 0
 local function BlockActive(inst)
@@ -80,7 +80,7 @@ function Combat:StartAttack(...)
     if self.inst:HasTag("kenjutsuka") and self.inst:HasTag("kenjutsu") and self.target ~= nil then
         for _, v in pairs(M_SKILLS) do
             if self.inst:HasTag(v) then
-                local fn = self.inst.components.skillreleaser.skills[v]
+                local fn = self.inst.components.skillreleaser:GetSkillFn(v)
                 fn(self.inst)
                 break
             end

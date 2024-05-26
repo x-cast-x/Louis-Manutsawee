@@ -1,5 +1,4 @@
 local MakePlayerCharacter = require "prefabs/player_common"
-local Skill_Data = require "skill_data"
 
 local assets = {
     Asset("SCRIPT", "scripts/prefabs/player_common.lua"),
@@ -60,7 +59,7 @@ local prefabs = {
 
 local unlockrecipes = {
     "rainhat",
-    "portabletent_item",
+    -- "portabletent_item",
     "bedroll_shraw",
 }
 
@@ -341,7 +340,7 @@ local common_postinit = function(inst)
     inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.PUT_GLASSES_KEY, "PutGlasses")
     inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.CHANGE_HAIRS_KEY, "ChangeHairsStyle")
 
-    if M_CONFIG.ENABLE_SKILL then
+    if (not AD_ENABLED) and M_CONFIG.ENABLE_SKILL then
         inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.SKILL1_KEY, "Skill1")
         inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.SKILL2_KEY, "Skill2")
         inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.SKILL3_KEY, "Skill3")
@@ -589,8 +588,6 @@ local master_postinit = function(inst)
     inst.AnimState:SetScale(0.88, 0.9, 1)
 
     inst:AddComponent("skillreleaser")
-    inst.components.skillreleaser:OnPostInit()
-    inst.components.skillreleaser:AddSkills(Skill_Data)
 
     inst:AddComponent("kenjutsuka")
     inst.components.kenjutsuka:SetOnLevelUp(OnKenjutsuLevelUp)

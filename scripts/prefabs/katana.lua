@@ -5,7 +5,6 @@ local katana_data = {
     "shirasaya",
     "raikiri",
     "koshirae",
-    -- "kurokatana"
 }
 
 local rets = {}
