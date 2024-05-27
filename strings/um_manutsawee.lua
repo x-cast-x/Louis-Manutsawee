@@ -199,7 +199,7 @@ return {
         ORANGE_VOMIT = "Oops, I'm going to vomit",
         PALE_VOMIT = "Oops, I'm going to vomit",
         PIED_PIPER_FLUTE = "If I play it, will it attract mice?",
-        PIED_RAT = "Singers attract rats instead of people.",
+        PIED_RAT = "I have seen it on the forbidden road in Hamelin, Germany, but it was not a big rat",
         PIGKING_PIGGUARD = "These pigs sure know how to have fun.",
         PIGKING_PIGTORCH = "These pigs sure know how to have fun.",
         PINK_VOMIT = "Oops, I'm going to vomit",
