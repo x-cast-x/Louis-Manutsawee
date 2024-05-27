@@ -10,6 +10,6 @@ local porkland_postinit = {
 
 for k, v in pairs(porkland_postinit) do
     for i = 1, #v do
-        modimport("postinit/porkland/" .. porkland_postinit[k][i])
+        modimport("postinit/porkland/" .. k .. "/" .. porkland_postinit[k][i])
     end
 end

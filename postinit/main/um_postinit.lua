@@ -12,6 +12,6 @@ local uncompromising_postinit = {
 
 for k, v in pairs(uncompromising_postinit) do
     for i = 1, #v do
-        modimport("postinit/uncompromisingmode/" .. uncompromising_postinit[k][i])
+        modimport("postinit/uncompromisingmode/" .. k .. "/" .. uncompromising_postinit[k][i])
     end
 end
