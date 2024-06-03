@@ -127,19 +127,6 @@ local function SpawnPortalEntrance(inst)
     return portal
 end
 
-local function CalculateLandPoint(pt, radius)
-    radius = radius or 8
-    if not TheWorld.Map:IsAboveGroundAtPoint(pt:Get()) then
-        pt = FindNearbyLand(pt, 1) or pt
-    end
-    local offset = FindWalkableOffset(pt, math.random() * 2 * PI, radius, 12, true, true, NoHoles)
-    if offset ~= nil then
-        offset.x = offset.x + pt.x
-        offset.z = offset.z + pt.z
-        return offset
-    end
-end
-
 local function OnRemoveCleanupTargetFX(inst)
     if inst.sg.statemem.targetfx.KillFX ~= nil then
         inst.sg.statemem.targetfx:RemoveEventCallback("onremove", OnRemoveCleanupTargetFX, inst)
@@ -654,7 +641,7 @@ local states = {
             if dest_pos == nil then
                 dest_x, dest_y, dest_z = inst.Transform:GetWorldPosition()
             else
-                dest_pos = CalculateLandPoint(dest_pos)
+                dest_pos = inst:CalculateLandPoint(dest_pos)
                 dest_x, dest_y, dest_z = dest_pos.x, dest_pos.y, dest_pos.z
             end
 
@@ -1448,13 +1435,13 @@ local states = {
                     local target_pos = inst.sg.statemem.target_pos
                     local x, y, z
                     if target_pos ~= nil then
-                        target_pos = CalculateLandPoint(target_pos)
+                        target_pos = inst:CalculateLandPoint(target_pos)
                         x, y, z = target_pos.x, target_pos.y, target_pos.z
                     else
-                        local honey = inst:TheHoney()
-                        if honey ~= nil then
-                            local honey_pos = CalculateLandPoint(honey:GetPosition(), 4)
-                            x, y, z = honey_pos.x, honey_pos.y, honey_pos.z
+                        local pt = inst:GetPosition()
+                        if pt ~= nil then
+                            local pos = inst:CalculateLandPoint(inst:GetPosition(), 4)
+                            x, y, z = pos.x, pos.y, pos.z
                         end
                     end
                     if x ~= nil and y ~= nil and z ~= nil then

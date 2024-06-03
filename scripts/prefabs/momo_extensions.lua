@@ -10,6 +10,22 @@ local ATTACK_MODE = {
     end,
 }
 
+local function CalculateLandPoint(pt, radius)
+    radius = radius or 8
+    print(tostring(pt))
+    if pt ~= nil then
+        if not TheWorld.Map:IsAboveGroundAtPoint(pt.x, pt.y, pt.z) then
+            pt = FindNearbyLand(pt, 1) or pt
+        end
+        local offset = FindWalkableOffset(pt, math.random() * 2 * PI, radius, 12, true, true, NoHoles)
+        if offset ~= nil then
+            offset.x = offset.x + pt.x
+            offset.z = offset.z + pt.z
+            return offset
+        end
+    end
+end
+
 local function IsPantsu(item)
     return item ~= nil and item.components.inventoryitem ~= nil and item:HasTag("pantsu") or false
 end
@@ -205,6 +221,7 @@ return {
         ReleaseLight = ReleaseLight,
         ToggleLight = ToggleLight,
         RemoveLight = RemoveLight,
+        CalculateLandPoint = CalculateLandPoint,
     },
 
     privatefn = {

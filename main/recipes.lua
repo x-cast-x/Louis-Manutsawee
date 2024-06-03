@@ -1,10 +1,20 @@
-local TECH = GLOBAL.TECH
-local Ingredient = GLOBAL.Ingredient
-local RecipeUtil = require("utils/recipeutil").RecipeUtil
-local modimport = modimport
+local AddRecipe2 = AddRecipe2
 GLOBAL.setfenv(1, GLOBAL)
 
-local recipes_data = {
+local function AddRecipes(recipes)
+    for k, v in pairs(recipes) do
+        AddRecipe2(k, v.ingredients, v.tech, v.config, v.filters)
+
+        -- if v.sort ~= nil and v.sort.before then
+        --     GlassicAPI.RecipeSortBefore(k, v.sort.before, v.filters[2])
+        -- end
+        -- if v.sort ~= nil and v.sort.after then
+        --     GlassicAPI.RecipeSortAfter(k, v.sort.after, v.filters[2])
+        -- end
+    end
+end
+
+local recipes = {
     mingot = {
         ingredients = {Ingredient("moonrocknugget", 8), Ingredient("moonglass", 8), Ingredient("thulecite", 4)},
         tech = TECH.SCIENCE_TWO,
@@ -35,14 +45,12 @@ local recipes_data = {
         tech = TECH.SCIENCE_ONE,
         config = {builder_tag = "bladesmith"},
         filters = {"CHARACTER", "WEAPONS"},
-        sort = {after = "gunpowder"}
     },
     mmiko_armor = {
         ingredients = {Ingredient("silk", 4), Ingredient("boards", 2), Ingredient("rope", 2)},
         tech = TECH.SCIENCE_TWO,
         config = {builder_tag = "bladesmith"},
         filters = {"CHARACTER", "ARMOUR", "CLOTHING"},
-        sort = {after = "armormarble"}
     },
 
     shinai = {
@@ -50,7 +58,6 @@ local recipes_data = {
         tech = TECH.SCIENCE_ONE,
         config = {builder_tag = "bladesmith"},
         filters = {"CHARACTER", "WEAPONS"},
-        sort = {after = "spear"}
     },
 
     yari = {
@@ -58,14 +65,12 @@ local recipes_data = {
         tech = TECH.SCIENCE_TWO,
         config = {builder_tag = "katanakaji"},
         filters = {"CHARACTER", "WEAPONS"},
-        sort = {after = "spear_wathgrithr_lightning"}
     },
     mnaginata = {
         ingredients = {Ingredient("spear", 1),Ingredient("goldnugget", 2)},
         tech = TECH.SCIENCE_TWO,
         config = {builder_tag = "katanakaji"},
         filters = {"CHARACTER", "WEAPONS"},
-        sort = {after = "spear_wathgrithr_lightning"}
     },
 
     katanablade = {
@@ -73,7 +78,6 @@ local recipes_data = {
         tech = TECH.SCIENCE_TWO,
         config = {builder_tag = "bladesmith"},
         filters = {"CHARACTER", "WEAPONS"},
-        sort = {before = "nightsword"}
     },
 
     shirasaya = {
@@ -81,28 +85,24 @@ local recipes_data = {
         tech = TECH.SCIENCE_TWO,
         config = {builder_tag = "bladesmith"},
         filters = {"CHARACTER", "WEAPONS"},
-        sort = {after = "nightsword"}
     },
     koshirae = {
         ingredients = {Ingredient("cane", 1), Ingredient("katanablade", 1), Ingredient("rope", 2), Ingredient("goldnugget", 2)},
         tech = TECH.SCIENCE_TWO,
         config = {builder_tag = "bladesmith"},
         filters = {"CHARACTER", "WEAPONS"},
-        sort = {after = "nightsword"}
     },
     hitokiri = {
         ingredients = {Ingredient("cane", 1), Ingredient("katanablade", 1), Ingredient("rope", 2), Ingredient("goldnugget", 2)},
         tech = TECH.SCIENCE_TWO,
         config = {builder_tag = "bladesmith"},
         filters = {"CHARACTER", "WEAPONS"},
-        sort = {after = "nightsword"}
     },
     raikiri = {
         ingredients = {Ingredient("cane", 1), Ingredient("katanablade", 1), Ingredient("rope", 2), Ingredient("goldnugget", 2)},
         tech = TECH.SCIENCE_TWO,
         config = {builder_tag = "bladesmith"},
         filters = {"CHARACTER", "WEAPONS"},
-        sort = {after = "nightsword"}
     },
 
     shusui = {
@@ -110,7 +110,6 @@ local recipes_data = {
         tech = TECH.ANCIENT_FOUR,
         config = {builder_tag = "bladesmith"},
         filters = {"CHARACTER", "WEAPONS"},
-        sort = {after = "nightstick"}
     },
 
     true_shirasaya = {
@@ -118,28 +117,24 @@ local recipes_data = {
         tech = TECH.SCIENCE_TWO,
         config = {builder_tag = "katanakaji"},
         filters = {"CHARACTER", "WEAPONS"},
-        sort = {after = "fence_rotator"}
     },
     true_koshirae = {
         ingredients = {Ingredient("thulecite", 40), Ingredient("nightmarefuel", 80), Ingredient("opalpreciousgem", 6), Ingredient("koshirae", 1)},
         tech = TECH.SCIENCE_TWO,
         config = {builder_tag = "katanakaji"},
         filters = {"CHARACTER", "WEAPONS"},
-        sort = {after = "fence_rotator"}
     },
     true_hitokiri = {
         ingredients = {Ingredient("thulecite", 40), Ingredient("nightmarefuel", 80), Ingredient("minotaurhorn", 4), Ingredient("hitokiri", 1)},
         tech = TECH.SCIENCE_TWO,
         config = {builder_tag = "katanakaji"},
         filters = {"CHARACTER", "WEAPONS"},
-        sort = {after = "fence_rotator"}
     },
     true_raikiri = {
         ingredients = {Ingredient("thulecite", 40), Ingredient("nightmarefuel", 80), Ingredient("lightninggoathorn", 12), Ingredient("raikiri", 1)},
         tech = TECH.SCIENCE_TWO,
         config = {builder_tag = "katanakaji"},
         filters = {"CHARACTER", "WEAPONS"},
-        sort = {after = "fence_rotator"}
     },
     kage = {
         ingredients = {Ingredient("nightmarefuel", 80)},
@@ -149,7 +144,5 @@ local recipes_data = {
     }
 }
 
-RecipeUtil.AddRecipes(recipes_data)
+AddRecipes(recipes)
 
--- modimport("postinit/dst_postinit/modules/ia_recipes")
--- modimport("postinit/dst_postinit/modules/pl_recipes")

@@ -6,6 +6,4 @@ AddPrefabPostInit("catcoon", function(inst)
         return
     end
 
-
-
 end)
