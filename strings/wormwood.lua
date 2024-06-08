@@ -1,4 +1,5 @@
 return {
+    ANNOUNCE_LNCOMPREHENSIBLE = "Not understanding.",
     DESCRIBE = {
         BOAT_MSURFBOARD = "",
         HARAKIRI = "",

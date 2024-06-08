@@ -139,6 +139,7 @@ return {
         TRUE_SHIRASAYA = "The Demon Slayer",
         VSCODE = "There is nothing that cannot be solved with one line of code.",
         YARI = "It's Japanese Spear.",
+        KAGE = "Bring the shadows together.",
     },
     SKILL = {
         COOLDOWN = "Cooldown",
@@ -150,6 +151,7 @@ return {
         HAIRTOOSHORT = "My hair isn't long enough for this.",
         SKILL_CANCEL = "Maybe next time",
         REFUSE_RELEASE = "I don't wanna do this.",
+        REJECTED = "It won't collaborate to let me release the move.",
         SKILL1ATTACK = "ICHIMONJI",
         SKILL1START = "ICHI NO KATA!\n󰀈: ",
         SKILL2ATTACK = "HABAKIRI!!",
@@ -164,9 +166,9 @@ return {
         SKILL6START = "ROKU NO KATA!\n󰀈: ",
         SKILL7ATTACK = "SUSANOO!!",
         SKILL7START = "SHICHI NO KATA!\n󰀈: ",
-        SKILL8ATTACK = "IMMORTAL SLASH!!",
+        SKILL8ATTACK = "IMMORTAL SLASH!!!",
         SKILL8START = "IMMORTAL SLASH NO KATA!\n󰀈: ",
-        SKILL9ATTACK = "SORYUHA !!",
+        SKILL9ATTACK = "SORYUHA !!!",
         SKILL9START = "SORYUHA NO KATA!\n󰀈: ",
     },
     SKIN_DESCRIPTIONS = {

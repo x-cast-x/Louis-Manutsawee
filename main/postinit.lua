@@ -15,6 +15,7 @@ local postinit = {
         "gravestone",
         "rainhat",
         "pighouse",
+        "blueprint",
     },
     stategraphs = {
         "SGwilson",
@@ -33,6 +34,7 @@ local postinit = {
         "trap",
         "curseditem",
         "stewer",
+        "teacher",
     },
     widgets = {
         "skinspuppet",

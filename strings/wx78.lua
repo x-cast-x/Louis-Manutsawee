@@ -1,4 +1,5 @@
 return {
+    ANNOUNCE_LNCOMPREHENSIBLE = "Error: Unable to read data",
     DESCRIBE = {
         BOAT_MSURFBOARD = "",
         HARAKIRI = "",

@@ -586,6 +586,7 @@ return{
 	ANNOUNCE_YOTD_NOBOATS = "I seem to have drifted a bit too far from the starting point.",
 	ANNOUNCE_YOTD_NOCHECKPOINTS = "Alas, there is nary a waypoint to guide me in this race!",
 	ANNOUNCE_YOTD_NOTENOUGHBOATS = "Perhaps some space should be cleared around the Start Tower.",
+    ANNOUNCE_LNCOMPREHENSIBLE = "I don't understand, but I'm shocked.",
 	BATTLECRY =
 	{
 		DEER = "You're deer meat!",

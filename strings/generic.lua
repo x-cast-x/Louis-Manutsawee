@@ -1,4 +1,5 @@
 return {
+    ANNOUNCE_LNCOMPREHENSIBLE = "",
     DESCRIBE = {
         BOAT_MSURFBOARD = "Very exquisite workmanship.",
         HARAKIRI = "This knife look so good.",

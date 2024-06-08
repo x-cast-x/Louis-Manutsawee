@@ -24,6 +24,7 @@ PrefabFiles = {
     "tokijin",
     "vscode",
     "momocube",
+    "lightningspike",
 }
 
 Assets = {

@@ -1,102 +1,125 @@
 --------------------------------------------------------------------------
---[[ Katana Spawner class definition ]]
+--[[ Learner class definition ]]
 --------------------------------------------------------------------------
+
+-- Cheat Component
 
 return Class(function(self, inst)
 
-    assert(TheWorld.ismastersim, "Katana Spawner should not exist on client")
+    assert(TheWorld.ismastersim, "Learner should not exist on client")
 
     --------------------------------------------------------------------------
     --[[ Dependencies ]]
     --------------------------------------------------------------------------
 
-    local RPCUtil = require("utils/rpcutil")
+
 
     --------------------------------------------------------------------------
     --[[ Member variables ]]
     --------------------------------------------------------------------------
 
-    self.inst = inst
+    local Characters = {
+        wilson       = function()
 
-    local _world = TheWorld
-    local _ismastersim = _world.ismastersim
-    local LouisManutsawee, SyncKatanaSpawnerData = "LouisManutsawee", "SyncKatanaSpawnerData"
+        end,
+        willow       = function()
 
-    local katanas = {}
+        end,
+        wendy        = function()
+
+        end,
+        wolfgang     = function(inst)
+
+        end,
+        woodie       = function()
+
+        end,
+        wickerbottom = function()
+
+        end,
+        wx78         = function()
+
+        end,
+        wes          = function()
+
+        end,
+        waxwell      = function()
+
+        end,
+        wathgrithr   = function()
+
+        end,
+        webber       = function()
+
+        end,
+        winona       = function()
+
+        end,
+        warly        = function()
+
+        end,
+        wortox       = function()
+
+        end,
+        wormwood     = function()
+
+        end,
+        wurt         = function()
+
+        end,
+        walter       = function()
+
+        end,
+        wanda        = function()
+
+        end,
+    }
 
     --------------------------------------------------------------------------
     --[[ Private member functions ]]
     --------------------------------------------------------------------------
 
+    local LearningfromTarget = function(inst, target)
+
+    end
+
     --------------------------------------------------------------------------
     --[[ Private event handlers ]]
     --------------------------------------------------------------------------
 
-    local TrackKatana = _ismastersim and function(inst, data)
-        local name = data.name
-        if katanas[name] then
-            return
-        end
-        katanas[name] = true
-        RPCUtil.SendModRPCToAllShards(GetShardModRPC(LouisManutsawee, SyncKatanaSpawnerData), true, name)
-    end or nil
 
-    local ForgetKatana =  _ismastersim and function(inst, data)
-        local name = data.name
-        if not katanas[name] then
-            return
-        end
-        katanas[name] = nil
-        RPCUtil.SendModRPCToAllShards(GetShardModRPC(LouisManutsawee, SyncKatanaSpawnerData), false, name)
-    end or nil
 
     --------------------------------------------------------------------------
     --[[ Initialization ]]
     --------------------------------------------------------------------------
 
-    if _ismastersim then
-        inst:ListenForEvent("ms_trackkatana", TrackKatana, _world)
-        inst:ListenForEvent("ms_forgetkatana", ForgetKatana, _world)
-    end
+
 
     --------------------------------------------------------------------------
     --[[ Public member functions ]]
     --------------------------------------------------------------------------
 
-    function self:GetKatana(name)
-        return katanas[name] ~= nil and katanas[name] or nil
-    end
+
 
     --------------------------------------------------------------------------
     --[[ Save/Load ]]
     --------------------------------------------------------------------------
 
-    if _ismastersim then function self:OnSave()
+    function self:OnSave()
         local data = {}
-        data.katanas = katanas
 
         return data
-    end end
+    end
 
-    if _ismastersim then function self:OnLoad(data)
-        if data ~= nil then
-            if data.katanas ~= nil then
-                katanas = data.katanas
-            end
-        end
-    end end
+    function self:OnLoad(data)
+
+    end
 
     --------------------------------------------------------------------------
     --[[ Debug ]]
     --------------------------------------------------------------------------
 
-    function self:GetDebugString()
-        local str = "\n"
-        for k, v in pairs(katanas) do
-            str = str.."    --"..k..": "..tostring(v).."\n"
-        end
-        return string.format(str)
-    end
+
 
     --------------------------------------------------------------------------
     --[[ End ]]

@@ -29,8 +29,6 @@ ACTIONS.MDODGE2.fn = function(act, data)
     return true
 end
 
-
-
 local _BAIT_fn = ACTIONS.BAIT.fn
 ACTIONS.BAIT.fn = function(act)
     if act.target.components.trap and act.doer:HasTag("naughtychild") then

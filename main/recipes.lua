@@ -139,10 +139,9 @@ local recipes = {
     kage = {
         ingredients = {Ingredient("nightmarefuel", 80)},
         tech = TECH.LOST,
-        config = {builder_tag = "katanakaji"},
+        config = {nounlock = false},
         filters = {"CHARACTER", "WEAPONS"},
     }
 }
 
 AddRecipes(recipes)
-

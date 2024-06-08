@@ -126,7 +126,7 @@ local function OnEquip(inst, owner)
         inst.components.weapon:SetDamage(inst.components.weapon.damage + (owner.components.kenjutsuka:GetKenjutsuLevel() * 2))
     end
 
-    if not inst:IsSheath() then
+    if inst:IsSheath() then
         inst.SheathMode(inst, owner)
     else
         inst.UnsheathMode(inst, owner)
@@ -154,22 +154,7 @@ local function OnPocket(inst, owner)
     end
 end
 
-local has_broken = {
-    "hitokiri",
-    "shirasaya",
-    "raikiri",
-    "koshirae",
-    -- "kurokatana",
-    "tokijin"
-}
-
 local function OnFinished(inst)
-    if has_broken[inst.prefab] then
-        local katana_broken = SpawnPrefab(inst.build .. "_broken")
-        local x,y,z = inst.Transform:GetWorldPosition()
-        katana_broken.Transform:SetPosition(x,y,z)
-    end
-
     local owner = inst.components.inventoryitem:GetGrandOwner()
 
     if owner ~= nil and not owner:HasTag("notshowscabbard") then
@@ -241,6 +226,7 @@ local MakeKatana = function(data)
     local name = data.name
     local build = data.build
     local assets = {
+        Asset("SCRIPT", "scripts/prefabs/katana_def.lua"),
         Asset("ANIM", "anim/" .. build .. ".zip"),
         Asset("ANIM", "anim/" .. build .. "2.zip"),
         Asset("ANIM", "anim/swap_" .. build .. ".zip"),

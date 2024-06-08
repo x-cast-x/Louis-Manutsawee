@@ -30,7 +30,7 @@ return Class(function(self, inst)
     local hitcount = 0
     local criticalrate = 5
 
-    local levelup_fns = {}
+    local levelupfns = {}
 
     local regen_task
     local onlevelupfn
@@ -46,8 +46,8 @@ return Class(function(self, inst)
             if onlevelupfn ~= nil then
                 onlevelupfn(self.inst, kenjutsulevel, kenjutsuexp)
             end
-            if #levelup_fns > 0 then
-                for i, v in ipairs(levelup_fns) do
+            if #levelupfns > 0 then
+                for i, v in ipairs(levelupfns) do
                     v(self.inst, kenjutsulevel, kenjutsuexp)
                 end
             end
@@ -164,6 +164,7 @@ return Class(function(self, inst)
 
     inst:ListenForEvent("onattackother", OnAttackOther)
     inst:ListenForEvent("ms_playerreroll", OnPlayerReroll)
+    inst:ListenForEvent("death")
 
     --------------------------------------------------------------------------
     --[[ Post initialization ]]
@@ -196,12 +197,12 @@ return Class(function(self, inst)
     end
 
     function self:AddLevelUpFn(amount, fn)
-        levelup_fns[amount] = fn
+        levelupfns[amount] = fn
     end
 
     function self:AddLevelUpFns(fns)
         for i, v in ipairs(fns) do
-            levelup_fns[i] = v
+            levelupfns[i] = v
         end
     end
 
@@ -239,9 +240,9 @@ return Class(function(self, inst)
             kenjutsulevel = kenjutsulevel + 1
             if onlevelupfn ~= nil then
                 onlevelupfn(self.inst, kenjutsulevel, kenjutsuexp)
-                if #levelup_fns > 0 then
-                    for i, v in ipairs(levelup_fns) do
-                        levelup_fns[v](self.inst, kenjutsulevel, kenjutsuexp)
+                if #levelupfns > 0 then
+                    for i, v in ipairs(levelupfns) do
+                        levelupfns[v](self.inst, kenjutsulevel, kenjutsuexp)
                     end
                 end
             end
@@ -268,9 +269,9 @@ return Class(function(self, inst)
 
     function self:OnSave()
         return {
-            kenjutsuexp = self.kenjutsuexp,
-            kenjutsulevel = self.kenjutsulevel,
-            mindpower = self.mindpower,
+            kenjutsuexp = kenjutsuexp,
+            kenjutsulevel = kenjutsulevel,
+            mindpower = mindpower,
         }
     end
 

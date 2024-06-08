@@ -81,8 +81,10 @@ function Combat:StartAttack(...)
         for _, v in pairs(M_SKILLS) do
             if self.inst:HasTag(v) then
                 local fn = self.inst.components.skillreleaser:GetSkillFn(v)
-                fn(self.inst)
-                break
+                if type(fn) == "function" then
+                    fn(self.inst)
+                    break
+                end
             end
         end
     end
