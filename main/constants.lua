@@ -49,5 +49,4 @@ M_SKIN_NAMES = {
     "bocchi",
     "lycoris",
     "maid_m",
-    "souji",
 }

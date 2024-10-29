@@ -12,7 +12,6 @@ local ATTACK_MODE = {
 
 local function CalculateLandPoint(pt, radius)
     radius = radius or 8
-    print(tostring(pt))
     if pt ~= nil then
         if not TheWorld.Map:IsAboveGroundAtPoint(pt.x, pt.y, pt.z) then
             pt = FindNearbyLand(pt, 1) or pt

@@ -30,13 +30,6 @@ if not rawget(_G, "c_revealmap") then
     end
 end
 
-function c_trackkatana()
-    local player = ConsoleCommandPlayer()
-    local mortalblade = SpawnPrefab("mortalblade")
-    TheWorld:PushEvent("ms_trackkatana", {name = mortalblade.prefab})
-    mortalblade.Transform:SetPosition(player.Transform:GetWorldPosition())
-end
-
 function c_printtable(t)
     if type(t) == "table" then
         print(PrintTable(t))

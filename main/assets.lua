@@ -4,7 +4,6 @@ local AddMinimapAtlas = AddMinimapAtlas
 PrefabFiles = {
     "manutsawee",
     "manutsawee_none",
-    "m_skins",
     "m_spears",
     "shinai",
     "maid_hb",
@@ -98,8 +97,6 @@ Assets = {
     Asset("ATLAS", "bigportraits/manutsawee_lycoris.xml"),
     Asset("IMAGE", "bigportraits/manutsawee_maid_m.tex"),
     Asset("ATLAS", "bigportraits/manutsawee_maid_m.xml"),
-    Asset("IMAGE", "bigportraits/manutsawee_souji.tex"),
-    Asset("ATLAS", "bigportraits/manutsawee_souji.xml"),
 }
 
 AddMinimapAtlas("images/map_icons/m_minimaps.xml")

@@ -188,7 +188,6 @@ return {
         manutsawee_lycoris = "Takina's outfit from Lycoris Recoil",
         manutsawee_yukata = "Japan's outfit mini version.",
         manutsawee_yukatalong = "Japan's outfit.",
-        manutsawee_souji = "Okita Souji's outfit from Fate/Grand Order",
     },
     SKIN_NAMES = {
         lcane = "Moon cane",
@@ -207,7 +206,6 @@ return {
         manutsawee_lycoris = "Lycoris",
         manutsawee_yukata = "Kimono(M) ",
         manutsawee_yukatalong = "Kimono",
-        manutsawee_souji = "Sakura Saber",
     },
     SKIN_QUOTES = {
         manutsawee_maid_m = "\"Guest sama, would you like a cup of coffee?\"",
@@ -225,7 +223,6 @@ return {
         manutsawee_lycoris = "\"Heart is running away! ! !\"",
         manutsawee_yukata = "\"Shine omae! haha.'\"",
         manutsawee_yukatalong = "\"Kon ni chi wa ..?'\"",
-        manutsawee_souji = "I'm the captain now!",
     },
     DEV_EPITAPHS = {
         SYDNEY = {
