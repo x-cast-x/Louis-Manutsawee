@@ -433,6 +433,10 @@ local states = {
                 end
             end),
         },
+
+        onexit = function(inst)
+            inst.components.glasses:UpdateGlasses()
+        end
     },
 
     State{
@@ -447,13 +451,29 @@ local states = {
             inst.sg:SetTimeout(1)
         end,
 
-       ontimeout = function(inst)
+        ontimeout = function(inst)
             inst:PerformBufferedAction()
             inst.AnimState:PlayAnimation("build_pst")
             inst.sg:GoToState("idle", false)
         end,
 
         onexit = function(inst)
+            local HAIR_TYPES = inst.components.hair:GetHairTypes()
+            local hair_type = inst.components.hair:GetCurrentHairType()
+            local hair_length = inst.components.hair:GetHairLength()
+
+            local current_index = 1
+            for i, hair in ipairs(HAIR_TYPES) do
+                if hair == hair_type then
+                    current_index = i
+                    break
+                end
+            end
+
+            hair_type = HAIR_TYPES[(current_index % #HAIR_TYPES) + 1]
+
+            inst.components.hair:SetHairType(hair_type)
+            inst.components.hair:OnChangeHair()
             inst.SoundEmitter:KillSound("make")
         end,
     },
@@ -474,7 +494,7 @@ local states = {
             if inst.components.playercontroller ~= nil then
                 inst.components.playercontroller:Enable(false)
             end
-            inst.components.combat:SetRange(inst._hitrange)
+            inst.components.combat:SetRange(TUNING.DEFAULT_ATTACK_RANGE)
             inst.AnimState:PlayAnimation("atk_leap_pre")
             inst.Physics:SetMotorVelOverride(30,0,0)
         end,
@@ -504,9 +524,6 @@ local states = {
             if inst.components.playercontroller ~= nil then
                 inst.components.playercontroller:Enable(true)
             end
-            inst.mafterskillndm = inst:DoTaskInTime(1.5, function()
-                inst.mafterskillndm = nil
-            end)
         end,
     },
 
@@ -525,9 +542,6 @@ local states = {
             TimeEvent(0.5*FRAMES, function(inst)
                 inst.SoundEmitter:PlaySound("dontstarve/wilson/hit")
                 inst.Physics:SetMotorVelOverride(-0.1,0,0)
-                inst.mafterskillndm = inst:DoTaskInTime(1.5, function()
-                    inst.mafterskillndm = nil
-                end)
             end),
 
             TimeEvent(1*FRAMES, function(inst)
@@ -615,7 +629,7 @@ local states = {
             end),
 
             TimeEvent(4 * FRAMES, function(inst)
-                inst.components.combat:SetRange(inst._hitrange)
+                inst.components.combat:SetRange(TUNING.DEFAULT_ATTACK_RANGE)
             end),
         },
 
@@ -638,12 +652,9 @@ local states = {
         onexit = function(inst)
             if inst.components.combat ~= nil then
                 inst.components.combat:SetTarget(nil)
-                inst.components.combat:SetRange(inst._hitrange)
+                inst.components.combat:SetRange(TUNING.DEFAULT_ATTACK_RANGE)
             end
             inst.inspskill = nil
-            inst.mafterskillndm = inst:DoTaskInTime(1.5, function()
-                inst.mafterskillndm = nil
-            end)
         end,
     },
 
@@ -845,7 +856,7 @@ local states = {
                 inst.components.combat:DoAttack(inst.sg.statemem.target)
                 inst.components.combat:DoAttack(inst.sg.statemem.target)
                 inst:PerformBufferedAction()
-                inst.components.combat:SetRange(inst._hitrange)
+                inst.components.combat:SetRange(TUNING.DEFAULT_ATTACK_RANGE)
             end),
         },
 
@@ -869,11 +880,8 @@ local states = {
         onexit = function(inst)
             if inst.components.combat ~= nil then
                 inst.components.combat:SetTarget(nil)
-                inst.components.combat:SetRange(inst._hitrange)
+                inst.components.combat:SetRange(TUNING.DEFAULT_ATTACK_RANGE)
             end
-            inst.mafterskillndm = inst:DoTaskInTime(2, function()
-                inst.mafterskillndm = nil
-            end)
         end,
     },
 
@@ -934,17 +942,11 @@ local states = {
                 inst.components.combat:DoAttack(inst.sg.statemem.target)
                 inst.components.combat:DoAttack(inst.sg.statemem.target)
                 inst:PerformBufferedAction()
-                inst.components.combat:SetRange(inst._hitrange)
+                inst.components.combat:SetRange(TUNING.DEFAULT_ATTACK_RANGE)
                 inst.components.combat:SetAreaDamage(1, 1)
                 inst.SoundEmitter:PlaySound("turnoftides/common/together/moon_glass/mine")
                 inst.AnimState:SetDeltaTimeMultiplier(1)
             end),
-
-            -- TimeEvent(12 * FRAMES, function(inst)
-            --     inst.mafterskillndm = inst:DoTaskInTime(1.5, function()
-            --         inst.mafterskillndm = nil
-            --     end)
-            -- end),
         },
 
         ontimeout = function(inst)
@@ -963,7 +965,7 @@ local states = {
         onexit = function(inst)
             if inst.components.combat ~= nil then
                 inst.components.combat:SetTarget(nil)
-                inst.components.combat:SetRange(inst._hitrange)
+                inst.components.combat:SetRange(TUNING.DEFAULT_ATTACK_RANGE)
             end
             inst.inspskill = nil
             inst.components.combat:EnableAreaDamage(false)
@@ -1025,17 +1027,11 @@ local states = {
                 inst.components.combat:DoAttack(inst.sg.statemem.target)
                 inst.components.combat:DoAttack(inst.sg.statemem.target)
                 inst:PerformBufferedAction()
-                inst.components.combat:SetRange(inst._hitrange)
+                inst.components.combat:SetRange(TUNING.DEFAULT_ATTACK_RANGE)
                 inst.components.combat:SetAreaDamage(1, 1)
                 inst.SoundEmitter:PlaySound("turnoftides/common/together/moon_glass/mine")
                 inst.AnimState:SetDeltaTimeMultiplier(1)
             end),
-
-            -- TimeEvent(18 * FRAMES, function(inst)
-            --     inst.mafterskillndm = inst:DoTaskInTime(1.5, function()
-            --         inst.mafterskillndm = nil
-            --     end)
-            -- end),
         },
 
         ontimeout = function(inst)
@@ -1054,7 +1050,7 @@ local states = {
         onexit = function(inst)
             if inst.components.combat ~= nil then
                 inst.components.combat:SetTarget(nil)
-                inst.components.combat:SetRange(inst._hitrange)
+                inst.components.combat:SetRange(TUNING.DEFAULT_ATTACK_RANGE)
                 inst.components.combat:EnableAreaDamage(false)
             end
             inst.inspskill = nil
@@ -1112,7 +1108,7 @@ local states = {
 
                 --if not inst.doubleichimonji then inst.components.combat:DoAttack(inst.sg.statemem.target) end
                 inst:PerformBufferedAction()
-                inst.components.combat:SetRange(inst._hitrange)
+                inst.components.combat:SetRange(TUNING.DEFAULT_ATTACK_RANGE)
                 inst.components.combat:SetAreaDamage(1, 1)
             end),
         },
@@ -1133,16 +1129,13 @@ local states = {
         onexit = function(inst)
             if inst.components.combat ~= nil then
                 inst.components.combat:SetTarget(nil)
-                inst.components.combat:SetRange(inst._hitrange)
+                inst.components.combat:SetRange(TUNING.DEFAULT_ATTACK_RANGE)
                 inst.components.combat:EnableAreaDamage(false)
             end
             inst.inspskill = nil
             if inst.doubleichimonji ~= nil then
                 inst.doubleichimonji = nil
                 inst.components.talker:Say(STRINGS.SKILL.SKILL1ATTACK, 2, true)
-                inst.mafterskillndm = inst:DoTaskInTime(2, function()
-                    inst.mafterskillndm = nil
-                end)
             end
             if inst.doubleichimonjistart then
                 inst.doubleichimonjistart = nil
@@ -1214,7 +1207,7 @@ local states = {
                 inst.components.combat:DoAttack(inst.sg.statemem.target)
                 SpawnShadowFx(inst, inst.sg.statemem.target, 2)
                 inst:PerformBufferedAction()
-                inst.components.combat:SetRange(inst._hitrange)
+                inst.components.combat:SetRange(TUNING.DEFAULT_ATTACK_RANGE)
                 inst.components.combat:SetAreaDamage(1, 1)
                 inst.SoundEmitter:PlaySound("turnoftides/common/together/moon_glass/mine")
                 inst.Physics:ClearMotorVelOverride()
@@ -1252,13 +1245,10 @@ local states = {
         onexit = function(inst)
             if inst.components.combat ~= nil then
                 inst.components.combat:SetTarget(nil)
-                inst.components.combat:SetRange(inst._hitrange)
+                inst.components.combat:SetRange(TUNING.DEFAULT_ATTACK_RANGE)
             end
             inst.inspskill = nil
             inst.components.combat:EnableAreaDamage(false)
-            inst.mafterskillndm = inst:DoTaskInTime(1, function()
-                inst.mafterskillndm = nil
-            end)
         end,
     },
 

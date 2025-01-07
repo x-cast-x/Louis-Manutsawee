@@ -86,30 +86,28 @@ local function AddFollowerFx(inst, prefab, scale)
     end
 end
 
-local function Skill_CommonFn(tag, name, time, mindpower, fn)
-    return function(inst)
-        if inst.components.skillreleaser:CanUseSkill(inst.components.combat.target) then
-            inst.sg:GoToState("idle")
-            inst.components.skillreleaser:SkillRemove()
-            inst:DoTaskInTime(.3, function()
-                inst.components.talker:Say(STRINGS.SKILL.REFUSE_RELEASE)
-            end)
-            return
-        end
+-- local function Skill_CommonFn(tag, name, time, mindpower, fn)
+--     return function(inst)
+--         if inst.components.playerskillmanager:CanUseSkill(inst.components.combat.target) then
+--             inst.sg:GoToState("idle")
+--             inst.components.playerskillmanager:RemoveAllSkills()
+--             inst.components.talker:Say(STRINGS.SKILL.REFUSE_RELEASE)
+--             return
+--         end
 
-        if inst.mafterskillndm ~= nil then
-            inst.mafterskillndm:Cancel()
-            inst.mafterskillndm = nil
-        end
+--         if inst.mafterskillndm ~= nil then
+--             inst.mafterskillndm:Cancel()
+--             inst.mafterskillndm = nil
+--         end
 
-        fn(inst)
+--         fn(inst)
 
-        inst.components.kenjutsuka:SetMindpower(inst.components.kenjutsuka:GetMindpower() - mindpower)
-        inst.components.timer:StartTimer(name, time)
+--         inst.components.kenjutsuka:SetMindpower(inst.components.kenjutsuka:GetMindpower() - mindpower)
+--         inst.components.timer:StartTimer(name, time)
 
-        inst:RemoveTag(tag)
-    end
-end
+--         inst:RemoveTag(tag)
+--     end
+-- end
 
 local ARC = 90 * DEGREES
 local AOE_RANGE_PADDING = 3
@@ -236,11 +234,6 @@ local Skill_Data = {
             if weapon ~= nil and weapon.IsSheath ~= nil and weapon:IsSheath() then
                 skilltime = .05
                 inst:DoTaskInTime(skilltime, function()
-                    if inst.mafterskillndm ~= nil then
-                        inst.mafterskillndm:Cancel()
-                        inst.mafterskillndm = nil
-                    end
-
                     if weapon ~= nil then
                         inst.sg:GoToState("thrust", target)
                         GroundPoundFx(inst, .6)
@@ -257,7 +250,7 @@ local Skill_Data = {
                         inst:DoTaskInTime(.9, function()
                             SlashFx(inst, inst, "shadowstrike_slash_fx", 3)
                             AoeAttack(inst, 1,6.5)
-                            inst.components.combat:SetRange(inst._hitrange)
+                            inst.components.combat:SetRange(TUNING.DEFAULT_ATTACK_RANGE)
                             inst.components.talker:Say(STRINGS.SKILL.SKILL3ATTACK, 2, true)
                             local fx = SpawnPrefab("groundpoundring_fx")
                             fx.Transform:SetScale(.8, .8, .8)
@@ -357,7 +350,7 @@ local Skill_Data = {
                 inst:DoTaskInTime(2.1, function()
                     GroundPoundFx(inst, .6)
                     AoeAttack(inst, 1, 4)
-                    inst.components.combat:SetRange(inst._hitrange)
+                    inst.components.combat:SetRange(TUNING.DEFAULT_ATTACK_RANGE)
                 end)
             end)
         end
@@ -532,7 +525,7 @@ local Skill_Data = {
                 inst:DoTaskInTime(2.1, function()
                     SlashFx(inst, inst, "shadowstrike_slash_fx", 3)
                     AoeAttack(inst, 2,4)
-                    inst.components.combat:SetRange(inst._hitrange)
+                    inst.components.combat:SetRange(TUNING.DEFAULT_ATTACK_RANGE)
                 end)
             end)
         end
@@ -571,6 +564,5 @@ return {
     GroundPoundFx = GroundPoundFx,
     AoeAttack = AoeAttack,
     AddFollowerFx = AddFollowerFx,
-    Skill_CommonFn = Skill_CommonFn,
     Skill_Data = Skill_Data,
 }

@@ -39,4 +39,4 @@ GlassicAPI.MergeStringsToGLOBAL(strings)
 GlassicAPI.MergeTranslationFromPO(MODROOT.."scripts/languages", languages[M_CONFIG.locale])
 
 -- modimport("postinit/pl_postinit/languages/porkland")
-modimport("postinit/uncompromisingmode/languages/uncompromisingmode")
+-- modimport("postinit/uncompromisingmode/languages/uncompromisingmode")

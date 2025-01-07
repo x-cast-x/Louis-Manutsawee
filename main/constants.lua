@@ -11,9 +11,7 @@ if ENV.is_mim_enabled then
         "https://www.bilibili.com/video/BV1xx411c7mu",
         "https://www.bilibili.com/video/BV1SG4y1274y",
         "https://www.youtube.com/watch?v=zXglsI9oH18",
-        "https://www.youtube.com/watch?v=IOXoAvF6r_A",
         "https://www.youtube.com/watch?v=W84JUTLVedg",
-        "https://www.youtube.com/watch?v=MNLxpgtnHTE",
     }
     -- No animation video
     CHARACTER_VIDEOS["manutsawee"] = {video_urls[math.random(1, #video_urls)]}

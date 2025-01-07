@@ -44,17 +44,17 @@ return Class(function(self, inst)
         if _is_master then
             kenjutsulevel = _config.LEVEL_VALUE
             if onlevelupfn ~= nil then
-                onlevelupfn(self.inst, kenjutsulevel, kenjutsuexp)
+                onlevelupfn(inst, kenjutsulevel, kenjutsuexp)
             end
             if #levelupfns > 0 then
                 for i, v in ipairs(levelupfns) do
-                    v(self.inst, kenjutsulevel, kenjutsuexp)
+                    v(inst, kenjutsulevel, kenjutsuexp)
                 end
             end
         end
     end
 
-    local function OnRegenMindPower(inst, self)
+    local function OnRegenMindPower(inst)
         if mindpower < max_mindpower then
             mindpower = mindpower + 1
             if onmindregenfn ~= nil then
@@ -69,69 +69,67 @@ return Class(function(self, inst)
     --------------------------------------------------------------------------
 
     local function OnAttackOther(inst, data)
-        if inst.components.rider ~= nil and inst.components.rider:IsRiding() then
-            return
-        end
+        if not (inst.components.rider ~= nil and inst.components.rider:IsRiding()) then
+            local target = data.target
+            local weapon = data.weapon
+            local kenjutsuka = inst.components.kenjutsuka
+            local kenjutsuexp = kenjutsuka:GetKenjutsuExp()
+            local kenjutsulevel = kenjutsuka:GetKenjutsuLevel()
+            local mindpower = kenjutsuka:GetMindpower()
+            local tx, ty, tz = target.Transform:GetWorldPosition()
+            local CAMT_TAG = not (target:HasOneOfTags({"prey", "bird", "insect", "wall"}) and not target:HasTag("hostile"))
 
-        local target = data.target
-        local weapon = data.weapon
-        local kenjutsuka = inst.components.kenjutsuka
-        local kenjutsuexp = kenjutsuka:GetKenjutsuExp()
-        local kenjutsulevel = kenjutsuka:GetKenjutsuLevel()
-        local mindpower = kenjutsuka:GetMindpower()
-        local tx, ty, tz = target.Transform:GetWorldPosition()
-        local CAMT_TAG = not (target:HasOneOfTags({"prey", "bird", "insect", "wall"}) and not target:HasTag("hostile"))
-
-        if weapon ~= nil and not weapon:HasTag("projectile") and not weapon:HasTag("rangedweapon") then
-            if weapon:HasTag("katanaskill") and not inst.components.timer:TimerExists("hit_cd") and
-                not inst.sg:HasStateTag("skilling") then -- GainKenExp
-                if kenjutsulevel < 10 then
-                    kenjutsuexp = kenjutsuexp + (1 * _config.KEXPMTP)
-                end
-                inst.components.timer:StartTimer("hit_cd", .5)
-            end
-
-            if CAMT_TAG then
-                if math.random(1, 100) <= criticalrate + kenjutsulevel and
-                    not inst.components.timer:TimerExists("critical_cd") and not inst.sg:HasStateTag("skilling") then
-                    inst.components.timer:StartTimer("critical_cd", 15 - (kenjutsulevel / 2)) -- critical
-                    local hitfx = SpawnPrefab("slingshotammo_hitfx_rock")
-                    if hitfx ~= nil then
-                        hitfx.Transform:SetScale(.8, .8, .8)
-                        hitfx.Transform:SetPosition(tx, ty, tz)
+            if weapon ~= nil and not weapon:HasTag("projectile") and not weapon:HasTag("rangedweapon") then
+                if weapon:HasTag("katanaskill") and not inst.components.timer:TimerExists("hit_cd") and
+                    not inst.sg:HasStateTag("skilling") then -- GainKenExp
+                    if kenjutsulevel < 10 then
+                        kenjutsuexp = kenjutsuexp + (1 * _config.KEXPMTP)
                     end
-                    inst.SoundEmitter:PlaySound("turnoftides/common/together/moon_glass/mine")
-                    inst.components.combat.damagemultiplier = (MANUTSAWEE_DAMAGE + MANUTSAWEE_CRIDMG)
-                    inst:DoTaskInTime(.1, function(inst)
-                        inst.components.combat.damagemultiplier = MANUTSAWEE_DAMAGE
-                    end)
+                    inst.components.timer:StartTimer("hit_cd", .5)
                 end
-            end
 
-            if CAMT_TAG then
-                if not inst.components.timer:TimerExists("heart_cd") and not inst.sg:HasStateTag("skilling") and
-                    not inst.inspskill then
-                    inst.components.timer:StartTimer("heart_cd", .3) -- mind gain
-                    hitcount = hitcount + 1
-                    if hitcount >= _config.MINDREGEN_COUNT and inst.components.kenjutsuka:GetKenjutsuLevel() >= 1 then
-                        if mindpower < kenjutsuka:GetMaxMindpower() then
-                            onmindregenfn(inst, mindpower)
-                        else
-                            inst.components.sanity:DoDelta(1)
+                if CAMT_TAG then
+                    if math.random(1, 100) <= criticalrate + kenjutsulevel and
+                        not inst.components.timer:TimerExists("critical_cd") and not inst.sg:HasStateTag("skilling") then
+                        inst.components.timer:StartTimer("critical_cd", 15 - (kenjutsulevel / 2)) -- critical
+                        local hitfx = SpawnPrefab("slingshotammo_hitfx_rock")
+                        if hitfx ~= nil then
+                            hitfx.Transform:SetScale(.8, .8, .8)
+                            hitfx.Transform:SetPosition(tx, ty, tz)
                         end
-                        hitcount = 0
+                        inst.SoundEmitter:PlaySound("turnoftides/common/together/moon_glass/mine")
+                        inst.components.combat.damagemultiplier = (MANUTSAWEE_DAMAGE + MANUTSAWEE_CRIDMG)
+                        inst:DoTaskInTime(.1, function(inst)
+                            inst.components.combat.damagemultiplier = MANUTSAWEE_DAMAGE
+                        end)
+                    end
+                end
+
+                if CAMT_TAG then
+                    if not inst.components.timer:TimerExists("heart_cd") and not inst.sg:HasStateTag("skilling") and
+                        not inst.inspskill then
+                        inst.components.timer:StartTimer("heart_cd", .3) -- mind gain
+                        hitcount = hitcount + 1
+                        if hitcount >= _config.MINDREGEN_COUNT and inst.components.kenjutsuka:GetKenjutsuLevel() >= 1 then
+                            if mindpower < kenjutsuka:GetMaxMindpower() then
+                                onmindregenfn(inst, mindpower)
+                            else
+                                inst.components.sanity:DoDelta(1)
+                            end
+                            hitcount = 0
+                        end
                     end
                 end
             end
-        end
 
-        kenjutsuka:LevelUp()
+            kenjutsuka:LevelUp()
+        end
     end
 
     local function OnPlayerReroll(inst)
         local kenjutsulevel = inst.components.kenjutsuka:GetKenjutsuLevel()
 
-        inst:SkillRemove()
+        inst.components.playerskillmanager:RemoveAllSkills()
 
         if kenjutsulevel > 0 then
             local x, y, z = inst.Transform:GetWorldPosition()
@@ -156,6 +154,51 @@ return Class(function(self, inst)
         end
     end
 
+    local function OnDeath(inst)
+        local fx = SpawnPrefab("fx_book_light_upgraded")
+        local x, y, z = inst.Transform:GetWorldPosition()
+        fx.Transform:SetScale(.9, 2.5, 1)
+        fx.Transform:SetPosition(x, y, z)
+
+        inst.components.playerskillmanager:RemoveAllSkills()
+    end
+
+    local function OnEquip(inst, data)
+        local item = data.item
+        if item ~= nil and (item.prefab == "onemanband" or item.prefab == "armorsnurtleshell") then
+            if not inst:HasTag("notshowscabbard") then
+                inst:AddTag("notshowscabbard")
+            end
+        end
+
+        -- if inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HEAD) ~= nil then
+        --     OnChangeHair(inst)
+        -- end
+    end
+
+    local function OnUnEquip(inst, data)
+        local item = data.item
+        if item ~= nil and (item.prefab == "onemanband" or item.prefab == "armorsnurtleshell") then
+            if inst:HasTag("notshowscabbard") then
+                inst:RemoveTag("notshowscabbard")
+            end
+        end
+
+        if inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS) == nil then
+            inst.components.playerskillmanager:RemoveAllSkills()
+        end
+    end
+
+    local function OnDroped(inst, data)
+        local item = data ~= nil and (data.prev_item or data.item)
+
+        if item ~= nil and item:HasTag("katanaskill") and not item:HasTag("woodensword") then
+            if not inst:HasTag("notshowscabbard") then
+                inst.AnimState:ClearOverrideSymbol("swap_body_tall")
+            end
+        end
+    end
+
     --------------------------------------------------------------------------
     --[[ Initialization ]]
     --------------------------------------------------------------------------
@@ -164,7 +207,11 @@ return Class(function(self, inst)
 
     inst:ListenForEvent("onattackother", OnAttackOther)
     inst:ListenForEvent("ms_playerreroll", OnPlayerReroll)
-    inst:ListenForEvent("death")
+    inst:ListenForEvent("death", OnDeath)
+    inst:ListenForEvent("unequip", OnUnEquip)
+    inst:ListenForEvent("equip", OnEquip)
+    inst:ListenForEvent("dropitem", OnDroped)
+    inst:ListenForEvent("itemlose", OnDroped)
 
     --------------------------------------------------------------------------
     --[[ Post initialization ]]
@@ -239,10 +286,10 @@ return Class(function(self, inst)
             kenjutsuexp = kenjutsuexp - kenjutsumaxexp
             kenjutsulevel = kenjutsulevel + 1
             if onlevelupfn ~= nil then
-                onlevelupfn(self.inst, kenjutsulevel, kenjutsuexp)
+                onlevelupfn(inst, kenjutsulevel, kenjutsuexp)
                 if #levelupfns > 0 then
                     for i, v in ipairs(levelupfns) do
-                        levelupfns[v](self.inst, kenjutsulevel, kenjutsuexp)
+                        levelupfns[v](inst, kenjutsulevel, kenjutsuexp)
                     end
                 end
             end
@@ -252,7 +299,7 @@ return Class(function(self, inst)
     function self:StartRegenMindPower()
         self:StopRegenMindPower()
         if regen_task == nil then
-            regen_task = self.inst:DoTaskInTime(mindpower_regen_rate, OnRegenMindPower, self)
+            regen_task = inst:DoTaskInTime(mindpower_regen_rate, OnRegenMindPower)
         end
     end
 
@@ -290,8 +337,8 @@ return Class(function(self, inst)
     function self:OnRemoveEntity()
         self:StopRegenMindPower()
 
-        self.inst:RemoveEventCallback("onattackother", OnAttackOther)
-        self.inst:RemoveEventCallback("ms_playerreroll", OnPlayerReroll)
+        inst:RemoveEventCallback("onattackother", OnAttackOther)
+        inst:RemoveEventCallback("ms_playerreroll", OnPlayerReroll)
     end
 
     --------------------------------------------------------------------------

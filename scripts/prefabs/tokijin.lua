@@ -68,6 +68,33 @@ local function StopFx(inst)
     end
 end
 
+local function SwitchControlled(inst, enabled)
+    local grogginess = inst.components.grogginess
+
+    if grogginess ~= nil and not inst:HasTag("playerghost") then
+        if enabled then
+            inst:AddTag("groggy")
+            inst:AddTag("controlled")
+            inst.AnimState:OverrideSymbol("face", "face_controlled", "face")
+            local pct = grogginess.grog_amount < grogginess:GetResistance() and grogginess.grog_amount / grogginess:GetResistance() or 1
+            grogginess.speedmod = Remap(pct, 1, 0, TUNING.MIN_GROGGY_SPEED_MOD, TUNING.MAX_GROGGY_SPEED_MOD)
+            inst.components.locomotor:SetExternalSpeedMultiplier(inst, "controlled", grogginess.speedmod)
+            if inst.components.sanity ~= nil then
+                inst.components.sanity:SetInducedInsanity(inst, true)
+            end
+        else
+            inst:RemoveTag("groggy")
+            inst:RemoveTag("controlled")
+            inst.AnimState:ClearOverrideSymbol("face")
+            grogginess.speedmod = nil
+            inst.components.locomotor:RemoveExternalSpeedMultiplier(inst, "controlled")
+            if inst.components.sanity ~= nil then
+                inst.components.sanity:SetInducedInsanity(inst, false)
+            end
+        end
+    end
+end
+
 local function OnIsNightmareWild(inst, isnightmarewild)
     local owner = inst.components.inventoryitem.owner
 
@@ -77,15 +104,13 @@ local function OnIsNightmareWild(inst, isnightmarewild)
 
     if isnightmarewild and owner.components.areaaware:CurrentlyInTag("Nightmare") and not owner:HasTag("controlled") then
         inst.nightmare_controlled = inst:DoTaskInTime(10, function()
-            if owner.SwitchControlled ~= nil then
-                owner.components.talker:Say(GetString(owner, "ANNOUNCE_ISNIGHTMAREWILD"))
-                owner.SwitchControlled(owner, true)
-                TryStartFx(inst, owner)
-            end
+            owner.components.talker:Say(GetString(owner, "ANNOUNCE_ISNIGHTMAREWILD"))
+            SwitchControlled(owner, true)
+            TryStartFx(inst, owner)
         end)
     else
-        if owner.SwitchControlled ~= nil and owner:HasTag("controlled") then
-            owner.SwitchControlled(owner, false)
+        if owner:HasTag("controlled") then
+            SwitchControlled(owner, false)
             StopFx(inst)
             if inst.nightmare_controlled ~= nil then
                 inst.nightmare_controlled:Cancel()
@@ -126,9 +151,9 @@ local function OnEquip(inst, owner)
         inst.components.weapon:SetDamage(TUNING.TOKIJIN_DAMAGE + (kenjutsuka:GetKenjutsuLevel() * 2))
 
         inst.controlled = inst:DoTaskInTime(10, function()
-            if owner.SwitchControlled ~= nil and owner.components.kenjutsuka:GetKenjutsuLevel() < 10 then
+            if owner.components.kenjutsuka:GetKenjutsuLevel() < 10 then
                 inst.components.equippable.dapperness = TUNING.CRAZINESS_MED
-                owner.SwitchControlled(owner, true)
+                SwitchControlled(owner, true)
                 TryStartFx(inst, owner)
             end
         end)
@@ -153,14 +178,12 @@ local function OnUnequip(inst, owner)
         owner.AnimState:OverrideSymbol("swap_body_tall", "sc_tokijin", "tail")
     end
 
-    if owner.SwitchControlled ~= nil then
-        inst.components.equippable.dapperness = 0
-        owner.SwitchControlled(owner, false)
-        StopFx(inst)
-        if inst.controlled ~= nil then
-            inst.controlled:Cancel()
-            inst.controlled = nil
-        end
+    inst.components.equippable.dapperness = 0
+    SwitchControlled(owner, false)
+    StopFx(inst)
+    if inst.controlled ~= nil then
+        inst.controlled:Cancel()
+        inst.controlled = nil
     end
 end
 

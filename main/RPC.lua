@@ -16,7 +16,7 @@ local ncountskill = 2
 local LouisManutsawee, Momo = "LouisManutsawee", "Momo"
 
 local function SkillRemove(inst)
-    inst.components.skillreleaser:SkillRemove()
+    inst.components.playerskillmanager:RemoveAllSkills()
 end
 
 local MUST_TAG = {"tool", "sharp", "weapon", "katanaskill"}
@@ -35,11 +35,6 @@ local function CanUseSkill(inst)
     -- "\nIsRiding: " .. tostring(IsRiding) ..
     -- "\nIsHeavyLifting: " .. tostring(IsHeavyLifting) ..
     -- "\nnot die: " .. tostring(inst:HasTag("playerghost")))
-
-    if inst.mafterskillndm ~= nil then
-        inst.mafterskillndm:Cancel()
-        inst.mafterskillndm = nil
-    end
 
     if not weapon or IsAsleep or IsFrozen or IsRiding or IsHeavyLifting or inst:HasTag("playerghost") or weapon:HasOneOfTags(CANT_TAG) and not weapon:HasOneOfTags(MUST_TAG) then
         return false
@@ -360,61 +355,6 @@ AddModRPCHandler(LouisManutsawee, "SkillCancel", function(inst)
             inst.components.timer:StartTimer("skill_cancel_cd",1)
             SkillRemove(inst)
             inst.components.talker:Say(STRINGS.SKILL.SKILL_CANCEL, 1, true)
-        end
-    end
-end)
-
-AddModRPCHandler(LouisManutsawee, "PutGlasses", function(inst, skinname)
-    local not_dead = not (inst.components.health ~= nil and inst.components.health:IsDead() and inst.sg:HasStateTag("dead")) or not inst:HasTag("playerghost")
-    local is_idle = inst.sg:HasStateTag("idle") or inst:HasTag("idle")
-    local not_doing = not (inst.sg:HasStateTag("doing") or inst.components.inventory:IsHeavyLifting())
-    local not_moving = not (inst.sg:HasStateTag("moving") or inst:HasTag("moving"))
-
-    if not_dead and not_doing and not_moving and is_idle and not inst.components.timer:TimerExists("put_glasse_cd")  then
-        inst.components.timer:StartTimer("put_glasse_cd",1)
-
-        inst:DoTaskInTime(.1, function()
-            inst:PushEvent("putglasses")
-        end)
-
-        inst:DoTaskInTime(.6, function()
-            if not inst.glasses_status then
-                inst.glasses_status = true
-                inst.PutGlasses(inst, skinname)
-            else
-                if inst.AnimState:GetSymbolOverride("swap_face") ~= nil then
-                    inst.AnimState:ClearOverrideSymbol("swap_face")
-                end
-                inst.glasses_status = false
-            end
-        end)
-    end
-end)
-
-AddModRPCHandler(LouisManutsawee, "ChangeHairsStyle", function(inst, skinname)
-    local not_dead = not (inst.components.health ~= nil and inst.components.health:IsDead() and inst.sg:HasStateTag("dead")) or not inst:HasTag("playerghost")
-    local is_idle = inst.sg:HasStateTag("idle") or inst:HasTag("idle")
-    local not_doing = not (inst.sg:HasStateTag("doing") or inst.components.inventory:IsHeavyLifting())
-    local not_moving = not (inst.sg:HasStateTag("moving") or inst:HasTag("moving"))
-
-    if not_dead and not_doing then
-        if inst.hair_long == 1 then
-            inst.components.talker:Say(STRINGS.SKILL.HAIRTOOSHORT)
-        elseif not_moving and is_idle and not inst.components.timer:TimerExists("change_hair_cd") then
-            inst.components.timer:StartTimer("change_hair_cd", 1.4)
-
-            inst:DoTaskInTime(.1, function()
-                inst:PushEvent("changehair")
-            end)
-
-            inst:DoTaskInTime(1, function()
-                if inst.hair_type < #inst.HAIR_TYPES then
-                    inst.hair_type = inst.hair_type + 1
-                else
-                    inst.hair_type = 1
-                end
-                inst.OnChangeHair(inst, skinname)
-            end)
         end
     end
 end)

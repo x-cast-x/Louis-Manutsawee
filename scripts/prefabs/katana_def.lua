@@ -237,7 +237,34 @@ local MakeKatana = function(data)
     local prefabs = {}
 
     local function OnAttack(inst, attacker, target)
-        SkillUtil.OnAttackCommonFn(inst, attacker, target)
+        if attacker.components.rider and attacker.components.rider:IsRiding() then
+            return
+        end
+
+        if not inst:IsUnsheath() and inst:HasTag("iai") then
+            inst.UnsheathMode(inst)
+            if target.components.combat ~= nil then
+                target.components.combat:GetAttacked(attacker, inst.components.weapon.damage * .8)
+            end
+        end
+
+        if attacker:HasTag("kenjutsu") and not inst:HasTag("mkatana") then
+            inst:AddTag("mkatana")
+        end
+
+        if math.random(1,4) == 1 then
+            local x = math.random(1, 1.2)
+            local y = math.random(1, 1.2)
+            local z = math.random(1, 1.2)
+            local slash = {"shadowstrike_slash_fx","shadowstrike_slash2_fx"}
+
+            slash = SpawnPrefab(slash[math.random(1,2)])
+            slash.Transform:SetPosition(target:GetPosition():Get())
+            slash.Transform:SetScale(x, y, z)
+        end
+
+        inst.components.weapon.attackwear = (inst.IsShadow(target) or inst.IsLunar(target)) and TUNING.GLASSCUTTER.SHADOW_WEAR or 1
+
         if data.onattack ~= nil then
             data.onattack(inst, attacker, target)
         end

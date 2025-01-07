@@ -15,6 +15,12 @@ local function OnPutInInventory(inst, owner)
     end
 end
 
+local function OnEaten(inst, eater)
+    if eater ~= nil and eater.components.kenjutsuka:GetKenjutsuLevel() < 10 then
+        eater.components.kenjutsuka:KenjutsuLevelUp()
+    end
+end
+
 local function fn()
     local inst = CreateEntity()
 
@@ -48,6 +54,7 @@ local function fn()
     inst:AddComponent("edible")
     inst.components.edible.foodtype = FOODTYPE.MFRUIT
     inst.components.edible.hungervalue = 1
+    inst.components.edible:SetOnEatenFn()
 
     inst:AddComponent("inventoryitem")
     inst.components.inventoryitem.keepondeath = true
