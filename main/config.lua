@@ -32,13 +32,7 @@ M_CONFIG = {
     LEVEL_VALUE = GetModConfigData("set_level_value"),
     PUT_GLASSES_KEY = GetModConfigData("put_glasses_key"),
     CHANGE_HAIRS_KEY = GetModConfigData("change_hairs_key"),
-    HUNGER = GetModConfigData("set_hunger"),
-    HEALTH = GetModConfigData("set_health"),
-    SANITY = GetModConfigData("set_sanity"),
     MIND_MAX = GetModConfigData("set_max_mind"),
-    HUNGER_MAX = GetModConfigData("set_max_hunger"),
-    HEALTH_MAX = GetModConfigData("set_max_health"),
-    SANITY_MAX = GetModConfigData("set_max_sanity"),
     KEXPMTP = GetModConfigData("set_kexpmtp"),
     START_ITEM = GetModConfigData("set_start_item"),
     CANCRAFTTENT = GetModConfigData("cancrafttent"),
@@ -46,6 +40,8 @@ M_CONFIG = {
     IDLE_ANIMATION = GetModConfigData("idle_animation"),
     ENABLE_DODGE = GetModConfigData("dodge_enable"),
     DODGE_CD = GetModConfigData("dodge_cd"),
+
+    Qualities = GetModConfigData("Girl's qualities")
 }
 
 ENV.IA_ENABLED = IA_ENABLED

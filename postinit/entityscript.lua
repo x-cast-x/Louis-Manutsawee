@@ -18,3 +18,8 @@ if not rawget(EntityScript, "GetEventCallbacks") then
         end
     end
 end
+
+EntityScript.SetTag = EntityScript.AddOrRemoveTag
+
+function EntityScript:SetComponent()
+end

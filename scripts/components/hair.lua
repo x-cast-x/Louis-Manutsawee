@@ -1,6 +1,6 @@
 AddModRPCHandler("LouisManutsawee", "ChangeHairStyle", function(inst, skinname)
     local hair_length = inst.components.hair:GetHairLength()
-    if hair_length ~= "short" then
+    if hair_length == "cut" then
         inst.components.talker:Say(STRINGS.SKILL.HAIRTOOSHORT)
         return
     end
@@ -28,15 +28,12 @@ AddModRPCHandler("LouisManutsawee", "ChangeHairStyle", function(inst, skinname)
 end)
 
 -- Use the inheritance provided by Class, inheriting from Beard
-
-local Beard = require("components/beard")
+-- see class.lua
 
 return Class(Beard, function(self, inst)
-    Beard._ctor(self, inst)
+    self.inst = inst
 
-    -- see class.lua 99 line
-    local beard = self._base
-
+    local beard = inst:AddComponent("beard")
     local HAIR_DAYS = {cut = 3, short = 7, medium = 16}
     local HAIR_BITS = {cut = 0, short = 2, medium = 3, long = 3}
     local HAIR_TYPES = {none = nil, yoto = "yoto", ronin = "ronin", pony = "pony", twin = "twin", htwin = "htwin", ball = "ball"}
@@ -53,19 +50,22 @@ return Class(Beard, function(self, inst)
         end
     end
 
-    local function OnGrowHair(inst, length, skinname)
+    local function OnGrowHair(inst, length, day)
         hair_length = length
         beard.bits = HAIR_BITS[length]
-        inst.components.hair:OnChangeHair(inst, skinname)
+
+        if day then
+            beard.daysgrowth = HAIR_DAYS[day]
+        end
+
+        inst.components.hair:OnChangeHair()
     end
 
-    local function OnResetHair(inst, skinname)
-        if hair_length == "long" then
-            beard.daysgrowth = HAIR_DAYS["medium"]
-            OnGrowHair(inst, "medium", skinname)
-        elseif hair_length == "medium" then
-            beard.daysgrowth = HAIR_DAYS["short"]
-            OnGrowHair(inst, "short", skinname)
+    local function OnResetHair(inst)
+        if hair_length == "medium" then
+            OnGrowHair(inst, "long", "medium")
+        elseif hair_length == "short" then
+            OnGrowHair(inst, "medium", "short")
         else
             OnCutHair(inst)
         end
@@ -95,32 +95,23 @@ return Class(Beard, function(self, inst)
         return hair_length
     end
 
-    function self:OnChangeHair(skinname)
+    function self:OnChangeHair()
         if hair_length == "short" and (hair_type ~= nil) then
             hair_type = nil
         end
 
-        if skinname == nil then
-            -- When rest, bocchi's headgear will be pushed off. I don't want to deal with it anymore.
-            -- Maybe I should add another layer?
-            local override_build = "hair_" .. hair_length .. (hair_type or "")
-            for _, symbol in ipairs(HAIR_SYMBOLS) do
-                inst.AnimState:OverrideSymbol(symbol, override_build, symbol)
-            end
-        else
-            for _, symbol in ipairs(HAIR_SYMBOLS) do
-                inst.AnimState:OverrideSkinSymbol(symbol, skinname, symbol)
-            end
+        local override_build = "hair_" .. hair_length .. (hair_type or "")
+
+        -- When rest, bocchi's headgear will be pushed off. I don't want to deal with it anymore.
+        -- Maybe I should add another layer?
+        for _, symbol in ipairs(HAIR_SYMBOLS) do
+            inst.AnimState:OverrideSymbol(symbol, override_build, symbol)
         end
 
         beard.insulation_factor = hair_type and .1 or 1.5
     end
 
-    -- Merge Beard's OnSave and OnLoad methods with the logic in the Hair
-
     function self:OnLoad(data)
-        beard:OnLoad(data)
-
         hair_length = data.hair_length
         hair_type = data.hair_type
 
@@ -128,10 +119,9 @@ return Class(Beard, function(self, inst)
     end
 
     function self:OnSave()
-        local data = beard:OnSave() or {}
-        data.hair_length = hair_length
-        data.hair_type = hair_type
-
-        return data
+        return {
+            hair_length = hair_length,
+            hair_type = hair_type,
+        }
     end
 end)

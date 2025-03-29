@@ -148,10 +148,10 @@ local function OnEquip(inst, owner)
     local kenjutsuka = owner.components.kenjutsuka
 
     if kenjutsuka ~= nil then
-        inst.components.weapon:SetDamage(TUNING.TOKIJIN_DAMAGE + (kenjutsuka:GetKenjutsuLevel() * 2))
+        inst.components.weapon:SetDamage(TUNING.TOKIJIN_DAMAGE + (kenjutsuka:GetLevel() * 2))
 
         inst.controlled = inst:DoTaskInTime(10, function()
-            if owner.components.kenjutsuka:GetKenjutsuLevel() < 10 then
+            if owner.components.kenjutsuka:GetLevel() < 10 then
                 inst.components.equippable.dapperness = TUNING.CRAZINESS_MED
                 SwitchControlled(owner, true)
                 TryStartFx(inst, owner)

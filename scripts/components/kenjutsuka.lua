@@ -1,7 +1,3 @@
---------------------------------------------------------------------------
---[[ Kenjutsuka class definition ]]
---------------------------------------------------------------------------
-
 return Class(function(self, inst)
 
     assert(TheWorld.ismastersim, "Kenjutsuka should not exist on client")
@@ -15,11 +11,11 @@ return Class(function(self, inst)
 
     -- Private
     local _config = M_CONFIG
-    local _is_master = _config.IS_MASTER
+    local _is_tatsujin = _config.IsTatsujin
 
-    local kenjutsulevel = 0
-    local kenjutsuexp = 0
-	local kenjutsumaxexp = 250
+    local level = 0
+    local exp = 0
+	local max_exp = 250
 
     local mindpower = 0
     local max_mindpower = _config.MIND_MAX
@@ -28,40 +24,81 @@ return Class(function(self, inst)
     local MANUTSAWEE_DAMAGE = 1
     local MANUTSAWEE_CRIDMG = 0.1
     local hitcount = 0
-    local criticalrate = 5
+    local critical_rate = 5
 
-    local levelupfns = {}
+    local levelup_callbacks = {}
 
-    local regen_task
-    local onlevelupfn
-    local onmindregenfn
+    local onmindregen_callback
 
     --------------------------------------------------------------------------
     --[[ Private member functions ]]
     --------------------------------------------------------------------------
 
     local function IsKenjutsuMaster()
-        if _is_master then
-            kenjutsulevel = _config.LEVEL_VALUE
-            if onlevelupfn ~= nil then
-                onlevelupfn(inst, kenjutsulevel, kenjutsuexp)
-            end
-            if #levelupfns > 0 then
-                for i, v in ipairs(levelupfns) do
-                    v(inst, kenjutsulevel, kenjutsuexp)
+        if _is_tatsujin then
+            level = _config.LEVEL_VALUE
+            if #levelup_callbacks > 0 then
+                for i, callback in ipairs(levelup_callbacks) do
+                    callback(inst, level, exp)
                 end
             end
         end
     end
 
     local function OnRegenMindPower(inst)
-        if mindpower < max_mindpower then
-            mindpower = mindpower + 1
-            if onmindregenfn ~= nil then
-                onmindregenfn(inst, mindpower)
+        if self.mindpower_regen_task == nil then
+            if mindpower < max_mindpower then
+                mindpower = mindpower + 1
+                if onmindregen_callback ~= nil then
+                    onmindregen_callback(inst, mindpower)
+                end
+            end
+            self:StartRegenMindPower()
+        end
+    end
+
+    local function HandleexpGain(inst, weapon, level, exp)
+        if weapon:HasTag("katanaskill") and not inst.components.timer:TimerExists("hit_cd") and
+            not inst.sg:HasStateTag("skilling") then
+            if level < 10 then
+                exp = exp + (1 * _config.KEXPMTP)
+            end
+            inst.components.timer:StartTimer("hit_cd", .5)
+        end
+        return exp
+    end
+
+    local function HandleCriticalHit(inst, target, level, tx, ty, tz)
+        if math.random(1, 100) <= critical_rate + level and
+            not inst.components.timer:TimerExists("critical_cd") and not inst.sg:HasStateTag("skilling") then
+            inst.components.timer:StartTimer("critical_cd", 15 - (level / 2)) -- critical
+            local hitfx = SpawnPrefab("slingshotammo_hitfx_rock")
+            if hitfx ~= nil then
+                hitfx.Transform:SetScale(.8, .8, .8)
+                hitfx.Transform:SetPosition(tx, ty, tz)
+            end
+            inst.SoundEmitter:PlaySound("turnoftides/common/together/moon_glass/mine")
+            inst.components.combat.damagemultiplier = (MANUTSAWEE_DAMAGE + MANUTSAWEE_CRIDMG)
+            inst:DoTaskInTime(.1, function(inst)
+                inst.components.combat.damagemultiplier = MANUTSAWEE_DAMAGE
+            end)
+        end
+    end
+
+    local function HandleMindPowerGain(inst, mindpower, hitcount)
+        if not inst.components.timer:TimerExists("heart_cd") and not inst.sg:HasStateTag("skilling") and
+            not inst.inspskill then
+            inst.components.timer:StartTimer("heart_cd", .3) -- mind gain
+            hitcount = hitcount + 1
+            if hitcount >= _config.MINDREGEN_COUNT and inst.components.kenjutsuka:Getlevel() >= 1 then
+                if mindpower < inst.components.kenjutsuka:GetMaxMindpower() then
+                    onmindregen_callback(inst, mindpower)
+                else
+                    inst.components.sanity:DoDelta(1)
+                end
+                hitcount = 0
             end
         end
-        self:StartRegenMindPower()
     end
 
     --------------------------------------------------------------------------
@@ -73,67 +110,31 @@ return Class(function(self, inst)
             local target = data.target
             local weapon = data.weapon
             local kenjutsuka = inst.components.kenjutsuka
-            local kenjutsuexp = kenjutsuka:GetKenjutsuExp()
-            local kenjutsulevel = kenjutsuka:GetKenjutsuLevel()
+            local exp = kenjutsuka:Getexp()
+            local level = kenjutsuka:Getlevel()
             local mindpower = kenjutsuka:GetMindpower()
             local tx, ty, tz = target.Transform:GetWorldPosition()
             local CAMT_TAG = not (target:HasOneOfTags({"prey", "bird", "insect", "wall"}) and not target:HasTag("hostile"))
 
-            if weapon ~= nil and not weapon:HasTag("projectile") and not weapon:HasTag("rangedweapon") then
-                if weapon:HasTag("katanaskill") and not inst.components.timer:TimerExists("hit_cd") and
-                    not inst.sg:HasStateTag("skilling") then -- GainKenExp
-                    if kenjutsulevel < 10 then
-                        kenjutsuexp = kenjutsuexp + (1 * _config.KEXPMTP)
-                    end
-                    inst.components.timer:StartTimer("hit_cd", .5)
-                end
+            exp = HandleexpGain(inst, weapon, level, exp)
 
-                if CAMT_TAG then
-                    if math.random(1, 100) <= criticalrate + kenjutsulevel and
-                        not inst.components.timer:TimerExists("critical_cd") and not inst.sg:HasStateTag("skilling") then
-                        inst.components.timer:StartTimer("critical_cd", 15 - (kenjutsulevel / 2)) -- critical
-                        local hitfx = SpawnPrefab("slingshotammo_hitfx_rock")
-                        if hitfx ~= nil then
-                            hitfx.Transform:SetScale(.8, .8, .8)
-                            hitfx.Transform:SetPosition(tx, ty, tz)
-                        end
-                        inst.SoundEmitter:PlaySound("turnoftides/common/together/moon_glass/mine")
-                        inst.components.combat.damagemultiplier = (MANUTSAWEE_DAMAGE + MANUTSAWEE_CRIDMG)
-                        inst:DoTaskInTime(.1, function(inst)
-                            inst.components.combat.damagemultiplier = MANUTSAWEE_DAMAGE
-                        end)
-                    end
-                end
-
-                if CAMT_TAG then
-                    if not inst.components.timer:TimerExists("heart_cd") and not inst.sg:HasStateTag("skilling") and
-                        not inst.inspskill then
-                        inst.components.timer:StartTimer("heart_cd", .3) -- mind gain
-                        hitcount = hitcount + 1
-                        if hitcount >= _config.MINDREGEN_COUNT and inst.components.kenjutsuka:GetKenjutsuLevel() >= 1 then
-                            if mindpower < kenjutsuka:GetMaxMindpower() then
-                                onmindregenfn(inst, mindpower)
-                            else
-                                inst.components.sanity:DoDelta(1)
-                            end
-                            hitcount = 0
-                        end
-                    end
-                end
+            if CAMT_TAG then
+                HandleCriticalHit(inst, target, level, tx, ty, tz)
+                HandleMindPowerGain(inst, mindpower, hitcount)
             end
 
-            kenjutsuka:LevelUp()
+            inst:PushEvent("")
         end
     end
 
     local function OnPlayerReroll(inst)
-        local kenjutsulevel = inst.components.kenjutsuka:GetKenjutsuLevel()
+        local level = inst.components.kenjutsuka:Getlevel()
 
-        inst.components.playerskillmanager:RemoveAllSkills()
+        inst.components.playerskillcontroller:DeactivateSkill()
 
-        if kenjutsulevel > 0 then
+        if level > 0 then
             local x, y, z = inst.Transform:GetWorldPosition()
-            for i = 1, kenjutsulevel do
+            for i = 1, level do
                 local fruit = SpawnPrefab("mfruit")
                 if fruit ~= nil then
                     if fruit.Physics ~= nil then
@@ -150,7 +151,7 @@ return Class(function(self, inst)
                     end
                 end
             end
-            kenjutsulevel = 0
+            level = 0
         end
     end
 
@@ -160,7 +161,7 @@ return Class(function(self, inst)
         fx.Transform:SetScale(.9, 2.5, 1)
         fx.Transform:SetPosition(x, y, z)
 
-        inst.components.playerskillmanager:RemoveAllSkills()
+        inst.components.playerskillcontroller:DeactivateSkill()
     end
 
     local function OnEquip(inst, data)
@@ -170,10 +171,6 @@ return Class(function(self, inst)
                 inst:AddTag("notshowscabbard")
             end
         end
-
-        -- if inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HEAD) ~= nil then
-        --     OnChangeHair(inst)
-        -- end
     end
 
     local function OnUnEquip(inst, data)
@@ -185,7 +182,7 @@ return Class(function(self, inst)
         end
 
         if inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS) == nil then
-            inst.components.playerskillmanager:RemoveAllSkills()
+            inst.components.playerskillcontroller:DeactivateSkill()
         end
     end
 
@@ -196,6 +193,25 @@ return Class(function(self, inst)
             if not inst:HasTag("notshowscabbard") then
                 inst.AnimState:ClearOverrideSymbol("swap_body_tall")
             end
+        end
+    end
+
+    local function LevelUp(inst)
+        if exp >= max_exp then
+            exp = exp - max_exp
+            level = level + 1
+            if #levelup_callbacks > 0 then
+                for i, v in ipairs(levelup_callbacks) do
+                    levelup_callbacks[i](inst, level, exp)
+                end
+            end
+
+            max_mindpower = _config.MIND_MAX + level
+
+            local fx = SpawnPrefab("fx_book_light_upgraded")
+            fx.Transform:SetScale(.9, 2.5, 1)
+            fx.entity:AddFollower()
+            fx.Follower:FollowSymbol(inst.GUID, "swap_body", 0, 0, 0)
         end
     end
 
@@ -212,6 +228,7 @@ return Class(function(self, inst)
     inst:ListenForEvent("equip", OnEquip)
     inst:ListenForEvent("dropitem", OnDroped)
     inst:ListenForEvent("itemlose", OnDroped)
+    inst:ListenForEvent("levelup", LevelUp)
 
     --------------------------------------------------------------------------
     --[[ Post initialization ]]
@@ -223,90 +240,57 @@ return Class(function(self, inst)
     --[[ Public member functions ]]
     --------------------------------------------------------------------------
 
-    function self:SetKenjutsuExp(exp)
-        kenjutsuexp = exp
+    function self:SetExp(exp)
+        exp = exp
     end
 
-    function self:SetKenjutsuLevel(exp)
-        kenjutsulevel = exp
+    function self:SetLevel(exp)
+        level = exp
     end
 
     function self:SetMindpower(power)
         mindpower = power
     end
 
-    function self:SetMaxMindpower(mindpower)
-        max_mindpower = mindpower
+    function self:AddLevelUpCallback(cb, fn)
+        levelup_callbacks[cb] = fn
     end
 
-    function self:SetOnLevelUp(fn)
-        onlevelupfn = fn
+    function self:SetOnMindPowerRegen(fn)
+        onmindregen_callback = fn
     end
 
-    function self:AddLevelUpFn(amount, fn)
-        levelupfns[amount] = fn
+    function self:GetExp()
+        return exp
     end
 
-    function self:AddLevelUpFns(fns)
-        for i, v in ipairs(fns) do
-            levelupfns[i] = v
-        end
-    end
-
-    function self:SetOnMindPowerRegenFn(fn)
-        onmindregenfn = fn
-    end
-
-    function self:GetKenjutsuExp()
-        return kenjutsuexp
-    end
-
-    function self:GetKenjutsuMaxExp()
-        return kenjutsumaxexp
-    end
-
-    function self:GetKenjutsuLevel()
-        return kenjutsulevel
+    function self:GetLevel()
+        return level
     end
 
     function self:GetMindpower()
         return mindpower
     end
 
-    function self:GetMaxMindpower()
-        return max_mindpower
+    function self:IsMaster()
+        return level >= 10
     end
 
-    function self:GetIsMaster()
-        return _is_master
-    end
-
-    function self:LevelUp()
-        if kenjutsuexp >= kenjutsumaxexp then
-            kenjutsuexp = kenjutsuexp - kenjutsumaxexp
-            kenjutsulevel = kenjutsulevel + 1
-            if onlevelupfn ~= nil then
-                onlevelupfn(inst, kenjutsulevel, kenjutsuexp)
-                if #levelupfns > 0 then
-                    for i, v in ipairs(levelupfns) do
-                        levelupfns[v](inst, kenjutsulevel, kenjutsuexp)
-                    end
-                end
-            end
-        end
+    function self:IsTatsujin()
+        return _is_tatsujin
     end
 
     function self:StartRegenMindPower()
         self:StopRegenMindPower()
-        if regen_task == nil then
-            regen_task = inst:DoTaskInTime(mindpower_regen_rate, OnRegenMindPower)
+        if self.mindpower_regen_task == nil then
+            self.mindpower_regen_task = inst:DoTaskInTime(mindpower_regen_rate, OnRegenMindPower)
         end
     end
 
     function self:StopRegenMindPower()
-        if regen_task ~= nil then
-            regen_task:Cancel()
-            regen_task = nil
+        if self.mindpower_regen_task ~= nil then
+            self.mindpower_regen_task:Cancel()
+            self.mindpower_regen_task = nil
         end
     end
 
@@ -316,16 +300,16 @@ return Class(function(self, inst)
 
     function self:OnSave()
         return {
-            kenjutsuexp = kenjutsuexp,
-            kenjutsulevel = kenjutsulevel,
+            exp = exp,
+            level = level,
             mindpower = mindpower,
         }
     end
 
     function self:OnLoad(data)
         if data ~= nil then
-            kenjutsulevel = data.kenjutsulevel
-            kenjutsuexp = data.kenjutsuexp
+            level = data.level
+            exp = data.exp
             mindpower = data.mindpower
         end
     end
@@ -346,7 +330,7 @@ return Class(function(self, inst)
     --------------------------------------------------------------------------
 
     function self:GetDebugString()
-        return string.format("Is Kenjutsu Master:%s, Exp:%d, Level:%d, Power:%d", tostring(_is_master), kenjutsuexp, kenjutsulevel, mindpower)
+        return string.format("Is Kenjutsu Master:%s, Exp:%d, Level:%d, Power:%d", tostring(self:IsMaster()), exp, level, mindpower)
     end
 
     --------------------------------------------------------------------------

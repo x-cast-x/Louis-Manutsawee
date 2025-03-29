@@ -67,6 +67,8 @@ local tuning = {
         MOMOAXE_DAMAGE = 40,
         MOMOAXE_USES = 300,
     },
+
+    DEFAULT_DODGE_COOLDOWN_TIME = 5,
 }
 
 if IA_ENABLED then

@@ -64,6 +64,26 @@ local unlockrecipes = {
     "bedroll_shraw",
 }
 
+local Idle_Anim = {
+    ["manutsawee_yukatalong"] = "idle_wendy",
+    ["manutsawee_yukata"] = "idle_wendy",
+    ["manutsawee_shinsengumi"] = "idle_wathgrithr",
+    ["manutsawee_fuka"] = "idle_wathgrithr",
+    ["manutsawee_sailor"] = "idle_walter",
+    ["manutsawee_jinbei"] = "idle_wortox",
+    ["manutsawee_maid"] = "idle_wanda",
+    ["manutsawee_maid_m"] = "idle_wanda",
+    ["manutsawee_lycoris"] = "idle_wanda",
+    ["manutsawee_uniform_black"] = "idle_wanda",
+    ["manutsawee_taohuu"] = "idle_winona",
+    ["manutsawee_miko"] = "emote_impatient",
+}
+
+local Funny_Idle_Anim = {
+    ["manutsawee_qipao"] = "wes_funnyidle",
+    ["manutsawee_bocchi"] = "idle_bocchi",
+}
+
 local LouisManutsawee = "LouisManutsawee"
 
 local start_inv = {}
@@ -90,23 +110,6 @@ local OnKenjutsuLevels = {
         if kenjutsulevel >= 1 then
             inst.components.sanity.neg_aura_mult = 1 - ((kenjutsulevel / 2) / 10)
             inst.components.kenjutsuka.kenjutsumaxexp = 500 * kenjutsulevel
-
-            local hunger_percent = inst.components.hunger:GetPercent()
-            local health_percent = inst.components.health:GetPercent()
-            local sanity_percent = inst.components.sanity:GetPercent()
-
-            if M_CONFIG.HEALTH_MAX > 0 then
-                inst.components.health.maxhealth = math.ceil(TUNING.MANUTSAWEE.HEALTH + kenjutsulevel * M_CONFIG.HEALTH_MAX)
-                inst.components.health:SetPercent(health_percent)
-            end
-            if M_CONFIG.HUNGER_MAX > 0 then
-                inst.components.hunger.max = math.ceil(TUNING.MANUTSAWEE.HUNGER + kenjutsulevel * M_CONFIG.HUNGER_MAX)
-                inst.components.hunger:SetPercent(hunger_percent)
-            end
-            if M_CONFIG.SANITY_MAX > 0 then
-                inst.components.sanity.max = math.ceil(TUNING.MANUTSAWEE.SANITY + kenjutsulevel * M_CONFIG.SANITY_MAX)
-                inst.components.sanity:SetPercent(sanity_percent)
-            end
         end
     end,
     [2] = function(inst, kenjutsulevel, kenjutsuexp)
@@ -126,9 +129,6 @@ local OnKenjutsuLevels = {
     end,
     [5] = function(inst, kenjutsulevel, kenjutsuexp)
         if kenjutsulevel >= 5 then
-            if not inst:HasTag("katanakaji") then
-                inst:AddTag("katanakaji")
-            end
             inst.components.sanity:AddSanityAuraImmunity("ghost")
             inst.components.workmultiplier:AddMultiplier(ACTIONS.CHOP,   1, inst)
             inst.components.workmultiplier:AddMultiplier(ACTIONS.MINE,   1, inst)
@@ -155,38 +155,13 @@ local OnKenjutsuLevels = {
     end
 }
 
-local function OnKenjutsuLevelUp(inst, kenjutsulevel, kenjutsuexp)
-    inst.components.kenjutsuka:SetMaxMindpower(M_CONFIG.MIND_MAX + kenjutsulevel)
-
-    local fx = SpawnPrefab("fx_book_light_upgraded")
-    fx.Transform:SetScale(.9, 2.5, 1)
-    fx.entity:AddFollower()
-    fx.Follower:FollowSymbol(inst.GUID, "swap_body", 0, 0, 0)
-end
-
 local function OnKilled(inst, data)
     local target = data.victim
-    local scale = (target:HasTag("smallcreature") and 1) or (target:HasTag("largecreature") and 4) or 2
+    local target_scale = (target:HasTag("smallcreature") and 1) or (target:HasTag("largecreature") and 4) or 2
 
-    if target ~= nil and scale ~= nil then
+    if target ~= nil and target_scale ~= nil then
         if not ((target:HasTag("prey")or target:HasTag("bird")or target:HasTag("insect")) and not target:HasTag("hostile")) and inst.components.sanity:GetPercent() <= .8  then
-            inst.components.sanity:DoDelta(scale)
-        end
-    end
-end
-
-local function OnSave(inst, data)
-    data._health = inst.components.health.currenthealth
-    data._sanity = inst.components.sanity.current
-    data._hunger = inst.components.hunger.current
-end
-
-local function OnLoad(inst, data)
-    if data ~= nil then
-        if inst.components.kenjutsuka ~= nil and inst.components.kenjutsuka:GetKenjutsuLevel() > 0 and data._health ~= nil and data._sanity ~= nil and data._hunger ~= nil then
-            inst.components.health:SetCurrentHealth(data._health)
-            inst.components.sanity.current = data._sanity
-            inst.components.hunger.current = data._hunger
+            inst.components.sanity:DoDelta(target_scale)
         end
     end
 end
@@ -195,39 +170,38 @@ local common_postinit = function(inst)
     inst.MiniMapEntity:SetIcon("manutsawee.tex")
 
     inst:AddTag("bearded")
-    inst:AddTag("bladesmith")
+
+    -- for recipess
+    inst:AddTag("tosho")
+
+    inst:AddTag("kenjutsuka")
+
+    inst:AddTag("naughtychild")
+
     inst:AddTag("stronggrip")
     inst:AddTag("handyperson")
     inst:AddTag("fastbuilder")
     inst:AddTag("hungrybuilder")
-    inst:AddTag("naughtychild")
     inst:AddTag("ghostlyfriend")
     inst:AddTag("alchemist")
     inst:AddTag("ore_alchemistI")
     inst:AddTag("ick_alchemistI")
     inst:AddTag("ick_alchemistII")
-    inst:AddTag("kenjutsuka")
 
     inst:AddComponent("keyhandler")
     inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.LEVEL_CHECK_KEY, "LevelCheck")
     inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.PUT_GLASSES_KEY, "PutGlasses")
-    inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.CHANGE_HAIRS_KEY, "ChangeHairsStyle")
+    inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.CHANGE_HAIRS_KEY, "ChangeHairStyle")
+
+    inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.SKILL1_KEY, "Skill1")
+    inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.SKILL2_KEY, "Skill2")
+    inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.SKILL3_KEY, "Skill3")
+    inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.SKILL4_KEY, "Skill4")
+    inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.SKILL_COUNTER_ATK_KEY, "CounterAttack")
+    inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.QUICK_SHEATH_KEY, "QuickSheath")
+    inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.SKILL_CANCEL_KEY, "SkillCancel")
 
     Manutsawee_Extensions.common_postinit(inst)
-end
-
-local function RegisterEventListeners(inst)
-    inst:ListenForEvent("killed", OnKilled)
-end
-
-local function SetInstanceFunctions(inst)
-    inst.OnLoad = OnLoad
-    inst.OnSave = OnSave
-end
-
-local function SetInstanceValue(inst)
-    inst.soundsname = "wortox"
-    inst.skeleton_prefab = nil
 end
 
 local master_postinit = function(inst)
@@ -236,14 +210,27 @@ local master_postinit = function(inst)
     inst.AnimState:SetScale(0.88, 0.9, 1)
 
     inst:AddComponent("hair")
+    inst:AddComponent("playerskillcontroller")
+    inst.components.playerskillcontroller:RegisterSkillCooldownDoneEffect("ichimonji", "ghostlyelixir_retaliation_dripfx")
+    inst.components.playerskillcontroller:RegisterSkillCooldownDoneEffect("ichimonji", "ghostlyelixir_shield_dripfx")
+    inst.components.playerskillcontroller:RegisterSkillCooldownDoneEffect("ichimonji", "ghostlyelixir_speed_dripfx")
+    inst.components.playerskillcontroller:RegisterSkillCooldownDoneEffect("ichimonji", "battlesong_instant_panic_fx")
+    inst.components.playerskillcontroller:RegisterSkillCooldownDoneEffect("ichimonji", "monkey_deform_pre_fx")
+    inst.components.playerskillcontroller:RegisterSkillCooldownDoneEffect("ichimonji", "fx_book_birds")
+    inst.components.playerskillcontroller:RegisterSkillCooldownDoneEffect("ichimonji", "fx_book_birds")
+    inst.components.playerskillcontroller:RegisterSkillCooldownDoneEffect("ichimonji", "fx_book_birds")
+    inst.components.playerskillcontroller:RegisterSkillCooldownDoneEffect("ichimonji", "thunderbird_fx_idle")
+
     inst:AddComponent("glasses")
-    inst:AddComponent("playerskillmanager")
+    inst.components.glasses:AddGlass("manutsawee_bocchi", "starglasses")
+    inst.components.glasses:AddGlass("manutsawee_uniform_black", "sunglasses")
+
     inst:AddComponent("customidleanim")
+    inst.components.customidleanim:SetIdleAnim(Idle_Anim, Funny_Idle_Anim)
 
     inst:AddComponent("kenjutsuka")
-    inst.components.kenjutsuka:SetOnLevelUp(OnKenjutsuLevelUp)
-    inst.components.kenjutsuka:SetOnMindPowerRegenFn(OnMindPowerRegen)
-    inst.components.kenjutsuka:AddLevelUpFns(OnKenjutsuLevels)
+    inst.components.kenjutsuka:SetOnMindPowerRegen(OnMindPowerRegen)
+    inst.components.kenjutsuka:AddLevelUpCallback(OnKenjutsuLevels)
 
     inst:AddComponent("houndedtarget")
     inst.components.houndedtarget.target_weight_mult:SetModifier(inst, TUNING.WES_HOUND_TARGET_MULT, "misfortune")
@@ -253,10 +240,13 @@ local master_postinit = function(inst)
     inst.components.foodaffinity:AddPrefabAffinity("unagi", TUNING.AFFINITY_15_CALORIES_TINY)
     inst.components.foodaffinity:AddPrefabAffinity("kelp_cooked", 1)
     inst.components.foodaffinity:AddPrefabAffinity("justeggs", 1)
-    -- The original author is Thai?
-    -- I heard that Thai durian is very famous
     inst.components.foodaffinity:AddPrefabAffinity("durian", 1)
     inst.components.foodaffinity:AddPrefabAffinity("durian_cooked", 1)
+    inst.components.foodaffinity:AddPrefabAffinity("californiaroll", TUNING.AFFINITY_15_CALORIES_TINY)
+    inst.components.foodaffinity:AddPrefabAffinity("caviar", TUNING.AFFINITY_15_CALORIES_TINY)
+    inst.components.foodaffinity:AddPrefabAffinity("caviar", TUNING.AFFINITY_15_CALORIES_TINY)
+    inst.components.foodaffinity:AddPrefabAffinity("liceloaf", TUNING.AFFINITY_15_CALORIES_TINY)
+    inst.components.foodaffinity:AddPrefabAffinity("blueberrypancakes", TUNING.AFFINITY_15_CALORIES_TINY)
 
     inst.components.health:SetMaxHealth(TUNING.MANUTSAWEE.HEALTH)
     inst.components.hunger:SetMax(TUNING.MANUTSAWEE.HUNGER)
@@ -283,9 +273,10 @@ local master_postinit = function(inst)
     inst.components.efficientuser:AddMultiplier(ACTIONS.HAMMER, TUNING.WES_WORKEFFECTIVENESS_MODIFIER, inst)
     inst.components.efficientuser:AddMultiplier(ACTIONS.ATTACK, TUNING.WES_WORKEFFECTIVENESS_MODIFIER, inst)
 
-    SetInstanceFunctions(inst)
-    SetInstanceValue(inst)
-    RegisterEventListeners(inst)
+    inst.soundsname = "wortox"
+    inst.skeleton_prefab = nil
+
+    inst:ListenForEvent("killed", OnKilled)
 
     Manutsawee_Extensions.master_postinit(inst)
 end

@@ -31,37 +31,9 @@ end
 
 local _BAIT_fn = ACTIONS.BAIT.fn
 ACTIONS.BAIT.fn = function(act)
-    if act.target.components.trap and act.doer:HasTag("naughtychild") then
+    if act.target.components.trap then
         act.target.components.trap:SetBait(act.doer.components.inventory:RemoveItem(act.invobject), act.doer)
         return true
     end
     return _BAIT_fn(act)
 end
-
-
-
--- local M_COMPONENT_ACTIONS = {
---     SCENE = {
---     },
-
---     USEITEM = {
---     },
-
---     POINT = {
---     },
-
---     EQUIPPED = {
---     },
-
---     INVENTORY = {
---     },
-
---     ISVALID = {
---     },
--- }
-
--- for actiontype, actons in pairs(M_COMPONENT_ACTIONS) do
---     for component, fn in pairs(actons) do
---         AddComponentAction(actiontype, component, fn)
---     end
--- end

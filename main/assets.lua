@@ -36,9 +36,9 @@ Assets = {
     Asset("ANIM", "anim/nightmare_crack_upper_tomb.zip"),
 
     -- inventoryimages
-    Asset("IMAGE", "images/inventoryimages/m_inventoryimages.tex"),
-    Asset("ATLAS", "images/inventoryimages/m_inventoryimages.xml"),
-    Asset("ATLAS_BUILD", "images/inventoryimages/m_inventoryimages.xml", 256),  -- for minisign
+    Asset("IMAGE", "images/hud/m_inventoryimages.tex"),
+    Asset("ATLAS", "images/hud/m_inventoryimages.xml"),
+    Asset("ATLAS_BUILD", "images/hud/m_inventoryimages.xml", 256),  -- for minisign
 
     Asset("ATLAS", "images/map_icons/m_minimaps.xml"),
     Asset("IMAGE", "images/map_icons/m_minimaps.tex"),
@@ -100,4 +100,4 @@ Assets = {
 }
 
 AddMinimapAtlas("images/map_icons/m_minimaps.xml")
-AssetUtil.RegisterImageAtlas("images/inventoryimages/m_inventoryimages.xml")
+AssetUtil.RegisterImageAtlas("images/hud/m_inventoryimages.xml")

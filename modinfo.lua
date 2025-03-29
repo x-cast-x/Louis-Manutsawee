@@ -10,16 +10,17 @@ if not folder_name:find("workshop-") then
 end
 
 version = "3.0"
-changelog = en_zh([[
-- Added 4 skins
-- Added some content (explore by yourself)
-- Optimize code
-]], [[
-- 添加了4款皮肤
-- 添加了一些内容(自行探索)
-- 添加了汉化(不全, 慢慢优化)
-- 优化代码
-]])
+changelog = ""
+-- en_zh([[
+-- - Added 4 skins
+-- - Added some content (explore by yourself)
+-- - Optimize code
+-- ]], [[
+-- - 添加了4款皮肤
+-- - 添加了一些内容(自行探索)
+-- - 添加了汉化(不全, 慢慢优化)
+-- - 优化代码
+-- ]])
 
 description = en_zh("Version: ", "版本: ") .. version ..
 en_zh("\n\nChanges:\n", "\n\n更新内容:\n") .. changelog .. "\n" ..
@@ -51,7 +52,6 @@ icon_atlas = "images/modicon.xml"
 icon = "modicon.tex"
 
 server_filter_tags = {
-    "character",
     "M.louis",
     "Louis",
     "Manutsawee",
@@ -62,137 +62,19 @@ local options_enable = {
     {description = en_zh("Enabled", "开启"), data = true},
 }
 
-local function Breaker(title_en, title_zh)  --hover does not work, as this item cannot be hovered
+local function AddTitle(title_en, title_zh)  --hover does not work, as this item cannot be hovered
     return {name = en_zh(title_en, title_zh) , options = {{description = "", data = false}}, default = false}
 end
 
-local function Space()
-	return { name = "", label = "", hover = "", options = { {description = "", data = false}, }, default = false, }
+local keys = {"TAB","KP_0","KP_1","KP_2","KP_3","KP_4","KP_5","KP_6","KP_7","KP_8","KP_9","KP_PERIOD","KP_DIVIDE","KP_MULTIPLY","KP_MINUS","KP_PLUS","KP_ENTER","KP_EQUALS","MINUS","EQUALS","SPACE","ENTER",--[["ESCAPE",]]"HOME","INSERT","DELETE","END","PAUSE","PRINT","CAPSLOCK","SCROLLOCK","RSHIFT","LSHIFT","RCTRL","LCTRL","RALT","LALT","LSUPER","RSUPER","ALT","CTRL","SHIFT","BACKSPACE","PERIOD","SLASH","SEMICOLON","LEFTBRACKET","BACKSLASH","RIGHTBRACKET","TILDE","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","F1","F2","F3","F4","F5","F6","F7","F8","F9","F10","F11","F12","UP","DOWN","RIGHT","LEFT","PAGEUP","PAGEDOWN","0","1","2","3","4","5","6","7","8","9"}
+local keylist = {}
+for i = 1, #keys do
+    keylist[i] = {description = keys[i], data = "KEY_"..keys[i]}
 end
-
-local keys_table = {
-    {description="TAB", data = 9},
-    {description="KP_PERIOD", data = 266},
-    {description="KP_DIVIDE", data = 267},
-    {description="KP_MULTIPLY", data = 268},
-    {description="KP_MINUS", data = 269},
-    {description="KP_PLUS", data = 270},
-    {description="KP_ENTER", data = 271},
-    {description="KP_EQUALS", data = 272},
-    {description="MINUS", data = 45},
-    {description="EQUALS", data = 61},
-    {description="SPACE", data = 32},
-    {description="ENTER", data = 13},
-    {description="ESCAPE", data = 27},
-    {description="HOME", data = 278},
-    {description="INSERT", data = 277},
-    {description="DELETE", data = 127},
-    {description="END", data   = 279},
-    {description="PAUSE", data = 19},
-    {description="PRINT", data = 316},
-    {description="CAPSLOCK", data = 301},
-    {description="SCROLLOCK", data = 302},
-    {description="RSHIFT", data = 303}, -- use SHIFT instead
-    {description="LSHIFT", data = 304}, -- use SHIFT instead
-    {description="RCTRL", data = 305}, -- use CTRL instead
-    {description="LCTRL", data = 306}, -- use CTRL instead
-    {description="RALT", data = 307}, -- use ALT instead
-    {description="LALT", data = 308}, -- use ALT instead
-    {description="ALT", data = 400},
-    {description="CTRL", data = 401},
-    {description="SHIFT", data = 402},
-    {description="BACKSPACE", data = 8},
-    {description="PERIOD", data = 46},
-    {description="SLASH", data = 47},
-    {description="LEFTBRACKET", data     = 91},
-    {description="BACKSLASH", data     = 92},
-    {description="RIGHTBRACKET", data = 93},
-    {description="TILDE", data = 96},
-    {description="A", data = 97},
-    {description="B", data = 98},
-    {description="C", data = 99},
-    {description="D", data = 100},
-    {description="E", data = 101},
-    {description="F", data = 102},
-    {description="G", data = 103},
-    {description="H", data = 104},
-    {description="I", data = 105},
-    {description="J", data = 106},
-    {description="K", data = 107},
-    {description="L", data = 108},
-    {description="M", data = 109},
-    {description="N", data = 110},
-    {description="O", data = 111},
-    {description="P", data = 112},
-    {description="Q", data = 113},
-    {description="R", data = 114},
-    {description="S", data = 115},
-    {description="T", data = 116},
-    {description="U", data = 117},
-    {description="V", data = 118},
-    {description="W", data = 119},
-    {description="X", data = 120},
-    {description="Y", data = 121},
-    {description="Z", data = 122},
-    {description="F1", data = 282},
-    {description="F2", data = 283},
-    {description="F3", data = 284},
-    {description="F4", data = 285},
-    {description="F5", data = 286},
-    {description="F6", data = 287},
-    {description="F7", data = 288},
-    {description="F8", data = 289},
-    {description="F9", data = 290},
-    {description="F10", data = 291},
-    {description="F11", data = 292},
-    {description="F12", data = 293},
-
-    {description="UP", data = 273},
-    {description="DOWN", data = 274},
-    {description="RIGHT", data = 275},
-    {description="LEFT", data = 276},
-    {description="PAGEUP", data = 280},
-    {description="PAGEDOWN", data = 281},
-
-    {description="0", data = 48},
-    {description="1", data = 49},
-    {description="2", data = 50},
-    {description="3", data = 51},
-    {description="4", data = 52},
-    {description="5", data = 53},
-    {description="6", data = 54},
-    {description="7", data = 55},
-    {description="8", data = 56},
-    {description="9", data = 57},
-}
-
-local value_table = {
-    {description="50", data = 50},
-    {description="60", data = 60},
-    {description="70", data = 70},
-    {description="80", data = 80},
-    {description="90", data = 90},
-    {description="100", data = 100},
-    {description="110", data = 110},
-    {description="120", data = 120},
-    {description="130", data = 130},
-    {description="140", data = 140},
-    {description="150", data = 150},
-    {description="160", data = 160},
-    {description="170", data = 170},
-    {description="180", data = 180},
-    {description="190", data = 190},
-    {description="200", data = 200},
-    {description="210", data = 210},
-    {description="220", data = 220},
-    {description="230", data = 230},
-    {description="240", data = 240},
-    {description="250", data = 250},
-    {description="300", data = 300},
-}
+keylist[#keylist + 1] = {description = "Disabled", data = false}
 
 configuration_options = {
-	Breaker("Option", "选项"),
+	AddTitle("Options", "设定"),
     {
         name = "locale",
         label = en_zh("Translation", "翻译"),
@@ -211,15 +93,27 @@ configuration_options = {
             -- {description = "Русский", data = "ru"},
             {description = "中文 (简体)", data = "sc"},
             {description = "中文 (繁体)", data = "tc"},
+            {description = "中文 (粤语)", data = "ct"},
         },
         default = false,
     },
+    {
+        name = "Girl's qualities",
+        label = en_zh("", ""),
+        hover = en_zh("", ""),
+        options = {
+            { description = en_zh("普通女孩", "Ordinary Girl"), data = "Ordinary" },
+            { description = en_zh("聪明女孩", "Smart Girl"), data = "Smart" },
+            { description = en_zh("天才女孩", "Genius Girl"), data = "Genius" },
+        },
+        default = "Smart",
+    },
 	{
         name = "set_start_item",
-        label = en_zh("Start Item", "开局自带武器类型"),
+        label = en_zh("Start Item", "两手空空（默认）"),
         hover = en_zh("Select item when select character", "选择你的开始物品"),
         options = {
-            {description = en_zh("Nothing", "啥也不带"), data = false},
+            {description = en_zh("Nothing", "两手空空（默认）"), data = false},
 			{description = "Shinai", data = "shinai"},
 			{description = "Katanablade", data = "katanablade"},
 
@@ -240,8 +134,7 @@ configuration_options = {
         },
         default = false,
     },
-	Space(),
-	Breaker("Scout skill", "侦察技能"),
+	AddTitle("Boy Scouts", "童子军"),
 	{
         name = "cancrafttent",
         label = en_zh("Portable-tent Craftable", "可以制作便携式帐篷"),
@@ -256,118 +149,8 @@ configuration_options = {
         options = options_enable,
         default = false,
     },
-	Space(),
-	Breaker("Character stat", "角色三维属性"),
-	{
-        name = "set_hunger",
-        label = en_zh("Set Hunger 󰀎", "设置饥饿󰀎度"),
-        hover = "",
-        options = value_table,
-        default = 150,
-    },
-	{
-        name = "set_health",
-        label = en_zh("Set Health 󰀍", "设置生命󰀍值"),
-        hover = "",
-        options = value_table,
-        default = 200,
-    },
-	{
-        name = "set_sanity",
-        label = en_zh("Set Sanity 󰀓", "设置san󰀓值"),
-        hover = "",
-        options = value_table,
-        default = 200,
-    },
-	{
-        name = "set_max_hunger",
-        label = en_zh("Max level Hunger+", "设置最大等级饥饿"),
-        hover = "",
-        options = {
-			{description="0", data = 0},
-            {description="10", data = 1},
-			{description="20", data = 2},
-			{description="30", data = 3},
-            {description="40", data = 4},
-            {description="50", data = 5},
-            {description="60", data = 6},
-            {description="70", data = 7},
-            {description="80", data = 8},
-            {description="90", data = 9},
-            {description="100", data = 10},
-            {description="110", data = 11},
-            {description="120", data = 12},
-            {description="130", data = 13},
-            {description="140", data = 14},
-            {description="150", data = 15},
-            {description="160", data = 16},
-            {description="170", data = 17},
-            {description="180", data = 18},
-            {description="190", data = 19},
-            {description="200", data = 20},
-        },
-        default = 0,
-    },
-	{
-        name = "set_max_health",
-        label = en_zh("Max level Health+", "设置最大等级生命"),
-        hover = "",
-        options = {
-            {description="0", data = 0},
-            {description="10", data = 1},
-			{description="20", data = 2},
-			{description="30", data = 3},
-            {description="40", data = 4},
-            {description="50", data = 5},
-            {description="60", data = 6},
-            {description="70", data = 7},
-            {description="80", data = 8},
-            {description="90", data = 9},
-            {description="100", data = 10},
-            {description="110", data = 11},
-            {description="120", data = 12},
-            {description="130", data = 13},
-            {description="140", data = 14},
-            {description="150", data = 15},
-            {description="160", data = 16},
-            {description="170", data = 17},
-            {description="180", data = 18},
-            {description="190", data = 19},
-            {description="200", data = 20},
-
-        },
-        default = 0,
-    },
-	{
-        name = "set_max_sanity",
-        label = en_zh("Max level Sanity+", "设置最大等级San值"),
-        hover = "",
-        options = {
-			{description="0", data = 0},
-            {description="10", data = 1},
-			{description="20", data = 2},
-			{description="30", data = 3},
-            {description="40", data = 4},
-            {description="50", data = 5},
-            {description="60", data = 6},
-            {description="70", data = 7},
-            {description="80", data = 8},
-            {description="90", data = 9},
-            {description="100", data = 10},
-            {description="110", data = 11},
-            {description="120", data = 12},
-            {description="130", data = 13},
-            {description="140", data = 14},
-            {description="150", data = 15},
-            {description="160", data = 16},
-            {description="170", data = 17},
-            {description="180", data = 18},
-            {description="190", data = 19},
-            {description="200", data = 20},
-        },
-        default = 0,
-    },
-	{
+    AddTitle(en_zh("Custom Kenjutsu", "自定义剑术")),
+    {
         name = "set_max_mind",
         label = en_zh("Set Mind  󰀈", "设置能量点 󰀈") ,
         hover = en_zh("Set Mind when start. level max + 20", "设置起始能量点, 最大20"),
@@ -408,7 +191,7 @@ configuration_options = {
         },
         default = 300,
     },
-	{
+    {
         name = "mindregen_count",
         label = en_zh("Mind  󰀈 Regen / hit", "每次攻击恢复心灵"),
         hover = en_zh("Mind regen/hit that attack with katana", "心灵恢复/用武士刀攻击该攻击"),
@@ -425,14 +208,12 @@ configuration_options = {
         },
         default = 10,
     },
-    Space(),
-    Breaker(en_zh("Custom Kenjutsu", "自定义剑术")),
 	{
         name = "set_kexpmtp",
-        label = en_zh("Kenjutsu EXP Multiple", "设置剑术经验倍率"),
-        hover = en_zh("fast Kenjutsu exp gain", "设置剑术经验倍率"),
+        label = en_zh("Kenjutsu EXP Multiple", "剑术经验获取倍率"),
+        hover = en_zh("fast Kenjutsu exp gain", "勤能补拙，风灵月影亦能！"),
         options = {
-            {description="No", data = 1},
+            {description="x1", data = 1},
             {description="x2", data = 2},
             {description="x3", data = 3},
             {description="x4", data = 4},
@@ -442,8 +223,8 @@ configuration_options = {
     },
 	{
         name = "is_master",
-        label = en_zh("Set Kenjutsu Level", "允许设置初始剑术等级"),
-        hover = en_zh("Set kenjutsu level at start", "允许游戏开始时设置初始剑术等级"),
+        label = en_zh("Set Kenjutsu Level", "允许设定初始剑术等级"),
+        hover = en_zh("Set kenjutsu level at start", "游戏开始时设定初始剑术等级"),
         options = options_enable,
         default = false,
     },
@@ -465,8 +246,7 @@ configuration_options = {
         },
         default = 1,
     },
-    Space(),
-    Breaker("Skill Keys 󰀈", "技能按键 󰀈"),
+    AddTitle("Skill Keys 󰀈", "剑技按键 󰀈"),
 	{
         name = "enable_skill",
         label = en_zh("Skill 󰀈", "角色技能 󰀈"),
@@ -474,57 +254,62 @@ configuration_options = {
         options = options_enable,
         default = true,
 	},
-	Space(),
 	{
         name = "skill1_key",
         label = en_zh("Skill1:Button", "技能1 按键"),
         hover = en_zh("Skill1", "技能1"),
-        options = keys_table,
-        default = 114,
+        default = "R",
+        options = keylist,
+        is_keylist = true
     },
 	{
         name = "skill2_key",
         label = en_zh("Skill2:Button", "技能2 按键"),
         hover = en_zh("Skill2", "技能2"),
-        options = keys_table,
-        default = 99,
+        default = "C",
+        options = keylist,
+        is_keylist = true
     },
 	{
         name = "skill3_key",
         label = en_zh("Skill3:Button", "技能3 按键"),
         hover = en_zh("Skill3", "技能3"),
-        options = keys_table,
-        default = 116,
+        default = "T",
+        options = keylist,
+        is_keylist = true
     },
     {
         name = "skill4_key",
         label = en_zh("Skill4:Button", "技能4 按键"),
         hover = en_zh("Skill4", "技能4"),
-        options = keys_table,
-        default = 104,
+        default = "H",
+        options = keylist,
+        is_keylist = true
     },
 	{
         name = "skill_counter_atk",
         label = en_zh("Counter Attack Skill:Button", "反击技能 按键"),
         hover = en_zh("Counter Attack", "反击技能"),
-        options = keys_table,
-        default = 122,
+        default = "Z",
+        options = keylist,
+        is_keylist = true
     },
 	{
         name = "quick_sheath_key",
         label = en_zh("Quick Sheath Katana", "快速收拔刀 按键"),
         hover = en_zh("Quick Sheath Katana", "快速收拔刀"),
-        options = keys_table,
-        default = 120,
+        default = "X",
+        options = keylist,
+        is_keylist = true
     },
 	{
         name = "skill_cancel_key",
         label = en_zh("Skill Cancel", "技能取消 按键"),
         hover = en_zh("Cancel all skill", "技能取消"),
-        options = keys_table,
-        default = 118,
+        default = "V",
+        options = keylist,
+        is_keylist = true
     },
-    Space(),
 	{
         name = "counter_attack_cooldown_time",
         label = en_zh("Set Skill Counter Cooldown time(s).", "设置反击技能冷却时间。"),
@@ -667,31 +452,32 @@ configuration_options = {
         },
         default = 210,
     },
-    Space(),
-    Breaker("Other Keys 󰀮", "其它按键 󰀮"),
+    AddTitle("Other Keys 󰀮", "其它按键 󰀮"),
     {
         name = "put_glasses_key",
         label = en_zh("EyeGlasses 󰀅", "眼镜"),
         hover = en_zh("wear eyeglasses.", "戴眼镜按键"),
-        options = keys_table,
-        default = 111,
+        default = "O",
+        options = keylist,
+        is_keylist = true
     },
 	{
         name = "change_hairs_key",
         label = en_zh("Change Hair Style 󰀖", "改变发型"),
         hover = en_zh("This is the key to Change Hairstyle.", "改变发型按键"),
-        options = keys_table,
-        default = 108,
+        default = "L",
+        options = keylist,
+        is_keylist = true
     },
 	{
         name = "levelcheck",
         label = en_zh("Show Level  󰀙", "查看人物等级"),
         hover = en_zh("This is the key use to Show level.", "查看人物等级按键"),
-        options = keys_table,
-        default = 112,
+        default = "P",
+        options = keylist,
+        is_keylist = true
     },
-	Space(),
-    Breaker("Other Option", "其它选项"),
+    AddTitle("Other Option", "其它选项"),
     {
         name = "idle_animation",
         label = en_zh("enable idle animation.", "开启空闲动画"),
@@ -730,5 +516,4 @@ configuration_options = {
         },
         default = 20,
     },
-    Space(),
 }

@@ -183,6 +183,8 @@ local function fn()
     inst.task_M = inst:DoPeriodicTask(SPAWN_PERIOD, DoSpawnMiddleSpike, 0, {
         count = 0,
         drift_dist = 0,  -- 中间的漂移距离为0
+        drift = nil,
+        next_drift_change = nil,
         next_sfx = 0,
     }, targets)
 

@@ -9,7 +9,7 @@ local function OnEquip(inst, owner)
 
 	if owner:HasTag("kenjutsu") then
 		inst:AddTag("yari")
-		inst.components.weapon:SetDamage(TUNING.YARI_DAMAGE + (owner.components.kenjutsuka:GetKenjutsuLevel() * 2))
+		inst.components.weapon:SetDamage(TUNING.YARI_DAMAGE + (owner.components.kenjutsuka:GetLevel() * 2))
 	end
 end
 

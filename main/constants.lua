@@ -21,17 +21,6 @@ FOODTYPE.MFRUIT = "MFRUIT"
 
 ALL_KATANA = {}
 
-M_SKILLS = {
-    "ichimonji",
-    "flip",
-    "thrust",
-    "isshin",
-    "heavenlystrike",
-    "ryusen",
-    "susanoo",
-    "soryuha",
-}
-
 M_SKIN_NAMES = {
     "sailor",
     "yukata",

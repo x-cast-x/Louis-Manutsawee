@@ -23,25 +23,24 @@ return Class(function(self, inst)
 
     self.inst = inst
 
-    self.status = false
+    local status = false
 
-    local glasses_map = {
-        ["manutsawee_uniform_black"] = "sunglasses",
-        ["manutsawee_bocchi"] = "starglasses",
-    }
+    local glasses_map = {}
 
     function self:UpdateGlasses()
         local build = glasses_map[inst.AnimState:GetBuild()]
-        local skinname = build ~= nil and build or "eyeglasses"
-        if skinname ~= nil then
-            if not self.status then
-                inst.AnimState:OverrideSymbol("swap_face", skinname, "swap_face")
-                self.status = true
-            end
-        elseif inst.AnimState:GetSymbolOverride("swap_face") ~= nil then
+        local symbol = build ~= nil and build or "eyeglasses"
+        if not status then
+            inst.AnimState:OverrideSymbol("swap_face", symbol, "swap_face")
+            status = true
+        elseif inst.AnimState:GetSymbolOverride("swap_face") then
             inst.AnimState:ClearOverrideSymbol("swap_face")
-            self.status = false
+            status = false
         end
+    end
+
+    function self:IsPuted()
+        return status
     end
 
     function self:AddGlass(build, glass_build)
@@ -49,14 +48,14 @@ return Class(function(self, inst)
     end
 
     function self:OnLoad(data)
-        self.status = data.status
+        status = data.status
 
         self:UpdateGlasses()
     end
 
     function self:OnSave()
         return {
-            status = self.status
+            status = status
         }
     end
 end)

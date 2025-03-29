@@ -123,7 +123,7 @@ local function OnEquip(inst, owner)
     owner.AnimState:Hide("ARM_normal")
 
     if owner:HasTag("kenjutsu") then
-        inst.components.weapon:SetDamage(inst.components.weapon.damage + (owner.components.kenjutsuka:GetKenjutsuLevel() * 2))
+        inst.components.weapon:SetDamage(inst.components.weapon.damage + (owner.components.kenjutsuka:GetLevel() * 2))
     end
 
     if inst:IsSheath() then
@@ -205,7 +205,7 @@ local function OnLoad(inst, data)
 
         local owner = inst.components.inventoryitem ~= nil and inst.components.inventoryitem:GetGrandOwner()
         if owner ~= nil and owner:HasTag("kenjutsu") then
-            inst.components.weapon:SetDamage(inst.components.weapon.damage + (owner.components.kenjutsuka:GetKenjutsuLevel() * 2))
+            inst.components.weapon:SetDamage(inst.components.weapon.damage + (owner.components.kenjutsuka:GetLevel() * 2))
         end
 
         if inst._OnLoad ~= nil then

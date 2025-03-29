@@ -1,16 +1,16 @@
 --------------------------------------------------------------------------
---[[ Player Skill Manager Status class definition ]]
+--[[ Player Skill Controller Status class definition ]]
 --------------------------------------------------------------------------
 
 return Class(function(self, inst)
 
-    assert(TheWorld.ismastersim, "Player Skill Manager should not exist on client")
+    assert(TheWorld.ismastersim, "Player Skill Controller should not exist on client")
 
     --------------------------------------------------------------------------
     --[[ Dependencies ]]
     --------------------------------------------------------------------------
 
-    local SkillUtil = require("utils/skillutil")
+    local Skill_Settings = require("utils/manutsawee_extensions").Skill_Settings
 
     --------------------------------------------------------------------------
     --[[ Member variables ]]
@@ -20,20 +20,8 @@ return Class(function(self, inst)
     self.inst = inst
 
     -- Private
-
     local register_skills = {}
-
-    local register_skill_cooldown_effect = {
-        ["ichimonji"] = "ghostlyelixir_retaliation_dripfx",
-        ["flip"] = "ghostlyelixir_shield_dripfx",
-        ["thrust"] = "ghostlyelixir_speed_dripfx",
-        ["counter_attack"] = "battlesong_instant_panic_fx",
-        ["isshin"] = "monkey_deform_pre_fx",
-        ["heavenlystrike"] = "fx_book_birds",
-        ["ryusen"] = "fx_book_birds",
-        ["susanoo"] = "fx_book_birds",
-        ["soryuha"] = "thunderbird_fx_idle",
-    }
+    local register_skill_cooldown_done_effect = {}
 
     --------------------------------------------------------------------------
     --[[ Private member functions ]]
@@ -46,7 +34,7 @@ return Class(function(self, inst)
     local function OnTimerDone(inst, data)
         local name = data.name
         if name ~= nil then
-            for k, v in pairs(register_skill_cooldown_effect) do
+            for k, v in pairs(register_skill_cooldown_done_effect) do
                 if name == k then
                     local fx = SpawnPrefab(v)
                     fx.Transform:SetScale(.9, .9, .9)
@@ -62,12 +50,12 @@ return Class(function(self, inst)
     --[[ Public member functions ]]
     --------------------------------------------------------------------------
 
-    function self:RegisterSkillCooldownEffect(skill, fx)
-        register_skill_cooldown_effect[skill] = fx
+    function self:RegisterSkillCooldownDoneEffect(skillname, fx)
+        register_skill_cooldown_done_effect[skillname] = fx
     end
 
     function self:RegisterSkill(name, tag, time, mindpower, fn)
-        register_skills[name] = function()
+        register_skills[name] = function(inst)
             fn(inst)
             inst:RemoveTag(tag)
             inst.components.kenjutsuka:SetMindpower(inst.components.kenjutsuka:GetMindpower() - mindpower)
@@ -75,16 +63,10 @@ return Class(function(self, inst)
         end
     end
 
-    function self:RegisterSkills(t)
-        for k, v in pairs(t) do
-            self:RegisterSkill(string.lower(k), v.tag, v.time, v.mindpower, v.fn)
-        end
-    end
-
-    function self:RemoveAllSkills()
-        for _, tag in ipairs(M_SKILLS) do
-            if inst:HasTag(tag) then
-                inst:RemoveTag(tag)
+    function self:DeactivateSkill()
+        for k, v in pairs(register_skills) do
+            if inst:HasTag(k) then
+                inst:RemoveTag(k)
             end
         end
 
@@ -94,17 +76,13 @@ return Class(function(self, inst)
         inst.AnimState:SetDeltaTimeMultiplier(1)
     end
 
-    function self:CanActivateSkill(target)
-        local HasAnyTag = {"prey", "bird", "buzzard", "butterfly"}
-        return target ~= nil and (target:HasOneOfTags(HasAnyTag) and not target:HasTag("hostile")) or nil
-    end
-
     function self:ActivateSkill(name ,target)
-        if self:CanActivateSkill(target) then
+        local HasAnyTag = {"prey", "bird", "buzzard", "butterfly"}
+        if target ~= nil and (target:HasOneOfTags(HasAnyTag) and not target:HasTag("hostile")) then
             inst.sg:GoToState("idle")
-            inst.components.playerskillmanager:RemoveAllSkills()
+            inst.components.playerskillcontroller:DeactivateSkill()
             inst.components.talker:Say(STRINGS.SKILL.REFUSE_RELEASE)
-            return nil
+            return false
         end
 
         return register_skills[name] ~= nil and register_skills[name]
@@ -121,9 +99,9 @@ return Class(function(self, inst)
     --------------------------------------------------------------------------
 
     function self:OnRemoveEntity()
-        for _, tag in ipairs(M_SKILLS) do
-            if inst:HasTag(tag) then
-                inst:RemoveTag(tag)
+        for k, v in pairs(register_skills) do
+            if inst:HasTag(k) then
+                inst:RemoveTag(k)
             end
         end
 
@@ -140,14 +118,13 @@ return Class(function(self, inst)
 
     -- Register events
 
-    inst:ListenForEvent("mounted", self.RemoveAllSkills)
+    inst:ListenForEvent("mounted", self.DeactivateSkill)
     inst:ListenForEvent("timerdone", OnTimerDone)
 
     --------------------------------------------------------------------------
     --[[ Post initialization ]]
     --------------------------------------------------------------------------
 
-    self:AddSkills(SkillUtil.Skill_Data)
 
     --------------------------------------------------------------------------
     --[[ End ]]

@@ -5,9 +5,8 @@ local assets = {
 local function OnPutInInventory(inst, owner)
     if owner ~= nil and owner.components.inventory ~= nil then
         if not (owner:HasTag("kenjutsu") or not owner:HasTag("bladesmith")) then
-            inst:DoTaskInTime(0.1, function()
-                local fx = SpawnPrefab("electrichitsparks")
-                fx:AlignToTarget(owner, inst, true)
+            inst:DoTaskInTime(0, function()
+                SpawnPrefab("electrichitsparks"):AlignToTarget(owner, inst, true)
                 owner.components.combat:GetAttacked(inst, 10)
                 owner.components.inventory:DropItem(inst)
             end)
@@ -16,8 +15,8 @@ local function OnPutInInventory(inst, owner)
 end
 
 local function OnEaten(inst, eater)
-    if eater ~= nil and eater.components.kenjutsuka:GetKenjutsuLevel() < 10 then
-        eater.components.kenjutsuka:KenjutsuLevelUp()
+    if eater ~= nil and eater.components.kenjutsuka ~= nil and eater.components.kenjutsuka:GetLevel() < 10 then
+        eater:PushEvent("levelup")
     end
 end
 
@@ -54,7 +53,7 @@ local function fn()
     inst:AddComponent("edible")
     inst.components.edible.foodtype = FOODTYPE.MFRUIT
     inst.components.edible.hungervalue = 1
-    inst.components.edible:SetOnEatenFn()
+    inst.components.edible:SetOnEatenFn(OnEaten)
 
     inst:AddComponent("inventoryitem")
     inst.components.inventoryitem.keepondeath = true

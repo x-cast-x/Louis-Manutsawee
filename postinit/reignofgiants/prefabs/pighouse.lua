@@ -6,11 +6,11 @@ AddPrefabPostInit("pighouse", function(inst)
         return
     end
 
-    local _onnear = inst.components.playerprox.onnear
+    local _OnPlayerNear = inst.components.playerprox.onnear
 
     local OnPlayerNear = function(inst, player)
         if player ~= nil and not player:HasTag("naughtychild") then
-            _onnear(inst, player)
+            _OnPlayerNear(inst, player)
         end
     end
 

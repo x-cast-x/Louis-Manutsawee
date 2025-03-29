@@ -59,8 +59,8 @@ local events = {
     EventHandler("blockparry", function(inst)
         inst.sg:GoToState("blockparry")
     end),
-    EventHandler("counter_start", function(inst)
-        inst.sg:GoToState("counter_start")
+    EventHandler("start_counter_attack", function(inst)
+        inst.sg:GoToState("start_counter_attack")
     end),
     EventHandler("mdash", function(inst)
         inst.sg:GoToState("mdash")
@@ -565,7 +565,7 @@ local states = {
     },
 
     State{
-        name = "counter_start",
+        name = "start_counter_attack",
         tags = {"busy", "nomorph", "notalking", "nopredict", "doing"},
 
         onenter = function(inst)
@@ -605,12 +605,18 @@ local states = {
         onenter = function(inst, target)
             inst.components.locomotor:Stop()
 
+            local sparks = SpawnPrefab("sparks")
+            sparks.Transform:SetPosition(inst:GetPosition():Get())
+
             if math.random(1, 3) > 1 then
                 inst.AnimState:OverrideSymbol("fx_lunge_streak", "player_lunge_blue", "fx_lunge_streak")
                 inst.AnimState:PlayAnimation("lunge_pst")
             else
                 inst.AnimState:PlayAnimation("atk")
             end
+
+            SkillUtil.GroundPoundFx(inst, .6)
+            inst.SoundEmitter:PlaySound("turnoftides/common/together/moon_glass/mine")
 
             inst.inspskill = true
             inst.components.combat:SetRange(4)
@@ -655,6 +661,7 @@ local states = {
                 inst.components.combat:SetRange(TUNING.DEFAULT_ATTACK_RANGE)
             end
             inst.inspskill = nil
+            inst.components.timer:StartTimer("counter_attack", M_CONFIG.COUNTER_ATK_COOLDOWN)
         end,
     },
 
@@ -719,6 +726,7 @@ local states = {
             inst.components.locomotor:Stop()
             inst.AnimState:PlayAnimation("atk")
             inst.SoundEmitter:PlaySound("dontstarve/wilson/attack_weapon")
+            inst.components.timer:StartTimer("quick_sheath_cd", .4)
         end,
 
         timeline = {

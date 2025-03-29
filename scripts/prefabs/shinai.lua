@@ -9,10 +9,10 @@ local function OnEquip(inst, owner)
     owner.AnimState:Hide("ARM_normal")
     owner.AnimState:OverrideSymbol("swap_object", "swap_shinai", "swap_shinai")
 
-    if owner.components.kenjutsuka:GetKenjutsuLevel() ~= nil then --Owner
+    if owner.components.kenjutsuka:GetLevel() ~= nil then --Owner
         inst.components.spellcaster.canusefrominventory = true
 
-        if owner.components.kenjutsuka:GetKenjutsuLevel() >= 1 and not inst:HasTag("mkatana") then
+        if owner.components.kenjutsuka:GetLevel() >= 1 and not inst:HasTag("mkatana") then
             inst:AddTag("mkatana")
         end
     end
@@ -22,7 +22,7 @@ local function OnUnequip(inst, owner)
     owner.AnimState:Hide("ARM_carry")
     owner.AnimState:Show("ARM_normal")
 
-    if owner.components.kenjutsuka:GetKenjutsuLevel() ~= nil then --Owner
+    if owner.components.kenjutsuka:GetLevel() ~= nil then --Owner
         inst.components.spellcaster.canusefrominventory = false
         inst:RemoveTag("mkatana")
     end
@@ -31,9 +31,9 @@ end
 local trainingcount = 0
 local function CastFn(inst, target, pos, owner)
     local kenjutsuka = owner.components.kenjutsuka
-    local kenjutsuexp = kenjutsuka:GetKenjutsuExp()
+    local kenjutsuexp = kenjutsuka:GetExp()
     local kenjutsumaxexp = kenjutsuka.kenjutsumaxexp
-    local kenjutsulevel = kenjutsuka:GetKenjutsuLevel()
+    local kenjutsulevel = kenjutsuka:GetLevel()
     if kenjutsulevel ~= nil then
         if kenjutsulevel < 10 and kenjutsuexp < kenjutsumaxexp - (kenjutsumaxexp/2) then
             kenjutsuexp = owner.kenjutsuexp + 1
@@ -55,8 +55,8 @@ local function OnAttack(inst, owner, target)
         return
     end
     local kenjutsuka = owner.components.kenjutsuka
-    local kenjutsuexp = kenjutsuka:GetKenjutsuExp()
-    local kenjutsulevel = kenjutsuka:GetKenjutsuLevel()
+    local kenjutsuexp = kenjutsuka:GetExp()
+    local kenjutsulevel = kenjutsuka:GetLevel()
 
     if kenjutsulevel >= 1 and not inst:HasTag("mkatana") then
         inst:AddTag("mkatana")
