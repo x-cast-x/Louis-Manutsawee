@@ -7,7 +7,7 @@ TUNING.MANUTSAWEE_HEALTH = 200
 TUNING.MANUTSAWEE_HUNGER = 200
 TUNING.MANUTSAWEE_SANITY = 200
 
-local katana = ALL_KATANA[M_CONFIG.START_ITEM]
+local katana = ALL_KATANA[M_CONFIG.StartWeapon]
 
 if katana then
     TUNING.GAMEMODE_STARTING_ITEMS.DEFAULT.MANUTSAWEE = {"tokijin", katana}
@@ -54,9 +54,9 @@ local tuning = {
     },
 
     MANUTSAWEE = {
-        HEALTH = M_CONFIG.HEALTH,
-        HUNGER = M_CONFIG.HUNGER,
-        SANITY = M_CONFIG.SANITY,
+        HEALTH = 125,
+        HUNGER = 150,
+        SANITY = 233,
     },
 
     MOMO_HEALTH = 20000,
@@ -68,7 +68,9 @@ local tuning = {
         MOMOAXE_USES = 300,
     },
 
-    DEFAULT_DODGE_COOLDOWN_TIME = 5,
+    DEFAULT_DODGE_COOLDOWN_TIME = 1.2,
+    DEFAULT_DODGE_TIMEOUT = 0.25,
+
 }
 
 if IA_ENABLED then

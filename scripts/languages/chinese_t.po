@@ -25,11 +25,6 @@ msgctxt "STRINGS.ACTIONS.MDODGE"
 msgid "Dash"
 msgstr "短跑"
 
-#. STRINGS.ACTIONS.MDODGE2
-msgctxt "STRINGS.ACTIONS.MDODGE2"
-msgid "Dodge"
-msgstr "閃避"
-
 #. STRINGS.CHARACTERS.GENERIC.DESCRIBE.BOAT_MSURFBOARD
 msgctxt "STRINGS.CHARACTERS.GENERIC.DESCRIBE.BOAT_MSURFBOARD"
 msgid "Very exquisite workmanship."

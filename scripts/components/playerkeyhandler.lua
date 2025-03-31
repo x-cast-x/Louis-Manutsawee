@@ -1,10 +1,10 @@
 --------------------------------------------------------------------------
---[[ Player Skill Manager Status class definition ]]
+--[[ Player Key Handler Status class definition ]]
 --------------------------------------------------------------------------
 
 return Class(function(self, inst)
 
-    assert(TheWorld.ismastersim, "Player Skill Manager should not exist on client")
+    assert(TheWorld.ismastersim, "Player Key Handler should not exist on client")
 
     --------------------------------------------------------------------------
     --[[ Dependencies ]]
@@ -25,7 +25,7 @@ return Class(function(self, inst)
 
     local skill_keys_handler = {}
 
-    local MUST_TAG = {"tool", "sharp", "weapon", "katanaskill"}
+    local MUST_TAG = {"tool", "sharp", "weapon", "katana"}
     local CANT_TAG = {"projectile", "whip", "rangedweapon"}
 
     --------------------------------------------------------------------------

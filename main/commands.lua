@@ -35,3 +35,10 @@ function c_printtable(t)
         print(PrintTable(t))
     end
 end
+
+
+function c_debughair()
+    local player = ConsoleCommandPlayer()
+    c_supergodmode(player)
+    c_select(player)
+end

@@ -98,7 +98,7 @@ local function fn()
 	--inst:AddTag("nosteal")
 	inst:AddTag("sharp")
 	inst:AddTag("woodensword")
-    inst:AddTag("katanaskill")
+    inst:AddTag("katana")
 
 	inst:AddTag("weapon")
 

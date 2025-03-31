@@ -5,8 +5,7 @@ local modimport = modimport
 GLOBAL.setfenv(1, GLOBAL)
 
 local M_ACTIONS = {
-    MDODGE = Action({distance = math.huge, instant = true}),
-    MDODGE2 = Action({distance = math.huge, instant = true}),
+    MDODGE = Action({priority = -5, distance = math.huge, instant = false}),
 }
 
 for name, ACTION in pairs(M_ACTIONS) do
@@ -15,19 +14,6 @@ for name, ACTION in pairs(M_ACTIONS) do
     AddAction(ACTION)
 end
 
-ACTIONS.MDODGE.fn = function(act, data)
-    if act.doer ~= nil then
-        act.doer:PushEvent("redirect_locomote", {pos = act.pos or Vector3(act.target.Transform:GetWorldPosition())})
-    end
-    return true
-end
-
-ACTIONS.MDODGE2.fn = function(act, data)
-    if act.doer ~= nil then
-        act.doer:PushEvent("redirect_locomote2", {pos = act.pos or Vector3(act.target.Transform:GetWorldPosition())})
-    end
-    return true
-end
 
 local _BAIT_fn = ACTIONS.BAIT.fn
 ACTIONS.BAIT.fn = function(act)

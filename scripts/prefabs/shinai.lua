@@ -84,7 +84,7 @@ local function fn()
     inst.AnimState:SetBuild("shinai")
     inst.AnimState:PlayAnimation("idle")
 
-    inst:AddTag("katanaskill")
+    inst:AddTag("katana")
     inst:AddTag("woodensword")
 
     inst.spelltype = "SCIENCE"

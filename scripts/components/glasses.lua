@@ -1,61 +1,45 @@
-AddModRPCHandler("LouisManutsawee", "PutGlasses", function(inst, skinname)
-    local function CanPutGlasses(inst)
-        local not_dead = not (inst.components.health ~= nil and inst.components.health:IsDead() and inst.sg:HasStateTag("dead"))
-                         and not inst:HasTag("playerghost")
-        local is_idle = inst.sg:HasStateTag("idle") or inst:HasTag("idle")
-        local not_doing = not (inst.sg:HasStateTag("doing") or inst.components.inventory:IsHeavyLifting())
-        local not_moving = not (inst.sg:HasStateTag("moving") or inst:HasTag("moving"))
-
-        return not_dead and not_doing, not_moving, is_idle
-    end
-
-    local can_change, not_moving, is_idle = CanPutGlasses(inst)
-    if can_change and not_moving and is_idle and not inst.components.timer:TimerExists("put_glasse_cd") then
-        inst.components.timer:StartTimer("put_glasse_cd", 1.4)
-
-        inst:DoTaskInTime(0.1, function()
-            inst:PushEvent("putglasses")
-        end)
-    end
-end)
-
 return Class(function(self, inst)
 
     self.inst = inst
 
-    local status = false
+    local is_puted = false
 
-    local glasses_map = {}
+    local glasses = {}
 
-    function self:UpdateGlasses()
-        local build = glasses_map[inst.AnimState:GetBuild()]
+    function self:UpdateGlass(puted)
+        local build = glasses[inst.AnimState:GetBuild()]
         local symbol = build ~= nil and build or "eyeglasses"
-        if not status then
-            inst.AnimState:OverrideSymbol("swap_face", symbol, "swap_face")
-            status = true
-        elseif inst.AnimState:GetSymbolOverride("swap_face") then
+        if puted then
             inst.AnimState:ClearOverrideSymbol("swap_face")
-            status = false
+        else
+            inst.AnimState:OverrideSymbol("swap_face", symbol, "swap_face")
         end
+        is_puted = puted
     end
 
     function self:IsPuted()
-        return status
+        return is_puted
     end
 
     function self:AddGlass(build, glass_build)
-        glasses_map[build] = glass_build
-    end
-
-    function self:OnLoad(data)
-        status = data.status
-
-        self:UpdateGlasses()
+        glasses[build] = glass_build
     end
 
     function self:OnSave()
-        return {
-            status = status
-        }
+        local data = {}
+        data.is_puted = is_puted
+        return data
+    end
+
+    function self:OnLoad(data)
+        if data ~= nil then
+            if data.is_puted ~= nil then
+                self:UpdateGlass(data.is_puted)
+            end
+        end
+    end
+
+    function self:GetDebugString()
+        return string.format("Is Puted Glass: %s", tostring(is_puted))
     end
 end)

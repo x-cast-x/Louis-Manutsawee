@@ -1,30 +1,19 @@
 local function GetCooldownTime(inst, dodger)
-    return GetTime() - dodger.last_dodge_time > dodger.dodge_cooldown_time
+    return GetTime() - inst.components.dodger.last_dodge_time > inst.components.dodger.dodge_cooldown_time
 end
 
 local function GetPointSpecialActions(inst, pos, useitem, right)
-    local equip = inst.replica.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
     local rider = inst.replica.rider
-    local dodger = inst.components.dodger
-    if inst:HasTag("dodger") and right and not rider:IsRiding() and GetCooldownTime(inst, dodger) and not inst:HasTag("sitting_on_chair") then
-        if equip ~= nil and not equip:HasTag("iai") and equip:HasTag("katana") then
-            return {ACTIONS.MDODGE}
-        else
-            return {ACTIONS.MDODGE2}
-        end
+    local sailor = inst.replica.sailor
+    if inst:HasTag("dodger") and right and not rider:IsRiding() and sailor ~= nil and not sailor:IsSailing() and GetCooldownTime(inst) and not inst:HasTag("sitting_on_chair") then
+        return {ACTIONS.MDODGE}
     end
     return {}
 end
 
--- Here we need to deal with it.
--- Execute the original function first, then execute the function I defined
 local function OnSetOwner(inst)
     if inst.components.playeractionpicker ~= nil then
-        local _GetPointSpecialActions = inst.components.playeractionpicker.pointspecialactionsfn ~= nil and inst.components.playeractionpicker.pointspecialactionsfn
-        inst.components.playeractionpicker.pointspecialactionsfn = function(inst, pos, useitem, right)
-            local callback = _GetPointSpecialActions(inst, pos, useitem, right)
-            return (callback ~= nil and not IsTableEmpty(callback) and callback) or GetPointSpecialActions(inst, pos, useitem, right)
-        end
+        inst.components.playeractionpicker.pointspecialactionsfn = GetPointSpecialActions
     end
 end
 

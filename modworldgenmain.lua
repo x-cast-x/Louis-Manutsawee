@@ -6,6 +6,6 @@ local IsTheFrontEnd = rawget(_G, "TheFrontEnd") and rawget(_G, "IsInFrontEnd") a
 if IsTheFrontEnd then return end
 
 modimport("main/config")
-modimport("postinit/reignofgiants/map/tasks/dst_tasks_forestworld")
+modimport("postinit/map/tasks/dst_tasks_forestworld")
 modimport("scripts/map/m_layouts")
 modimport("scripts/map/rooms/dev_cemetery")

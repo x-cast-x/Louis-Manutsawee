@@ -44,14 +44,15 @@ local katanarnd = 1
 ----------------------------------------------------------------------------------------------
 
 local actionhandlers = {
+    ActionHandler(ACTIONS.MDODGE, "mdash"),
 }
 
 local events = {
-    EventHandler("putglasses", function(inst)
-        inst.sg:GoToState("putglasses")
+    EventHandler("put_glasses", function(inst)
+        inst.sg:GoToState("put_glasses")
     end),
-    EventHandler("changehair", function(inst)
-        inst.sg:GoToState("changehair")
+    EventHandler("change_hair_style", function(inst)
+        inst.sg:GoToState("change_hair_style")
     end),
     EventHandler("heavenlystrike", function(inst)
         inst.sg:GoToState("heavenlystrike")
@@ -411,7 +412,7 @@ local states = {
     },
 
     State{
-        name = "putglasses",
+        name = "put_glasses",
         tags = {"busy", "nopredict", "nointerrupt", "nomorph", "doing","notalking"},
 
         onenter = function(inst)
@@ -435,12 +436,12 @@ local states = {
         },
 
         onexit = function(inst)
-            inst.components.glasses:UpdateGlasses()
+            inst.components.glasses:UpdateGlass(not inst.components.glasses:IsPuted())
         end
     },
 
     State{
-        name = "changehair",
+        name = "change_hair_style",
         tags = {"busy", "nopredict", "nointerrupt", "nomorph", "doing","notalking"},
 
         onenter = function(inst)
@@ -458,22 +459,7 @@ local states = {
         end,
 
         onexit = function(inst)
-            local HAIR_TYPES = inst.components.hair:GetHairTypes()
-            local hair_type = inst.components.hair:GetCurrentHairType()
-            local hair_length = inst.components.hair:GetHairLength()
-
-            local current_index = 1
-            for i, hair in ipairs(HAIR_TYPES) do
-                if hair == hair_type then
-                    current_index = i
-                    break
-                end
-            end
-
-            hair_type = HAIR_TYPES[(current_index % #HAIR_TYPES) + 1]
-
-            inst.components.hair:SetHairType(hair_type)
-            inst.components.hair:OnChangeHair()
+            inst.components.hair:ChangeHairStyle()
             inst.SoundEmitter:KillSound("make")
         end,
     },
@@ -1265,98 +1251,70 @@ local states = {
         tags = {"busy", "nopredict", "nointerrupt", "nomorph" },
 
         onenter = function(inst, data)
-			if data ~= nil then
-				local pos = data.pos:GetPosition()
-				inst:ForceFacePoint(pos.x, 0, pos.z)
-			end
+            local action = inst:GetBufferedAction()
+            if action then
+                local pos = action:GetActionPoint()
+                inst:ForceFacePoint(pos)
+            end
 
+            local equip = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
+            local is_katana_equip = equip ~= nil and equip:HasTag("katana")
 			local x, y, z = inst.Transform:GetWorldPosition()
 			local pufffx = SpawnPrefab("dirt_puff")
 			pufffx.Transform:SetScale(.3, .3, .3)
 			pufffx.Transform:SetPosition(x, y, z)
 
-			SkillCollision(inst, true)
+            inst.sg:SetTimeout(TUNING.DEFAULT_DODGE_TIMEOUT)
+
+            local motor_speed = 20
 			inst.components.locomotor:Stop()
-			inst.AnimState:PlayAnimation("atk_leap_pre")
-			inst.Physics:SetMotorVelOverride(30,0,0)
+            if is_katana_equip then
+                inst.AnimState:PlayAnimation("atk_leap_pre")
+                motor_speed = 30
+            else
+                inst.AnimState:PlayAnimation("slide_pre")
+                inst.AnimState:PushAnimation("slide_loop")
+            end
+			inst.Physics:SetMotorVelOverride(motor_speed, 0, 0)
 			inst.components.locomotor:EnableGroundSpeedMultiplier(false)
 
-			inst.last_dodge_time = GetTime()
-			inst.dodgetime:set(inst.dodgetime:value() == false and true or false)
+			inst.components.dodger.last_dodge_time = GetTime()
+            inst.components.dodger.dodge_time:set(not inst.components.dodger.dodge_time:value())
+            inst.SoundEmitter:PlaySound("turnoftides/common/together/boat/jump")
+
+            inst.sg.statemem.is_katana_equip = is_katana_equip
         end,
 
-        timeline = {
-			TimeEvent(0 * FRAMES, function(inst)
-                inst.SoundEmitter:PlaySound("turnoftides/common/together/boat/jump")
-            end),
-
-			TimeEvent(6 * FRAMES, function(inst)
-                inst.Physics:ClearMotorVelOverride()
-            end),
-        },
-
-		events = {
-            EventHandler("animover", function(inst)
-                if inst.AnimState:AnimDone() then
-                    inst.sg:GoToState("idle")
-                end
-            end),
-        },
+        ontimeout = function(inst)
+            inst.sg:GoToState("mdash_pst", inst.sg.statemem.is_katana_equip)
+        end,
 
         onexit = function(inst)
-			SkillCollision(inst, false)
+            inst.Physics:ClearMotorVelOverride()
 			inst.components.locomotor:EnableGroundSpeedMultiplier(true)
+            inst.components.locomotor:Stop()
+            inst.components.locomotor:SetBufferedAction(nil)
         end,
     },
 
     State{
-        name = "mdash2",
-        tags = {"busy", "nopredict", "nointerrupt", "nomorph" },
+        name = "mdash_pst",
+        tags = {"evade", "no_stun"},
 
-        onenter = function(inst, data)
-			if data ~= nil then
-				local pos = data.pos:GetPosition()
-				inst:ForceFacePoint(pos.x, 0, pos.z)
-			end
-
-			local x, y, z = inst.Transform:GetWorldPosition()
-			local pufffx = SpawnPrefab("dirt_puff")
-			pufffx.Transform:SetScale(.3, .3, .3)
-			pufffx.Transform:SetPosition(x, y, z)
-
-			inst.components.locomotor:Stop()
-			inst.AnimState:PlayAnimation("slide_pre")
-            inst.AnimState:PushAnimation("slide_loop", false)
-			SkillCollision(inst, true)
-			inst.Physics:SetMotorVelOverride(20,0,0)
-			inst.components.locomotor:EnableGroundSpeedMultiplier(false)
-
-			inst.last_dodge_time = GetTime()
-			inst.dodgetime:set(inst.dodgetime:value() == false and true or false)
+        onenter = function(inst, is_katana_equip)
+            if not is_katana_equip then
+                inst.AnimState:PlayAnimation("slide_pst")
+            end
         end,
 
-        timeline = {
-			TimeEvent(0 * FRAMES, function(inst)
-                inst.SoundEmitter:PlaySound("turnoftides/common/together/boat/jump")
-            end),
-
-			TimeEvent(7 * FRAMES, function(inst)
-                inst.Physics:ClearMotorVelOverride()
-            end),
-        },
-
-		events = {
+        events = {
             EventHandler("animover", function(inst)
                 if inst.AnimState:AnimDone() then
                     inst.sg:GoToState("idle")
+                    inst.sg.statemem.is_katana_equip = nil
                 end
             end),
-        },
-
-        onexit = function(inst)
-			SkillCollision(inst, false)
-			inst.components.locomotor:EnableGroundSpeedMultiplier(true)
-        end,
+        }
     },
 
     State{

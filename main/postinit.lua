@@ -35,6 +35,7 @@ local postinit = {
         "curseditem",
         "stewer",
         "teacher",
+        "playerlightningtarget",
     },
     widgets = {
         "skinspuppet",

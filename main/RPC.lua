@@ -20,7 +20,7 @@ local function SkillRemove(inst)
 end
 
 
-local MUST_TAG = {"tool", "sharp", "weapon", "katanaskill"}
+local MUST_TAG = {"tool", "sharp", "weapon", "katana"}
 local CANT_TAG = {"projectile", "whip", "rangedweapon"}
 local function CanActivateSkill(inst)
     local inventory = inst.components.inventory
@@ -37,17 +37,8 @@ local function CanActivateSkill(inst)
     return true
 end
 
-local SkillHandler = function(inst, fn, ns)
-    if CanActivateSkill(inst) then
-        if inst.components.timer:TimerExists("skill1_key_cd")then
-            return
-        end
-
-        if inst.components.kenjutsuka:GetKenjutsuLevel() < ns then
-            inst.components.talker:Say(STRINGS.SKILL.UNLOCK_SKILL..nskill1, 1, true)
-            return
-        end
-    end
+local function CanPressKey(inst)
+    return not (inst.components.health ~= nil and inst.components.health:IsDead() and inst.sg:HasStateTag("dead") and not inst:HasTag("playerghost")) and inst.sg:HasStateTag("idle") or inst:HasTag("idle") and not (inst.sg:HasStateTag("doing") or inst.components.inventory:IsHeavyLifting()) and not (inst.sg:HasStateTag("moving") or inst:HasTag("moving"))
 end
 
 AddModRPCHandler(LouisManutsawee, "LevelCheck", function(inst)
@@ -70,7 +61,7 @@ end)
 
 AddModRPCHandler(LouisManutsawee, "Skill_Key_1", function(inst)
     inst.components.playerskillcontroller:SkillHandler(function()
-        if inst:HasTag("flip") and weapon ~= nil and weapon:HasTag("katanaskill") then
+        if inst:HasTag("flip") and weapon ~= nil and weapon:HasTag("katana") then
             ActivateSkill(inst, "flip", nskill4, 7, "isshin", STRINGS.SKILL.TIER2_COOLDOWN, 3, STRINGS.SKILL.SKILL4START, "isshin", "nskill4") -- Skill 4 (Flip -> Isshin)
         elseif not inst:HasTag("ichimonji") then
             ActivateSkill(inst, "ichimonji", nil, 3, "ichimonji", STRINGS.SKILL.COOLDOWN, 3.5, STRINGS.SKILL.SKILL1START, "ichimonji", nil) -- Skill 1 (Ichimonji) -  nskill level check is not present in original for skill 1, so set requiredLevel to nil or some default if needed.
@@ -99,7 +90,7 @@ AddModRPCHandler(LouisManutsawee, "Skill1", function(inst)
         --         SkillRemove(inst)
         --         inst.components.talker:Say(STRINGS.SKILL.SKILL_LATER, 1, true)
         --         return
-        --     elseif inst:HasTag("flip") and weapon ~= nil and weapon:HasTag("katanaskill") then
+        --     elseif inst:HasTag("flip") and weapon ~= nil and weapon:HasTag("katana") then
         --         if inst.components.kenjutsuka:GetKenjutsuLevel() < nskill4 then
         --             inst.components.talker:Say(STRINGS.SKILL.UNLOCK_SKILL..nskill4, 1, true)
         --             SkillRemove(inst)
@@ -179,7 +170,7 @@ AddModRPCHandler(LouisManutsawee, "Skill1", function(inst)
             end
 
             local weapon = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
-            if inst:HasTag("flip") and weapon ~= nil and weapon:HasTag("katanaskill") then
+            if inst:HasTag("flip") and weapon ~= nil and weapon:HasTag("katana") then
                 ActivateSkill(inst, "flip", nskill4, 7, "isshin", STRINGS.SKILL.TIER2_COOLDOWN, 3, STRINGS.SKILL.SKILL4START, "isshin", "nskill4") -- Skill 4 (Flip -> Isshin)
             elseif not inst:HasTag("ichimonji") then
                 ActivateSkill(inst, "ichimonji", nil, 3, "ichimonji", STRINGS.SKILL.COOLDOWN, 3.5, STRINGS.SKILL.SKILL1START, "ichimonji", nil) -- Skill 1 (Ichimonji) -  nskill level check is not present in original for skill 1, so set requiredLevel to nil or some default if needed.
@@ -209,7 +200,7 @@ AddModRPCHandler(LouisManutsawee, "Skill2", function(inst)
     --             SkillRemove(inst)
     --             inst.components.talker:Say(STRINGS.SKILL.SKILL_LATER, 1, true)
     --             return
-    --         elseif inst:HasTag("ichimonji") and weapon ~= nil and weapon:HasTag("katanaskill") then
+    --         elseif inst:HasTag("ichimonji") and weapon ~= nil and weapon:HasTag("katana") then
     --             if inst.components.kenjutsuka:GetKenjutsuLevel() < nskill6 then
     --                 inst.components.talker:Say(STRINGS.SKILL.UNLOCK_SKILL..nskill6, 1, true)
     --                 SkillRemove(inst)
@@ -229,7 +220,7 @@ AddModRPCHandler(LouisManutsawee, "Skill2", function(inst)
     --                 SkillRemove(inst)
     --                 return
     --             end
-    --         elseif inst:HasTag("thrust") and weapon ~= nil and weapon:HasTag("katanaskill") then
+    --         elseif inst:HasTag("thrust") and weapon ~= nil and weapon:HasTag("katana") then
     --             if inst.components.kenjutsuka:GetKenjutsuLevel() < nskill7 then
     --                 inst.components.talker:Say(STRINGS.SKILL.UNLOCK_SKILL..nskill7, 1, true)
     --                 SkillRemove(inst)
@@ -309,9 +300,9 @@ AddModRPCHandler(LouisManutsawee, "Skill2", function(inst)
             end
 
             local weapon = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
-            if inst:HasTag("ichimonji") and weapon ~= nil and weapon:HasTag("katanaskill") then
+            if inst:HasTag("ichimonji") and weapon ~= nil and weapon:HasTag("katana") then
                 ActivateSkill(inst, "ichimonji", nskill6, 8, "ryusen", 10, STRINGS.SKILL.SKILL6START, "ryusen", "nskill6")
-            elseif inst:HasTag("thrust") and weapon ~= nil and weapon:HasTag("katanaskill") then
+            elseif inst:HasTag("thrust") and weapon ~= nil and weapon:HasTag("katana") then
                 ActivateSkill(inst, "thrust", nskill7, 10, "ryusen", 3, STRINGS.SKILL.SKILL7START, "susanoo", "nskill7")
             elseif not inst:HasTag("flip") then
                 if CheckSkillCooldown(inst, "flip", STRINGS.SKILL.COOLDOWN) then
@@ -327,8 +318,6 @@ AddModRPCHandler(LouisManutsawee, "Skill2", function(inst)
         end
     end
 end)
-
-
 
 AddModRPCHandler(LouisManutsawee, "Skill3", function(inst)
     if CanActivateSkill(inst) then
@@ -351,7 +340,7 @@ AddModRPCHandler(LouisManutsawee, "Skill3", function(inst)
         --         SkillRemove(inst)
         --         inst.components.talker:Say(STRINGS.SKILL.SKILL_LATER, 1, true)
         --         return
-        --     elseif inst:HasTag("flip") and weapon ~= nil and weapon:HasTag("katanaskill") then
+        --     elseif inst:HasTag("flip") and weapon ~= nil and weapon:HasTag("katana") then
         --         if inst.components.kenjutsuka:GetKenjutsuLevel() < nskill5 then
         --             inst.components.talker:Say(STRINGS.SKILL.UNLOCK_SKILL..nskill5, 1, true)
         --             SkillRemove(inst)
@@ -431,7 +420,7 @@ AddModRPCHandler(LouisManutsawee, "Skill3", function(inst)
             end
 
             local weapon = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
-            if inst:HasTag("flip") and weapon ~= nil and weapon:HasTag("katanaskill") then
+            if inst:HasTag("flip") and weapon ~= nil and weapon:HasTag("katana") then
                 ActivateSkill(inst, "flip", nskill5, 5, "isshin", STRINGS.SKILL.TIER2_COOLDOWN, 3, STRINGS.SKILL.SKILL5START, "heavenlystrike", "nskill5") -- Skill 5 (Flip -> Heavenly Strike)
             elseif not inst:HasTag("thrust") then
                 ActivateSkill(inst, "thrust", nil, 4, "thrust", STRINGS.SKILL.COOLDOWN, 3, STRINGS.SKILL.SKILL3START, "thrust", nil) -- Skill 3 (Thrust) - no level check in original
@@ -521,10 +510,10 @@ end)
 
 AddModRPCHandler(LouisManutsawee, "QuickSheath", function(inst)
     if CanActivateSkill(inst) then
-        if not (inst.components.kenjutsuka:GetKenjutsuLevel() < ncountskill) then
+        if not (inst.components.kenjutsuka:GetLevel() < ncountskill) then
             if not inst.components.timer:TimerExists("quick_sheath_cd") then
                 local weapon = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
-                if weapon ~= nil and weapon:HasTag("katanaskill") then
+                if weapon ~= nil and weapon:HasTag("katana") then
                     inst.components.timer:StartTimer("quick_sheath_cd",.4)
                     inst.sg:GoToState("quicksheath")
                 end
@@ -542,6 +531,30 @@ AddModRPCHandler(LouisManutsawee, "SkillCancel", function(inst)
             SkillRemove(inst)
             inst.components.talker:Say(STRINGS.SKILL.SKILL_CANCEL, 1, true)
         end
+    end
+end)
+
+AddModRPCHandler("LouisManutsawee", "ChangeHairStyleKey", function(inst, skinname)
+    local hair_length = inst.components.hair ~= nil and inst.components.hair:GetHairLength()
+    if CanPressKey(inst) and not inst.components.timer:TimerExists("change_hair_cd") then
+        inst.components.timer:StartTimer("change_hair_cd", 1)
+        if hair_length == "cut" then
+            inst.components.talker:Say(STRINGS.SKILL.HAIRTOOSHORT)
+        else
+            inst:DoTaskInTime(0.1, function()
+                inst:PushEvent("change_hair_style")
+            end)
+        end
+    end
+end)
+
+AddModRPCHandler("LouisManutsawee", "PutGlassesKey", function(inst, skinname)
+    if CanPressKey(inst) and not inst.components.timer:TimerExists("put_glasse_cd") then
+        inst.components.timer:StartTimer("put_glasse_cd", 1)
+
+        inst:DoTaskInTime(0.1, function()
+            inst:PushEvent("put_glasses")
+        end)
     end
 end)
 

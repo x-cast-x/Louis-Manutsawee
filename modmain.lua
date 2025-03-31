@@ -18,19 +18,8 @@ local modules = {
     "loadingtips",
 }
 
-local mod_modules = {
-    "pl_postinit",
-    "um_postinit",
-    "ia_postinit",
-    "hof_postinit",
-}
-
 for i = 1, #modules do
     modimport("main/" .. modules[i])
-end
-
-for i = 1, #mod_modules do
-    modimport("postinit/main/" .. mod_modules[i])
 end
 
 GLOBAL.setfenv(1, GLOBAL)

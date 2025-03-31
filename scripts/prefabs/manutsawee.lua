@@ -1,5 +1,4 @@
 local MakePlayerCharacter = require "prefabs/player_common"
-local Manutsawee_Extensions = require "prefabs/manutsawee_extensions"
 
 local assets = {
     Asset("SCRIPT", "scripts/prefabs/player_common.lua"),
@@ -40,6 +39,9 @@ local assets = {
     Asset("ANIM", "anim/face_controlled.zip"),
 
 	Asset("ANIM", "anim/wendy_recall.zip"),
+    Asset("ANIM", "anim/maid_hb.zip"),
+    Asset("ANIM", "anim/m_sfoxmask_swap.zip"),
+    Asset("ANIM", "anim/m_hb.zip"),
 
     Asset("ANIM", "anim/player_idles_bocchi.zip"),
     Asset("ANIM", "anim/player_idles_walter.zip"),
@@ -65,6 +67,7 @@ local unlockrecipes = {
 }
 
 local Idle_Anim = {
+    ["manutsawee"] = "idle_wilson",
     ["manutsawee_yukatalong"] = "idle_wendy",
     ["manutsawee_yukata"] = "idle_wendy",
     ["manutsawee_shinsengumi"] = "idle_wathgrithr",
@@ -105,54 +108,45 @@ local function OnMindPowerRegen(inst, mindpower)
     end
 end
 
-local OnKenjutsuLevels = {
-    [1] = function(inst, kenjutsulevel, kenjutsuexp)
-        if kenjutsulevel >= 1 then
-            inst.components.sanity.neg_aura_mult = 1 - ((kenjutsulevel / 2) / 10)
-            inst.components.kenjutsuka.kenjutsumaxexp = 500 * kenjutsulevel
-        end
-    end,
-    [2] = function(inst, kenjutsulevel, kenjutsuexp)
-        if kenjutsulevel >= 2 and not inst:HasTag("kenjutsu") then
+local OnLevelUpCallback = {
+    {level = 1, fn = function(inst, level)
+        inst.components.sanity.neg_aura_mult = 1 - ((level / 2) / 10)
+        inst.components.kenjutsuka.kenjutsumaxexp = 500 * level
+    end},
+    {level = 2, fn = function(inst)
+        if not inst:HasTag("kenjutsu") then
             inst:AddTag("kenjutsu")
         end
-    end,
-    [3] = function(inst, kenjutsulevel, kenjutsuexp)
-        if kenjutsulevel >= 4 then
-            inst.components.kenjutsuka:StartRegenMindPower()
-        end
-    end,
-    [4] = function(inst, kenjutsulevel, kenjutsuexp)
-        if kenjutsulevel >= 4 then
-            inst.components.kenjutsuka:StartRegenMindPower()
-        end
-    end,
-    [5] = function(inst, kenjutsulevel, kenjutsuexp)
-        if kenjutsulevel >= 5 then
-            inst.components.sanity:AddSanityAuraImmunity("ghost")
-            inst.components.workmultiplier:AddMultiplier(ACTIONS.CHOP,   1, inst)
-            inst.components.workmultiplier:AddMultiplier(ACTIONS.MINE,   1, inst)
-            inst.components.workmultiplier:AddMultiplier(ACTIONS.HAMMER, 1, inst)
-
-            if inst.components.builder ~= nil then
-                for k, recipe in pairs(unlockrecipes) do
-                    inst.components.builder:UnlockRecipe(recipe)
-                end
-            end
-        end
-    end,
-    [6] = function(inst, kenjutsulevel, kenjutsuexp)
-        if kenjutsulevel >= 6 then
-            inst.components.temperature.inherentinsulation = TUNING.INSULATION_TINY /2
-            inst.components.temperature.inherentsummerinsulation = TUNING.INSULATION_TINY /2
-            inst.components.sanity:SetPlayerGhostImmunity(true)
-        end
-    end,
-    [7] = function(inst, kenjutsulevel, kenjutsuexp)
-        if kenjutsulevel >= 10 then
-            kenjutsuexp = 0
-        end
-    end
+    end},
+    {level = 3, fn = function(inst)
+    end},
+    {level = 4, fn = function(inst)
+        inst.components.kenjutsuka:StartRegenMindPower()
+    end},
+    {level = 5, fn = function(inst)
+        inst.components.workmultiplier:AddMultiplier(ACTIONS.CHOP,   1, inst)
+        inst.components.workmultiplier:AddMultiplier(ACTIONS.MINE,   1, inst)
+        inst.components.workmultiplier:AddMultiplier(ACTIONS.HAMMER, 1, inst)
+        inst.components.efficientuser:AddMultiplier(ACTIONS.CHOP,   1, inst)
+        inst.components.efficientuser:AddMultiplier(ACTIONS.MINE,   1, inst)
+        inst.components.efficientuser:AddMultiplier(ACTIONS.HAMMER, 1, inst)
+        inst.components.efficientuser:AddMultiplier(ACTIONS.ATTACK, 1, inst)
+    end},
+    {level = 6, fn = function(inst)
+        inst:AddTag("ghostlyfriend")
+        inst.components.sanity:SetPlayerGhostImmunity(true)
+        inst.components.sanity:AddSanityAuraImmunity("ghost")
+        inst.components.temperature.inherentinsulation = TUNING.INSULATION_TINY /2
+        inst.components.temperature.inherentsummerinsulation = TUNING.INSULATION_TINY /2
+    end},
+    {level = 7, fn = function(inst)
+    end},
+    {level = 8, fn = function(inst)
+    end},
+    {level = 9, fn = function(inst)
+    end},
+    {level = 10, fn = function(inst)
+    end},
 }
 
 local function OnKilled(inst, data)
@@ -166,42 +160,55 @@ local function OnKilled(inst, data)
     end
 end
 
+local SkinsHeaddress = {
+    ["manutsawee_maid"] = "maid_hb",
+    ["manutsawee_shinsengumi"] = "m_hb",
+    ["manutsawee_yukata"] = "m_sfoxmask_swap",
+    ["manutsawee_yukatalong"] = "m_sfoxmask_swap",
+    ["manutsawee_maid_m"] = "maid_hb",
+}
+
 local common_postinit = function(inst)
     inst.MiniMapEntity:SetIcon("manutsawee.tex")
 
     inst:AddTag("bearded")
 
-    -- for recipess
-    inst:AddTag("tosho")
-
     inst:AddTag("kenjutsuka")
+    inst:AddTag("dodger")
 
     inst:AddTag("naughtychild")
 
     inst:AddTag("stronggrip")
-    inst:AddTag("handyperson")
-    inst:AddTag("fastbuilder")
-    inst:AddTag("hungrybuilder")
-    inst:AddTag("ghostlyfriend")
+
     inst:AddTag("alchemist")
     inst:AddTag("ore_alchemistI")
     inst:AddTag("ick_alchemistI")
     inst:AddTag("ick_alchemistII")
 
+    -- inst:SetTag("handyperson", M_CONFIG.IsDexterityMake)
+    inst:SetTag("fastbuilder", M_CONFIG.IsDexterityMake)
+    inst:SetTag("hungrybuilder", M_CONFIG.IsDexterityMake)
+
+    inst:SetTag("surfer", IA_ENABLED)
+    inst:SetTag("expertchef", M_CONFIG.IsGirlScouts)
+    inst:SetTag("pinetreepioneer", M_CONFIG.IsGirlScouts)
+    inst:SetTag("slingshot_sharpshooter", M_CONFIG.IsGirlScouts)
+    inst:SetTag("pebblemaker", M_CONFIG.IsGirlScouts)
+
     inst:AddComponent("keyhandler")
-    inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.LEVEL_CHECK_KEY, "LevelCheck")
-    inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.PUT_GLASSES_KEY, "PutGlasses")
-    inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.CHANGE_HAIRS_KEY, "ChangeHairStyle")
+    -- inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.LEVEL_CHECK_KEY, "LevelCheck")
+    inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.PutGlassesKey, "PutGlassesKey")
+    inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.ChangeHairStyleKey, "ChangeHairStyleKey")
 
-    inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.SKILL1_KEY, "Skill1")
-    inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.SKILL2_KEY, "Skill2")
-    inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.SKILL3_KEY, "Skill3")
-    inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.SKILL4_KEY, "Skill4")
-    inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.SKILL_COUNTER_ATK_KEY, "CounterAttack")
-    inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.QUICK_SHEATH_KEY, "QuickSheath")
-    inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.SKILL_CANCEL_KEY, "SkillCancel")
+    -- inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.SKILL1_KEY, "Skill1")
+    -- inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.SKILL2_KEY, "Skill2")
+    -- inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.SKILL3_KEY, "Skill3")
+    -- inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.SKILL4_KEY, "Skill4")
+    -- inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.SKILL_COUNTER_ATK_KEY, "CounterAttack")
+    -- inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.QUICK_SHEATH_KEY, "QuickSheath")
+    -- inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.SKILL_CANCEL_KEY, "SkillCancel")
 
-    Manutsawee_Extensions.common_postinit(inst)
+    inst:SetComponent("dodger", M_CONFIG.EnableDodge)
 end
 
 local master_postinit = function(inst)
@@ -210,27 +217,30 @@ local master_postinit = function(inst)
     inst.AnimState:SetScale(0.88, 0.9, 1)
 
     inst:AddComponent("hair")
-    inst:AddComponent("playerskillcontroller")
-    inst.components.playerskillcontroller:RegisterSkillCooldownDoneEffect("ichimonji", "ghostlyelixir_retaliation_dripfx")
-    inst.components.playerskillcontroller:RegisterSkillCooldownDoneEffect("ichimonji", "ghostlyelixir_shield_dripfx")
-    inst.components.playerskillcontroller:RegisterSkillCooldownDoneEffect("ichimonji", "ghostlyelixir_speed_dripfx")
-    inst.components.playerskillcontroller:RegisterSkillCooldownDoneEffect("ichimonji", "battlesong_instant_panic_fx")
-    inst.components.playerskillcontroller:RegisterSkillCooldownDoneEffect("ichimonji", "monkey_deform_pre_fx")
-    inst.components.playerskillcontroller:RegisterSkillCooldownDoneEffect("ichimonji", "fx_book_birds")
-    inst.components.playerskillcontroller:RegisterSkillCooldownDoneEffect("ichimonji", "fx_book_birds")
-    inst.components.playerskillcontroller:RegisterSkillCooldownDoneEffect("ichimonji", "fx_book_birds")
-    inst.components.playerskillcontroller:RegisterSkillCooldownDoneEffect("ichimonji", "thunderbird_fx_idle")
+    -- inst:AddComponent("playerskillcontroller")
+    -- inst.components.playerskillcontroller:RegisterSkillCooldownDoneEffect("ichimonji", "ghostlyelixir_retaliation_dripfx")
+    -- inst.components.playerskillcontroller:RegisterSkillCooldownDoneEffect("ichimonji", "ghostlyelixir_shield_dripfx")
+    -- inst.components.playerskillcontroller:RegisterSkillCooldownDoneEffect("ichimonji", "ghostlyelixir_speed_dripfx")
+    -- inst.components.playerskillcontroller:RegisterSkillCooldownDoneEffect("ichimonji", "battlesong_instant_panic_fx")
+    -- inst.components.playerskillcontroller:RegisterSkillCooldownDoneEffect("ichimonji", "monkey_deform_pre_fx")
+    -- inst.components.playerskillcontroller:RegisterSkillCooldownDoneEffect("ichimonji", "fx_book_birds")
+    -- inst.components.playerskillcontroller:RegisterSkillCooldownDoneEffect("ichimonji", "fx_book_birds")
+    -- inst.components.playerskillcontroller:RegisterSkillCooldownDoneEffect("ichimonji", "fx_book_birds")
+    -- inst.components.playerskillcontroller:RegisterSkillCooldownDoneEffect("ichimonji", "thunderbird_fx_idle")
+
+    inst:AddComponent("skinheaddress")
+    inst.components.skinheaddress:SetHeaddress(SkinsHeaddress)
+
+    inst:AddComponent("customidleanim")
+    inst.components.customidleanim:SetIdleAnim(Idle_Anim, Funny_Idle_Anim)
 
     inst:AddComponent("glasses")
     inst.components.glasses:AddGlass("manutsawee_bocchi", "starglasses")
     inst.components.glasses:AddGlass("manutsawee_uniform_black", "sunglasses")
 
-    inst:AddComponent("customidleanim")
-    inst.components.customidleanim:SetIdleAnim(Idle_Anim, Funny_Idle_Anim)
-
-    inst:AddComponent("kenjutsuka")
-    inst.components.kenjutsuka:SetOnMindPowerRegen(OnMindPowerRegen)
-    inst.components.kenjutsuka:AddLevelUpCallback(OnKenjutsuLevels)
+    -- inst:AddComponent("kenjutsuka")
+    -- inst.components.kenjutsuka:SetOnMindPowerRegen(OnMindPowerRegen)
+    -- inst.components.kenjutsuka:AddLevelUpCallback(OnKenjutsuLevels)
 
     inst:AddComponent("houndedtarget")
     inst.components.houndedtarget.target_weight_mult:SetModifier(inst, TUNING.WES_HOUND_TARGET_MULT, "misfortune")
@@ -238,12 +248,11 @@ local master_postinit = function(inst)
 
     inst.components.foodaffinity:AddPrefabAffinity("baconeggs", TUNING.AFFINITY_15_CALORIES_HUGE)
     inst.components.foodaffinity:AddPrefabAffinity("unagi", TUNING.AFFINITY_15_CALORIES_TINY)
-    inst.components.foodaffinity:AddPrefabAffinity("kelp_cooked", 1)
-    inst.components.foodaffinity:AddPrefabAffinity("justeggs", 1)
-    inst.components.foodaffinity:AddPrefabAffinity("durian", 1)
-    inst.components.foodaffinity:AddPrefabAffinity("durian_cooked", 1)
+    inst.components.foodaffinity:AddPrefabAffinity("kelp_cooked", TUNING.AFFINITY_15_CALORIES_SUPERHUGE)
+    inst.components.foodaffinity:AddPrefabAffinity("justeggs", TUNING.AFFINITY_15_CALORIES_SUPERHUGE)
+    inst.components.foodaffinity:AddPrefabAffinity("durian", TUNING.AFFINITY_15_CALORIES_SUPERHUGE)
+    inst.components.foodaffinity:AddPrefabAffinity("durian_cooked", TUNING.AFFINITY_15_CALORIES_SUPERHUGE)
     inst.components.foodaffinity:AddPrefabAffinity("californiaroll", TUNING.AFFINITY_15_CALORIES_TINY)
-    inst.components.foodaffinity:AddPrefabAffinity("caviar", TUNING.AFFINITY_15_CALORIES_TINY)
     inst.components.foodaffinity:AddPrefabAffinity("caviar", TUNING.AFFINITY_15_CALORIES_TINY)
     inst.components.foodaffinity:AddPrefabAffinity("liceloaf", TUNING.AFFINITY_15_CALORIES_TINY)
     inst.components.foodaffinity:AddPrefabAffinity("blueberrypancakes", TUNING.AFFINITY_15_CALORIES_TINY)
@@ -277,8 +286,6 @@ local master_postinit = function(inst)
     inst.skeleton_prefab = nil
 
     inst:ListenForEvent("killed", OnKilled)
-
-    Manutsawee_Extensions.master_postinit(inst)
 end
 
 return MakePlayerCharacter("manutsawee", prefabs, assets, common_postinit, master_postinit, start_inv)

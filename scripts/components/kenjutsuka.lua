@@ -58,7 +58,7 @@ return Class(function(self, inst)
     end
 
     local function HandleexpGain(inst, weapon, level, exp)
-        if weapon:HasTag("katanaskill") and not inst.components.timer:TimerExists("hit_cd") and
+        if weapon:HasTag("katana") and not inst.components.timer:TimerExists("hit_cd") and
             not inst.sg:HasStateTag("skilling") then
             if level < 10 then
                 exp = exp + (1 * _config.KEXPMTP)
@@ -189,7 +189,7 @@ return Class(function(self, inst)
     local function OnDroped(inst, data)
         local item = data ~= nil and (data.prev_item or data.item)
 
-        if item ~= nil and item:HasTag("katanaskill") and not item:HasTag("woodensword") then
+        if item ~= nil and item:HasTag("katana") and not item:HasTag("woodensword") then
             if not inst:HasTag("notshowscabbard") then
                 inst.AnimState:ClearOverrideSymbol("swap_body_tall")
             end
@@ -252,8 +252,8 @@ return Class(function(self, inst)
         mindpower = power
     end
 
-    function self:AddLevelUpCallback(cb, fn)
-        levelup_callbacks[cb] = fn
+    function self:AddLevelUpCallback(level, fn)
+        levelup_callbacks[level] = fn
     end
 
     function self:SetOnMindPowerRegen(fn)

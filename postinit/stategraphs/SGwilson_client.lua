@@ -3,6 +3,7 @@ local TimeEvent = GLOBAL.TimeEvent
 local State = GLOBAL.State
 local AddStategraphState = AddStategraphState
 local AddStategraphPostInit = AddStategraphPostInit
+local AddStategraphActionHandler = AddStategraphActionHandler
 GLOBAL.setfenv(1, GLOBAL)
 
 ----------------------------------------------------------------------------------------------
@@ -18,6 +19,13 @@ end
 ----------------------------------------------------------------------------------------------
 
 local katanarnd = 1
+
+local actionhandlers = {
+    ActionHandler(ACTIONS.MDODGE, function(inst, action)
+        local invobject = action.invobject
+        return invobject ~= nil and invobject:HasTag("katana") and "mdash" or "mdash2"
+    end),
+}
 
 local states = {
 
@@ -366,12 +374,91 @@ local states = {
                 inst.replica.combat:CancelAttack()
             end
         end,
-	}
+	},
 ----------------------------------------------------------------------------------------------
+
+    State{
+        name = "mdash",
+        tags = {"busy", "nopredict", "nointerrupt", "nomorph" },
+
+        onenter = function(inst, data)
+            local action = inst:GetBufferedAction()
+            if action then
+                local pos = action:GetActionPoint()
+                inst:ForceFacePoint(pos)
+            end
+
+            local equip = inst.replica.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
+            local is_katana_equip = equip ~= nil and equip:HasTag("katana")
+            local x, y, z = inst.Transform:GetWorldPosition()
+            local pufffx = SpawnPrefab("dirt_puff")
+            pufffx.Transform:SetScale(.3, .3, .3)
+            pufffx.Transform:SetPosition(x, y, z)
+
+            -- inst.sg:SetTimeout(0.25)
+
+            inst.components.locomotor:Stop()
+            local motor_speed = 20
+			inst.components.locomotor:Stop()
+            if is_katana_equip then
+                inst.AnimState:PlayAnimation("atk_leap_pre")
+                motor_speed = 30
+            else
+                inst.AnimState:PlayAnimation("slide_pre")
+                inst.AnimState:PushAnimation("slide_loop")
+            end
+			inst.Physics:SetMotorVelOverride(motor_speed, 0, 0)
+            inst.components.locomotor:EnableGroundSpeedMultiplier(false)
+
+            inst.components.dodger.last_dodge_time = GetTime()
+            inst.components.dodger.dodge_time:set(inst.components.dodger.dodge_time:value() == false and true or false)
+
+            inst.SoundEmitter:PlaySound("turnoftides/common/together/boat/jump")
+
+            inst.sg.statemem.is_katana_equip = is_katana_equip
+
+            inst:PerformPreviewBufferedAction()
+        end,
+
+        ontimeout = function(inst)
+            inst.sg:GoToState("mdash_pst", inst.sg.statemem.is_katana_equip)
+        end,
+
+        onexit = function(inst)
+            inst.Physics:ClearMotorVelOverride()
+			inst.components.locomotor:EnableGroundSpeedMultiplier(true)
+            inst.components.locomotor:Stop()
+            inst.components.locomotor:SetBufferedAction(nil)
+        end,
+    },
+
+    State{
+        name = "mdash_pst",
+        tags = {"evade", "no_stun"},
+
+        onenter = function(inst)
+            if not is_katana_equip then
+                inst.AnimState:PlayAnimation("slide_pst")
+            end
+        end,
+
+        events = {
+            EventHandler("animover", function(inst)
+                if inst.AnimState:AnimDone() then
+                    inst.sg:GoToState("idle")
+                    inst.sg.statemem.is_katana_equip = nil
+                end
+            end),
+        }
+    }
 }
 
 for _, state in ipairs(states) do
     AddStategraphState("wilson_client", state)
+end
+
+for _, actionhandler in ipairs(actionhandlers) do
+    AddStategraphActionHandler("wilson_client", actionhandler)
 end
 
 local function fn(sg)

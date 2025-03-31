@@ -21,5 +21,8 @@ end
 
 EntityScript.SetTag = EntityScript.AddOrRemoveTag
 
-function EntityScript:SetComponent()
+function EntityScript:SetComponent(name, condition)
+    if condition then
+        self:AddComponent(name)
+    end
 end

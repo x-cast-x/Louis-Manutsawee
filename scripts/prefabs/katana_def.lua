@@ -171,7 +171,7 @@ end
 local function OnPutInInventory(inst, owner)
     local damage = 10
     local fx
-    if owner ~= nil and owner.components.inventory ~= nil and owner:HasTag("player") and not owner:HasTag("bladesmith") then
+    if owner ~= nil and owner.components.inventory ~= nil and owner:HasTag("player") and not owner:HasTag("kenjutsuka") then
         owner.components.talker:Say("it doesn't seem to like me very much...")
         local pos = inst:GetPosition():Get()
         inst:DoTaskInTime(0.1, function()
@@ -289,7 +289,7 @@ local MakeKatana = function(data)
         inst:AddTag("nosteal")
         inst:AddTag("sharp")
         inst:AddTag("veryquickcast")
-        inst:AddTag("katanaskill")
+        inst:AddTag("katana")
         inst:AddTag("waterproofer")
 
         --weapon (from weapon component) added to pristine state for optimization

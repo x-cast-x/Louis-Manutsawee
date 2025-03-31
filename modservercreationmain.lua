@@ -1,1 +1,1 @@
-modimport("postinit/reignofgiants/screens/modconfigurationscreen")
+modimport("postinit/screens/modconfigurationscreen")

@@ -30,7 +30,7 @@ local function OnAttack(inst, attacker, target)
 end
 
 local function OnPutInInventory(inst, owner)
-    if owner:HasTag("player") and not owner:HasTag("bladesmith") then
+    if owner:HasTag("player") and not owner:HasTag("kenjutsuka") then
         owner.components.inventory:DropItem(inst)
         if owner.components.combat ~= nil then
             owner.components.combat:GetAttacked(inst, 50)
@@ -321,7 +321,7 @@ local function fn()
     inst:AddTag("nosteal")
     inst:AddTag("sharp")
     inst:AddTag("waterproofer")
-    inst:AddTag("katanaskill")
+    inst:AddTag("katana")
     inst:AddTag("onikiba")
 
     --weapon (from weapon component) added to pristine state for optimization

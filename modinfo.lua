@@ -66,31 +66,125 @@ local function AddTitle(title_en, title_zh)  --hover does not work, as this item
     return {name = en_zh(title_en, title_zh) , options = {{description = "", data = false}}, default = false}
 end
 
-local keys = {"TAB","KP_0","KP_1","KP_2","KP_3","KP_4","KP_5","KP_6","KP_7","KP_8","KP_9","KP_PERIOD","KP_DIVIDE","KP_MULTIPLY","KP_MINUS","KP_PLUS","KP_ENTER","KP_EQUALS","MINUS","EQUALS","SPACE","ENTER",--[["ESCAPE",]]"HOME","INSERT","DELETE","END","PAUSE","PRINT","CAPSLOCK","SCROLLOCK","RSHIFT","LSHIFT","RCTRL","LCTRL","RALT","LALT","LSUPER","RSUPER","ALT","CTRL","SHIFT","BACKSPACE","PERIOD","SLASH","SEMICOLON","LEFTBRACKET","BACKSLASH","RIGHTBRACKET","TILDE","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","F1","F2","F3","F4","F5","F6","F7","F8","F9","F10","F11","F12","UP","DOWN","RIGHT","LEFT","PAGEUP","PAGEDOWN","0","1","2","3","4","5","6","7","8","9"}
-local keylist = {}
-for i = 1, #keys do
-    keylist[i] = {description = keys[i], data = "KEY_"..keys[i]}
+local keylist = {
+    {description="TAB", data = 9},
+    {description="KP_PERIOD", data = 266},
+    {description="KP_DIVIDE", data = 267},
+    {description="KP_MULTIPLY", data = 268},
+    {description="KP_MINUS", data = 269},
+    {description="KP_PLUS", data = 270},
+    {description="KP_ENTER", data = 271},
+    {description="KP_EQUALS", data = 272},
+    {description="MINUS", data = 45},
+    {description="EQUALS", data = 61},
+    {description="SPACE", data = 32},
+    {description="ENTER", data = 13},
+    {description="ESCAPE", data = 27},
+    {description="HOME", data = 278},
+    {description="INSERT", data = 277},
+    {description="DELETE", data = 127},
+    {description="END", data   = 279},
+    {description="PAUSE", data = 19},
+    {description="PRINT", data = 316},
+    {description="CAPSLOCK", data = 301},
+    {description="SCROLLOCK", data = 302},
+    {description="RSHIFT", data = 303},
+    {description="LSHIFT", data = 304},
+    {description="RCTRL", data = 305},
+    {description="LCTRL", data = 306},
+    {description="RALT", data = 307},
+    {description="LALT", data = 308},
+    {description="ALT", data = 400},
+    {description="CTRL", data = 401},
+    {description="SHIFT", data = 402},
+    {description="BACKSPACE", data = 8},
+    {description="PERIOD", data = 46},
+    {description="SLASH", data = 47},
+    {description="LEFTBRACKET", data     = 91},
+    {description="BACKSLASH", data     = 92},
+    {description="RIGHTBRACKET", data = 93},
+    {description="TILDE", data = 96},
+    {description="A", data = 97},
+    {description="B", data = 98},
+    {description="C", data = 99},
+    {description="D", data = 100},
+    {description="E", data = 101},
+    {description="F", data = 102},
+    {description="G", data = 103},
+    {description="H", data = 104},
+    {description="I", data = 105},
+    {description="J", data = 106},
+    {description="K", data = 107},
+    {description="L", data = 108},
+    {description="M", data = 109},
+    {description="N", data = 110},
+    {description="O", data = 111},
+    {description="P", data = 112},
+    {description="Q", data = 113},
+    {description="R", data = 114},
+    {description="S", data = 115},
+    {description="T", data = 116},
+    {description="U", data = 117},
+    {description="V", data = 118},
+    {description="W", data = 119},
+    {description="X", data = 120},
+    {description="Y", data = 121},
+    {description="Z", data = 122},
+    {description="F1", data = 282},
+    {description="F2", data = 283},
+    {description="F3", data = 284},
+    {description="F4", data = 285},
+    {description="F5", data = 286},
+    {description="F6", data = 287},
+    {description="F7", data = 288},
+    {description="F8", data = 289},
+    {description="F9", data = 290},
+    {description="F10", data = 291},
+    {description="F11", data = 292},
+    {description="F12", data = 293},
+
+    {description="UP", data = 273},
+    {description="DOWN", data = 274},
+    {description="RIGHT", data = 275},
+    {description="LEFT", data = 276},
+    {description="PAGEUP", data = 280},
+    {description="PAGEDOWN", data = 281},
+
+    {description="0", data = 48},
+    {description="1", data = 49},
+    {description="2", data = 50},
+    {description="3", data = 51},
+    {description="4", data = 52},
+    {description="5", data = 53},
+    {description="6", data = 54},
+    {description="7", data = 55},
+    {description="8", data = 56},
+    {description="9", data = 57},
+}
+
+local AddSkillKeyOption = function()
+    return {
+
+    }
 end
-keylist[#keylist + 1] = {description = "Disabled", data = false}
 
 configuration_options = {
 	AddTitle("Options", "设定"),
     {
         name = "locale",
         label = en_zh("Translation", "翻译"),
-        hover = en_zh("Select a translation to enable it regardless of language packs.", "选择翻译，而不是自动"),
+        hover = en_zh("Select a translation to enable it regardless of language packs. \n Note: Except for Chinese and English, the rest use Google Translate.", "选择翻译，而不是自动"),
         options =
         {
             {description = en_zh("Auto", "自动"), data = false},
-            -- talk about it later
-            -- {description = "Deutsch", data = "de"},
-            -- {description = "Español", data = "es"},
-            -- {description = "Français", data = "fr"},
-            -- {description = "Italiano", data = "it"},
-            -- {description = "한국어", data = "ko"},
-            -- {description = "Polski", data = "pl"},
-            -- {description = "Português", data = "pt"},
-            -- {description = "Русский", data = "ru"},
+            {description = "Deutsch", data = "de"},
+            {description = "Español", data = "es"},
+            {description = "Français", data = "fr"},
+            {description = "Italiano", data = "it"},
+            {description = "한국어", data = "ko"},
+            {description = "Polski", data = "pl"},
+            {description = "Português", data = "pt"},
+            {description = "Русский", data = "ru"},
             {description = "中文 (简体)", data = "sc"},
             {description = "中文 (繁体)", data = "tc"},
             {description = "中文 (粤语)", data = "ct"},
@@ -109,43 +203,59 @@ configuration_options = {
         default = "Smart",
     },
 	{
-        name = "set_start_item",
-        label = en_zh("Start Item", "两手空空（默认）"),
-        hover = en_zh("Select item when select character", "选择你的开始物品"),
+        name = "start_weapon",
+        label = en_zh("Start Weapon", "初始武器"),
+        hover = en_zh("Choose a starting weapon for your girl!", "为你的少女选择初始武器！"),
         options = {
-            {description = en_zh("Nothing", "两手空空（默认）"), data = false},
-			{description = "Shinai", data = "shinai"},
-			{description = "Katanablade", data = "katanablade"},
+            {description = en_zh("Nothing", "两手空空"), data = false},
+			{description = en_zh("Shinai", "竹刀"), data = "shinai"},
+            {description = en_zh("Raikiri", "雷切"), data = "raikiri"},
+            {description = en_zh("Yasha", "夜叉"), data = "shirasaya"},
+            {description = en_zh("Sakakura", "阪倉"), data = "koshirae"},
+            {description = en_zh("hitokiri", "人斩"), data = "hitokiri"},
 
-            {description = "Raikiri", data = "raikiri"},
-            {description = "Yasha", data = "shirasaya"},
-            {description = "Sakakura", data = "koshirae"},
-            {description = "hitokiri", data = "hitokiri"},
+            {description = en_zh("Raikiri The Lightning Cutter", "雷切·雷光斩"), data = "true_raikiri"},
+            {description = en_zh("Yasha The Demon Slayer", "夜叉·妖魔杀手"), data = "true_shirasaya"},
+            {description = en_zh("Sakakura The Giant Slayers", "阪倉·巨人屠戮者"), data = "true_koshirae"},
+            {description = en_zh("Nihiru The Bloodseeker", "逆流·嗜血猎手"), data = "true_hitokiri"},
 
-            {description = "Raikiri The Lightning Cutter", data = "true_raikiri"},
-            {description = "Yasha The Demon Slayer", data = "true_shirasaya"},
-            {description = "Sakakura The Giant Slayers", data = "true_koshirae"},
-            {description = "Nihiru The Bloodseeker", data = "true_hitokiri"},
-
-            {description = "Tenseiga", data = "tenseiga"},
-			{description = "Mortalblade", data = "mortalblade"},
-			{description = "Shusui", data = "shusui"},
-			{description = "Kage", data = "kage"},
+			{description = en_zh("Mortal Blade", "拜泪·不死斩"), data = "mortalblade"},
+			{description = en_zh("Shusui", "秋水"), data = "shusui"},
+			{description = en_zh("Kage", "影"), data = "kage"},
         },
         default = false,
     },
-	AddTitle("Boy Scouts", "童子军"),
+    {
+        name = "idle_animation_mode",
+        label = en_zh("Idle Animation", "空闲动画"),
+        hover = en_zh("Default mode: Each skin has a separate idle animation. \n Random mode: Idle animations are played randomly.", "默认模式: 每个皮肤都有单独的空闲动画 \n 随机模式: 随机播放空闲动画"),
+        options = {
+            {description = en_zh("Default", "默认"), data = "Default"},
+            {description = en_zh("Random", "随机"), data = "Random"},
+            {description = en_zh("Disable", "关闭"), data = false},
+        },
+        default = "Default",
+    },
+    {
+        name = "dodge_enable",
+        label = en_zh("Dodge Ability", "闪避技能"),
+        hover = en_zh("Left click to dodge to the mouse direction.", "左键点击闪避到鼠标方向位置"),
+        options = options_enable,
+        default = false,
+    },
+
+	AddTitle("Talent", "天赋"),
 	{
-        name = "cancrafttent",
-        label = en_zh("Portable-tent Craftable", "可以制作便携式帐篷"),
+        name = "is_girl_scouts",
+        label = en_zh("Girl Scouts", "女童子军"),
         hover = en_zh("Portable-tent Craftable", "可以制作便携式帐篷"),
         options = options_enable,
         default = false,
     },
-	{
-        name = "canuseslingshot",
-        label = en_zh("Slingshot usable", "可以使用弹弓"),
-        hover = en_zh("Slingshot usable", "可以使用弹弓"),
+    {
+        name = "is_dexterity_make",
+        label = en_zh("Fast Build", "心灵手巧"),
+        hover = en_zh("Portable-tent Craftable", "可以制作便携式帐篷"),
         options = options_enable,
         default = false,
     },
@@ -260,7 +370,6 @@ configuration_options = {
         hover = en_zh("Skill1", "技能1"),
         default = "R",
         options = keylist,
-        is_keylist = true
     },
 	{
         name = "skill2_key",
@@ -268,7 +377,6 @@ configuration_options = {
         hover = en_zh("Skill2", "技能2"),
         default = "C",
         options = keylist,
-        is_keylist = true
     },
 	{
         name = "skill3_key",
@@ -276,7 +384,6 @@ configuration_options = {
         hover = en_zh("Skill3", "技能3"),
         default = "T",
         options = keylist,
-        is_keylist = true
     },
     {
         name = "skill4_key",
@@ -284,7 +391,6 @@ configuration_options = {
         hover = en_zh("Skill4", "技能4"),
         default = "H",
         options = keylist,
-        is_keylist = true
     },
 	{
         name = "skill_counter_atk",
@@ -292,7 +398,6 @@ configuration_options = {
         hover = en_zh("Counter Attack", "反击技能"),
         default = "Z",
         options = keylist,
-        is_keylist = true
     },
 	{
         name = "quick_sheath_key",
@@ -300,7 +405,6 @@ configuration_options = {
         hover = en_zh("Quick Sheath Katana", "快速收拔刀"),
         default = "X",
         options = keylist,
-        is_keylist = true
     },
 	{
         name = "skill_cancel_key",
@@ -308,7 +412,6 @@ configuration_options = {
         hover = en_zh("Cancel all skill", "技能取消"),
         default = "V",
         options = keylist,
-        is_keylist = true
     },
 	{
         name = "counter_attack_cooldown_time",
@@ -457,17 +560,15 @@ configuration_options = {
         name = "put_glasses_key",
         label = en_zh("EyeGlasses 󰀅", "眼镜"),
         hover = en_zh("wear eyeglasses.", "戴眼镜按键"),
-        default = "O",
+        default = 111,
         options = keylist,
-        is_keylist = true
     },
 	{
-        name = "change_hairs_key",
+        name = "change_hair_style_key",
         label = en_zh("Change Hair Style 󰀖", "改变发型"),
-        hover = en_zh("This is the key to Change Hairstyle.", "改变发型按键"),
-        default = "L",
+        hover = en_zh("Choose a beautiful hairstyle for your girl!", "为你的少女选择好看的发型！"),
+        default = 108,
         options = keylist,
-        is_keylist = true
     },
 	{
         name = "levelcheck",
@@ -475,45 +576,7 @@ configuration_options = {
         hover = en_zh("This is the key use to Show level.", "查看人物等级按键"),
         default = "P",
         options = keylist,
-        is_keylist = true
     },
     AddTitle("Other Option", "其它选项"),
-    {
-        name = "idle_animation",
-        label = en_zh("enable idle animation.", "开启空闲动画"),
-        hover = en_zh("enable idle animation.", "开启空闲动画"),
-        options = {
-            {description = en_zh("Default", "默认"), data = "Default"},
-            {description = en_zh("Random", "随机"), data = "Random"},
-            {description = en_zh("Disable", "关闭"), data = false},
-        },
-        default = false,
-    },
-    {
-        name = "dodge_enable",
-        label = en_zh("enable dodge skill.", "开启滑铲技能"),
-        hover = en_zh("enable dodge skill.", "开启滑铲技能"),
-        options = options_enable,
-        default = false,
-    },
-    {
-        name = "dodge_cd",
-        label = en_zh("Set Dodge Skill Cooldown time.", "设置滑铲技能冷却时间"),
-        hover = en_zh("Set Dodge Skill Cooldown time.", "设置滑铲技能冷却时间"),
-        options = {
-            {description="1", data = 1},
-            {description="5", data = 5},
-            {description="10", data = 10},
-            {description="Default(20)", data = 20},
-            {description="25", data = 25},
-            {description="30", data = 30},
-            {description="35", data = 35},
-            {description="40", data = 40},
-            {description="45", data = 45},
-            {description="50", data = 50},
-            {description="55", data = 55},
-            {description="60", data = 60},
-        },
-        default = 20,
-    },
+
 }

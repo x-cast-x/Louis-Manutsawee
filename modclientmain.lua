@@ -67,5 +67,5 @@ modimport("main/prefabskin")
 AssetUtil.RegisterImageAtlas("images/inventoryimages/m_inventoryimages.xml")
 
 if ENV.is_mim_enabled then
-    modimport("postinit/reignofgiants/widgets/skinspuppet")
+    modimport("postinit/widgets/skinspuppet")
 end

@@ -9,7 +9,7 @@ local recipes_data = {
     msurfboard_item = {
         ingredients = {Ingredient("boards", 1), Ingredient("seashell", 2)},
         tech = TECH.NONE,
-        config = {builder_tag = "bladesmith"},
+        config = {builder_tag = "kenjutsuka"},
         filters = {"CHARACTER", "SEAFARING"},
     }
 }
