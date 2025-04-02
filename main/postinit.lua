@@ -2,6 +2,7 @@ local modimport = modimport
 GLOBAL.setfenv(1, GLOBAL)
 
 modimport("postinit/entityscript")
+modimport("postinit/input")
 
 local postinit = {
     prefabs = {
