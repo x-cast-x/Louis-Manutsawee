@@ -4,8 +4,7 @@ end
 
 local function GetPointSpecialActions(inst, pos, useitem, right)
     local rider = inst.replica.rider
-    local sailor = inst.replica.sailor
-    if inst:HasTag("dodger") and right and not rider:IsRiding() and sailor ~= nil and not sailor:IsSailing() and GetCooldownTime(inst) and not inst:HasTag("sitting_on_chair") then
+    if inst:HasTag("dodger") and right and not rider:IsRiding() and GetCooldownTime(inst) and not inst:HasTag("sitting_on_chair") then
         return {ACTIONS.MDODGE}
     end
     return {}
