@@ -1,4 +1,3 @@
---------------------------------------------------------------------------
 --[[ Player Skill Controller Status class definition ]]
 --------------------------------------------------------------------------
 
@@ -10,8 +9,6 @@ return Class(function(self, inst)
     --[[ Dependencies ]]
     --------------------------------------------------------------------------
 
-    local Skill_Settings = require("utils/manutsawee_extensions").Skill_Settings
-
     --------------------------------------------------------------------------
     --[[ Member variables ]]
     --------------------------------------------------------------------------
@@ -20,12 +17,95 @@ return Class(function(self, inst)
     self.inst = inst
 
     -- Private
-    local register_skills = {}
+    local is_active_skill = false
+
+    local registered_skills = {}
     local register_skill_cooldown_done_effect = {}
+
+    local MustTag = {"tool", "sharp", "weapon", "katana"}
+    local CantTag = {"projectile", "whip", "rangedweapon"}
+    local HasAnyTag = {"prey", "bird", "buzzard", "butterfly", "hostile"}
 
     --------------------------------------------------------------------------
     --[[ Private member functions ]]
     --------------------------------------------------------------------------
+
+    local CanActivateSkill = function(inst, weapon)
+        if not weapon
+        or (not inst.components.kenjutsuka)
+        or (not inst.components.playerskillcontroller)
+        or inst.components.sleeper:IsAsleep()
+        or inst.components.freezable:IsFrozen()
+        or inst.components.rider:IsRiding()
+        or inst.components.inventory:IsHeavyLifting()
+        or inst:HasTag("playerghost")
+        or weapon:HasOneOfTags(CantTag) and (not weapon:HasOneOfTags(MustTag)) then
+            return false
+        end
+
+        return true
+    end
+
+    local function CheckSkillKeyCooldown(inst, cooldown)
+        if inst.components.timer:TimerExists("skill_key_cd") then
+            inst.components.talker:Say(cooldown, 1, true)
+            return false
+        end
+        return true
+    end
+
+    local function CheckRequireLevel(inst, requiredlevel, currentlevel)
+        if currentlevel < requiredlevel then
+            inst.components.talker:Say(STRINGS.SKILL.UNLOCK_SKILL .. requiredlevel, 1, true)
+            return false
+        end
+        return true
+    end
+
+    local function CheckRequireMindpower(inst, requiredmindpower, currentmindpower)
+        if currentmindpower < requiredmindpower then
+            inst.components.talker:Say(STRINGS.SKILL.MINDPOWER_NOT_ENOUGH.. currentmindpower .. "/" .. requiredmindpower .. "\n ", 1, true)
+            return false
+        end
+        return true
+    end
+
+    local function ActivateSkill(inst, weapen, tag, requiredlevel, currentlevel, requiredmindpower, currentmindpower, cooldown, combatrange, startmessage)
+        if CheckSkillKeyCooldown(inst, cooldown) and CheckRequireLevel(inst, requiredlevel, currentlevel) and CheckRequireMindpower(inst, requiredmindpower, currentmindpower) then
+            inst:AddTag(tag)
+            inst.components.combat:SetRange(combatrange)
+            inst.components.talker:Say(startmessage.. currentmindpower .. "/" ..requiredmindpower .. "\n ", 1, true)
+            is_active_skill = true
+        end
+        return false
+    end
+
+    local function IsAllowTarget(inst, target)
+        if target ~= nil and (target:HasOneOfTags(HasAnyTag)) then
+            inst.sg:GoToState("idle")
+            inst.components.playerskillcontroller:DeactivateSkill()
+            inst.components.talker:Say(STRINGS.SKILL.REFUSE_RELEASE)
+            return false
+        end
+        return true
+    end
+
+    local function GetSkillCallback(inst, t)
+        for k, v in pairs(t) do
+            if inst:HasTag(k) then
+                return t[k]
+            end
+            break
+        end
+    end
+
+    local function RunCombatPostInit(inst)
+        local _StartAttack = inst.components.combat.StartAttack
+        function inst.components.combat:StartAttack(...)
+            _StartAttack(self, ...)
+            inst.components.playerskillcontroller:ReleaseSkill(self.target)
+        end
+    end
 
     --------------------------------------------------------------------------
     --[[ Private event handlers ]]
@@ -34,14 +114,11 @@ return Class(function(self, inst)
     local function OnTimerDone(inst, data)
         local name = data.name
         if name ~= nil then
-            for k, v in pairs(register_skill_cooldown_done_effect) do
-                if name == k then
-                    local fx = SpawnPrefab(v)
-                    fx.Transform:SetScale(.9, .9, .9)
-                    fx.entity:AddFollower()
-                    fx.Follower:FollowSymbol(inst.GUID, "swap_body", 0, 0, 0)
-                    break
-                end
+            if table.containskey(register_skill_cooldown_done_effect, name) then
+                local fx = SpawnPrefab(register_skill_cooldown_done_effect[name])
+                fx.Transform:SetScale(.9, .9, .9)
+                fx.entity:AddFollower()
+                fx.Follower:FollowSymbol(inst.GUID, "swap_body", 0, 0, 0)
             end
         end
     end
@@ -55,7 +132,9 @@ return Class(function(self, inst)
     end
 
     function self:RegisterSkill(name, tag, time, mindpower, fn)
-        register_skills[name] = function(inst)
+        assert(type(fn) == "function")
+
+        registered_skills[name] = function(inst)
             fn(inst)
             inst:RemoveTag(tag)
             inst.components.kenjutsuka:SetMindpower(inst.components.kenjutsuka:GetMindpower() - mindpower)
@@ -64,7 +143,7 @@ return Class(function(self, inst)
     end
 
     function self:DeactivateSkill()
-        for k, v in pairs(register_skills) do
+        for k, v in pairs(registered_skills) do
             if inst:HasTag(k) then
                 inst:RemoveTag(k)
             end
@@ -76,16 +155,34 @@ return Class(function(self, inst)
         inst.AnimState:SetDeltaTimeMultiplier(1)
     end
 
-    function self:ActivateSkill(name ,target)
-        local HasAnyTag = {"prey", "bird", "buzzard", "butterfly"}
-        if target ~= nil and (target:HasOneOfTags(HasAnyTag) and not target:HasTag("hostile")) then
-            inst.sg:GoToState("idle")
-            inst.components.playerskillcontroller:DeactivateSkill()
-            inst.components.talker:Say(STRINGS.SKILL.REFUSE_RELEASE)
-            return false
+    function self:ReleaseSkill(target)
+        if inst:HasTag("kenjutsuka") and inst:HasTag("kenjutsu") then
+            if IsAllowTarget(inst, target) then
+                local fn = GetSkillCallback(inst, registered_skills)
+                if fn ~= nil then
+                    fn(inst)
+                end
+            end
         end
+    end
 
-        return register_skills[name] ~= nil and register_skills[name]
+    function self:ActivateSkill(fn, data)
+        local weapon = inst.components.inventory ~= nil and inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
+
+        if CanActivateSkill(inst, weapon) then
+            inst.components.playerskillcontroller:DeactivateSkill()
+            inst.components.timer:StartTimer("skill_key_cd", 1)
+
+            if not is_active_skill then
+                local currentlevel = inst.components.kenjutsuka:GetLevel()
+                local currentmindpower = inst.components.kenjutsuka:GetMindpower()
+                local is_katana = weapon:HasTag("katana")
+                is_active_skill = ActivateSkill(inst, weapon, data.tag, data.requiredlevel, currentlevel, data.requiredmindpower, currentmindpower, data.cooldown, data.combatrange, data.startmessage)
+            else
+                inst.components.talker:Say(STRINGS.SKILL.SKILL_LATER, 1, true)
+                is_active_skill = false
+            end
+        end
     end
 
     --------------------------------------------------------------------------
@@ -99,12 +196,9 @@ return Class(function(self, inst)
     --------------------------------------------------------------------------
 
     function self:OnRemoveEntity()
-        for k, v in pairs(register_skills) do
-            if inst:HasTag(k) then
-                inst:RemoveTag(k)
-            end
-        end
+        self:DeactivateSkill()
 
+        inst:RemoveEventCallback("mounted", self.DeactivateSkill)
         inst:RemoveEventCallback("timerdone", OnTimerDone)
     end
 
@@ -125,6 +219,7 @@ return Class(function(self, inst)
     --[[ Post initialization ]]
     --------------------------------------------------------------------------
 
+    RunCombatPostInit(inst)
 
     --------------------------------------------------------------------------
     --[[ End ]]

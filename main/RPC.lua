@@ -9,6 +9,7 @@ local nskill3 = 4
 local nskill4 = 6
 local nskill5 = 5
 local nskill6 = 7
+
 local nskill7 = 8
 local nskill8 = 10
 local ncountskill = 2
@@ -541,9 +542,7 @@ AddModRPCHandler("LouisManutsawee", "ChangeHairStyleKey", function(inst, skinnam
         if hair_length == "cut" then
             inst.components.talker:Say(STRINGS.SKILL.HAIRTOOSHORT)
         else
-            inst:DoTaskInTime(0.1, function()
-                inst:PushEvent("change_hair_style")
-            end)
+            inst:PushEventInTime(0.1, "change_hair_style")
         end
     end
 end)
@@ -552,9 +551,7 @@ AddModRPCHandler("LouisManutsawee", "PutGlassesKey", function(inst, skinname)
     if CanPressKey(inst) and not inst.components.timer:TimerExists("put_glasse_cd") then
         inst.components.timer:StartTimer("put_glasse_cd", 1)
 
-        inst:DoTaskInTime(0.1, function()
-            inst:PushEvent("put_glasses")
-        end)
+        inst:PushEventInTime(0.1, "put_glasses")
     end
 end)
 

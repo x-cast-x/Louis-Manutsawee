@@ -27,6 +27,13 @@ function EntityScript:SetComponent(name, condition)
     end
 end
 
+<<<<<<< HEAD
+=======
+function self:HasComponent(cmp)
+    return self.components[cmp]
+end
+
+>>>>>>> a188404 (update)
 function EntityScript:HasAllComponents(...)
     for i = 1, select("#", ...) do
         local cmp = select(i, ...)
@@ -63,4 +70,13 @@ function EntityScript:HasOneOfComponents(...)
     else
         return self:HasAnyComponent(...)
     end
+<<<<<<< HEAD
+=======
+end
+
+function EntityScript:SetScale(x, y, z)
+    if self.Transform ~= nil then
+        self.Transform:SetScale(x, y, z)
+    end
+>>>>>>> a188404 (update)
 end

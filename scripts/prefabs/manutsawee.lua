@@ -87,6 +87,18 @@ local Funny_Idle_Anim = {
     ["manutsawee_bocchi"] = "idle_bocchi",
 }
 
+local skill_cooldown_effects = {
+    ["ichimonji"] = "ghostlyelixir_retaliation_dripfx",
+    ["flip"] = "ghostlyelixir_shield_dripfx",
+    ["thrust"] = "ghostlyelixir_speed_dripfx",
+    ["counter_attack"] = "battlesong_instant_panic_fx",
+    ["isshin"] = "monkey_deform_pre_fx",
+    ["heavenlystrike"] = "fx_book_birds",
+    ["ryusen"] = "fx_book_birds",
+    ["susanoo"] = "fx_book_birds",
+    ["soryuha"] = "thunderbird_fx_idle",
+}
+
 local LouisManutsawee = "LouisManutsawee"
 
 local start_inv = {}
@@ -195,10 +207,16 @@ local common_postinit = function(inst)
     inst:SetTag("slingshot_sharpshooter", M_CONFIG.IsGirlScouts)
     inst:SetTag("pebblemaker", M_CONFIG.IsGirlScouts)
 
-    inst:AddComponent("keyhandler")
+    -- inst:AddComponent("keyhandler")
     -- inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.LEVEL_CHECK_KEY, "LevelCheck")
-    inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.PutGlassesKey, "PutGlassesKey")
-    inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.ChangeHairStyleKey, "ChangeHairStyleKey")
+    -- inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.PutGlassesKey, "PutGlassesKey")
+    -- inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.ChangeHairStyleKey, "ChangeHairStyleKey")
+
+    inst:AddComponent("playerkeyhandler")
+    inst.components.playerkeyhandler:AddKeyListener(LouisManutsawee, M_CONFIG.PutGlassesKey, "PutGlassesKey")
+    -- inst.components.playerkeyhandler:AddCombinationKeyListener(LouisManutsawee, M_CONFIG.PutGlassesKey, M_CONFIG.ChangeHairStyleKey, "PutGlassesKey")
+    inst.components.playerkeyhandler:AddSequentialKeyHandler(LouisManutsawee, M_CONFIG.PutGlassesKey, M_CONFIG.ChangeHairStyleKey, "ChangeHairStyleKey")
+    -- inst.components.playerkeyhandler:AddCombinationKeyListener(LouisManutsawee, M_CONFIG.PutGlassesKey, M_CONFIG.ChangeHairStyleKey, "ChangeHairStyleKey")
 
     -- inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.SKILL1_KEY, "Skill1")
     -- inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.SKILL2_KEY, "Skill2")
@@ -217,19 +235,16 @@ local master_postinit = function(inst)
     inst.AnimState:SetScale(0.88, 0.9, 1)
 
     inst:AddComponent("hair")
-    -- inst:AddComponent("playerskillcontroller")
-    -- inst.components.playerskillcontroller:RegisterSkillCooldownDoneEffect("ichimonji", "ghostlyelixir_retaliation_dripfx")
-    -- inst.components.playerskillcontroller:RegisterSkillCooldownDoneEffect("ichimonji", "ghostlyelixir_shield_dripfx")
-    -- inst.components.playerskillcontroller:RegisterSkillCooldownDoneEffect("ichimonji", "ghostlyelixir_speed_dripfx")
-    -- inst.components.playerskillcontroller:RegisterSkillCooldownDoneEffect("ichimonji", "battlesong_instant_panic_fx")
-    -- inst.components.playerskillcontroller:RegisterSkillCooldownDoneEffect("ichimonji", "monkey_deform_pre_fx")
-    -- inst.components.playerskillcontroller:RegisterSkillCooldownDoneEffect("ichimonji", "fx_book_birds")
-    -- inst.components.playerskillcontroller:RegisterSkillCooldownDoneEffect("ichimonji", "fx_book_birds")
-    -- inst.components.playerskillcontroller:RegisterSkillCooldownDoneEffect("ichimonji", "fx_book_birds")
-    -- inst.components.playerskillcontroller:RegisterSkillCooldownDoneEffect("ichimonji", "thunderbird_fx_idle")
+
+    inst:AddComponent("playerskillcontroller")
+    for k, v in pairs(skill_cooldown_effects) do
+        inst.components.playerskillcontroller:RegisterSkillCooldownDoneEffect(k, v)
+    end
 
     inst:AddComponent("skinheaddress")
-    inst.components.skinheaddress:SetHeaddress(SkinsHeaddress)
+    for k, v in pairs(SkinsHeaddress) do
+        inst.components.skinheaddress:SetHeaddress(k, v)
+    end
 
     inst:AddComponent("customidleanim")
     inst.components.customidleanim:SetIdleAnim(Idle_Anim, Funny_Idle_Anim)

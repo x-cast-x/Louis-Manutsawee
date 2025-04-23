@@ -57,7 +57,7 @@ return Class(function(self, inst)
         end
     end
 
-    local function HandleexpGain(inst, weapon, level, exp)
+    local function HandleExpGain(inst, weapon, level, exp)
         if weapon:HasTag("katana") and not inst.components.timer:TimerExists("hit_cd") and
             not inst.sg:HasStateTag("skilling") then
             if level < 10 then
@@ -116,7 +116,7 @@ return Class(function(self, inst)
             local tx, ty, tz = target.Transform:GetWorldPosition()
             local CAMT_TAG = not (target:HasOneOfTags({"prey", "bird", "insect", "wall"}) and not target:HasTag("hostile"))
 
-            exp = HandleexpGain(inst, weapon, level, exp)
+            exp = HandleExpGain(inst, weapon, level, exp)
 
             if CAMT_TAG then
                 HandleCriticalHit(inst, target, level, tx, ty, tz)

@@ -54,19 +54,4 @@ AddComponentPostInit("combat", function(self, inst)
         end
     end
 
-    local _StartAttack = self.StartAttack
-    function self:StartAttack(...)
-        _StartAttack(self, ...)
-        if inst:HasTag("kenjutsuka") and inst:HasTag("kenjutsu") then
-            for _, v in pairs(M_SKILLS) do
-                if inst:HasTag(v) and inst.components.playerskillcontroller ~= nil then
-                    local fn = inst.components.playerskillcontroller:ActivateSkill(v, self.target)
-                    if type(fn) == "function" and fn(inst) then
-                        break
-                    end
-                end
-            end
-        end
-    end
-
 end)

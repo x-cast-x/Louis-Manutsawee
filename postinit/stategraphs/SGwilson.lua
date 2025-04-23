@@ -673,7 +673,7 @@ local states = {
 
         timeline = {
             TimeEvent(3 * FRAMES, function(inst)
-            inst.components.combat:DoAttack(inst.sg.statemem.target)
+                inst.components.combat:DoAttack(inst.sg.statemem.target)
                 local equip = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
                 if equip ~= nil and equip.components.spellcaster ~= nil then
                     equip.components.spellcaster:CastSpell(inst)
