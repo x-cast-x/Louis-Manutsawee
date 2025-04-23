@@ -26,3 +26,6 @@ function EntityScript:SetComponent(name, condition)
         self:AddComponent(name)
     end
 end
+
+function EntityScript:HasComponent(name)
+end
