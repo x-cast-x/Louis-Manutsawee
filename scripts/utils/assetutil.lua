@@ -1,5 +1,6 @@
 local RegisterInventoryItemAtlas = RegisterInventoryItemAtlas
 local resolvefilepath = resolvefilepath
+local AddMinimapAtlas = AddMinimapAtlas
 
 local function RegisterImageAtlas(atlas_path)
     local atlas = resolvefilepath(atlas_path)
@@ -18,6 +19,12 @@ local function RegisterImageAtlas(atlas_path)
             RegisterInventoryItemAtlas(atlas, hash(image))  -- for client
         end
     end
+end
+
+local function AddMiniMapAtlas(path, t)
+    table.insert(t, Asset("ATLAS", path .. ".xml"))
+    table.insert(t, Asset("IMAGE", path .. ".tex"))
+    AddMinimapAtlas(path .. ".xml")
 end
 
 return {

@@ -11,13 +11,9 @@ end
 
 local function SpawnFxTask(inst)
     if inst.components.inventoryitem ~= nil and not inst.components.inventoryitem:IsHeld() then
-        local electricchargedfx = SpawnPrefab("electricchargedfx")
-        electricchargedfx.entity:AddFollower()
-        electricchargedfx.Follower:FollowSymbol(inst.GUID)
 
-        local thunderbird_fx_charge_loop = SpawnPrefab("thunderbird_fx_charge_loop")
-        thunderbird_fx_charge_loop.entity:AddFollower()
-        thunderbird_fx_charge_loop.Follower:FollowSymbol(inst.GUID)
+        inst:FollwerFx("electricchargedfx")
+        inst:FollwerFx("thunderbird_fx_charge_loop")
 
         if inst.entity:IsAwake() then
             inst.spawn_fx_task = inst:DoTaskInTime(4+math.random()*10, SpawnFxTask)
@@ -33,11 +29,8 @@ local function OnEntityWake(inst)
 end
 
 local function OnLightningStrike(inst)
-    local electricchargedfx = SpawnPrefab("electricchargedfx")
-    electricchargedfx.Transform:SetPosition(inst:GetPosition():Get())
-
-    local thunderbird_fx_charge_loop = SpawnPrefab("thunderbird_fx_charge_loop")
-    thunderbird_fx_charge_loop.Transform:SetPosition(inst:GetPosition():Get())
+    inst:SpawnPrefabInPos("electricchargedfx")
+    inst:SpawnPrefabInPos("thunderbird_fx_charge_loop")
 
     if absorblightning then
         return
@@ -46,8 +39,7 @@ local function OnLightningStrike(inst)
     shockeffect = true
     absorblightning = true
 
-    local thunderbird_fx_charge_pst = SpawnPrefab("thunderbird_fx_idle")
-    thunderbird_fx_charge_pst.Transform:SetPosition(inst:GetPosition():Get())
+    inst:SpawnPrefabInPos("thunderbird_fx_idle")
 
     OnEntityWake(inst)
 end
@@ -62,8 +54,7 @@ end
 
 local function shirasaya_onattack(inst, owner, target)
     if target ~= nil and target:IsValid() then
-        local hitsparks_fx = SpawnPrefab("brilliance_projectile_blast_fx")
-        hitsparks_fx.Transform:SetPosition(target:GetPosition():Get())
+        inst:SpawnPrefabInPos("brilliance_projectile_blast_fx")
 
         if inst.IsShadow(target) or inst.IsLunar(target) then
             if target.components.combat ~= nil then

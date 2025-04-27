@@ -7,13 +7,8 @@ AddComponentPostInit("playerlightningtarget", function(self, inst)
         local weapon = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
         local has_lightningcutter = weapon ~= nil and weapon:HasTag("lightningcutter")
         if has_lightningcutter then
-            local electricchargedfx = SpawnPrefab("electricchargedfx")
-            electricchargedfx.entity:AddFollower()
-            electricchargedfx.Follower:FollowSymbol(inst.GUID)
-
-            local thunderbird_fx_charge_loop = SpawnPrefab("thunderbird_fx_charge_loop")
-            thunderbird_fx_charge_loop.entity:AddFollower()
-            thunderbird_fx_charge_loop.Follower:FollowSymbol(inst.GUID)
+            inst:FollwerFx("electricchargedfx")
+            inst:FollwerFx("thunderbird_fx_charge_loop")
 
             weapon:PushEvent("lightningstrike")
             inst:PushEvent("lightningdamageavoided", has_lightningcutter)

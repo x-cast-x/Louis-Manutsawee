@@ -82,8 +82,6 @@ function TheInput:OnRawKey(key, down)
         if _OnRawKey ~= nil then
             _OnRawKey(self, key, down)
         end
-    else -- 可以在这里加 log 看看事件是否被消耗了
-        print("Input event consumed by sequence or combo:", tostring(key), tostring(down))
     end
 end
 

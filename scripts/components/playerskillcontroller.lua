@@ -90,20 +90,12 @@ return Class(function(self, inst)
         return true
     end
 
-    local function GetSkillCallback(inst, t)
+    local function IsPlayerHasSkillTag(inst, t)
         for k, v in pairs(t) do
             if inst:HasTag(k) then
                 return t[k]
             end
             break
-        end
-    end
-
-    local function RunCombatPostInit(inst)
-        local _StartAttack = inst.components.combat.StartAttack
-        function inst.components.combat:StartAttack(...)
-            _StartAttack(self, ...)
-            inst.components.playerskillcontroller:ReleaseSkill(self.target)
         end
     end
 
@@ -158,7 +150,7 @@ return Class(function(self, inst)
     function self:ReleaseSkill(target)
         if inst:HasTag("kenjutsuka") and inst:HasTag("kenjutsu") then
             if IsAllowTarget(inst, target) then
-                local fn = GetSkillCallback(inst, registered_skills)
+                local fn = IsPlayerHasSkillTag(inst, registered_skills)
                 if fn ~= nil then
                     fn(inst)
                 end
@@ -218,8 +210,6 @@ return Class(function(self, inst)
     --------------------------------------------------------------------------
     --[[ Post initialization ]]
     --------------------------------------------------------------------------
-
-    RunCombatPostInit(inst)
 
     --------------------------------------------------------------------------
     --[[ End ]]

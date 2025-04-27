@@ -1,5 +1,6 @@
 local SkillUtil = require("utils/skillutil")
 local AddComponentPostInit = AddComponentPostInit
+local Combat = require("components/combat")
 GLOBAL.setfenv(1, GLOBAL)
 
 local blockcount = 0
@@ -55,3 +56,16 @@ AddComponentPostInit("combat", function(self, inst)
     end
 
 end)
+
+local _StartAttack = Combat.StartAttack
+function Combat:StartAttack()
+    _StartAttack(self, ...)
+
+    if self.afterstartattackfn ~= nil then
+        self.afterstartattackfn(self.inst)
+    end
+end
+
+function Combat:SetAfterStartAttack(fn)
+    self.afterstartattackfn = fn
+end

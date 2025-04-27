@@ -27,13 +27,10 @@ function EntityScript:SetComponent(name, condition)
     end
 end
 
-<<<<<<< HEAD
-=======
 function self:HasComponent(cmp)
     return self.components[cmp]
 end
 
->>>>>>> a188404 (update)
 function EntityScript:HasAllComponents(...)
     for i = 1, select("#", ...) do
         local cmp = select(i, ...)
@@ -70,13 +67,24 @@ function EntityScript:HasOneOfComponents(...)
     else
         return self:HasAnyComponent(...)
     end
-<<<<<<< HEAD
-=======
 end
 
 function EntityScript:SetScale(x, y, z)
     if self.Transform ~= nil then
         self.Transform:SetScale(x, y, z)
     end
->>>>>>> a188404 (update)
+end
+
+function EntityScript:FollwerFx(fx, GUID, symbol, x, y, z)
+    if type(fx) == "string" then
+        local _fx = SpawnPrefab(fx)
+        if _fx ~= nil and _fx:HasTag("FX") then
+            _fx.entity:AddFollower()
+            _fx.Follower:FollowSymbol(GUID or self.GUID, symbol or "swap_body", x or 0, z or 0, y or 0)
+        end
+    end
+end
+
+function EntityScript:SpawnPrefabInPos(prefab)
+    SpawnPrefab(prefab).Transform:SetPosition(self:GetPosition():Get())
 end

@@ -1,5 +1,4 @@
 local AssetUtil = require("utils/assetutil")
-local AddMinimapAtlas = AddMinimapAtlas
 
 PrefabFiles = {
     "manutsawee",
@@ -39,9 +38,6 @@ Assets = {
     Asset("IMAGE", "images/hud/m_inventoryimages.tex"),
     Asset("ATLAS", "images/hud/m_inventoryimages.xml"),
     Asset("ATLAS_BUILD", "images/hud/m_inventoryimages.xml", 256),  -- for minisign
-
-    Asset("ATLAS", "images/map_icons/m_minimaps.xml"),
-    Asset("IMAGE", "images/map_icons/m_minimaps.tex"),
 
     Asset("IMAGE", "images/saveslot_portraits/manutsawee.tex"),
     Asset("ATLAS", "images/saveslot_portraits/manutsawee.xml"),
@@ -99,5 +95,5 @@ Assets = {
     Asset("ATLAS", "bigportraits/manutsawee_maid_m.xml"),
 }
 
-AddMinimapAtlas("images/map_icons/m_minimaps.xml")
+AssetUtil.AddMinimapAtlas("images/map_icons/m_minimaps", Assets)
 AssetUtil.RegisterImageAtlas("images/hud/m_inventoryimages.xml")
