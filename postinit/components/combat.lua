@@ -58,7 +58,7 @@ AddComponentPostInit("combat", function(self, inst)
 end)
 
 local _StartAttack = Combat.StartAttack
-function Combat:StartAttack()
+function Combat:StartAttack(...)
     _StartAttack(self, ...)
 
     if self.afterstartattackfn ~= nil then

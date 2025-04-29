@@ -55,7 +55,7 @@ return Class(function(self, inst)
     --[[ Public member functions ]]
     --------------------------------------------------------------------------
 
-    function self:AddKeyUpListener(namespace, key, action)
+    function self:AddKeyListener(namespace, key, action)
         _input:AddKeyUpHandler(key, function(_key)
             HandleKeyAction(namespace, action, key, _key)
         end)

@@ -27,7 +27,14 @@ function EntityScript:SetComponent(name, condition)
     end
 end
 
-function self:HasComponent(cmp)
+
+--[[
+
+Mainly used for multiple component judgments, just looks more beautiful :D
+
+]]
+
+function EntityScript:HasComponent(cmp)
     return self.components[cmp]
 end
 
@@ -77,14 +84,19 @@ end
 
 function EntityScript:FollwerFx(fx, GUID, symbol, x, y, z)
     if type(fx) == "string" then
-        local _fx = SpawnPrefab(fx)
-        if _fx ~= nil and _fx:HasTag("FX") then
-            _fx.entity:AddFollower()
-            _fx.Follower:FollowSymbol(GUID or self.GUID, symbol or "swap_body", x or 0, z or 0, y or 0)
+        fx = SpawnPrefab(fx)
+    end
+    if checkentity(fx) then
+        if fx:HasTag("FX") then
+            fx.entity:AddFollower()
+            fx.Follower:FollowSymbol(GUID or self.GUID, symbol or "swap_body", x or 0, z or 0, y or 0)
+            return fx
+        else
+            fx:Remove()
         end
     end
 end
 
 function EntityScript:SpawnPrefabInPos(prefab)
-    SpawnPrefab(prefab).Transform:SetPosition(self:GetPosition():Get())
+    return SpawnPrefab(prefab).Transform:SetPosition(self:GetPosition():Get())
 end

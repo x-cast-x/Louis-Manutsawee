@@ -1,6 +1,5 @@
-local Beard = require("components/beard")
-return Class(Beard, function(self, inst)
-    Beard._ctor(self)
+return Class(function(self, inst)
+    self.inst = inst
 
     local Hair_Growth_Lengths = {
         cut = { days = 3, bits = 0 },
@@ -29,9 +28,9 @@ return Class(Beard, function(self, inst)
                 end
             end
 
-            inst.components.hair.bits = Hair_Growth_Lengths[length].bits
-            inst.components.hair.daysgrowth = Hair_Growth_Lengths[length].days
-            inst.components.hair.insulation_factor = style and 1 or 1.5
+            inst.components.beard.bits = Hair_Growth_Lengths[length].bits
+            inst.components.beard.daysgrowth = Hair_Growth_Lengths[length].days
+            inst.components.beard.insulation_factor = style and 1 or 1.5
         end
     end
 
@@ -51,8 +50,16 @@ return Class(Beard, function(self, inst)
         end
     end
 
-    function self:SetHairStyle(style)
-        SetHairGrowthLength(inst, hair_length, style)
+    local function SetUpBeardComponent()
+        local beard = inst:AddComponent("beard")
+        beard.insulation_factor = 1.5
+        beard.onreset = OnResetHair
+        beard.prize = "beardhair"
+        beard.is_skinnable = false
+
+        for length, data in pairs(Hair_Growth_Lengths) do
+            beard:AddCallback(data.days, function() SetHairGrowthLength(inst, length, hair_style) end)
+        end
     end
 
     function self:ChangeHairStyle()
@@ -86,6 +93,8 @@ return Class(Beard, function(self, inst)
             hair_style = data.hair_style
         end
     end
+
+    inst:DoTaskInTime(0, SetUpBeardComponent)
 
     inst:ListenForEvent("death", OnDeath)
 end)

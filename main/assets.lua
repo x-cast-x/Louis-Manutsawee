@@ -1,4 +1,5 @@
 local AssetUtil = require("utils/assetutil")
+local AddMinimapAtlas = AddMinimapAtlas
 
 PrefabFiles = {
     "manutsawee",
@@ -33,6 +34,9 @@ Assets = {
     Asset("ANIM", "anim/player_actions_roll.zip"),
 
     Asset("ANIM", "anim/nightmare_crack_upper_tomb.zip"),
+
+    Asset("IMAGE", "images/map_icons/m_minimaps.tex"),
+    Asset("ATLAS", "images/map_icons/m_minimaps.xml"),
 
     -- inventoryimages
     Asset("IMAGE", "images/hud/m_inventoryimages.tex"),
@@ -95,5 +99,5 @@ Assets = {
     Asset("ATLAS", "bigportraits/manutsawee_maid_m.xml"),
 }
 
-AssetUtil.AddMinimapAtlas("images/map_icons/m_minimaps", Assets)
+AddMinimapAtlas("images/map_icons/m_minimaps.xml")
 AssetUtil.RegisterImageAtlas("images/hud/m_inventoryimages.xml")

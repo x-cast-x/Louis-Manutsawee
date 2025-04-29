@@ -6,16 +6,20 @@ return Class(function(self, inst)
 
     local _world = TheWorld
 
-    local headdress = {}
+    local headdresses = {}
 
     function self:SetHeaddress(skin, headdress)
-        headdress[skin] = headdress
+        headdresses[skin] = headdress
+    end
+
+    function self:GetHeaddreass()
+        return headdresses
     end
 
     local function OnSkinsChanged(inst)
         local equip = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HEAD)
         if equip == nil then
-            local build = inst.components.skinheaddress.headdress[inst.AnimState:GetBuild()]
+            local build = headdresses[inst.AnimState:GetBuild()]
             if build ~= nil then
                 inst.AnimState:Show("HAT")
                 inst.AnimState:OverrideSymbol("swap_hat", build, "swap_hat")
