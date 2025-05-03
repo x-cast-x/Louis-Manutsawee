@@ -33,7 +33,7 @@ return Class(function(self, inst)
 
     function self:OnLoad(data)
         if data ~= nil then
-            if data.is_puted ~= nil then
+            if data.is_puted then
                 self:UpdateGlass(data.is_puted)
             end
         end
