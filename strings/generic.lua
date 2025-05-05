@@ -12,7 +12,6 @@ return {
         MFRUIT = "Fruit?",
         MINGOT = "What is this?",
         MMIKO_ARMOR = "Not for me.",
-        MNAGINATA = "This spear look different.",
         MORTALBLADE = "To cut the immortality.",
         MSURFBOARD_ITEM = "Which lady's surfboard is this?",
         M_FOXMASK = "What a nice mask!.",

@@ -1349,6 +1349,12 @@ for _, actionhandler in ipairs(actionhandlers) do
     AddStategraphActionHandler("wilson", actionhandler)
 end
 
+local weapon_style = {
+    "mkatana",
+    "lai",
+    "yari",
+}
+
 local function fn(sg)
     local attack_actionhandler = sg.actionhandlers[ACTIONS.ATTACK].deststate
     sg.actionhandlers[ACTIONS.ATTACK].deststate = function(inst, action, ...)

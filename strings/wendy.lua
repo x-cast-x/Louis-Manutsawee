@@ -12,7 +12,6 @@ return {
         MFRUIT = "",
         MINGOT = "",
         MMIKO_ARMOR = "",
-        MNAGINATA = "",
         MORTALBLADE = "",
         MSURFBOARD_ITEM = "",
         M_FOXMASK = "",

@@ -54,4 +54,19 @@ table.insert(prefabs, CreatePrefabSkin("lcane", {
     skin_tags = { "CANE", "Glassic" },
 }))
 
+table.insert(prefabs, CreatePrefabSkin("mnaginata", {
+    base_prefab = "yari",
+    type = "item",
+    rarity = "Glassic",
+    assets = {
+        Asset("DYNAMIC_ANIM", "anim/dynamic/mnaginata.zip"),
+        Asset("PKGREF", "anim/dynamic/mnaginata.dyn"),
+    },
+    init_fn = function(inst)
+        yari_init_fn(inst, "mnaginata")
+        GlassicAPI.UpdateFloaterAnim(inst)
+    end,
+    skin_tags = { "MNAGINATA", "Glassic" },
+}))
+
 return unpack(prefabs)

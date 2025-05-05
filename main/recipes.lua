@@ -68,12 +68,6 @@ local recipes = {
         config = {builder_tag = "tosho"},
         filters = {"CHARACTER", "WEAPONS"},
     },
-    mnaginata = {
-        ingredients = {Ingredient("spear", 1),Ingredient("goldnugget", 2)},
-        tech = TECH.SCIENCE_TWO,
-        config = {builder_tag = "tosho"},
-        filters = {"CHARACTER", "WEAPONS"},
-    },
 
     katanablade = {
         ingredients = {Ingredient("rope", 1), Ingredient("katanabody", 1), Ingredient("cutstone", 1)},

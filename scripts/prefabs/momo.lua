@@ -49,7 +49,7 @@ local assets = {
 
 local prefabs = {
     "fx_book_light_upgraded",
-    "mnaginata",
+    "yari",
     "momo_hat",
     "battlesong_instant_taunt_fx",
     "mortalblade",
@@ -76,7 +76,6 @@ local profile_chat_icon = {
 }
 
 local starting_inventory = {
-    mnaginata = 1,
     momo_hat = 1,
     mortalblade = 1,
     momocube = 1,
@@ -143,8 +142,8 @@ end
 local function SetUpEquip(inst)
     local inventory = inst.components.inventory
     if inventory ~= nil then
-        -- priority use mnaginata
-        inst:Equip("mnaginata", inventory)
+        -- priority use yari
+        inst:Equip("yari", inventory)
         -- just a decoration, no effect
         inst:Equip("momo_hat", inventory)
     end

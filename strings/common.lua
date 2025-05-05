@@ -81,7 +81,6 @@ return {
         MFRUIT = "Louis's memory fruit",
         MINGOT = "Mysterious Ingot",
         MMIKO_ARMOR = "Miko Robe",
-        MNAGINATA = "Naginata",
         MORTALBLADE = "Mortal Blade",
         MSURFBOARD_ITEM = "louis's Surf board",
         M_FOXMASK = "Kitsune Mask",
@@ -124,7 +123,6 @@ return {
         MAID_HB = "Louis's headwear set.",
         MINGOT = "Bring it to fire",
         MMIKO_ARMOR = "Miko robe for miko skin",
-        MNAGINATA = "It's Japanese Spear.",
         MORTALBLADE = "To cut the immortality.",
         MSURFBOARD_ITEM = "louis's Surf board",
         M_FOXMASK = "Fox Mask!",
@@ -188,6 +186,7 @@ return {
         manutsawee_lycoris = "Takina's outfit from Lycoris Recoil",
         manutsawee_yukata = "Japan's outfit mini version.",
         manutsawee_yukatalong = "Japan's outfit.",
+        mnaginata = "Naginata",
     },
     SKIN_NAMES = {
         lcane = "Moon cane",
@@ -206,6 +205,7 @@ return {
         manutsawee_lycoris = "Lycoris",
         manutsawee_yukata = "Kimono(M) ",
         manutsawee_yukatalong = "Kimono",
+        mnaginata = "Naginata",
     },
     SKIN_QUOTES = {
         manutsawee_maid_m = "\"Guest sama, would you like a cup of coffee?\"",

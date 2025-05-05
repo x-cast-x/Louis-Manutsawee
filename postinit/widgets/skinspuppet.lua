@@ -1,13 +1,10 @@
+local ENV = env
 local SkinsPuppet = require("widgets/skinspuppet")
+local modname = modname
+local AssetUtil = require("utils/assetutil")
 GLOBAL.setfenv(1, GLOBAL)
 
-local yukata_idle = {
-    fn = function(self)
-        self.override_build = "player_idles_wendy"
-        self.animstate:AddOverrideBuild(self.override_build)
-    end,
-    anim = "idle_wendy"
-}
+AssetUtil.LoadAnimAssets(modname, {Asset("ANIM", "anim/player_idles_bocchi.zip")})
 
 local balloon_color = {
     "blue",
@@ -26,9 +23,21 @@ local M_Idle_Anim = {
     ["manutsawee_jinbei"] = "idle_wortox",
     ["manutsawee_taohuu"] = "idle_winona",
     ["manutsawee_miko"] = "emote_impatient",
-    ["manutsawee_bocchi"] = "emote_impatient",
-    ["manutsawee_yukatalong"] = yukata_idle,
-    ["manutsawee_yukata"] = yukata_idle,
+    ["manutsawee_bocchi"] = "idle_bocchi_loop",
+    ["manutsawee_yukatalong"] = {
+        fn = function(self)
+            self.override_build = "player_idles_wendy"
+            self.animstate:AddOverrideBuild(self.override_build)
+        end,
+        anim = "idle_wendy"
+    },
+    ["manutsawee_yukata"] = {
+        fn = function(self)
+            self.override_build = "player_idles_wendy"
+            self.animstate:AddOverrideBuild(self.override_build)
+        end,
+        anim = "idle_wendy"
+    },
 
     ["manutsawee_qipao"] = {
         fn = function(self)
@@ -68,7 +77,6 @@ local M_Idle_Anim = {
     },
 }
 
--- luajit2 compatible
 local _DoIdleEmote = SkinsPuppet.DoIdleEmote
 function SkinsPuppet:DoIdleEmote(...)
     local r = math.random()

@@ -9,10 +9,10 @@ return Class(function(self, inst)
     function self:UpdateGlass(puted)
         local build = glasses[inst.AnimState:GetBuild()]
         local symbol = build ~= nil and build or "eyeglasses"
-        if puted then
-            inst.AnimState:ClearOverrideSymbol("swap_face")
-        else
+        if puted and not inst.AnimState:GetSymbolOverride("swap_face") then
             inst.AnimState:OverrideSymbol("swap_face", symbol, "swap_face")
+        else
+            inst.AnimState:ClearOverrideSymbol("swap_face")
         end
         is_puted = puted
     end

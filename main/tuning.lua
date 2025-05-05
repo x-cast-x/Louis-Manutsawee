@@ -32,11 +32,9 @@ local tuning = {
     TOKIJIN_DAMAGE = wilson_attack * 1.9,
     HARAKIRI_DAMAGE = wilson_attack,
     YARI_DAMAGE = wilson_attack * 1.5,
-    MNAGINATA_DAMAGE = wilson_attack * 1.5,
 
     HARAKIRI_USES = 200,
     YARI_USES = 300,
-    MNAGINATA_USES = 300,
     BLADE_USES = 300,
 
     --mmiko_armor
