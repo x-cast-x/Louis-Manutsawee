@@ -26,7 +26,7 @@ local CANT_TAG = {"projectile", "whip", "rangedweapon"}
 local function CanActivateSkill(inst)
     local inventory = inst.components.inventory
     local weapon = inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
-    local IsAsleep = inst.components.sleeper ~= nil and not inst.components.sleeper:IsAsleep()
+    local IsAsleep = inst.components.sleeper ~= nil and inst.components.sleeper:IsAsleep()
     local IsFrozen = inst.components.freezable:IsFrozen()
     local IsRiding = inst.components.rider:IsRiding()
     local IsHeavyLifting = inventory:IsHeavyLifting()
@@ -39,25 +39,25 @@ local function CanActivateSkill(inst)
 end
 
 local function CanPressKey(inst)
-    return not (inst.components.health ~= nil and inst.components.health:IsDead() and inst.sg:HasStateTag("dead") and not inst:HasTag("playerghost")) and inst.sg:HasStateTag("idle") or inst:HasTag("idle") and not (inst.sg:HasStateTag("doing") or inst.components.inventory:IsHeavyLifting()) and not (inst.sg:HasStateTag("moving") or inst:HasTag("moving"))
+    return not (inst.components.health ~= nil and inst.components.health:IsDead() and not inst:HasTag("playerghost")) and inst:HasTag("idle") and not (inst.sg:HasStateTag("doing") or inst.components.inventory:IsHeavyLifting()) and not (inst.sg:HasStateTag("moving") or inst:HasTag("moving"))
 end
 
-AddModRPCHandler(LouisManutsawee, "LevelCheck", function(inst)
-    local kenjutsuka = inst.components.kenjutsuka
-    local kenjutsuexp = kenjutsuka.kenjutsuexp
-    local kenjutsumaxexp = kenjutsuka.kenjutsumaxexp
-    local kenjutsulevel = kenjutsuka.kenjutsulevel
-    local mindpower = kenjutsuka:GetMindpower()
-    local max_mindpower = kenjutsuka.max_mindpower
+AddModRPCHandler(LouisManutsawee, "LevelCheckKey", function(inst)
+    -- local kenjutsuka = inst.components.kenjutsuka
+    -- local kenjutsuexp = kenjutsuka.kenjutsuexp
+    -- local kenjutsumaxexp = kenjutsuka.kenjutsumaxexp
+    -- local kenjutsulevel = kenjutsuka.kenjutsulevel
+    -- local mindpower = kenjutsuka:GetMindpower()
+    -- local max_mindpower = kenjutsuka.max_mindpower
 
-    if not inst.components.timer:TimerExists("levelcheck_cd") then
-        inst.components.timer:StartTimer("levelcheck_cd",.8)
-        if kenjutsulevel < 10 then
-            inst.components.talker:Say("󰀍: ".. kenjutsulevel .." :" .. kenjutsuexp .. "/" .. kenjutsumaxexp .. "\n󰀈: " .. mindpower .."/" .. max_mindpower .. "\n", 2, true)
-        else
-            inst.components.talker:Say("\n󰀈: ".. mindpower .. "/" .. max_mindpower.."\n", 2, true)
-        end
-    end
+    -- if not inst.components.timer:TimerExists("levelcheck_cd") then
+    --     inst.components.timer:StartTimer("levelcheck_cd",.8)
+    --     if kenjutsulevel < 10 then
+    --         inst.components.talker:Say("󰀍: ".. kenjutsulevel .." :" .. kenjutsuexp .. "/" .. kenjutsumaxexp .. "\n󰀈: " .. mindpower .."/" .. max_mindpower .. "\n", 2, true)
+    --     else
+    --         inst.components.talker:Say("\n󰀈: ".. mindpower .. "/" .. max_mindpower.."\n", 2, true)
+    --     end
+    -- end
 end)
 
 AddModRPCHandler(LouisManutsawee, "Skill_Key_1", function(inst)
@@ -491,7 +491,7 @@ AddModRPCHandler(LouisManutsawee, "Skill4", function(inst)
     end
 end)
 
-AddModRPCHandler(LouisManutsawee, "CounterAttack", function(inst)
+AddModRPCHandler(LouisManutsawee, "CounterAttackKey", function(inst)
     if CanActivateSkill(inst) then
         if not inst.components.timer:TimerExists("prepare_counter_attack") then
             local kenjutsuLevel = inst.components.kenjutsuka:GetKenjutsuLevel()
@@ -509,7 +509,7 @@ AddModRPCHandler(LouisManutsawee, "CounterAttack", function(inst)
     end
 end)
 
-AddModRPCHandler(LouisManutsawee, "QuickSheath", function(inst)
+AddModRPCHandler(LouisManutsawee, "QuickSheathKey", function(inst)
     if CanActivateSkill(inst) then
         if not (inst.components.kenjutsuka:GetLevel() < ncountskill) then
             if not inst.components.timer:TimerExists("quick_sheath_cd") then
@@ -525,7 +525,7 @@ AddModRPCHandler(LouisManutsawee, "QuickSheath", function(inst)
     end
 end)
 
-AddModRPCHandler(LouisManutsawee, "SkillCancel", function(inst)
+AddModRPCHandler(LouisManutsawee, "SkillCancelKey", function(inst)
     if CanActivateSkill(inst) then
         if not inst.components.timer:TimerExists("skill_cancel_cd") then
             inst.components.timer:StartTimer("skill_cancel_cd",1)

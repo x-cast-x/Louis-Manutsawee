@@ -115,6 +115,12 @@ return Class(function(self, inst)
         end
     end
 
+    local function OnUnEquip(inst, data)
+        if inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS) == nil then
+            inst.components.playerskillcontroller:DeactivateSkill()
+        end
+    end
+
     --------------------------------------------------------------------------
     --[[ Public member functions ]]
     --------------------------------------------------------------------------
@@ -148,7 +154,7 @@ return Class(function(self, inst)
     end
 
     function self:ReleaseSkill(target)
-        if inst:HasTag("kenjutsuka") and inst:HasTag("kenjutsu") then
+        if inst:HasTag("kenjutsuka") then
             if IsAllowTarget(inst, target) then
                 local fn = IsPlayerHasSkillTag(inst, registered_skills)
                 if fn ~= nil then
@@ -206,6 +212,9 @@ return Class(function(self, inst)
 
     inst:ListenForEvent("mounted", self.DeactivateSkill)
     inst:ListenForEvent("timerdone", OnTimerDone)
+    inst:ListenForEvent("death", self.DeactivateSkill)
+    inst:ListenForEvent("ms_playerreroll", self.DeactivateSkill)
+    inst:ListenForEvent("unequip", OnUnEquip)
 
     --------------------------------------------------------------------------
     --[[ Post initialization ]]

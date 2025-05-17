@@ -56,21 +56,27 @@ return Class(function(self, inst)
     --------------------------------------------------------------------------
 
     function self:AddKeyListener(namespace, key, action)
-        _input:AddKeyUpHandler(key, function(_key)
-            HandleKeyAction(namespace, action, key, _key)
-        end)
+        if namespace ~= nil and key ~= nil and action ~= nil then
+            _input:AddKeyUpHandler(key, function(_key)
+                HandleKeyAction(namespace, action, key, _key)
+            end)
+        end
     end
 
     function self:AddCombinationKeyListener(namespace, key, _key, action)
-        _input:AddCombinationKeyHandler(key, _key, function(key, pressed_key)
-            HandleKeyAction(namespace, action, key, _key, pressed_key)
-        end)
+        if namespace ~= nil and key ~= nil and action ~= nil then
+            _input:AddCombinationKeyHandler(key, _key, function(key, pressed_key)
+                HandleKeyAction(namespace, action, key, _key, pressed_key)
+            end)
+        end
     end
 
     function self:AddSequentialKeyHandler(namespace, key, _key, action)
-        _input:AddSequentialKeyHandler(key, _key, function(key, last_key_released)
-            HandleKeyAction(namespace, action, key, last_key_released)
-        end)
+        if namespace ~= nil and key ~= nil and action ~= nil then
+            _input:AddSequentialKeyHandler(key, _key, function(key, last_key_released)
+                HandleKeyAction(namespace, action, key, last_key_released)
+            end)
+        end
     end
 
     --------------------------------------------------------------------------

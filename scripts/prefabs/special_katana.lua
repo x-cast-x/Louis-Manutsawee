@@ -224,12 +224,17 @@ local katana_data = {
     }
 }
 
-local function MakeMultiplePrefabs(fn, ...)
-    local ret = {}
-    for i, v in ipairs(...) do
-        table.insert(ret, fn(...))
-    end
-    return unpack(ret)
+local ret = {}
+for k, v in pairs(katana_data) do
+    local data = {
+        name = k,
+        build = k,
+        onattack = v.onattack,
+        common_postinit = v.common_postinit,
+        master_postinit = v.master_postinit,
+        damage = v.damage
+    }
+    table.insert(ret, MakeKatana(data))
 end
 
-return MakeMultiplePrefabs(MakeKatana, katana_data)
+return unpack(ret)

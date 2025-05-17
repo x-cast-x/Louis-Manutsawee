@@ -191,17 +191,6 @@ configuration_options = {
         },
         default = false,
     },
-    {
-        name = "Girl's qualities",
-        label = en_zh("", ""),
-        hover = en_zh("", ""),
-        options = {
-            { description = en_zh("普通女孩", "Ordinary Girl"), data = "Ordinary" },
-            { description = en_zh("聪明女孩", "Smart Girl"), data = "Smart" },
-            { description = en_zh("天才女孩", "Genius Girl"), data = "Genius" },
-        },
-        default = "Smart",
-    },
 	{
         name = "start_weapon",
         label = en_zh("Start Weapon", "初始武器"),
@@ -244,26 +233,11 @@ configuration_options = {
         default = false,
     },
 
-	AddTitle("Talent", "天赋"),
-	{
-        name = "is_girl_scouts",
-        label = en_zh("Girl Scouts", "女童子军"),
-        hover = en_zh("Portable-tent Craftable", "可以制作便携式帐篷"),
-        options = options_enable,
-        default = false,
-    },
-    {
-        name = "is_dexterity_make",
-        label = en_zh("Fast Build", "心灵手巧"),
-        hover = en_zh("Portable-tent Craftable", "可以制作便携式帐篷"),
-        options = options_enable,
-        default = false,
-    },
     AddTitle(en_zh("Custom Kenjutsu", "自定义剑术")),
     {
-        name = "set_max_mind",
+        name = "max_mind_power",
         label = en_zh("Set Mind  󰀈", "设置能量点 󰀈") ,
-        hover = en_zh("Set Mind when start. level max + 20", "设置起始能量点, 最大20"),
+        hover = en_zh("Set Mind when start. level max + 20", "设置起始能量点, 最大20。"),
         options = {
             {description="2", data = 2},
             {description="3", data = 3},
@@ -281,7 +255,7 @@ configuration_options = {
     },
 	{
         name = "set_mindregen_rate",
-        label = en_zh("Mind  󰀈 Regen half of max / seccond ", "󰀈恢复最大的一半/秒") ,
+        label = en_zh("Mind 󰀈 Regen half of max / seccond ", "󰀈恢复最大的一半/秒") ,
         hover = en_zh("Mind regenaration unlock level 4.", "心灵再生解锁4级"),
         options = {
 			{description="10", data = 10},
@@ -319,7 +293,7 @@ configuration_options = {
         default = 10,
     },
 	{
-        name = "set_kexpmtp",
+        name = "kenjutsu_exp_multiple",
         label = en_zh("Kenjutsu EXP Multiple", "剑术经验获取倍率"),
         hover = en_zh("fast Kenjutsu exp gain", "勤能补拙，风灵月影亦能！"),
         options = {
@@ -328,33 +302,20 @@ configuration_options = {
             {description="x3", data = 3},
             {description="x4", data = 4},
             {description="x5", data = 5},
+            {description="x6", data = 6},
+            {description="x7", data = 7},
+            {description="x8", data = 8},
+            {description="x9", data = 9},
+            {description="x10", data = 10},
         },
         default = 1,
     },
 	{
-        name = "is_master",
-        label = en_zh("Set Kenjutsu Level", "允许设定初始剑术等级"),
-        hover = en_zh("Set kenjutsu level at start", "游戏开始时设定初始剑术等级"),
+        name = "is_tatsujin",
+        label = en_zh("Set Kenjutsu Level", "剑术大师"),
+        hover = en_zh("Set kenjutsu level at start", "直接成为剑术大师！"),
         options = options_enable,
         default = false,
-    },
-	{
-        name = "set_level_value",
-        label = en_zh("Kenjutsu Level", "设置初始剑术等级"),
-        hover = en_zh("Set Kenjutsu Level.", "设置初始剑术等级") ,
-        options = {
-            {description="1", data = 1},
-            {description="2", data = 2},
-            {description="3", data = 3},
-            {description="4", data = 4},
-            {description="5", data = 5},
-            {description="6", data = 6},
-            {description="7", data = 7},
-            {description="8", data = 8},
-            {description="9", data = 9},
-            {description="10", data = 10},
-        },
-        default = 1,
     },
     AddTitle("Skill Keys 󰀈", "剑技按键 󰀈"),
 	{
@@ -390,27 +351,6 @@ configuration_options = {
         label = en_zh("Skill4:Button", "技能4 按键"),
         hover = en_zh("Skill4", "技能4"),
         default = "H",
-        options = keylist,
-    },
-	{
-        name = "skill_counter_atk",
-        label = en_zh("Counter Attack Skill:Button", "反击技能 按键"),
-        hover = en_zh("Counter Attack", "反击技能"),
-        default = "Z",
-        options = keylist,
-    },
-	{
-        name = "quick_sheath_key",
-        label = en_zh("Quick Sheath Katana", "快速收拔刀 按键"),
-        hover = en_zh("Quick Sheath Katana", "快速收拔刀"),
-        default = "X",
-        options = keylist,
-    },
-	{
-        name = "skill_cancel_key",
-        label = en_zh("Skill Cancel", "技能取消 按键"),
-        hover = en_zh("Cancel all skill", "技能取消"),
-        default = "V",
         options = keylist,
     },
 	{
@@ -557,6 +497,27 @@ configuration_options = {
     },
     AddTitle("Other Keys 󰀮", "其它按键 󰀮"),
     {
+        name = "counter_attkack_key",
+        label = en_zh("Counter Attack Skill:Button", "反击技能 按键"),
+        hover = en_zh("Counter Attack", "反击技能"),
+        default = "Z",
+        options = keylist,
+    },
+	{
+        name = "quick_sheath_key",
+        label = en_zh("Quick Sheath Katana", "快速收拔刀 按键"),
+        hover = en_zh("Quick Sheath Katana", "快速收拔刀"),
+        default = "X",
+        options = keylist,
+    },
+	{
+        name = "skill_cancel_key",
+        label = en_zh("Skill Cancel", "技能取消 按键"),
+        hover = en_zh("Cancel all skill", "技能取消"),
+        default = "V",
+        options = keylist,
+    },
+    {
         name = "put_glasses_key",
         label = en_zh("EyeGlasses 󰀅", "眼镜"),
         hover = en_zh("wear eyeglasses.", "戴眼镜按键"),
@@ -571,12 +532,10 @@ configuration_options = {
         options = keylist,
     },
 	{
-        name = "levelcheck",
+        name = "level_check_key",
         label = en_zh("Show Level  󰀙", "查看人物等级"),
         hover = en_zh("This is the key use to Show level.", "查看人物等级按键"),
         default = "P",
         options = keylist,
     },
-    AddTitle("Other Option", "其它选项"),
-
 }

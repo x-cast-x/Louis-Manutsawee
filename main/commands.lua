@@ -36,9 +36,9 @@ function c_printtable(t)
     end
 end
 
-
-function c_debughair()
+function c_debug()
     local player = ConsoleCommandPlayer()
     c_supergodmode(player)
     c_select(player)
+    c_freecrafting(player)
 end

@@ -2,99 +2,115 @@ return Class(function(self, inst)
     self.inst = inst
 
     local Hair_Growth_Lengths = {
-        cut = { days = 3, bits = 0 },
-        short = { days = 7, bits = 2 },
-        medium = { days = 16, bits = 3 },
-        long = { days = 24, bits = 4 }
+        short  = { days = 3,  bits = 2 },
+        medium = { days = 7,  bits = 5 },
+        long   = { days = 16, bits = 9 },
     }
 
-    local Hair_Styles = {"none", "_yoto", "_ronin", "_pony", "_twin", "_htwin", "_ball"}
+    local Hair_Lengths = {"cut", "short", "medium", "long"}
+    local Hair_Styles  = {"", "_yoto", "_ronin", "_pony", "_twin", "_htwin", "_ball" }
     local Hair_Symbols = {"hairpigtails", "hair", "hair_hat", "headbase", "headbase_hat"}
 
-    local hair_length = "cut"
-    local hair_style = "none"
+    local hair_length = 1
+    local hair_style  = 1
 
-    local function SetHairGrowthLength(inst, length, style)
-        if Hair_Growth_Lengths[length] then
-            hair_length = length
-            hair_style = (length == "cut") and "none" or style
-
-            for _, symbol in ipairs(Hair_Symbols) do
-                if style == "cut" then
-                    inst.AnimState:ClearOverrideSymbol(symbol)
-                else
-                    local override_build = "hair_" .. length .. (style ~= "none" and style or "")
-                    inst.AnimState:OverrideSymbol(symbol, override_build, symbol)
-                end
-            end
-
-            inst.components.beard.bits = Hair_Growth_Lengths[length].bits
-            inst.components.beard.daysgrowth = Hair_Growth_Lengths[length].days
-            inst.components.beard.insulation_factor = style and 1 or 1.5
-        end
-    end
-
-    local function OnDeath(inst)
-        SetHairGrowthLength(inst, "cut", "none")
-    end
-
-    local function OnResetHair(inst)
-        SetHairGrowthLength(inst, (hair_length == "long" and "medium") or (hair_length == "medium" and "short") or "cut")
-    end
-
-    local function GetNextHairStyle(style)
-        for i, v in ipairs(Hair_Styles) do
-            if v == style then
+    local function GetHairLengthIndex(length)
+        for i, v in ipairs(Hair_Lengths) do
+            if v == length then
                 return i
             end
         end
+        return nil
     end
 
-    local function SetUpBeardComponent()
+    local function SetCutHairLength(inst)
+        hair_length = 1
+        hair_style  = 1
+        for i = 1, #Hair_Symbols do
+            inst.AnimState:ClearOverrideSymbol(Hair_Symbols[i])
+        end
+    end
+
+    local function SetHairLength(inst)
+        local atlas = "hair_" .. Hair_Lengths[hair_length] .. Hair_Styles[hair_style]
+        for i = 1, #Hair_Symbols do
+            inst.AnimState:OverrideSymbol(Hair_Symbols[i], atlas, Hair_Symbols[i])
+        end
+
+        inst.components.beard.insulation_factor = (hair_style <= 2) and 1 or 0.1
+    end
+
+    local function SetHairGrowthLength(inst, length)
+        hair_length = GetHairLengthIndex(length) or 1
+        inst.components.beard.bits = Hair_Growth_Lengths[length].bits
+        SetHairLength(inst)
+    end
+
+    local function OnResetHair(inst)
+        if hair_length > 2 then
+            hair_length = hair_length - 1
+            local length = Hair_Lengths[hair_length]
+            inst.components.beard.daysgrowth = Hair_Growth_Lengths[length].days
+            SetHairGrowthLength(inst, length)
+        else
+            SetCutHairLength(inst)
+        end
+    end
+
+    local function OnEquip(inst, data)
+        local eslot = data.eslot
+        if eslot ~= nil and eslot == EQUIPSLOTS.HEAD then
+            SetHairLength(inst)
+        end
+    end
+
+    function self:SetUpHair()
         local beard = inst:AddComponent("beard")
-        beard.insulation_factor = 1.5
+        beard.insulation_factor = 1
         beard.onreset = OnResetHair
         beard.prize = "beardhair"
         beard.is_skinnable = false
 
-        for length, data in pairs(Hair_Growth_Lengths) do
-            beard:AddCallback(data.days, function() SetHairGrowthLength(inst, length, hair_style) end)
-        end
+        beard:AddCallback(Hair_Growth_Lengths.short.days,  function() SetHairGrowthLength(inst, "short")  end)
+        beard:AddCallback(Hair_Growth_Lengths.medium.days, function() SetHairGrowthLength(inst, "medium") end)
+        beard:AddCallback(Hair_Growth_Lengths.long.days,   function() SetHairGrowthLength(inst, "long")   end)
     end
 
     function self:ChangeHairStyle()
-        local current_index = GetNextHairStyle(hair_style) or 0
-        SetHairGrowthLength(inst, hair_length, Hair_Styles[(current_index % #Hair_Styles) + 1])
+        hair_style = hair_style % #Hair_Styles + 1
+        SetHairLength(inst)
     end
 
     function self:GetHairLength()
-        return hair_length
+        return Hair_Lengths[hair_length]
     end
 
     function self:GetHairStyle()
-        return hair_style
+        return Hair_Styles[hair_style] or "None"
     end
 
     function self:GetDebugString()
-        return string.format("Hair Length: %s, Hair Style: %s", tostring(hair_length), tostring(hair_style))
+        return string.format("Hair Length: %s, Hair Style: %s",
+            tostring(self:GetHairLength()),
+            tostring(self:GetHairStyle())
+        )
     end
 
     function self:OnSave()
-        local data = {
+        return {
             hair_length = hair_length,
-            hair_style = hair_style,
+            hair_style  = hair_style,
         }
-        return data
     end
 
     function self:OnLoad(data)
         if data ~= nil then
-            hair_length = data.hair_length
-            hair_style = data.hair_style
+            hair_length = data.hair_length or hair_length
+            hair_style  = data.hair_style  or hair_style
+            inst:DoTaskInTime(0, SetHairLength)
         end
     end
 
-    inst:DoTaskInTime(0, SetUpBeardComponent)
-
-    inst:ListenForEvent("death", OnDeath)
+    inst:ListenForEvent("equip", OnEquip)
+    inst:ListenForEvent("death", SetCutHairLength)
 end)

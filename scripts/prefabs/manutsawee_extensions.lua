@@ -17,7 +17,7 @@ local Skill_Settings = {
             -- local target = inst.components.combat.target
             -- inst.inspskill = true
 
-            -- if weapon ~= nil and weapon.IsSheath ~= nil and weapon:IsSheath() then
+            -- if weapon ~= nil and weapon.IsUnsheath ~= nil and weapon:IsUnsheath() then
             --     skilltime = .3
             --     if inst.components.kenjutsuka:GetMindpower() >= 5 then
             --         inst.components.kenjutsuka:SetMindpower(inst.components.kenjutsuka:GetMindpower() - 2)
@@ -47,7 +47,7 @@ local Skill_Settings = {
             local weapon = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
             local target = inst.components.combat.target
             skilltime = .1
-            if weapon ~= nil and weapon.IsSheath ~= nil and weapon:IsSheath() then
+            if weapon ~= nil and weapon.IsUnsheath ~= nil and weapon:IsUnsheath() then
                 skilltime = .05
                 inst:DoTaskInTime(skilltime, function()
                     if weapon ~= nil then
@@ -72,7 +72,7 @@ local Skill_Settings = {
             local weapon = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
             local target = inst.components.combat.target
             skilltime = .1
-            if weapon ~= nil and weapon.IsSheath ~= nil and weapon:IsSheath() then
+            if weapon ~= nil and weapon.IsUnsheath ~= nil and weapon:IsUnsheath() then
                 skilltime = .05
                 inst:DoTaskInTime(skilltime, function()
                     if weapon ~= nil then
@@ -383,7 +383,7 @@ local Skill_Settings = {
     --     fn = function(inst, weapon)
     --         inst.components.talker:Say(STRINGS.SKILL.SKILL8ATTACK, 2, true)
 
-    --         if weapon ~= nil and weapon.components.spellcaster ~= nil and weapon.IsSheath ~= nil and weapon:IsSheath() then
+    --         if weapon ~= nil and weapon.components.spellcaster ~= nil and weapon.IsUnsheath ~= nil and weapon:IsUnsheath() then
     --             weapon.components.spellcaster:CastSpell(inst)
     --         end
 

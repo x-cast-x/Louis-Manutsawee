@@ -1,1 +1,0 @@
-modimport("postinit/screens/modconfigurationscreen")

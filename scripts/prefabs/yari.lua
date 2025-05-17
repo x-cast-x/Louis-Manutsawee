@@ -12,8 +12,7 @@ local function OnEquip(inst, owner)
     owner.AnimState:Show("ARM_carry")
     owner.AnimState:Hide("ARM_normal")
 
-	if owner:HasTag("kenjutsu") then
-		inst:AddTag("yari")
+	if owner ~= nil and owner.components.kenjutsuka ~= nil then
 		inst.components.weapon:SetDamage(TUNING.YARI_DAMAGE + (owner.components.kenjutsuka:GetLevel() * 2))
 	end
 
@@ -30,10 +29,6 @@ end
 local function OnUnequip(inst, owner)
 	owner.AnimState:Hide("ARM_carry")
     owner.AnimState:Show("ARM_normal")
-
-	if owner:HasTag("kenjutsu") then
-        inst:RemoveTag("yari")
-    end
 
     inst.components.weapon:SetDamage(TUNING.YARI_DAMAGE)
 
@@ -65,7 +60,7 @@ local function fn()
     inst.AnimState:PlayAnimation("idle")
 
     inst:AddTag("sharp")
-
+    inst:AddTag("yari")
     inst:AddTag("weapon")
 
     local swap_data = {sym_build = "swap_yari", bank = "yari"}

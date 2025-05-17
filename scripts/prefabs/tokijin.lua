@@ -133,16 +133,8 @@ local function OnEquip(inst, owner)
         owner.AnimState:ClearOverrideSymbol("swap_body_tall")
     end
 
-    if inst:HasTag("mkatana")then
-        inst:RemoveTag("mkatana")
-    end
-
     if inst:HasTag("iai") then
         inst:RemoveTag("iai")
-    end
-
-    if owner:HasTag("kenjutsu") and not inst:HasTag("mkatana") then
-        inst:AddTag("mkatana")
     end
 
     local kenjutsuka = owner.components.kenjutsuka

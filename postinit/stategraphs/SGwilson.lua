@@ -41,6 +41,15 @@ end
 
 local katanarnd = 1
 
+local balloon_colors = {
+    "blue",
+    "green",
+    "orange",
+    "red",
+    "purple",
+    "yellow"
+}
+
 ----------------------------------------------------------------------------------------------
 
 local actionhandlers = {
@@ -79,7 +88,7 @@ local events = {
 
 local states = {
     State{
-        name = "mkatana",
+        name = "kenjutsu",
         tags = { "attack", "notalking", "abouttoattack", "autopredict" },
 
         onenter = function(inst)
@@ -100,48 +109,68 @@ local states = {
             inst.components.combat:StartAttack()
             inst.components.locomotor:Stop()
 
-            if inst.components.rider ~= nil and inst.components.rider:IsRiding() then
-                inst.AnimState:PlayAnimation("atk_pre")
-                inst.AnimState:PushAnimation("atk", false)
-                DoMountSound(inst, inst.components.rider:GetMount(), "angry", true)
-                cooldown = math.max(cooldown, 16 * FRAMES)
-            elseif equip ~= nil and equip:HasTag("mkatana") then
-                inst.sg.statemem.iskatana = true
-				inst.AnimState:SetDeltaTimeMultiplier(1.2)
+            if equip ~= nil then
+                if equip:HasTag("iai") then
+                    inst.sg.statemem.isiai = true
+                    inst.AnimState:PlayAnimation("spearjab_pre")
+                    inst.AnimState:PushAnimation("lunge_pst", false)
 
-                if katanarnd == 1 then
-                    inst.AnimState:PlayAnimation("atk_prop_pre")
-					inst.AnimState:PushAnimation("atk", false)
-					katanarnd = math.random(2, 3)
-                elseif katanarnd == 2 then
-					inst.AnimState:SetDeltaTimeMultiplier(1.3)
-					inst.sg:AddStateTag("mkatanaatk")
-					inst.AnimState:PlayAnimation("chop_pre")
-					katanarnd = 4
-				elseif katanarnd == 3 then
-					inst.AnimState:SetDeltaTimeMultiplier(1.4)
-					inst.sg:AddStateTag("mkatanaatk")
-					inst.AnimState:PlayAnimation("pickaxe_pre")
-					katanarnd = 1
-				elseif katanarnd == 4 then
-					inst.AnimState:SetDeltaTimeMultiplier(1.4)
-					inst.AnimState:PlayAnimation("spearjab_pre")
-					inst.AnimState:PushAnimation("spearjab", false)
-					katanarnd = 5
-                elseif katanarnd == 5 then
-                    inst.AnimState:SetDeltaTimeMultiplier(4)
-                    inst.sg.statemem.scythe_anim = true
-                    inst.AnimState:PlayAnimation("scythe_pre")
-                    inst.AnimState:PushAnimation("scythe_loop", false)
-                    katanarnd = 6
-                else
-                	inst.AnimState:PlayAnimation("atk_pre")
-                	inst.AnimState:PushAnimation("atk", false)
-                	katanarnd = 1
+                    inst.SoundEmitter:PlaySound("dontstarve/creatures/spiderqueen/swipe")
+                    cooldown = math.max(cooldown, 9 * FRAMES)
+                elseif equip:HasTag("katana") then
+                    inst.sg.statemem.iskatana = true
+                    inst.AnimState:SetDeltaTimeMultiplier(1.2)
+
+                    if katanarnd == 1 then
+                        inst.AnimState:PlayAnimation("atk_prop_pre")
+                        inst.AnimState:PushAnimation("atk", false)
+                        katanarnd = math.random(2, 3)
+                    elseif katanarnd == 2 then
+                        inst.AnimState:SetDeltaTimeMultiplier(1.3)
+                        inst.sg.statemem.lunge_pst = true
+                        inst.AnimState:PlayAnimation("chop_pre")
+                        katanarnd = 4
+                    elseif katanarnd == 3 then
+                        inst.AnimState:SetDeltaTimeMultiplier(1.4)
+                        inst.sg.statemem.lunge_pst = true
+                        inst.AnimState:PlayAnimation("pickaxe_pre")
+                        katanarnd = 1
+                    elseif katanarnd == 4 then
+                        inst.AnimState:SetDeltaTimeMultiplier(1.4)
+                        inst.AnimState:PlayAnimation("spearjab_pre")
+                        inst.AnimState:PushAnimation("spearjab", false)
+                        katanarnd = 5
+                    elseif katanarnd == 5 then
+                        inst.AnimState:SetDeltaTimeMultiplier(4)
+                        inst.sg.statemem.scythe_anim = true
+                        inst.AnimState:PlayAnimation("scythe_pre")
+                        inst.AnimState:PushAnimation("scythe_loop", false)
+                        katanarnd = 6
+                    else
+                        inst.AnimState:PlayAnimation("atk_pre")
+                        inst.AnimState:PushAnimation("atk", false)
+                        katanarnd = 1
+                    end
+
+                    inst.SoundEmitter:PlaySound("dontstarve/creatures/spiderqueen/swipe")
+                    cooldown = math.max(cooldown, 13 * FRAMES)
+                elseif equip:HasTag("yari") then
+
+                    inst.sg.statemem.isyari = true
+                    if math.random(1, 3) == 1 then
+                        inst.AnimState:PlayAnimation("spearjab_pre")
+                        inst.AnimState:PushAnimation("lunge_pst", false)
+                    elseif math.random(2, 3) == 2 then
+                        inst.AnimState:PlayAnimation("atk_pre")
+                        inst.AnimState:PushAnimation("atk", false)
+                    else
+                        inst.AnimState:PlayAnimation("spearjab_pre")
+                        inst.AnimState:PushAnimation("spearjab", false)
+                    end
+
+                    inst.SoundEmitter:PlaySound("dontstarve/creatures/spiderqueen/swipe")
+                    cooldown = math.max(cooldown, 13 * FRAMES)
                 end
-
-                inst.SoundEmitter:PlaySound("dontstarve/creatures/spiderqueen/swipe")
-                cooldown = math.max(cooldown, 13 * FRAMES)
             end
 
             inst.sg:SetTimeout(cooldown)
@@ -156,19 +185,7 @@ local states = {
         end,
 
         timeline = {
-			TimeEvent(5 * FRAMES, function(inst)
-				inst.AnimState:SetDeltaTimeMultiplier(1)
-                if inst.sg.statemem.iskatana and inst.sg:HasStateTag("mkatanaatk") then
-                    inst.AnimState:PlayAnimation("lunge_pst")
-					inst.sg:RemoveStateTag("mkatanaatk")
-                end
-            end),
-
-			TimeEvent(8 * FRAMES, function(inst)
-                if inst.sg.statemem.iskatana then
-    				inst:PerformBufferedAction()
-                    inst.sg:RemoveStateTag("abouttoattack")
-				end
+			TimeEvent(1 * FRAMES, function(inst)
                 if inst.sg.statemem.scythe_anim then
                     local sharkboi_swipe_fx = SpawnPrefab("sharkboi_swipe_fx")
                     if sharkboi_swipe_fx ~= nil then
@@ -177,12 +194,27 @@ local states = {
                         sharkboi_swipe_fx.Transform:SetPosition(1, 0, 0)
                         sharkboi_swipe_fx:Reverse()
                     end
-                    inst.sg.statemem.bearger_swipe_fx = sharkboi_swipe_fx
+                    inst.sg.statemem.sharkboi_swipe_fx = sharkboi_swipe_fx
                 end
             end),
 
+			TimeEvent(5 * FRAMES, function(inst)
+				inst.AnimState:SetDeltaTimeMultiplier(1)
+                if inst.sg.statemem.iskatana and inst.sg.statemem.lunge_pst then
+                    inst.AnimState:PlayAnimation("lunge_pst")
+                    inst.sg.statemem.lunge_pst = false
+                end
+            end),
+
+			TimeEvent(8 * FRAMES, function(inst)
+                if inst.sg.statemem.iskatana or inst.sg.statemem.isiai or inst.sg.statemem.isyari then
+    				inst:PerformBufferedAction()
+                    inst.sg:RemoveStateTag("abouttoattack")
+				end
+            end),
+
 			TimeEvent(10 * FRAMES, function(inst)
-                if not inst.sg.statemem.iskatana then
+                if not inst.sg.statemem.iskatana or not inst.sg.statemem.isiai or not inst.sg.statemem.isyari then
                     inst:PerformBufferedAction()
                     inst.sg:RemoveStateTag("abouttoattack")
                 end
@@ -215,201 +247,191 @@ local states = {
             if inst.sg:HasStateTag("abouttoattack") then
                 inst.components.combat:CancelAttack()
 				inst.AnimState:SetDeltaTimeMultiplier(1)
-				if inst.sg:HasStateTag("mkatanaatk") then
-                    inst.sg:RemoveStateTag("mkatanaatk")
+				if inst.sg.statemem.lunge_pst then
+                    inst.sg.statemem.lunge_pst = false
                 end
             end
-            local bearger_swipe_fx = inst.sg.statemem.bearger_swipe_fx
-            if bearger_swipe_fx ~= nil and bearger_swipe_fx:IsValid() then
-				bearger_swipe_fx:Remove()
+            local sharkboi_swipe_fx = inst.sg.statemem.sharkboi_swipe_fx
+            if sharkboi_swipe_fx ~= nil and sharkboi_swipe_fx:IsValid() then
+				sharkboi_swipe_fx:Remove()
 			end
         end,
     },
 
-    State{
-        name = "iai",
-        tags = { "attack", "notalking", "abouttoattack", "autopredict" }, --
+    -- State{
+    --     name = "iai",
+    --     tags = { "attack", "notalking", "abouttoattack", "autopredict" }, --
 
-        onenter = function(inst)
-            if inst.components.combat:InCooldown() then
-                inst.sg:RemoveStateTag("abouttoattack")
-                inst:ClearBufferedAction()
-                inst.sg:GoToState("idle", true)
-                return
-            end
+    --     onenter = function(inst)
+    --         if inst.components.combat:InCooldown() then
+    --             inst.sg:RemoveStateTag("abouttoattack")
+    --             inst:ClearBufferedAction()
+    --             inst.sg:GoToState("idle", true)
+    --             return
+    --         end
 
-            local buffaction = inst:GetBufferedAction()
-            local target = buffaction ~= nil and buffaction.target or nil
-            local equip = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
-            local cooldown = inst.components.combat.min_attack_period + .5 * FRAMES
+    --         local buffaction = inst:GetBufferedAction()
+    --         local target = buffaction ~= nil and buffaction.target or nil
+    --         local equip = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
+    --         local cooldown = inst.components.combat.min_attack_period + .5 * FRAMES
 
-            inst.AnimState:OverrideSymbol("fx_lunge_streak", "player_lunge_blue", "fx_lunge_streak")
-            inst.components.combat:SetTarget(target)
-            inst.components.combat:StartAttack()
-            inst.components.locomotor:Stop()
+    --         inst.AnimState:OverrideSymbol("fx_lunge_streak", "player_lunge_blue", "fx_lunge_streak")
+    --         inst.components.combat:SetTarget(target)
+    --         inst.components.combat:StartAttack()
+    --         inst.components.locomotor:Stop()
 
-            if inst.components.rider ~= nil and inst.components.rider:IsRiding() then
-                inst.AnimState:PlayAnimation("atk_pre")
-                inst.AnimState:PushAnimation("atk", false)
-                DoMountSound(inst, inst.components.rider:GetMount(), "angry", true)
-                cooldown = math.max(cooldown, 16 * FRAMES)
-            elseif equip ~= nil and equip:HasTag("iai") then
-                inst.sg.statemem.iskatana = true
-                inst.AnimState:PlayAnimation("spearjab_pre")
-                inst.AnimState:PushAnimation("lunge_pst", false)
-                inst.SoundEmitter:PlaySound("dontstarve/creatures/spiderqueen/swipe")
-                cooldown = math.max(cooldown, 9 * FRAMES)
-            end
+    --         if equip ~= nil and equip:HasTag("iai") then
+    --             inst.sg.statemem.iskatana = true
+    --             inst.AnimState:PlayAnimation("spearjab_pre")
+    --             inst.AnimState:PushAnimation("lunge_pst", false)
+    --             inst.SoundEmitter:PlaySound("dontstarve/creatures/spiderqueen/swipe")
+    --             cooldown = math.max(cooldown, 9 * FRAMES)
+    --         end
 
-            inst.sg:SetTimeout(cooldown)
-            if target ~= nil then
-                inst.components.combat:BattleCry()
-                if target:IsValid() then
-                    inst:FacePoint(target:GetPosition())
-                    inst.sg.statemem.attacktarget = target
-                    inst.sg.statemem.retarget = target
-                end
-            end
-        end,
+    --         inst.sg:SetTimeout(cooldown)
+    --         if target ~= nil then
+    --             inst.components.combat:BattleCry()
+    --             if target:IsValid() then
+    --                 inst:FacePoint(target:GetPosition())
+    --                 inst.sg.statemem.attacktarget = target
+    --                 inst.sg.statemem.retarget = target
+    --             end
+    --         end
+    --     end,
 
-        timeline = {
-            TimeEvent(7.5 * FRAMES, function(inst)
-                if inst.sg.statemem.iskatana then
-                    inst:PerformBufferedAction()
-                    inst.sg:RemoveStateTag("abouttoattack")
-                end
-            end),
-            TimeEvent(10 * FRAMES, function(inst)
-                if not inst.sg.statemem.iskatana then
-                    inst:PerformBufferedAction()
-                    inst.sg:RemoveStateTag("abouttoattack")
-                end
-            end),
-        },
+    --     timeline = {
+    --         TimeEvent(7.5 * FRAMES, function(inst)
+    --             if inst.sg.statemem.iskatana then
+    --                 inst:PerformBufferedAction()
+    --                 inst.sg:RemoveStateTag("abouttoattack")
+    --             end
+    --         end),
+    --         TimeEvent(10 * FRAMES, function(inst)
+    --             if not inst.sg.statemem.iskatana then
+    --                 inst:PerformBufferedAction()
+    --                 inst.sg:RemoveStateTag("abouttoattack")
+    --             end
+    --         end),
+    --     },
 
-        ontimeout = function(inst)
-            inst.sg:RemoveStateTag("attack")
-            inst.sg:AddStateTag("idle")
-        end,
+    --     ontimeout = function(inst)
+    --         inst.sg:RemoveStateTag("attack")
+    --         inst.sg:AddStateTag("idle")
+    --     end,
 
-        events = {
-            EventHandler("equip", function(inst)
-                inst.sg:GoToState("idle")
-            end),
-            EventHandler("unequip", function(inst)
-                inst.sg:GoToState("idle")
-            end),
-            EventHandler("animqueueover", function(inst)
-                if inst.AnimState:AnimDone() then
-                    inst.sg:GoToState("idle")
-                end
-            end),
-        },
+    --     events = {
+    --         EventHandler("equip", function(inst)
+    --             inst.sg:GoToState("idle")
+    --         end),
+    --         EventHandler("unequip", function(inst)
+    --             inst.sg:GoToState("idle")
+    --         end),
+    --         EventHandler("animqueueover", function(inst)
+    --             if inst.AnimState:AnimDone() then
+    --                 inst.sg:GoToState("idle")
+    --             end
+    --         end),
+    --     },
 
-        onexit = function(inst)
-            inst.components.combat:SetTarget(nil)
-            if inst.sg:HasStateTag("abouttoattack") then
-                inst.components.combat:CancelAttack()
-            end
-        end,
-    },
+    --     onexit = function(inst)
+    --         inst.components.combat:SetTarget(nil)
+    --         if inst.sg:HasStateTag("abouttoattack") then
+    --             inst.components.combat:CancelAttack()
+    --         end
+    --     end,
+    -- },
 
-    State{
-        name = "yari",
-        tags = { "attack", "notalking", "abouttoattack", "autopredict" }, --
+    -- State{
+    --     name = "yari",
+    --     tags = { "attack", "notalking", "abouttoattack", "autopredict" }, --
 
-        onenter = function(inst)
-            if inst.components.combat:InCooldown() then
-                inst.sg:RemoveStateTag("abouttoattack")
-                inst:ClearBufferedAction()
-                inst.sg:GoToState("idle", true)
-                return
-            end
+    --     onenter = function(inst)
+    --         if inst.components.combat:InCooldown() then
+    --             inst.sg:RemoveStateTag("abouttoattack")
+    --             inst:ClearBufferedAction()
+    --             inst.sg:GoToState("idle", true)
+    --             return
+    --         end
 
-            local buffaction = inst:GetBufferedAction()
-            local target = buffaction ~= nil and buffaction.target or nil
-            local equip = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
-            local cooldown = inst.components.combat.min_attack_period + .5 * FRAMES
+    --         local buffaction = inst:GetBufferedAction()
+    --         local target = buffaction ~= nil and buffaction.target or nil
+    --         local equip = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
+    --         local cooldown = inst.components.combat.min_attack_period + .5 * FRAMES
 
-            inst.components.combat:SetTarget(target)
-            inst.components.combat:StartAttack()
-            inst.AnimState:OverrideSymbol("fx_lunge_streak", "player_lunge_blue", "fx_lunge_streak")
-            inst.components.locomotor:Stop()
+    --         inst.components.combat:SetTarget(target)
+    --         inst.components.combat:StartAttack()
+    --         inst.AnimState:OverrideSymbol("fx_lunge_streak", "player_lunge_blue", "fx_lunge_streak")
+    --         inst.components.locomotor:Stop()
 
-            if inst.components.rider ~= nil and inst.components.rider:IsRiding() then
-                inst.AnimState:PlayAnimation("atk_pre")
-                inst.AnimState:PushAnimation("atk", false)
-                DoMountSound(inst, inst.components.rider:GetMount(), "angry", true)
-                cooldown = math.max(cooldown, 16 * FRAMES)
-            elseif equip ~= nil and equip:HasTag("yari") then
-                inst.sg.statemem.isyari = true
-                if math.random(1, 3) == 1 then
-                    inst.AnimState:PlayAnimation("spearjab_pre")
-                    inst.AnimState:PushAnimation("lunge_pst", false)
-                elseif math.random(2, 3) == 2 then
-                    inst.AnimState:PlayAnimation("atk_pre")
-                    inst.AnimState:PushAnimation("atk", false)
-                else
-                    inst.AnimState:PlayAnimation("spearjab_pre")
-                    inst.AnimState:PushAnimation("spearjab", false)
-                end
-                inst.SoundEmitter:PlaySound("dontstarve/creatures/spiderqueen/swipe")
-                cooldown = math.max(cooldown, 13 * FRAMES)
-            end
+    --         if equip ~= nil and equip:HasTag("yari") then
+    --             inst.sg.statemem.isyari = true
+    --             if math.random(1, 3) == 1 then
+    --                 inst.AnimState:PlayAnimation("spearjab_pre")
+    --                 inst.AnimState:PushAnimation("lunge_pst", false)
+    --             elseif math.random(2, 3) == 2 then
+    --                 inst.AnimState:PlayAnimation("atk_pre")
+    --                 inst.AnimState:PushAnimation("atk", false)
+    --             else
+    --                 inst.AnimState:PlayAnimation("spearjab_pre")
+    --                 inst.AnimState:PushAnimation("spearjab", false)
+    --             end
+    --             inst.SoundEmitter:PlaySound("dontstarve/creatures/spiderqueen/swipe")
+    --             cooldown = math.max(cooldown, 13 * FRAMES)
+    --         end
 
-            inst.sg:SetTimeout(cooldown)
+    --         inst.sg:SetTimeout(cooldown)
 
-            if target ~= nil then
-                inst.components.combat:BattleCry()
-                if target:IsValid() then
-                    inst:FacePoint(target:GetPosition())
-                    inst.sg.statemem.attacktarget = target
-                    inst.sg.statemem.retarget = target
-                end
-            end
-        end,
+    --         if target ~= nil then
+    --             inst.components.combat:BattleCry()
+    --             if target:IsValid() then
+    --                 inst:FacePoint(target:GetPosition())
+    --                 inst.sg.statemem.attacktarget = target
+    --                 inst.sg.statemem.retarget = target
+    --             end
+    --         end
+    --     end,
 
-        timeline = {
-            TimeEvent(8 * FRAMES, function(inst)
-                if inst.sg.statemem.isyari then
-                    inst:PerformBufferedAction()
-                    inst.sg:RemoveStateTag("abouttoattack")
-                end
-            end),
-            TimeEvent(10 * FRAMES, function(inst)
-                if not inst.sg.statemem.isyari then
-                    inst:PerformBufferedAction()
-                    inst.sg:RemoveStateTag("abouttoattack")
-                end
-            end),
-        },
+    --     timeline = {
+    --         TimeEvent(8 * FRAMES, function(inst)
+    --             if inst.sg.statemem.isyari then
+    --                 inst:PerformBufferedAction()
+    --                 inst.sg:RemoveStateTag("abouttoattack")
+    --             end
+    --         end),
+    --         TimeEvent(10 * FRAMES, function(inst)
+    --             if not inst.sg.statemem.isyari then
+    --                 inst:PerformBufferedAction()
+    --                 inst.sg:RemoveStateTag("abouttoattack")
+    --             end
+    --         end),
+    --     },
 
-        ontimeout = function(inst)
-            inst.sg:RemoveStateTag("attack")
-            inst.sg:AddStateTag("idle")
-        end,
+    --     ontimeout = function(inst)
+    --         inst.sg:RemoveStateTag("attack")
+    --         inst.sg:AddStateTag("idle")
+    --     end,
 
-        events = {
-            EventHandler("equip", function(inst)
-                inst.sg:GoToState("idle")
-            end),
-            EventHandler("unequip", function(inst)
-                inst.sg:GoToState("idle")
-            end),
-            EventHandler("animqueueover", function(inst)
-                if inst.AnimState:AnimDone() then
-                    inst.sg:GoToState("idle")
-                end
-            end),
-        },
+    --     events = {
+    --         EventHandler("equip", function(inst)
+    --             inst.sg:GoToState("idle")
+    --         end),
+    --         EventHandler("unequip", function(inst)
+    --             inst.sg:GoToState("idle")
+    --         end),
+    --         EventHandler("animqueueover", function(inst)
+    --             if inst.AnimState:AnimDone() then
+    --                 inst.sg:GoToState("idle")
+    --             end
+    --         end),
+    --     },
 
-        onexit = function(inst)
-            inst.components.combat:SetTarget(nil)
-            if inst.sg:HasStateTag("abouttoattack") then
-                inst.components.combat:CancelAttack()
-            end
-        end,
-    },
+    --     onexit = function(inst)
+    --         inst.components.combat:SetTarget(nil)
+    --         if inst.sg:HasStateTag("abouttoattack") then
+    --             inst.components.combat:CancelAttack()
+    --         end
+    --     end,
+    -- },
 
     State{
         name = "put_glasses",
@@ -1326,8 +1348,7 @@ local states = {
             inst.sg:SetTimeout(1)
         end,
 
-        events =
-        {
+        events = {
             EventHandler("animqueueover", function(inst)
                 if inst.AnimState:AnimDone() then
                     inst.sg:GoToState("idle")
@@ -1349,12 +1370,6 @@ for _, actionhandler in ipairs(actionhandlers) do
     AddStategraphActionHandler("wilson", actionhandler)
 end
 
-local weapon_style = {
-    "mkatana",
-    "lai",
-    "yari",
-}
-
 local function fn(sg)
     local attack_actionhandler = sg.actionhandlers[ACTIONS.ATTACK].deststate
     sg.actionhandlers[ACTIONS.ATTACK].deststate = function(inst, action, ...)
@@ -1366,16 +1381,10 @@ local function fn(sg)
             playercontroller.remote_predicting and
             "abouttoattack" or
             "attack"
-        if not (inst.sg:HasStateTag(attack_tag) and action.target == inst.sg.statemem.attacktarget or inst.components.health:IsDead()) then
+        if inst:HasTag("kenjutsuka") and inst:HasTag("kenjutsu") and inst.components.rider ~= nil and not inst.components.rider:IsRiding() and not (inst.sg:HasStateTag(attack_tag) and action.target == inst.sg.statemem.attacktarget or inst.components.health:IsDead()) then
             local weapon = inst.components.combat ~= nil and inst.components.combat:GetWeapon() or nil
             if weapon ~= nil then
-                if weapon:HasTag("mkatana") then
-                    return "mkatana"
-                elseif weapon:HasTag("iai") then
-                    return "iai"
-                elseif weapon:HasTag("yari") then
-                    return "yari"
-                end
+                return "kenjutsu"
             end
         end
 
@@ -1387,15 +1396,7 @@ local function fn(sg)
     -- Why does Klei make it but not use it?????
     local _wes_funnyidle_onenter = sg.states["wes_funnyidle"].onenter
     sg.states["wes_funnyidle"].onenter = function(inst, ...)
-        local balloon_color = {
-            "blue",
-            "green",
-            "orange",
-            "red",
-            "purple",
-            "yellow"
-        }
-        inst.AnimState:OverrideSymbol("balloon_red", "player_idles_wes", "balloon_" .. balloon_color[math.random(1, #balloon_color)])
+        inst.AnimState:OverrideSymbol("balloon_red", "player_idles_wes", "balloon_" .. GetRandomItem(balloon_colors))
 
         if _wes_funnyidle_onenter ~= nil then
             _wes_funnyidle_onenter(inst, ...)

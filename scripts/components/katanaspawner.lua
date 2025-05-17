@@ -20,6 +20,7 @@ return Class(function(self, inst)
 
     local _world = TheWorld
     local _ismastersim = _world.ismastersim
+    -- RPC name
     local LouisManutsawee, SyncKatanaSpawnerData = "LouisManutsawee", "SyncKatanaSpawnerData"
 
     local katanas = {}

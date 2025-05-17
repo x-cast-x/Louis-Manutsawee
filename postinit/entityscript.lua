@@ -76,9 +76,9 @@ function EntityScript:HasOneOfComponents(...)
     end
 end
 
-function EntityScript:SetScale(x, y, z)
+function EntityScript:SetScale(scale)
     if self.Transform ~= nil then
-        self.Transform:SetScale(x, y, z)
+        self.Transform:SetScale(scale, scale, scale)
     end
 end
 

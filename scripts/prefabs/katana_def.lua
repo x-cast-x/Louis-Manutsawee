@@ -2,19 +2,20 @@ local SkillUtil = require("utils/skillutil")
 
 -- No one will use it, but I wrote it anyway
 
-local IsSheath = function(inst)
-    return inst.weaponstatus == "sheath"
-end
-
 local IsUnsheath = function(inst)
-    return inst.weaponstatus == "unsheath"
+    return inst.weaponstatus
 end
 
 local function SheathMode(inst, owner)
     inst.spelltype = "PULLOUT"
 
     owner = owner or inst.components.inventoryitem.owner or nil
-    owner.AnimState:OverrideSymbol("swap_object", "swap_S" .. inst.build, "swap_S" .. inst.build)
+    if owner ~= nil then
+        owner.AnimState:OverrideSymbol("swap_object", "swap_S" .. inst.build, "swap_S" .. inst.build)
+        if not owner:HasTag("notshowscabbard")  then
+            owner.AnimState:ClearOverrideSymbol("swap_body_tall")
+        end
+    end
 
     inst.AnimState:SetBank(inst.build)
     inst.AnimState:SetBuild(inst.build)
@@ -26,29 +27,25 @@ local function SheathMode(inst, owner)
     end
 
     inst.components.weapon:SetRange(1, 1.5)
-
-    if not owner:HasTag("notshowscabbard")  then
-        owner.AnimState:ClearOverrideSymbol("swap_body_tall")
-    end
-
     inst.components.equippable.walkspeedmult = 1.25
-
-    if inst:HasTag("mkatana") then
-        inst:RemoveTag("mkatana")
-    end
 
     if not inst:HasTag("iai") then
         inst:AddTag("iai")
     end
 
-    inst.weaponstatus = "sheath"
+    inst.weaponstatus = false
 end
 
 local function UnsheathMode(inst, owner)
     inst.spelltype = "INSERT"
 
     owner = owner or inst.components.inventoryitem.owner or nil
-    owner.AnimState:OverrideSymbol("swap_object", "swap_" .. inst.build, "swap_" .. inst.build)
+    if owner ~= nil then
+        owner.AnimState:OverrideSymbol("swap_object", "swap_" .. inst.build, "swap_" .. inst.build)
+        if not owner:HasTag("notshowscabbard") then
+            owner.AnimState:OverrideSymbol("swap_body_tall", "sc_" .. inst.build, "tail")
+        end
+    end
 
     inst.AnimState:SetBank(inst.build .. "2")
     inst.AnimState:SetBuild(inst.build .. "2")
@@ -60,34 +57,21 @@ local function UnsheathMode(inst, owner)
         end
     end
 
-    if not owner:HasTag("notshowscabbard") then
-        owner.AnimState:OverrideSymbol("swap_body_tall", "sc_" .. inst.build, "tail")
-    end
-
     inst.components.weapon:SetRange(.8, 1.2)
-
     inst.components.equippable.walkspeedmult = 1.15
-
-    if inst:HasTag("mkatana")then
-        inst:RemoveTag("mkatana")
-    end
 
     if inst:HasTag("iai") then
         inst:RemoveTag("iai")
     end
 
-    if owner:HasTag("kenjutsu") and not inst:HasTag("mkatana") then
-        inst:AddTag("mkatana")
-    end
-
-    inst.weaponstatus = "unsheath"
+    inst.weaponstatus = true
 end
 
 local function CastFn(inst, target, position, doer)
-    if not inst:IsUnsheath() then
-        inst.UnsheathMode(inst, doer)
+    if inst.weaponstatus then
+        inst.SheathMode(inst)
     else
-        inst.SheathMode(inst, doer)
+        inst.UnsheathMode(inst)
     end
 
     if inst:HasTag("mortalblade") then
@@ -122,14 +106,14 @@ local function OnEquip(inst, owner)
     owner.AnimState:Show("ARM_carry")
     owner.AnimState:Hide("ARM_normal")
 
-    if owner:HasTag("kenjutsu") then
+    if owner ~= nil and owner.components.kenjutsuka ~= nil then
         inst.components.weapon:SetDamage(inst.components.weapon.damage + (owner.components.kenjutsuka:GetLevel() * 2))
     end
 
-    if inst:IsSheath() then
-        inst.SheathMode(inst, owner)
+    if inst.weaponstatus then
+        inst.UnsheathMode(inst)
     else
-        inst.UnsheathMode(inst, owner)
+        inst.SheathMode(inst)
     end
 
     if inst.onequip_fn ~= nil then
@@ -202,9 +186,14 @@ end
 local function OnLoad(inst, data)
     if data ~= nil then
         inst.weaponstatus = data.weaponstatus
+        if not inst.weaponstatus then
+            inst.UnsheathMode(inst)
+        else
+            inst.SheathMode(inst)
+        end
 
         local owner = inst.components.inventoryitem ~= nil and inst.components.inventoryitem:GetGrandOwner()
-        if owner ~= nil and owner:HasTag("kenjutsu") then
+        if owner ~= nil and owner.components.kenjutsuka ~= nil then
             inst.components.weapon:SetDamage(inst.components.weapon.damage + (owner.components.kenjutsuka:GetLevel() * 2))
         end
 
@@ -237,31 +226,20 @@ local MakeKatana = function(data)
     local prefabs = {}
 
     local function OnAttack(inst, attacker, target)
-        if attacker.components.rider and attacker.components.rider:IsRiding() then
-            return
-        end
-
-        if not inst:IsUnsheath() and inst:HasTag("iai") then
+        if inst:IsUnsheath() and inst:HasTag("iai") then
             inst.UnsheathMode(inst)
             if target.components.combat ~= nil then
                 target.components.combat:GetAttacked(attacker, inst.components.weapon.damage * .8)
             end
         end
 
-        if attacker:HasTag("kenjutsu") and not inst:HasTag("mkatana") then
-            inst:AddTag("mkatana")
-        end
-
-        if math.random(1,4) == 1 then
-            local x = math.random(1, 1.2)
-            local y = math.random(1, 1.2)
-            local z = math.random(1, 1.2)
-            local slash = {"shadowstrike_slash_fx","shadowstrike_slash2_fx"}
-
-            slash = SpawnPrefab(slash[math.random(1,2)])
-            slash.Transform:SetPosition(target:GetPosition():Get())
-            slash.Transform:SetScale(x, y, z)
-        end
+        local x = math.random(1, 1.2)
+        local y = math.random(1, 1.2)
+        local z = math.random(1, 1.2)
+        local slashs = {"shadowstrike_slash_fx","shadowstrike_slash2_fx"}
+        local slash = SpawnPrefab(GetRandomItem(slashs))
+        slash.Transform:SetPosition(target:GetPosition():Get())
+        slash.Transform:SetScale(x, y, z)
 
         inst.components.weapon.attackwear = (inst.IsShadow(target) or inst.IsLunar(target)) and TUNING.GLASSCUTTER.SHADOW_WEAR or 1
 
@@ -343,7 +321,6 @@ local MakeKatana = function(data)
 
         inst.IsLunar = IsLunar
         inst.IsShadow = IsShadow
-        inst.IsSheath = IsSheath
         inst.IsUnsheath = IsUnsheath
 
         inst.SheathMode = SheathMode

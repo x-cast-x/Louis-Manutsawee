@@ -1,5 +1,11 @@
 local MakePlayerCharacter = require "prefabs/player_common"
 
+--[[
+
+“the art style of Don’t Starve Together, hand-drawn sketchy lines, gothic cartoon aesthetic, flat 2.5D perspective, no background, muted color palette, stylized shadows and highlights, item centered, illustrated with irregular lines and exaggerated proportions to match the Don’t Starve aesthetic”
+
+]]
+
 local assets = {
     Asset("SCRIPT", "scripts/prefabs/player_common.lua"),
 
@@ -42,6 +48,7 @@ local assets = {
     Asset("ANIM", "anim/maid_hb.zip"),
     Asset("ANIM", "anim/m_sfoxmask_swap.zip"),
     Asset("ANIM", "anim/m_hb.zip"),
+    Asset("ANIM", "anim/bocchi_ahoge.zip"),
 
     Asset("ANIM", "anim/player_idles_bocchi.zip"),
     Asset("ANIM", "anim/player_idles_walter.zip"),
@@ -110,63 +117,107 @@ end
 prefabs = FlattenTree({prefabs, start_inv}, true)
 
 local function OnMindPowerRegen(inst, mindpower)
-    local mindregenfx = SpawnPrefab("m_battlesong_instant_electric_fx")
-    mindregenfx.Transform:SetScale(.7, .7, .7)
-    mindregenfx.Transform:SetPosition(inst:GetPosition():Get())
-    mindregenfx.entity:AddFollower()
-    mindregenfx.Follower:FollowSymbol(inst.GUID, "swap_body", 0, 0, 0)
+    inst:FollwerFx("m_battlesong_instant_electric_fx").Transform:SetScale(.7)
     if mindpower >= 3 then
         inst.components.talker:Say("󰀈: ".. mindpower .."\n", 2, true)
     end
 end
 
-local OnLevelUpCallback = {
-    {level = 1, fn = function(inst, level)
-        inst.components.sanity.neg_aura_mult = 1 - ((level / 2) / 10)
-        inst.components.kenjutsuka.kenjutsumaxexp = 500 * level
-    end},
-    {level = 2, fn = function(inst)
-        if not inst:HasTag("kenjutsu") then
-            inst:AddTag("kenjutsu")
+local function OnDeath(inst)
+    inst:SpawnPrefabInPos("fx_book_light_upgraded").Transform:SetScale(.9, 2.5, 1)
+end
+
+local function OnEquip(inst, data)
+    local item = data.item
+    if item ~= nil and (item.prefab == "onemanband" or item.prefab == "armorsnurtleshell") then
+        if not inst:HasTag("notshowscabbard") then
+            inst:AddTag("notshowscabbard")
         end
-    end},
-    {level = 3, fn = function(inst)
-    end},
-    {level = 4, fn = function(inst)
-        inst.components.kenjutsuka:StartRegenMindPower()
-    end},
-    {level = 5, fn = function(inst)
-        inst.components.workmultiplier:AddMultiplier(ACTIONS.CHOP,   1, inst)
-        inst.components.workmultiplier:AddMultiplier(ACTIONS.MINE,   1, inst)
-        inst.components.workmultiplier:AddMultiplier(ACTIONS.HAMMER, 1, inst)
-        inst.components.efficientuser:AddMultiplier(ACTIONS.CHOP,   1, inst)
-        inst.components.efficientuser:AddMultiplier(ACTIONS.MINE,   1, inst)
-        inst.components.efficientuser:AddMultiplier(ACTIONS.HAMMER, 1, inst)
-        inst.components.efficientuser:AddMultiplier(ACTIONS.ATTACK, 1, inst)
-    end},
-    {level = 6, fn = function(inst)
-        inst:AddTag("ghostlyfriend")
-        inst.components.sanity:SetPlayerGhostImmunity(true)
-        inst.components.sanity:AddSanityAuraImmunity("ghost")
-        inst.components.temperature.inherentinsulation = TUNING.INSULATION_TINY /2
-        inst.components.temperature.inherentsummerinsulation = TUNING.INSULATION_TINY /2
-    end},
-    {level = 7, fn = function(inst)
-    end},
-    {level = 8, fn = function(inst)
-    end},
-    {level = 9, fn = function(inst)
-    end},
-    {level = 10, fn = function(inst)
-    end},
+    end
+end
+
+local function OnUnEquip(inst, data)
+    local item = data.item
+    if item ~= nil and (item.prefab == "onemanband" or item.prefab == "armorsnurtleshell") then
+        if inst:HasTag("notshowscabbard") then
+            inst:RemoveTag("notshowscabbard")
+        end
+    end
+end
+
+local function OnDroped(inst, data)
+    local item = data ~= nil and (data.prev_item or data.item)
+
+    if item ~= nil and item:HasTag("katana") and not item:HasTag("woodensword") then
+        if not inst:HasTag("notshowscabbard") then
+            inst.AnimState:ClearOverrideSymbol("swap_body_tall")
+        end
+    end
+end
+
+local OnLevelUp = {
+    ["Level1"] = {
+        require_exp = 250,
+    },
+    ["Level2"] = {
+        require_exp = 500,
+        fn = function(inst)
+            if not inst:HasTag("kenjutsu") then
+                inst:AddTag("kenjutsu")
+            end
+        end
+    },
+    ["Level3"] = {
+        require_exp = 750,
+    },
+    ["Level4"] = {
+        require_exp = 1000,
+        fn = function(inst)
+            inst.components.kenjutsuka:EnableMindpowerRegen(true)
+        end
+    },
+    ["Level5"] = {
+        require_exp = 1250,
+    },
+    ["Level6"] = {
+        require_exp = 1500,
+        fn = function(inst, level)
+            inst:AddTag("ghostlyfriend")
+            inst.components.sanity:SetPlayerGhostImmunity(true)
+            inst.components.sanity.neg_aura_mult = 1 - ((level / 2) / 10)
+            inst.components.sanity:AddSanityAuraImmunity("ghost")
+        end
+    },
+    ["Level7"] = {
+        require_exp = 1750,
+        fn = function(inst)
+            inst.components.workmultiplier:AddMultiplier(ACTIONS.CHOP,   1, inst)
+            inst.components.workmultiplier:AddMultiplier(ACTIONS.MINE,   1, inst)
+            inst.components.workmultiplier:AddMultiplier(ACTIONS.HAMMER, 1, inst)
+            inst.components.efficientuser:AddMultiplier(ACTIONS.CHOP,   1, inst)
+            inst.components.efficientuser:AddMultiplier(ACTIONS.MINE,   1, inst)
+            inst.components.efficientuser:AddMultiplier(ACTIONS.HAMMER, 1, inst)
+            inst.components.efficientuser:AddMultiplier(ACTIONS.ATTACK, 1, inst)
+        end
+    },
+    ["Level8"] = {
+        require_exp = 2000,
+    },
+    ["Level9"] = {
+        require_exp = 2250,
+    },
+    ["Level10"] = {
+        require_exp = 2500,
+    },
 }
+
 
 local function OnKilled(inst, data)
     local target = data.victim
     local target_scale = (target:HasTag("smallcreature") and 1) or (target:HasTag("largecreature") and 4) or 2
 
     if target ~= nil and target_scale ~= nil then
-        if not ((target:HasTag("prey")or target:HasTag("bird")or target:HasTag("insect")) and not target:HasTag("hostile")) and inst.components.sanity:GetPercent() <= .8  then
+        if not target:HasOneOfTags({"prey", "bird", "insect", "hostile"}) and inst.components.sanity:GetPercent() <= .8  then
             inst.components.sanity:DoDelta(target_scale)
         end
     end
@@ -178,6 +229,7 @@ local SkinsHeaddress = {
     ["manutsawee_yukata"] = "m_sfoxmask_swap",
     ["manutsawee_yukatalong"] = "m_sfoxmask_swap",
     ["manutsawee_maid_m"] = "maid_hb",
+    ["manutsawee_bocchi"] = "bocchi_ahoge"
 }
 
 local common_postinit = function(inst)
@@ -192,20 +244,12 @@ local common_postinit = function(inst)
 
     inst:AddTag("stronggrip")
 
-    inst:AddTag("alchemist")
-    inst:AddTag("ore_alchemistI")
-    inst:AddTag("ick_alchemistI")
-    inst:AddTag("ick_alchemistII")
-
-    -- inst:SetTag("handyperson", M_CONFIG.IsDexterityMake)
-    inst:SetTag("fastbuilder", M_CONFIG.IsDexterityMake)
-    inst:SetTag("hungrybuilder", M_CONFIG.IsDexterityMake)
+    inst:AddTag("expertchef")
+    inst:AddTag("pinetreepioneer")
+    inst:AddTag("slingshot_sharpshooter")
+    inst:AddTag("pebblemaker")
 
     inst:SetTag("surfer", IA_ENABLED)
-    inst:SetTag("expertchef", M_CONFIG.IsGirlScouts)
-    inst:SetTag("pinetreepioneer", M_CONFIG.IsGirlScouts)
-    inst:SetTag("slingshot_sharpshooter", M_CONFIG.IsGirlScouts)
-    inst:SetTag("pebblemaker", M_CONFIG.IsGirlScouts)
 
     -- inst:AddComponent("keyhandler")
     -- inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.LEVEL_CHECK_KEY, "LevelCheck")
@@ -213,9 +257,16 @@ local common_postinit = function(inst)
     -- inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.ChangeHairStyleKey, "ChangeHairStyleKey")
 
     inst:AddComponent("playerkeyhandler")
+    inst.components.playerkeyhandler:AddKeyListener(LouisManutsawee, M_CONFIG.LevelCheckKey, "LevelCheckKey")
     inst.components.playerkeyhandler:AddKeyListener(LouisManutsawee, M_CONFIG.PutGlassesKey, "PutGlassesKey")
+    inst.components.playerkeyhandler:AddKeyListener(LouisManutsawee, M_CONFIG.ChangeHairStyleKey, "ChangeHairStyleKey")
+    inst.components.playerkeyhandler:AddKeyListener(LouisManutsawee, M_CONFIG.QuickSheathKey, "QuickSheathKey")
+    inst.components.playerkeyhandler:AddKeyListener(LouisManutsawee, M_CONFIG.QuickSheathKey, "QuickSheathKey")
+    inst.components.playerkeyhandler:AddKeyListener(LouisManutsawee, M_CONFIG.SkillCancelKey, "SkillCancelKey")
+    inst.components.playerkeyhandler:AddKeyListener(LouisManutsawee, M_CONFIG.CounterAttackKey, "CounterAttackKey")
+
     -- inst.components.playerkeyhandler:AddCombinationKeyListener(LouisManutsawee, M_CONFIG.PutGlassesKey, M_CONFIG.ChangeHairStyleKey, "PutGlassesKey")
-    inst.components.playerkeyhandler:AddSequentialKeyHandler(LouisManutsawee, M_CONFIG.PutGlassesKey, M_CONFIG.ChangeHairStyleKey, "ChangeHairStyleKey")
+    -- inst.components.playerkeyhandler:AddSequentialKeyHandler(LouisManutsawee, M_CONFIG.PutGlassesKey, M_CONFIG.ChangeHairStyleKey, "ChangeHairStyleKey")
     -- inst.components.playerkeyhandler:AddCombinationKeyListener(LouisManutsawee, M_CONFIG.PutGlassesKey, M_CONFIG.ChangeHairStyleKey, "ChangeHairStyleKey")
 
     -- inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.SKILL1_KEY, "Skill1")
@@ -232,9 +283,10 @@ end
 local master_postinit = function(inst)
     inst.starting_inventory = start_inv[TheNet:GetServerGameMode()] or start_inv.default
 
-    inst.AnimState:SetScale(0.88, 0.9, 1)
+    -- inst.AnimState:SetScale(0.88, 0.9, 1)
 
     inst:AddComponent("hair")
+    inst.components.hair:SetUpHair()
 
     inst:AddComponent("playerskillcontroller")
     for k, v in pairs(skill_cooldown_effects) do
@@ -253,9 +305,11 @@ local master_postinit = function(inst)
     inst.components.glasses:AddGlass("manutsawee_bocchi", "starglasses")
     inst.components.glasses:AddGlass("manutsawee_uniform_black", "sunglasses")
 
-    -- inst:AddComponent("kenjutsuka")
-    -- inst.components.kenjutsuka:SetOnMindPowerRegen(OnMindPowerRegen)
-    -- inst.components.kenjutsuka:AddLevelUpCallback(OnKenjutsuLevels)
+    inst:AddComponent("kenjutsuka")
+    inst.components.kenjutsuka:SetOnMindPowerRegen(OnMindPowerRegen)
+    for k, v in pairs(OnLevelUp) do
+        inst.components.kenjutsuka:AddOnLevelUp(k, v)
+    end
 
     inst:AddComponent("houndedtarget")
     inst.components.houndedtarget.target_weight_mult:SetModifier(inst, TUNING.WES_HOUND_TARGET_MULT, "misfortune")
@@ -301,6 +355,11 @@ local master_postinit = function(inst)
     inst.skeleton_prefab = nil
 
     inst:ListenForEvent("killed", OnKilled)
+    inst:ListenForEvent("death", OnDeath)
+    inst:ListenForEvent("unequip", OnUnEquip)
+    inst:ListenForEvent("equip", OnEquip)
+    inst:ListenForEvent("dropitem", OnDroped)
+    inst:ListenForEvent("itemlose", OnDroped)
 end
 
 return MakePlayerCharacter("manutsawee", prefabs, assets, common_postinit, master_postinit, start_inv)
