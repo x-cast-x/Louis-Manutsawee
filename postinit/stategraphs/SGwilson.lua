@@ -72,18 +72,6 @@ local events = {
     EventHandler("start_counter_attack", function(inst)
         inst.sg:GoToState("start_counter_attack")
     end),
-    EventHandler("mdash", function(inst)
-        inst.sg:GoToState("mdash")
-    end),
-    EventHandler("mdash2", function(inst)
-        inst.sg:GoToState("mdash2")
-    end),
-	EventHandler("redirect_locomote", function(inst, data)
-        inst.sg:GoToState("mdash", data)
-    end),
-    EventHandler("redirect_locomote2", function(inst, data)
-        inst.sg:GoToState("mdash2", data)
-    end)
 }
 
 local states = {
@@ -155,7 +143,6 @@ local states = {
                     inst.SoundEmitter:PlaySound("dontstarve/creatures/spiderqueen/swipe")
                     cooldown = math.max(cooldown, 13 * FRAMES)
                 elseif equip:HasTag("yari") then
-
                     inst.sg.statemem.isyari = true
                     if math.random(1, 3) == 1 then
                         inst.AnimState:PlayAnimation("spearjab_pre")
@@ -1381,11 +1368,9 @@ local function fn(sg)
             playercontroller.remote_predicting and
             "abouttoattack" or
             "attack"
-        if inst:HasTag("kenjutsuka") and inst:HasTag("kenjutsu") and inst.components.rider ~= nil and not inst.components.rider:IsRiding() and not (inst.sg:HasStateTag(attack_tag) and action.target == inst.sg.statemem.attacktarget or inst.components.health:IsDead()) then
-            local weapon = inst.components.combat ~= nil and inst.components.combat:GetWeapon() or nil
-            if weapon ~= nil then
-                return "kenjutsu"
-            end
+        local weapon = inst.components.combat ~= nil and inst.components.combat:GetWeapon() or nil
+        if weapon ~= nil and weapon:HasTag("katana") and inst:HasTag("kenjutsuka") and inst:HasTag("kenjutsu") and inst.components.rider ~= nil and not inst.components.rider:IsRiding() and not (inst.sg:HasStateTag(attack_tag) and action.target == inst.sg.statemem.attacktarget or inst.components.health:IsDead()) then
+            return "kenjutsu"
         end
 
         if attack_actionhandler ~= nil then
@@ -1401,6 +1386,10 @@ local function fn(sg)
         if _wes_funnyidle_onenter ~= nil then
             _wes_funnyidle_onenter(inst, ...)
         end
+    end
+
+    sg.states["wes_funnyidle"].onexit = function(inst)
+        inst.AnimState:ClearOverrideSymbol("balloon_red")
     end
 end
 

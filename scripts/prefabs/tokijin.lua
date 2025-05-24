@@ -19,10 +19,7 @@ local function OnAttack(inst, attacker, target)
         local spark = SpawnPrefab("hitsparks_fx")
         spark:Setup(attacker, target, nil, hitsparks_fx_colouroverride)
         spark.black:set(true)
-        local damage = inst.components.weapon.damage * .8
-        if inst.swirl ~= nil then
-            damage = inst.components.weapon.damage * 4
-        end
+        local damage = inst.components.weapon.damage * math.random(1, 4)
         if target.components.combat ~= nil then
             target.components.combat:GetAttacked(attacker, damage)
         end
@@ -48,49 +45,49 @@ local function TryStartFx(inst, owner)
         return
     end
 
-    if inst._vfx_fx_inst ~= nil and inst._vfx_fx_inst.entity:GetParent() ~= owner then
-        inst._vfx_fx_inst:Remove()
-        inst._vfx_fx_inst = nil
+    if inst.vfx_fx ~= nil and inst.vfx_fx.entity:GetParent() ~= owner then
+        inst.vfx_fx:Remove()
+        inst.vfx_fx = nil
     end
 
-    if inst._vfx_fx_inst == nil then
-        inst._vfx_fx_inst = SpawnPrefab("pocketwatch_weapon_fx")
-        inst._vfx_fx_inst.entity:AddFollower()
-        inst._vfx_fx_inst.entity:SetParent(owner.entity)
-        inst._vfx_fx_inst.Follower:FollowSymbol(owner.GUID, "swap_object", 15, 70, 0)
+    if inst.vfx_fx == nil then
+        inst.vfx_fx = SpawnPrefab("pocketwatch_weapon_fx")
+        inst.vfx_fx.entity:AddFollower()
+        inst.vfx_fx.entity:SetParent(owner.entity)
+        inst.vfx_fx.Follower:FollowSymbol(owner.GUID, "swap_object", 15, 70, 0)
     end
 end
 
 local function StopFx(inst)
-    if inst._vfx_fx_inst ~= nil then
-        inst._vfx_fx_inst:Remove()
-        inst._vfx_fx_inst = nil
+    if inst.vfx_fx ~= nil then
+        inst.vfx_fx:Remove()
+        inst.vfx_fx = nil
     end
 end
 
-local function SwitchControlled(inst, enabled)
-    local grogginess = inst.components.grogginess
+local function SwitchControlled(inst, player, enabled)
+    local grogginess = player.components.grogginess
 
-    if grogginess ~= nil and not inst:HasTag("playerghost") then
+    if grogginess ~= nil and not player:HasTag("playerghost") then
+        player:SetTag("groggy", enabled)
+        player:SetTag("controlled", enabled)
+
+        if player.components.sanity ~= nil then
+            player.components.sanity:SetInducedInsanity(player, enabled)
+        end
         if enabled then
-            inst:AddTag("groggy")
-            inst:AddTag("controlled")
-            inst.AnimState:OverrideSymbol("face", "face_controlled", "face")
+            player.AnimState:OverrideSymbol("face", "face_controlled", "face")
             local pct = grogginess.grog_amount < grogginess:GetResistance() and grogginess.grog_amount / grogginess:GetResistance() or 1
             grogginess.speedmod = Remap(pct, 1, 0, TUNING.MIN_GROGGY_SPEED_MOD, TUNING.MAX_GROGGY_SPEED_MOD)
-            inst.components.locomotor:SetExternalSpeedMultiplier(inst, "controlled", grogginess.speedmod)
-            if inst.components.sanity ~= nil then
-                inst.components.sanity:SetInducedInsanity(inst, true)
-            end
+            player.components.locomotor:SetExternalSpeedMultiplier(player, "controlled", grogginess.speedmod)
+            inst.components.equippable.dapperness = TUNING.CRAZINESS_MED
+            TryStartFx(inst, player)
         else
-            inst:RemoveTag("groggy")
-            inst:RemoveTag("controlled")
-            inst.AnimState:ClearOverrideSymbol("face")
+            player.AnimState:ClearOverrideSymbol("face")
             grogginess.speedmod = nil
-            inst.components.locomotor:RemoveExternalSpeedMultiplier(inst, "controlled")
-            if inst.components.sanity ~= nil then
-                inst.components.sanity:SetInducedInsanity(inst, false)
-            end
+            player.components.locomotor:RemoveExternalSpeedMultiplier(player, "controlled")
+            inst.components.equippable.dapperness = 0
+            StopFx(inst)
         end
     end
 end
@@ -103,19 +100,11 @@ local function OnIsNightmareWild(inst, isnightmarewild)
     end
 
     if isnightmarewild and owner.components.areaaware:CurrentlyInTag("Nightmare") and not owner:HasTag("controlled") then
-        inst.nightmare_controlled = inst:DoTaskInTime(10, function()
-            owner.components.talker:Say(GetString(owner, "ANNOUNCE_ISNIGHTMAREWILD"))
-            SwitchControlled(owner, true)
-            TryStartFx(inst, owner)
-        end)
+        owner.components.talker:Say(GetString(owner, "ANNOUNCE_ISNIGHTMAREWILD"))
+        SwitchControlled(inst, owner, true)
     else
         if owner:HasTag("controlled") then
-            SwitchControlled(owner, false)
-            StopFx(inst)
-            if inst.nightmare_controlled ~= nil then
-                inst.nightmare_controlled:Cancel()
-                inst.nightmare_controlled = nil
-            end
+            SwitchControlled(inst, owner, false)
         end
     end
 end
@@ -124,10 +113,6 @@ local function OnEquip(inst, owner)
     owner.AnimState:Show("ARM_carry")
     owner.AnimState:Hide("ARM_normal")
     owner.AnimState:OverrideSymbol("swap_object", "swap_tokijin" , "swap_tokijin")
-
-    if TheWorld:HasTag("cave") then
-        OnIsNightmareWild(inst, TheWorld.state.isnightmarewild)
-    end
 
     if not owner:HasTag("notshowscabbard")  then
         owner.AnimState:ClearOverrideSymbol("swap_body_tall")
@@ -142,11 +127,9 @@ local function OnEquip(inst, owner)
     if kenjutsuka ~= nil then
         inst.components.weapon:SetDamage(TUNING.TOKIJIN_DAMAGE + (kenjutsuka:GetLevel() * 2))
 
-        inst.controlled = inst:DoTaskInTime(10, function()
-            if owner.components.kenjutsuka:GetLevel() < 10 then
-                inst.components.equippable.dapperness = TUNING.CRAZINESS_MED
-                SwitchControlled(owner, true)
-                TryStartFx(inst, owner)
+        inst.pre_controlled = inst:DoTaskInTime(10, function()
+            if not kenjutsuka:IsMaxLevel() then
+                SwitchControlled(inst, owner, true)
             end
         end)
     end
@@ -158,10 +141,6 @@ local function OnUnequip(inst, owner)
 
     inst.components.weapon:SetDamage(TUNING.TOKIJIN_DAMAGE)
 
-    if inst:HasTag("mkatana") then
-        inst:RemoveTag("mkatana")
-    end
-
     if not inst:HasTag("iai") then
         inst:AddTag("iai")
     end
@@ -170,24 +149,16 @@ local function OnUnequip(inst, owner)
         owner.AnimState:OverrideSymbol("swap_body_tall", "sc_tokijin", "tail")
     end
 
-    inst.components.equippable.dapperness = 0
-    SwitchControlled(owner, false)
-    StopFx(inst)
-    if inst.controlled ~= nil then
-        inst.controlled:Cancel()
-        inst.controlled = nil
+    SwitchControlled(inst, owner, false)
+    if inst.pre_controlled ~= nil then
+        inst.pre_controlled:Cancel()
+        inst.pre_controlled = nil
     end
 end
 
 local function OnPocket(inst, owner)
     if owner ~= nil and not owner:HasTag("notshowscabbard") and owner:HasTag("player") then
         owner.AnimState:OverrideSymbol("swap_body_tall", "sc_tokijin", "tail")
-    end
-end
-
-local function GetStatus(inst, viewer)
-    if inst.swirl then
-        return "RESENTMENT"
     end
 end
 
@@ -200,9 +171,9 @@ local function OnHauntFn(inst, haunter)
             inst.components.inventoryitem:SetLanded(false, true)
         end
 
-        if inst.swirl == nil then
-            inst.swirl = SpawnPrefab("shadow_chester_swirl_fx")
-            inst.swirl.entity:SetParent(inst.entity)
+        if inst.swirl_fx == nil then
+            inst.swirl_fx = SpawnPrefab("shadow_chester_swirl_fx")
+            inst.swirl_fx.entity:SetParent(inst.entity)
         end
 
         return true
@@ -211,13 +182,12 @@ local function OnHauntFn(inst, haunter)
 end
 
 local function OnPickupFn(inst, picker, src_pos)
-    if inst.swirl ~= nil then
-        inst.swirl.ReleaseSwirl(inst or picker)
+    if inst.swirl_fx ~= nil then
+        inst.swirl_fx.ReleaseSwirl(inst or picker)
     end
 
-    if inst.components.sanityaura ~= nil then
-        inst:RemoveComponent("sanityaura")
-    end
+    inst.components.sanityaura.aura = 0
+    inst.components.sanityaura.max_distsq = 0
 
     if inst.m_shadowhand_fx ~= nil then
         inst.m_shadowhand_fx:ListenForEvent("animover", inst.m_shadowhand_fx.Remove)
@@ -225,11 +195,8 @@ local function OnPickupFn(inst, picker, src_pos)
 end
 
 local function OnDropped(inst)
-    if inst.components.sanityaura == nil then
-        inst:AddComponent("sanityaura")
-        inst.components.sanityaura.aura = -TUNING.SANITYAURA_SMALL
-        inst.components.sanityaura.max_distsq = TUNING.VOIDCLOTH_UMBRELLA_DOME_RADIUS * TUNING.VOIDCLOTH_UMBRELLA_DOME_RADIUS
-    end
+    inst.components.sanityaura.aura = -TUNING.SANITYAURA_SMALL
+    inst.components.sanityaura.max_distsq = TUNING.VOIDCLOTH_UMBRELLA_DOME_RADIUS * TUNING.VOIDCLOTH_UMBRELLA_DOME_RADIUS
 
     local fused_shadeling_spawn_fx = SpawnPrefab("fused_shadeling_spawn_fx")
     fused_shadeling_spawn_fx.entity:AddFollower()
@@ -271,7 +238,7 @@ local function SpawnFxTask(inst)
             end
         end
 
-        if inst.entity:IsAwake() then
+        if not inst:IsAsleep() then
             inst.spawn_fx_task = inst:DoTaskInTime(4+math.random()*10, SpawnFxTask)
         end
     end
@@ -288,8 +255,8 @@ local function OnRemoveEntity(inst)
         inst.spawn_fx_task:Cancel()
         inst.spawn_fx_task = nil
     end
-    if inst.swirl ~= nil then
-        inst.swirl.ReleaseSwirl(inst)
+    if inst.swirl_fx ~= nil then
+        inst.swirl_fx.ReleaseSwirl(inst)
     end
     if inst.m_shadowhand_fx ~= nil then
         inst.m_shadowhand_fx.Release(inst)
@@ -328,8 +295,8 @@ local function fn()
         return inst
     end
 
+    inst:AddComponent("sanityaura")
     inst:AddComponent("inspectable")
-    inst.components.inspectable.getstatus = GetStatus
 
     inst:AddComponent("waterproofer")
     inst.components.waterproofer:SetEffectiveness(0)
@@ -365,6 +332,7 @@ local function fn()
     inst.components.equippable:SetOnPocket(OnPocket)
     inst.components.equippable.is_magic_dapperness = true
 
+    inst.SwitchControlled = SwitchControlled
     inst.OnEntityWake = OnEntityWake
     inst.OnRemoveEntity = OnRemoveEntity
 

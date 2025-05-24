@@ -86,13 +86,14 @@ return Class(function(self, inst)
     end
 
     function self:GetHairStyle()
-        return Hair_Styles[hair_style] or "None"
+        return Hair_Styles[hair_style]
     end
 
     function self:GetDebugString()
+        local hair_style = self:GetHairStyle()
         return string.format("Hair Length: %s, Hair Style: %s",
             tostring(self:GetHairLength()),
-            tostring(self:GetHairStyle())
+            tostring(hair_style == "" and "None" or hair_style)
         )
     end
 

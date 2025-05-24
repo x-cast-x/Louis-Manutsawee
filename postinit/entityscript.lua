@@ -87,13 +87,9 @@ function EntityScript:FollwerFx(fx, GUID, symbol, x, y, z)
         fx = SpawnPrefab(fx)
     end
     if checkentity(fx) then
-        if fx:HasTag("FX") then
-            fx.entity:AddFollower()
-            fx.Follower:FollowSymbol(GUID or self.GUID, symbol or "swap_body", x or 0, z or 0, y or 0)
-            return fx
-        else
-            fx:Remove()
-        end
+        fx.entity:AddFollower()
+        fx.Follower:FollowSymbol(GUID or self.GUID, symbol or "swap_body", x or 0, z or 0, y or 0)
+        return fx
     end
 end
 

@@ -235,26 +235,21 @@ configuration_options = {
 
     AddTitle(en_zh("Custom Kenjutsu", "自定义剑术")),
     {
-        name = "max_mind_power",
+        name = "max_mindpower",
         label = en_zh("Set Mind  󰀈", "设置能量点 󰀈") ,
-        hover = en_zh("Set Mind when start. level max + 20", "设置起始能量点, 最大20。"),
+        hover = en_zh("Set Mind when start. level max + 50", "设置起始能量点, 最大50。"),
         options = {
-            {description="2", data = 2},
-            {description="3", data = 3},
-            {description="4", data = 4},
-            {description="5", data = 5},
-            {description="6", data = 6},
-            {description="7", data = 7},
-            {description="8", data = 8},
-            {description="9", data = 9},
+            {description="0", data = 0},
             {description="10", data = 10},
-            {description="15", data = 15},
             {description="20", data = 20},
+            {description="30", data = 30},
+            {description="40", data = 40},
+            {description="50", data = 50},
         },
-        default = 2,
+        default = 0,
     },
 	{
-        name = "set_mindregen_rate",
+        name = "regen_mindpower_rate",
         label = en_zh("Mind 󰀈 Regen half of max / seccond ", "󰀈恢复最大的一半/秒") ,
         hover = en_zh("Mind regenaration unlock level 4.", "心灵再生解锁4级"),
         options = {
@@ -276,7 +271,7 @@ configuration_options = {
         default = 300,
     },
     {
-        name = "mindregen_count",
+        name = "regen_mindpower_count",
         label = en_zh("Mind  󰀈 Regen / hit", "每次攻击恢复心灵"),
         hover = en_zh("Mind regen/hit that attack with katana", "心灵恢复/用武士刀攻击该攻击"),
         options = {

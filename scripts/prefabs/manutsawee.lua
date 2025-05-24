@@ -67,12 +67,6 @@ local prefabs = {
     "fx_book_light_upgraded",
 }
 
-local unlockrecipes = {
-    "rainhat",
-    -- "portabletent_item",
-    "bedroll_shraw",
-}
-
 local Idle_Anim = {
     ["manutsawee"] = "idle_wilson",
     ["manutsawee_yukatalong"] = "idle_wendy",
@@ -116,10 +110,10 @@ end
 
 prefabs = FlattenTree({prefabs, start_inv}, true)
 
-local function OnMindPowerRegen(inst, mindpower)
-    inst:FollwerFx("m_battlesong_instant_electric_fx").Transform:SetScale(.7)
+local function OnRegenMindPower(inst, mindpower)
+    inst:FollwerFx("m_battlesong_instant_electric_fx"):SetScale(.7)
     if mindpower >= 3 then
-        inst.components.talker:Say("󰀈: ".. mindpower .."\n", 2, true)
+        inst.components.talker:Say("󰀈: ".. mindpower .."\n", 1, true)
     end
 end
 
@@ -155,11 +149,16 @@ local function OnDroped(inst, data)
     end
 end
 
+local function OnLevelUpSpawnFx(inst)
+    local fx_book_light_upgraded = inst:FollwerFx("fx_book_light_upgraded")
+    fx_book_light_upgraded.Transform:SetScale(.9, 2.5, 1)
+end
+
 local OnLevelUp = {
-    ["Level1"] = {
+    Level1 = {
         require_exp = 250,
     },
-    ["Level2"] = {
+    Level2 = {
         require_exp = 500,
         fn = function(inst)
             if not inst:HasTag("kenjutsu") then
@@ -167,19 +166,19 @@ local OnLevelUp = {
             end
         end
     },
-    ["Level3"] = {
+    Level3 = {
         require_exp = 750,
     },
-    ["Level4"] = {
+    Level4 = {
         require_exp = 1000,
         fn = function(inst)
-            inst.components.kenjutsuka:EnableMindpowerRegen(true)
+            inst.components.kenjutsuka:SetRegenMindPower(true)
         end
     },
-    ["Level5"] = {
+    Level5 = {
         require_exp = 1250,
     },
-    ["Level6"] = {
+    Level6 = {
         require_exp = 1500,
         fn = function(inst, level)
             inst:AddTag("ghostlyfriend")
@@ -188,7 +187,7 @@ local OnLevelUp = {
             inst.components.sanity:AddSanityAuraImmunity("ghost")
         end
     },
-    ["Level7"] = {
+    Level7 = {
         require_exp = 1750,
         fn = function(inst)
             inst.components.workmultiplier:AddMultiplier(ACTIONS.CHOP,   1, inst)
@@ -200,17 +199,16 @@ local OnLevelUp = {
             inst.components.efficientuser:AddMultiplier(ACTIONS.ATTACK, 1, inst)
         end
     },
-    ["Level8"] = {
+    Level8 = {
         require_exp = 2000,
     },
-    ["Level9"] = {
+    Level9 = {
         require_exp = 2250,
     },
-    ["Level10"] = {
+    Level10 = {
         require_exp = 2500,
     },
 }
-
 
 local function OnKilled(inst, data)
     local target = data.victim
@@ -251,16 +249,10 @@ local common_postinit = function(inst)
 
     inst:SetTag("surfer", IA_ENABLED)
 
-    -- inst:AddComponent("keyhandler")
-    -- inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.LEVEL_CHECK_KEY, "LevelCheck")
-    -- inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.PutGlassesKey, "PutGlassesKey")
-    -- inst.components.keyhandler:AddActionListener(LouisManutsawee, M_CONFIG.ChangeHairStyleKey, "ChangeHairStyleKey")
-
     inst:AddComponent("playerkeyhandler")
     inst.components.playerkeyhandler:AddKeyListener(LouisManutsawee, M_CONFIG.LevelCheckKey, "LevelCheckKey")
     inst.components.playerkeyhandler:AddKeyListener(LouisManutsawee, M_CONFIG.PutGlassesKey, "PutGlassesKey")
     inst.components.playerkeyhandler:AddKeyListener(LouisManutsawee, M_CONFIG.ChangeHairStyleKey, "ChangeHairStyleKey")
-    inst.components.playerkeyhandler:AddKeyListener(LouisManutsawee, M_CONFIG.QuickSheathKey, "QuickSheathKey")
     inst.components.playerkeyhandler:AddKeyListener(LouisManutsawee, M_CONFIG.QuickSheathKey, "QuickSheathKey")
     inst.components.playerkeyhandler:AddKeyListener(LouisManutsawee, M_CONFIG.SkillCancelKey, "SkillCancelKey")
     inst.components.playerkeyhandler:AddKeyListener(LouisManutsawee, M_CONFIG.CounterAttackKey, "CounterAttackKey")
@@ -306,10 +298,9 @@ local master_postinit = function(inst)
     inst.components.glasses:AddGlass("manutsawee_uniform_black", "sunglasses")
 
     inst:AddComponent("kenjutsuka")
-    inst.components.kenjutsuka:SetOnMindPowerRegen(OnMindPowerRegen)
-    for k, v in pairs(OnLevelUp) do
-        inst.components.kenjutsuka:AddOnLevelUp(k, v)
-    end
+    inst.components.kenjutsuka:SetOnRegenMindPower(OnRegenMindPower)
+    inst.components.kenjutsuka:AddOnLevelUp(OnLevelUp)
+    inst.components.kenjutsuka:AddSpawnFx(OnLevelUpSpawnFx)
 
     inst:AddComponent("houndedtarget")
     inst.components.houndedtarget.target_weight_mult:SetModifier(inst, TUNING.WES_HOUND_TARGET_MULT, "misfortune")

@@ -226,7 +226,7 @@ local MakeKatana = function(data)
     local prefabs = {}
 
     local function OnAttack(inst, attacker, target)
-        if inst:IsUnsheath() and inst:HasTag("iai") then
+        if not inst:IsUnsheath() and inst:HasTag("iai") then
             inst.UnsheathMode(inst)
             if target.components.combat ~= nil then
                 target.components.combat:GetAttacked(attacker, inst.components.weapon.damage * .8)

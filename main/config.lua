@@ -34,9 +34,9 @@ M_CONFIG = {
     CounterAttackKey = GetModConfigData("counter_attkack_key"),
     QuickSheathKey = GetModConfigData("quick_sheath_key"),
 
-    MaxMindPower = GetModConfigData("max_mind_power"),
-    MindRegenCount = GetModConfigData("mindregen_count"),
-    MindRegenRate = GetModConfigData("set_mindregen_rate"),
+    MaxMindPower = GetModConfigData("max_mindpower"),
+    RegenMindPowerCount = GetModConfigData("regen_mindpower_count"),
+    RegenMindPowerRate = GetModConfigData("regen_mindpower_rate"),
     KenjutsuExpMultiple = GetModConfigData("kenjutsu_exp_multiple"),
 
     StartWeapon = GetModConfigData("start_weapon"),
