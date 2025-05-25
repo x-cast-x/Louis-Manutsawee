@@ -16,7 +16,6 @@ PrefabFiles = {
     "katanablade",
     "katana",
     "true_katana",
-    "mfruit",
     "mingot",
     "mmiko_armor",
     "special_katana",
@@ -64,6 +63,8 @@ Assets = {
     Asset("ATLAS", "images/names_gold_manutsawee.xml"),
     Asset("IMAGE", "images/names_gold_cn_manutsawee.tex"),
     Asset("ATLAS", "images/names_gold_cn_manutsawee.xml"),
+    Asset("IMAGE", "images/emotes_manutsawee.tex"),
+    Asset("ATLAS", "images/emotes_manutsawee.xml"),
 
     Asset("IMAGE", "bigportraits/manutsawee.tex"),
     Asset("ATLAS", "bigportraits/manutsawee.xml"),

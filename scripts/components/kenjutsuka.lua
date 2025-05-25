@@ -33,8 +33,7 @@ local function OnAttackOther(inst, data)
             if not inst.components.timer:TimerExists("critical_cd") then
                 if math.random(1, 100) <= critical_rate + kenjutsuka:GetLevel() then
                     inst.components.timer:StartTimer("critical_cd", 15 - (kenjutsuka:GetLevel() / 2))
-                    target:SpawnPrefabInPos("slingshotammo_hitfx_rock")-- :SetScale(.8)
-                    inst.SoundEmitter:PlaySound("turnoftides/common/together/moon_glass/mine")
+                    target:SpawnPrefabInPos("fx_attack_pop")
                     inst.components.combat.damagemultiplier = (damage_multiplier + (damage_critical * kenjutsuka:GetLevel()))
                     inst:DoTaskInTime(1, function(inst)
                         inst.components.combat.damagemultiplier = damage_multiplier
@@ -52,32 +51,6 @@ local function OnAttackOther(inst, data)
                 end
             end
         end
-    end
-end
-
-local function OnPlayerReroll(inst)
-    local level = inst.components.kenjutsuka:GetLevel()
-
-    if level > 0 then
-        local x, y, z = inst.Transform:GetWorldPosition()
-        for i = 1, level do
-            local fruit = SpawnPrefab("mfruit")
-            if fruit ~= nil then
-                if fruit.Physics ~= nil then
-                    local speed = 2 + math.random()
-                    local angle = math.random() * 2 * PI
-                    fruit.Physics:Teleport(x, y + 1, z)
-                    fruit.Physics:SetVel(speed * math.cos(angle), speed * 3, speed * math.sin(angle))
-                else
-                    fruit.Transform:SetPosition(x, y, z)
-                end
-
-                if fruit.components.propagator ~= nil then
-                    fruit.components.propagator:Delay(5)
-                end
-            end
-        end
-        inst.components.kenjutsuka:SetLevel(0)
     end
 end
 
@@ -105,7 +78,7 @@ local Kenjutsuka = Class(function(self, inst)
     self.inst:ListenForEvent("ms_playerreroll", OnPlayerReroll)
     self.inst:ListenForEvent("ms_levelup", function(inst, data) self:OnLevelUp(data) end)
     self.inst:ListenForEvent("ms_expdelta", function(inst, data) self:OnExpDelta(data) end)
-    self.inst:ListenForEvent("ms_regenmindpower", self.RegenMindPower)
+    self.inst:ListenForEvent("ms_regenmindpower", function(inst) self:RegenMindPower() end)
 end)
 
 function Kenjutsuka:RegenMindPower()
@@ -138,13 +111,12 @@ end
 
 function Kenjutsuka:OnExpDelta(data)
     if data ~= nil then
-        for k, v in (function()
-            if self.spawnfx ~= nil then
-                self.spawnfx(self.inst)
-            end
-            return pairs(self.onlevelupcallback)
-        end)() do
+        local has_spawn = false
+        for k, v in pairs(self.onlevelupcallback) do
             if v ~= nil and self:IsExpEligible(data.exp, v.require_exp) then
+                if not has_spawn and self.spawnfx ~= nil then
+                    self.spawnfx(self.inst)
+                end
                 self.inst:PushEvent("ms_levelup", {level = self:GetLevel() + 1, fn = v.fn})
             end
         end

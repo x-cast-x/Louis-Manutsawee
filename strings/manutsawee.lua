@@ -2295,7 +2295,6 @@ return{
 		MERMWATCHTOWER_REGULAR = "They seem happy to have found a king.",
 		MESSAGEBOTTLE = "Hey! It's a bottle of emergency kindling!",
 		MESSAGEBOTTLEEMPTY = "Just a boring old bottle.",
-		MFRUIT = "Restore memory.",
 		MIGHTY_GYM =
 		{
 			BURNT = "I don't know what Wolfgang's so upset about, I thought the fire effects were great!",

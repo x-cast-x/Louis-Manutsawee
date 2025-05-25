@@ -94,5 +94,7 @@ function EntityScript:FollwerFx(fx, GUID, symbol, x, y, z)
 end
 
 function EntityScript:SpawnPrefabInPos(prefab)
-    return SpawnPrefab(prefab).Transform:SetPosition(self:GetPosition():Get())
+    local prefab = SpawnPrefab(prefab)
+    prefab.Transform:SetPosition(self:GetPosition():Get())
+    return prefab
 end

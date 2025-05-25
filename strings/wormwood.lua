@@ -9,7 +9,6 @@ return {
         KATANABODY = "",
         KOSHIRAE = "",
         MAID_HB = "",
-        MFRUIT = "",
         MINGOT = "",
         MMIKO_ARMOR = "",
         MORTALBLADE = "",

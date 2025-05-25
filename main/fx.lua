@@ -54,7 +54,14 @@ local m_fx = {
         bank = "fx_wathgrithr_buff",
         build = "fx_wathgrithr_buff",
         anim = "quote_electric",
-    }
+    },
+    {
+        name = "fx_attack_pop",
+        bank = "fx_dock_crackleandpop",
+        build = "fx_dock_crackleandpop",
+        anim = "pop",
+        sound = "turnoftides/common/together/moon_glass/mine",
+    },
 }
 
 -- Sneakily add these to the FX table

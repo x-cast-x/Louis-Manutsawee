@@ -68,36 +68,45 @@ local prefabs = {
 }
 
 local Idle_Anim = {
-    ["manutsawee"] = "idle_wilson",
-    ["manutsawee_yukatalong"] = "idle_wendy",
-    ["manutsawee_yukata"] = "idle_wendy",
-    ["manutsawee_shinsengumi"] = "idle_wathgrithr",
-    ["manutsawee_fuka"] = "idle_wathgrithr",
-    ["manutsawee_sailor"] = "idle_walter",
-    ["manutsawee_jinbei"] = "idle_wortox",
-    ["manutsawee_maid"] = "idle_wanda",
-    ["manutsawee_maid_m"] = "idle_wanda",
-    ["manutsawee_lycoris"] = "idle_wanda",
-    ["manutsawee_uniform_black"] = "idle_wanda",
-    ["manutsawee_taohuu"] = "idle_winona",
-    ["manutsawee_miko"] = "emote_impatient",
+    manutsawee = "idle_wilson",
+    manutsawee_yukatalong = "idle_wendy",
+    manutsawee_yukata = "idle_wendy",
+    manutsawee_shinsengumi = "idle_wathgrithr",
+    manutsawee_fuka = "idle_wathgrithr",
+    manutsawee_sailor = "idle_walter",
+    manutsawee_jinbei = "idle_wortox",
+    manutsawee_maid = "idle_wanda",
+    manutsawee_maid_m = "idle_wanda",
+    manutsawee_lycoris = "idle_wanda",
+    manutsawee_uniform_black = "idle_wanda",
+    manutsawee_taohuu = "idle_winona",
+    manutsawee_miko = "emote_impatient",
 }
 
 local Funny_Idle_Anim = {
-    ["manutsawee_qipao"] = "wes_funnyidle",
-    ["manutsawee_bocchi"] = "idle_bocchi",
+    manutsawee_qipao = "wes_funnyidle",
+    manutsawee_bocchi = "idle_bocchi",
 }
 
 local skill_cooldown_effects = {
-    ["ichimonji"] = "ghostlyelixir_retaliation_dripfx",
-    ["flip"] = "ghostlyelixir_shield_dripfx",
-    ["thrust"] = "ghostlyelixir_speed_dripfx",
-    ["counter_attack"] = "battlesong_instant_panic_fx",
-    ["isshin"] = "monkey_deform_pre_fx",
-    ["heavenlystrike"] = "fx_book_birds",
-    ["ryusen"] = "fx_book_birds",
-    ["susanoo"] = "fx_book_birds",
-    ["soryuha"] = "thunderbird_fx_idle",
+    ichimonji = "ghostlyelixir_retaliation_dripfx",
+    flip = "ghostlyelixir_shield_dripfx",
+    thrust = "ghostlyelixir_speed_dripfx",
+    counter_attack = "battlesong_instant_panic_fx",
+    isshin = "monkey_deform_pre_fx",
+    heavenlystrike = "fx_book_birds",
+    ryusen = "fx_book_birds",
+    susanoo = "fx_book_birds",
+    soryuha = "thunderbird_fx_idle",
+}
+
+local SkinsHeaddress = {
+    manutsawee_maid = "maid_hb",
+    manutsawee_shinsengumi = "m_hb",
+    manutsawee_yukata = "m_sfoxmask_swap",
+    manutsawee_yukatalong = "m_sfoxmask_swap",
+    manutsawee_maid_m = "maid_hb",
+    manutsawee_bocchi = "bocchi_ahoge"
 }
 
 local LouisManutsawee = "LouisManutsawee"
@@ -141,7 +150,6 @@ end
 
 local function OnDroped(inst, data)
     local item = data ~= nil and (data.prev_item or data.item)
-
     if item ~= nil and item:HasTag("katana") and not item:HasTag("woodensword") then
         if not inst:HasTag("notshowscabbard") then
             inst.AnimState:ClearOverrideSymbol("swap_body_tall")
@@ -220,15 +228,6 @@ local function OnKilled(inst, data)
         end
     end
 end
-
-local SkinsHeaddress = {
-    ["manutsawee_maid"] = "maid_hb",
-    ["manutsawee_shinsengumi"] = "m_hb",
-    ["manutsawee_yukata"] = "m_sfoxmask_swap",
-    ["manutsawee_yukatalong"] = "m_sfoxmask_swap",
-    ["manutsawee_maid_m"] = "maid_hb",
-    ["manutsawee_bocchi"] = "bocchi_ahoge"
-}
 
 local common_postinit = function(inst)
     inst.MiniMapEntity:SetIcon("manutsawee.tex")
@@ -328,7 +327,6 @@ local master_postinit = function(inst)
     inst.components.temperature.inherentsummerinsulation = -TUNING.INSULATION_TINY
 
     if inst.components.eater ~= nil then
-        inst.components.eater:SetCanEatMfruit()
         inst.components.eater:SetRejectEatingTag("terriblefood")
     end
 

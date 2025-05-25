@@ -42,3 +42,9 @@ function c_debug()
     c_select(player)
     c_freecrafting(player)
 end
+
+function c_mgive(t)
+    for k,v in pairs(t) do
+        c_give(v)
+    end
+end

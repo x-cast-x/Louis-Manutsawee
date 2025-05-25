@@ -102,7 +102,7 @@ local brain = require("brain/momobrain")
 local function ShouldAcceptItem(inst, item, giver, count)
     local honey = inst:TheHoney()
     if honey ~= nil then
-        return (giver == honey) and (item:HasTag("pantsu")) or (item:HasTag("mfruit"))
+        return (giver == honey) and (item:HasTag("pantsu"))
     end
 end
 
@@ -110,10 +110,6 @@ local function OnAccept(inst, giver, item)
     if item ~= nil then
         if (item:HasTag("pantsu")) or (inst.numberofbribes >= 3) then
             inst:PushEvent("admitdefeated", {satisfi = true, str = "satisfi"})
-        end
-
-        if item:HasTag("mfruit") then
-            inst.numberofbribes = inst.numberofbribes + 1
         end
     end
 end

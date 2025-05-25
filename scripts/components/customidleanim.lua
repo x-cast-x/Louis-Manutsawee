@@ -8,7 +8,7 @@ return Class(function(self, inst)
 
     local function CustomIdleAnimFn(inst)
         if idle_anim_mode == "Random" then
-            return Idle_Anim ~= nil and weighted_random_choice(Idle_Anim)
+            return Idle_Anim ~= nil and GetRandomItem(Idle_Anim)
         elseif idle_anim_mode == "Default" then
             local build = inst.AnimState:GetBuild()
             local idle_anim = Idle_Anim ~= nil and Idle_Anim[build] ~= nil and Idle_Anim[build] or nil
@@ -18,7 +18,7 @@ return Class(function(self, inst)
 
     local function CustomIdleStateFn(inst)
         if idle_anim_mode == "Random" then
-            return Funny_Idle_Anim ~= nil and weighted_random_choice(Funny_Idle_Anim)
+            return Funny_Idle_Anim ~= nil and GetRandomItem(Funny_Idle_Anim)
         elseif idle_anim_mode == "Default" then
             local build = inst.AnimState:GetBuild()
             local funny_idle_anim = Funny_Idle_Anim ~= nil and Funny_Idle_Anim[build]

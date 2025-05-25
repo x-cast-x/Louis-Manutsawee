@@ -264,6 +264,7 @@ local MakeKatana = function(data)
 
         inst.spelltype = "PULLOUT"
 
+        inst:AddTag(name)
         inst:AddTag("nosteal")
         inst:AddTag("sharp")
         inst:AddTag("veryquickcast")

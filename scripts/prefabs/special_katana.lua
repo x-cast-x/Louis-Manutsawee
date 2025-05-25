@@ -24,42 +24,11 @@ local function StopFx(inst)
     end
 end
 
-local shadow_fx = {"wanda_attack_shadowweapon_old_fx", "wanda_attack_pocketwatch_old_fx", "hitsparks_fx"}
-local CANT_TAGS = {"player", "INLIMBO", "structure", "companion", "abigial", "birds", "prey", "wall" ,"boat", "bird"}
-
 local hitsparks_fx_colouroverride = {1, 0, 0}
 local mortalblade_onattack = function(inst, owner, target)
     if inst.IsShadow(target) or inst.IsLunar(target) then
         target.components.combat:GetAttacked(owner, inst.components.weapon.damage * 10)
     end
-
-    local radius = 10
-    local x, y, z = owner.Transform:GetWorldPosition()
-    local ents = TheSim:FindEntities(x, y, z, radius, nil, CANT_TAGS)
-
-    for _, v in pairs(ents) do
-        if v ~= nil and v:IsValid() and v.components.health ~= nil and not v.components.health:IsDead() then
-            local shadowfx = SpawnPrefab("hitsparks_fx")
-            shadowfx:Setup(owner, target, nil, hitsparks_fx_colouroverride)
-            -- 将hitsparks_fx的black值设置为true
-            shadowfx.black:set(true)
-            shadowfx.Transform:SetScale(3, 3, 3)
-            shadowfx.Transform:SetPosition(v:GetPosition():Get())
-            inst.SoundEmitter:PlaySound("dontstarve/common/nightmareAddFuel")
-
-            if v ~= target then
-                v.components.health:DoDelta(-TUNING.KATANA.TRUE_DAMAGE)
-            end
-        end
-    end
-end
-
-local shusui_common_postinit = function(inst)
-    inst:AddTag("shusui")
-end
-
-local mortalblade_common_postinit = function(inst)
-    inst:AddTag("mortalblade")
 end
 
 local function OnRemove(inst)
@@ -123,10 +92,6 @@ local tenseiga_onattack = function(inst, owner, target)
     end
 end
 
-local tenseiga_common_postinit = function(inst)
-    inst:AddTag("tenseiga")
-end
-
 local tenseiga_master_postinit = function(inst)
     local _onhaunt = inst.components.hauntable.onhaunt
     local function OnHaunt(inst, player)
@@ -146,9 +111,20 @@ local tenseiga_master_postinit = function(inst)
     inst:RemoveComponent("finiteuses")
 end
 
-local function kage_common_postinit(inst)
-    inst:AddTag("kage")
-end
+local Spawn_Shadow_Fx = {
+    wanda_attack_shadowweapon_old_fx = 1,
+    wanda_attack_pocketwatch_old_fx = 1,
+    shadow_merm_spawn_poof_fx = 1,
+    sanity_lower = 1,
+    shadowhand_fx = 1,
+    statue_transition = 1,
+    abigail_shadow_buff_fx = 1,
+    beef_bell_shadow_cursefx = 1,
+    voidcloth_boomerang_impact_fx = 1,
+    cavehole_flick = 1,
+    slurper_respawn = 1,
+    fused_shadeling_spawn_fx = 1,
+}
 
 local function kage_master_postinit(inst)
     inst.TryStartFx = TryStartFx
@@ -161,6 +137,8 @@ local function kage_master_postinit(inst)
     inst.onunequip_fn = function(inst, owner)
         inst.StopFx(inst)
     end
+
+    inst.Spawn_Shadow_Fx = Spawn_Shadow_Fx
 end
 
 local kage_onattack = function(inst, owner, target)
@@ -168,30 +146,21 @@ local kage_onattack = function(inst, owner, target)
         target.components.combat:GetAttacked(owner, inst.components.weapon.damage * 10)
     end
 
-    local shadowfx
-    local radius = 10
-    local x, y, z = owner.Transform:GetWorldPosition()
-    local ents = TheSim:FindEntities(x, y, z, radius, nil, CANT_TAGS)
-
     local spark = SpawnPrefab("hitsparks_fx")
     spark:Setup(owner, target, nil, hitsparks_fx_colouroverride)
-    -- 将hitsparks_fx的black值设置为true
     spark.black:set(true)
 
-    for _, v in pairs(ents) do
+    local radius = 20
+    local x, y, z = owner.Transform:GetWorldPosition()
+    local MUST_TAGS = {"_health"}
+    local CANT_TAGS = {"CLASSIFIED", "FX", "NOCLICK", "player", "INLIMBO", "_inventoryitem", "structure", "companion", "abigial", "bird", "prey", "wall", "boat"}
+    local Ents = TheSim:FindEntities(x, y, z, radius, MUST_TAGS, CANT_TAGS)
+    for _, v in pairs(Ents) do
         if v ~= nil and v:IsValid() and v.components.health ~= nil and not v.components.health:IsDead() then
-            shadowfx = SpawnPrefab(shadow_fx[math.random(1, #shadow_fx)])
-            if shadowfx.prefab == "hitsparks_fx" then
-                shadowfx:Setup(owner, target, nil, hitsparks_fx_colouroverride)
-                -- 将hitsparks_fx的black值设置为true
-                shadowfx.black:set(true)
-            end
-            shadowfx.Transform:SetScale(3, 3, 3)
-            shadowfx.Transform:SetPosition(v:GetPosition():Get())
-            inst.SoundEmitter:PlaySound("dontstarve/common/nightmareAddFuel")
-
+            local fx = v:SpawnPrefabInPos(weighted_random_choice(Spawn_Shadow_Fx))
+            fx:SetScale(2)
             if v ~= target then
-                v.components.health:DoDelta(-TUNING.KATANA.TRUE_DAMAGE)
+                v.components.health:DoDelta(-math.random(TUNING.KATANA.DAMAGE, TUNING.KATANA.TRUE_DAMAGE))
             end
         end
     end
@@ -199,25 +168,21 @@ end
 
 local katana_data = {
     shusui = {
-        common_postinit = shusui_common_postinit,
         -- master_postinit = shusui_master_postinit,
         -- onattack = shusui_onattack,
         damage = TUNING.KATANA.TRUE_DAMAGE
     },
     mortalblade = {
-        common_postinit = mortalblade_common_postinit,
         master_postinit = mortalblade_master_postinit,
         onattack = mortalblade_onattack,
         damage = TUNING.KATANA.TRUE_DAMAGE
     },
     tenseiga = {
-        common_postinit = tenseiga_common_postinit,
         master_postinit = tenseiga_master_postinit,
         onattack = tenseiga_onattack,
         damage = 0,
     },
     kage = {
-        common_postinit = kage_common_postinit,
         master_postinit = kage_master_postinit,
         onattack = kage_onattack,
         damage = TUNING.KATANA.TRUE_DAMAGE,
