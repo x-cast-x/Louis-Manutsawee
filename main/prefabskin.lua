@@ -5,10 +5,16 @@ function yari_init_fn(inst, build_name)
     if not TheWorld.ismastersim then
         return
     end
+
+    inst.displaynamefn = function()
+        return STRINGS.SKIN_NAMES[build_name]
+    end
+
     basic_init_fn(inst, build_name, "yari")
 end
 
 function yari_clear_fn(inst)
+    inst.displaynamefn = nil
     basic_clear_fn(inst, "yari")
 end
 
