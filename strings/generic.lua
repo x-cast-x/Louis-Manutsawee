@@ -9,7 +9,6 @@ return {
         KATANABODY = "so what?",
         KOSHIRAE = "What a beautyful sword.",
         MAID_HB = "It's look good.",
-        MFRUIT = "Fruit?",
         MINGOT = "What is this?",
         MMIKO_ARMOR = "Not for me.",
         MORTALBLADE = "To cut the immortality.",

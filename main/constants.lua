@@ -17,8 +17,6 @@ if ENV.is_mim_enabled then
     CHARACTER_VIDEOS["manutsawee"] = {video_urls[math.random(1, #video_urls)]}
 end
 
-FOODTYPE.MFRUIT = "MFRUIT"
-
 ALL_KATANA = {}
 
 M_SKIN_NAMES = {
