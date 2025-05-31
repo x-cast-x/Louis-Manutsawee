@@ -2,7 +2,7 @@ local function en_zh(en, zh)
     return (locale == "zh" or locale == "zhr" or locale == "zht") and zh or en
 end
 
-name = "Louis Manutsawee"
+name = en_zh("Louis Manutsawee", "露易丝 曼莎薇")
 
 folder_name = folder_name or "workshop-"
 if not folder_name:find("workshop-") then
@@ -10,7 +10,7 @@ if not folder_name:find("workshop-") then
 end
 
 version = "3.0"
-description = "*" .. en_zh("Second creation", "二次创作") ..
+description = "*" .. en_zh("Second creation", "二次创作") .. "\n" ..
 en_zh("Version: ", "版本: ") .. version .. "\n" ..
 en_zh("- Original author:#ffffff", "原作者:ffffff")
 
