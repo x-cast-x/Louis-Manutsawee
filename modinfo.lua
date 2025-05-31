@@ -10,7 +10,8 @@ if not folder_name:find("workshop-") then
 end
 
 version = "3.0"
-description = en_zh("Version: ", "版本: ") .. version .. "\n" ..
+description = "*" .. en_zh("Second creation", "二次创作") ..
+en_zh("Version: ", "版本: ") .. version .. "\n" ..
 en_zh("- Original author:#ffffff", "原作者:ffffff")
 
 author = "Sydney"
