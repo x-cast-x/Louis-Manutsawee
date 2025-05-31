@@ -11,10 +11,10 @@ function c_setmindpower(num)
     end
 end
 
-function c_setkenjutsulevel(level)
+function c_setexp(num)
     local player = ConsoleCommandPlayer()
     if player ~= nil and player.components.kenjutsuka ~= nil then
-        player.components.kenjutsuka:SetLevel(level or 0)
+        player.components.kenjutsuka:SetExp(num or 1)
     end
 end
 
