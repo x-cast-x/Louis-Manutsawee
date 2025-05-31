@@ -262,8 +262,6 @@ local MakeKatana = function(data)
         inst.AnimState:SetBuild(build)
         inst.AnimState:PlayAnimation("idle")
 
-        inst.spelltype = "PULLOUT"
-
         inst:AddTag(name)
         inst:AddTag("nosteal")
         inst:AddTag("sharp")
@@ -285,6 +283,8 @@ local MakeKatana = function(data)
         if not TheWorld.ismastersim then
             return inst
         end
+
+        inst.spelltype = "PULLOUT"
 
         inst:AddComponent("inspectable")
 
