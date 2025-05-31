@@ -11,10 +11,10 @@ end
 
 version = "3.0"
 description = "*" .. en_zh("Second creation", "二次创作", "二次創作") .. "\n" ..
-en_zh("Version: ", "版本: ", "版本: ") .. version .. "\n" ..
-en_zh("- Original author:#ffffff", "原作者:ffffff", "原作者:ffffff")
+en_zh("- Original author：#ffffff", "原作者：ffffff", "原作者：ffffff")
 
-author = "Sydney"
+author = "Sydney  " .. en_zh("Version：", "版本：", "版本：") .. version
+
 
 forumthread = ""
 
@@ -161,7 +161,7 @@ configuration_options = {
     {
         name = "locale",
         label = en_zh("Translation", "翻译", "翻譯"),
-        hover = en_zh("Select a translation to enable it regardless of language packs. \n Note: Except for Chinese and English, the rest use Google Translate.", "选择翻译，而不是自动", "選擇翻譯，而不是自動"),
+        hover = en_zh("Select a translation to enable it regardless of language packs. \n Note：Except for Chinese and English, the rest use Google Translate.", "选择翻译，而不是自动", "選擇翻譯，而不是自動"),
         options = {
             {description = en_zh("Auto", "自动", "自動"), data = false},
             {description = "Deutsch", data = "de"},
@@ -204,7 +204,7 @@ configuration_options = {
     {
         name = "idle_animation_mode",
         label = en_zh("Idle Animation", "空闲动画", "空閒動畫"),
-        hover = en_zh("Default mode: Each skin has a separate idle animation. \n Random mode: Idle animations are played randomly.", "默认模式: 每个皮肤都有单独的空闲动画 \n 随机模式: 随机播放空闲动画", "預設模式: 每個皮膚都有單獨的空閒動畫 \n 隨機模式: 隨機播放空閒動畫"),
+        hover = en_zh("Default mode：Each skin has a separate idle animation. \n Random mode：Idle animations are played randomly.", "默认模式：每个皮肤都有单独的空闲动画 \n 随机模式：随机播放空闲动画", "預設模式：每個皮膚都有單獨的空閒動畫 \n 隨機模式：隨機播放空閒動畫"),
         options = {
             {description = en_zh("Default", "默认", "預設"), data = "Default"},
             {description = en_zh("Random", "随机", "隨機"), data = "Random"},
@@ -309,28 +309,28 @@ configuration_options = {
 	},
 	{
         name = "skill1_key",
-        label = en_zh("Skill1:Button", "技能1 按键", "技能1 按鍵"),
+        label = en_zh("Skill1：Button", "技能1 按键", "技能1 按鍵"),
         hover = en_zh("Skill1", "技能1", "技能1"),
         default = "R",
         options = keylist,
     },
 	{
         name = "skill2_key",
-        label = en_zh("Skill2:Button", "技能2 按键", "技能2 按鍵"),
+        label = en_zh("Skill2：Button", "技能2 按键", "技能2 按鍵"),
         hover = en_zh("Skill2", "技能2", "技能2"),
         default = "C",
         options = keylist,
     },
 	{
         name = "skill3_key",
-        label = en_zh("Skill3:Button", "技能3 按键", "技能3 按鍵"),
+        label = en_zh("Skill3：Button", "技能3 按键", "技能3 按鍵"),
         hover = en_zh("Skill3", "技能3", "技能3"),
         default = "T",
         options = keylist,
     },
     {
         name = "skill4_key",
-        label = en_zh("Skill4:Button", "技能4 按键", "技能4 按鍵"),
+        label = en_zh("Skill4：Button", "技能4 按键", "技能4 按鍵"),
         hover = en_zh("Skill4", "技能4", "技能4"),
         default = "H",
         options = keylist,
@@ -480,7 +480,7 @@ configuration_options = {
     AddTitle("Other Keys 󰀮", "其它按键 󰀮", "其它按鍵 󰀮"),
     {
         name = "counter_attkack_key",
-        label = en_zh("Counter Attack Skill:Button", "反击技能 按键", "反擊技能 按鍵"),
+        label = en_zh("Counter Attack Skill：Button", "反击技能 按键", "反擊技能 按鍵"),
         hover = en_zh("Counter Attack", "反击技能", "反擊技能"),
         default = 122,
         options = keylist,
