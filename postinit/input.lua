@@ -33,6 +33,9 @@ KEY_A ==> KEY_B ==> KEY_C
 
 local TheInput = TheInput
 
+TheInput.special_keys = {}
+TheInput.onspecialkey = EventProcessor()
+
 TheInput.pressed_keys = {}
 TheInput.key_combinations = {}
 TheInput.onkeycombo = EventProcessor()
@@ -47,6 +50,7 @@ function TheInput:OnRawKey(key, down)
     local current_time = GetTime()
     local sequence_handled = false
     local combo_handled = false
+    local special_handled = false
 
     if down then
         if self.last_key_released ~= nil and (current_time - self.last_key_release_time <= self.sequence_timeout) then
@@ -78,11 +82,18 @@ function TheInput:OnRawKey(key, down)
         self.pressed_keys[key] = nil
     end
 
-    if not sequence_handled or not combo_handled then
+    special_handled = self.onspecialkey:HandleEvent("onspecialkey", key, down) or false
+
+    if not sequence_handled and not combo_handled and not special_handled then
         if _OnRawKey ~= nil then
-            _OnRawKey(self, key, down)
+            return _OnRawKey(self, key, down)
         end
     end
+end
+
+function TheInput:AddSpecialKeyHandler(key, fn, action)
+    self.special_keys[key] = true
+    return self.onspecialkey:AddEventHandler("onspecialkey", fn)
 end
 
 function TheInput:AddCombinationKeyHandler(key1, key2, fn)
