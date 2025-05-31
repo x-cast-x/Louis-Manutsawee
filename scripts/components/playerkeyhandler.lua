@@ -2,111 +2,51 @@
 --[[ Player Key Handler Status class definition ]]
 --------------------------------------------------------------------------
 
-return Class(function(self, inst)
-
-    --------------------------------------------------------------------------
-    --[[ Dependencies ]]
-    --------------------------------------------------------------------------
-
-    --------------------------------------------------------------------------
-    --[[ Member variables ]]
-    --------------------------------------------------------------------------
-
-    -- Public
+local PlayerKeyHandler = Class(function(self, inst)
     self.inst = inst
-
-    -- Private
-    local _world = TheWorld
-    local _ismastersim = _world.ismastersim
-    local _frontend = TheFrontEnd
-    local _input = TheInput
-
-    --------------------------------------------------------------------------
-    --[[ Private member functions ]]
-    --------------------------------------------------------------------------
-
-    local IsActiveHUDScreen = function(inst)
-        local screen = _frontend:GetActiveScreen().name
-        if screen == "HUD" and ((not inst:HasTag("time_stopped")) and (not inst:HasTag("sleeping"))) then
-            return true
-        end
-        return false
-    end
-
-    local HandleKeyAction = function(namespace, action, ...)
-        if IsActiveHUDScreen(inst) then
-            if _ismastersim then
-                local fn = GetModRPCHandler(namespace, action)
-                if fn ~= nil then
-                    fn(inst, ...)
-                end
-            else
-                SendModRPCToServer(GetModRPC(namespace, action))
-            end
-        end
-    end
-
-    --------------------------------------------------------------------------
-    --[[ Private event handlers ]]
-    --------------------------------------------------------------------------
-
-
-    --------------------------------------------------------------------------
-    --[[ Public member functions ]]
-    --------------------------------------------------------------------------
-
-    function self:AddKeyListener(namespace, key, action)
-        if namespace ~= nil and key ~= nil and action ~= nil then
-            _input:AddKeyUpHandler(key, function(_key)
-                HandleKeyAction(namespace, action, key, _key)
-            end)
-        end
-    end
-
-    function self:AddCombinationKeyListener(namespace, key, _key, action)
-        if namespace ~= nil and key ~= nil and action ~= nil then
-            _input:AddCombinationKeyHandler(key, _key, function(key, pressed_key)
-                HandleKeyAction(namespace, action, key, _key, pressed_key)
-            end)
-        end
-    end
-
-    function self:AddSequentialKeyHandler(namespace, key, _key, action)
-        if namespace ~= nil and key ~= nil and action ~= nil then
-            _input:AddSequentialKeyHandler(key, _key, function(key, last_key_released)
-                HandleKeyAction(namespace, action, key, last_key_released)
-            end)
-        end
-    end
-
-    --------------------------------------------------------------------------
-    --[[ Save/Load ]]
-    --------------------------------------------------------------------------
-
-
-
-    --------------------------------------------------------------------------
-    --[[ OnRemoveEntity ]]
-    --------------------------------------------------------------------------
-
-    --------------------------------------------------------------------------
-    --[[ Debug ]]
-    --------------------------------------------------------------------------
-
-    --------------------------------------------------------------------------
-    --[[ Initialization ]]
-    --------------------------------------------------------------------------
-
-    -- Register events
-
-
-    --------------------------------------------------------------------------
-    --[[ Post initialization ]]
-    --------------------------------------------------------------------------
-
-
-    --------------------------------------------------------------------------
-    --[[ End ]]
-    --------------------------------------------------------------------------
-
 end)
+
+local IsActiveHUDScreen = function()
+    return (TheFrontEnd:GetActiveScreen().name == "HUD") or false
+end
+
+function PlayerKeyHandler:HandleKeyAction(namespace, action, ...)
+    if IsActiveHUDScreen() then
+        if TheWorld.ismastersim then
+            local fn = GetModRPCHandler(namespace, action)
+            if fn ~= nil then
+                fn(self.inst, ...)
+            end
+        else
+            SendModRPCToServer(GetModRPC(namespace, action))
+        end
+    end
+end
+
+function PlayerKeyHandler:AddKeyListener(namespace, key, action)
+    TheInput:AddSpecialKeyHandler(key, function(_key, down)
+        if key == _key then
+            for k, v in pairs(TheInput.pressed_keys) do
+                if k ~= key then
+                    return false
+                end
+            end
+            return self:HandleKeyAction(namespace, action) or false
+        end
+    end)
+end
+
+function PlayerKeyHandler:AddCombinationKeyListener(namespace, key, _key, action)
+    TheInput:AddCombinationKeyHandler(key, _key, function(key, pressed_key)
+        self:HandleKeyAction(namespace, action)
+    end)
+end
+
+function PlayerKeyHandler:AddSequentialKeyHandler(namespace, key, _key, action)
+    TheInput:AddSequentialKeyHandler(key, _key, function(key, last_key_released)
+        self:HandleKeyAction(namespace, action)
+    end)
+end
+
+
+return PlayerKeyHandler
