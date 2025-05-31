@@ -39,8 +39,12 @@ modimport("main/characters")
 modimport("main/prefabskin")
 
 AssetUtil.RegisterImageAtlas("images/hud/m_inventoryimages.xml")
-AssetUtil.LoadAnimAssets(ENV.modname, {Asset("ANIM", "anim/player_idles_bocchi.zip")})
+AssetUtil.LoadAnimAssets(ENV.modname, {
+    Asset("ANIM", "anim/player_idles_wortox_nice.zip"), -- fuck
+    Asset("ANIM", "anim/player_idles_bocchi.zip")
+})
 
 if ENV.is_mim_enabled then
     modimport("postinit/widgets/skinspuppet")
 end
+
