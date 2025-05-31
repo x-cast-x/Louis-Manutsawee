@@ -11,11 +11,9 @@ end
 
 local function SpawnFxTask(inst)
     if inst.components.inventoryitem ~= nil and not inst.components.inventoryitem:IsHeld() then
-
         inst:FollwerFx("electricchargedfx")
         inst:FollwerFx("thunderbird_fx_charge_loop")
-
-        if inst.entity:IsAwake() then
+        if not inst:IsAsleep() then
             inst.spawn_fx_task = inst:DoTaskInTime(4+math.random()*10, SpawnFxTask)
         end
     end

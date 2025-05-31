@@ -24,7 +24,6 @@ local function StopFx(inst)
     end
 end
 
-local hitsparks_fx_colouroverride = {1, 0, 0}
 local mortalblade_onattack = function(inst, owner, target)
     if inst.IsShadow(target) or inst.IsLunar(target) then
         target.components.combat:GetAttacked(owner, inst.components.weapon.damage * 10)
@@ -116,6 +115,7 @@ local Spawn_Shadow_Fx = {
     wanda_attack_pocketwatch_old_fx = 1,
     shadow_merm_spawn_poof_fx = 1,
     sanity_lower = 1,
+    sanity_raise = 1,
     shadowhand_fx = 1,
     statue_transition = 1,
     abigail_shadow_buff_fx = 1,
@@ -146,6 +146,7 @@ local kage_onattack = function(inst, owner, target)
         target.components.combat:GetAttacked(owner, inst.components.weapon.damage * 10)
     end
 
+    local hitsparks_fx_colouroverride = {1, 0, 0}
     local spark = SpawnPrefab("hitsparks_fx")
     spark:Setup(owner, target, nil, hitsparks_fx_colouroverride)
     spark.black:set(true)
@@ -159,6 +160,7 @@ local kage_onattack = function(inst, owner, target)
         if v ~= nil and v:IsValid() and v.components.health ~= nil and not v.components.health:IsDead() then
             local fx = v:SpawnPrefabInPos(weighted_random_choice(Spawn_Shadow_Fx))
             fx:SetScale(2)
+            -- v.AnimState:SetMultColour(0, 0, 0, 1)
             if v ~= target then
                 v.components.health:DoDelta(-math.random(TUNING.KATANA.DAMAGE, TUNING.KATANA.TRUE_DAMAGE))
             end
