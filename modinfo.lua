@@ -1,8 +1,8 @@
-local function en_zh(en, zh)
-    return (locale == "zh" or locale == "zhr" or locale == "zht") and zh or en
+local function en_zh(en, zhs, zht)
+    return (locale == "zh" or locale == "zhr") and zhs or (locale == "zht") and zht or en
 end
 
-name = en_zh("Louis Manutsawee", "露易丝 曼莎薇")
+name = en_zh("Louis Manutsawee", "露易丝 曼莎薇", "露易絲 曼莎薇")
 
 folder_name = folder_name or "workshop-"
 if not folder_name:find("workshop-") then
@@ -10,9 +10,9 @@ if not folder_name:find("workshop-") then
 end
 
 version = "3.0"
-description = "*" .. en_zh("Second creation", "二次创作") .. "\n" ..
-en_zh("Version: ", "版本: ") .. version .. "\n" ..
-en_zh("- Original author:#ffffff", "原作者:ffffff")
+description = "*" .. en_zh("Second creation", "二次创作", "二次創作") .. "\n" ..
+en_zh("Version: ", "版本: ", "版本: ") .. version .. "\n" ..
+en_zh("- Original author:#ffffff", "原作者:ffffff", "原作者:ffffff")
 
 author = "Sydney"
 
@@ -46,12 +46,12 @@ server_filter_tags = {
 }
 
 local options_enable = {
-    {description = en_zh("Disabled", "关闭"), data = false},
-    {description = en_zh("Enabled", "开启"), data = true},
+    {description = en_zh("Disabled", "关闭", "關閉"), data = false},
+    {description = en_zh("Enabled", "开启", "開啟"), data = true},
 }
 
-local function AddTitle(title_en, title_zh)  --hover does not work, as this item cannot be hovered
-    return {name = en_zh(title_en, title_zh) , options = {{description = "", data = false}}, default = false}
+local function AddTitle(title_en, title_zh, title_zht)
+    return {name = en_zh(title_en, title_zh, title_zht) , options = {{description = "", data = false}}, default = false}
 end
 
 local keylist = {
@@ -157,14 +157,13 @@ local AddSkillKeyOption = function()
 end
 
 configuration_options = {
-	AddTitle("Options", "设定"),
+	AddTitle("Options", "设定", "設定"),
     {
         name = "locale",
-        label = en_zh("Translation", "翻译"),
-        hover = en_zh("Select a translation to enable it regardless of language packs. \n Note: Except for Chinese and English, the rest use Google Translate.", "选择翻译，而不是自动"),
-        options =
-        {
-            {description = en_zh("Auto", "自动"), data = false},
+        label = en_zh("Translation", "翻译", "翻譯"),
+        hover = en_zh("Select a translation to enable it regardless of language packs. \n Note: Except for Chinese and English, the rest use Google Translate.", "选择翻译，而不是自动", "選擇翻譯，而不是自動"),
+        options = {
+            {description = en_zh("Auto", "自动", "自動"), data = false},
             {description = "Deutsch", data = "de"},
             {description = "Español", data = "es"},
             {description = "Français", data = "fr"},
@@ -181,51 +180,51 @@ configuration_options = {
     },
 	{
         name = "start_weapon",
-        label = en_zh("Start Weapon", "初始武器"),
-        hover = en_zh("Choose a starting weapon for your girl!", "为你的少女选择初始武器！"),
+        label = en_zh("Start Weapon", "初始武器", "初始武器"),
+        hover = en_zh("Choose a starting weapon for your girl!", "为你的少女选择初始武器！", "為你的少女選擇初始武器！"),
         options = {
-            {description = en_zh("Nothing", "两手空空"), data = false},
-			{description = en_zh("Shinai", "竹刀"), data = "shinai"},
-            {description = en_zh("Raikiri", "雷切"), data = "raikiri"},
-            {description = en_zh("Yasha", "夜叉"), data = "shirasaya"},
-            {description = en_zh("Sakakura", "阪倉"), data = "koshirae"},
-            {description = en_zh("hitokiri", "人斩"), data = "hitokiri"},
+            {description = en_zh("Nothing", "两手空空", "兩手空空"), data = false},
+			{description = en_zh("Shinai", "竹刀", "竹刀"), data = "shinai"},
+            {description = en_zh("Raikiri", "雷切", "雷切"), data = "raikiri"},
+            {description = en_zh("Yasha", "夜叉", "夜叉"), data = "shirasaya"},
+            {description = en_zh("Sakakura", "阪倉", "阪倉"), data = "koshirae"},
+            {description = en_zh("hitokiri", "人斩", "人斬"), data = "hitokiri"},
 
-            {description = en_zh("Raikiri The Lightning Cutter", "雷切·雷光斩"), data = "true_raikiri"},
-            {description = en_zh("Yasha The Demon Slayer", "夜叉·妖魔杀手"), data = "true_shirasaya"},
-            {description = en_zh("Sakakura The Giant Slayers", "阪倉·巨人屠戮者"), data = "true_koshirae"},
-            {description = en_zh("Nihiru The Bloodseeker", "逆流·嗜血猎手"), data = "true_hitokiri"},
+            {description = en_zh("Raikiri The Lightning Cutter", "雷切·雷光斩", "雷切·雷光斬"), data = "true_raikiri"},
+            {description = en_zh("Yasha The Demon Slayer", "夜叉·妖魔杀手", "夜叉·妖魔殺手"), data = "true_shirasaya"},
+            {description = en_zh("Sakakura The Giant Slayers", "阪倉·巨人屠戮者", "阪倉·巨人屠戮者"), data = "true_koshirae"},
+            {description = en_zh("Nihiru The Bloodseeker", "逆流·嗜血猎手", "逆流·嗜血獵手"), data = "true_hitokiri"},
 
-			{description = en_zh("Mortal Blade", "拜泪·不死斩"), data = "mortalblade"},
-			{description = en_zh("Shusui", "秋水"), data = "shusui"},
-			{description = en_zh("Kage", "影"), data = "kage"},
+			{description = en_zh("Mortal Blade", "拜泪·不死斩", "拜淚·不死斬"), data = "mortalblade"},
+			{description = en_zh("Shusui", "秋水", "秋水"), data = "shusui"},
+			{description = en_zh("Kage", "影", "影"), data = "kage"},
         },
         default = false,
     },
     {
         name = "idle_animation_mode",
-        label = en_zh("Idle Animation", "空闲动画"),
-        hover = en_zh("Default mode: Each skin has a separate idle animation. \n Random mode: Idle animations are played randomly.", "默认模式: 每个皮肤都有单独的空闲动画 \n 随机模式: 随机播放空闲动画"),
+        label = en_zh("Idle Animation", "空闲动画", "空閒動畫"),
+        hover = en_zh("Default mode: Each skin has a separate idle animation. \n Random mode: Idle animations are played randomly.", "默认模式: 每个皮肤都有单独的空闲动画 \n 随机模式: 随机播放空闲动画", "預設模式: 每個皮膚都有單獨的空閒動畫 \n 隨機模式: 隨機播放空閒動畫"),
         options = {
-            {description = en_zh("Default", "默认"), data = "Default"},
-            {description = en_zh("Random", "随机"), data = "Random"},
-            {description = en_zh("Disable", "关闭"), data = false},
+            {description = en_zh("Default", "默认", "預設"), data = "Default"},
+            {description = en_zh("Random", "随机", "隨機"), data = "Random"},
+            {description = en_zh("Disable", "关闭", "關閉"), data = false},
         },
         default = "Default",
     },
     {
         name = "dodge_enable",
-        label = en_zh("Dodge Ability", "闪避技能"),
-        hover = en_zh("Left click to dodge to the mouse direction.", "左键点击闪避到鼠标方向位置"),
+        label = en_zh("Dodge Ability", "闪避技能", "閃避技能"),
+        hover = en_zh("Left click to dodge to the mouse direction.", "左键点击闪避到鼠标方向位置", "左鍵點擊閃避到滑鼠方向位置"),
         options = options_enable,
         default = false,
     },
 
-    AddTitle(en_zh("Custom Kenjutsu", "自定义剑术")),
+    AddTitle("Custom Kenjutsu", "自定义剑术", "自訂劍術"),
     {
         name = "max_mindpower",
-        label = en_zh("Set Mind  󰀈", "设置能量点 󰀈") ,
-        hover = en_zh("Set Mind when start. level max + 50", "设置起始能量点, 最大50。"),
+        label = en_zh("Set Mind  󰀈", "设置能量点 󰀈", "設定能量點 󰀈") ,
+        hover = en_zh("Set Mind when start. level max + 50", "设置起始能量点, 最大50。", "設定起始能量點, 最大50。"),
         options = {
             {description="0", data = 0},
             {description="10", data = 10},
@@ -238,8 +237,8 @@ configuration_options = {
     },
 	{
         name = "regen_mindpower_rate",
-        label = en_zh("Mind 󰀈 Regen half of max / seccond ", "󰀈恢复最大的一半/秒") ,
-        hover = en_zh("Mind regenaration unlock level 4.", "心灵再生解锁4级"),
+        label = en_zh("Mind 󰀈 Regen half of max / seccond ", "󰀈恢复最大的一半/秒", "󰀈恢復最大的一半/秒") ,
+        hover = en_zh("Mind regenaration unlock level 4.", "心灵再生解锁4级", "心靈再生解鎖4級"),
         options = {
 			{description="10", data = 10},
             {description="20", data = 20},
@@ -260,8 +259,8 @@ configuration_options = {
     },
     {
         name = "regen_mindpower_count",
-        label = en_zh("Mind  󰀈 Regen / hit", "每次攻击恢复心灵"),
-        hover = en_zh("Mind regen/hit that attack with katana", "心灵恢复/用武士刀攻击该攻击"),
+        label = en_zh("Mind  󰀈 Regen / hit", "每次攻击恢复心灵", "每次攻擊恢復心靈"),
+        hover = en_zh("Mind regen/hit that attack with katana", "心灵恢复/用武士刀攻击该攻击", "心靈恢復/用武士刀攻擊該攻擊"),
         options = {
             {description="4", data = 4},
             {description="6", data = 6},
@@ -277,8 +276,8 @@ configuration_options = {
     },
 	{
         name = "kenjutsu_exp_multiple",
-        label = en_zh("Kenjutsu EXP Multiple", "剑术经验获取倍率"),
-        hover = en_zh("fast Kenjutsu exp gain", "勤能补拙，风灵月影亦能！"),
+        label = en_zh("Kenjutsu EXP Multiple", "剑术经验获取倍率", "劍術經驗獲取倍率"),
+        hover = en_zh("fast Kenjutsu exp gain", "勤能补拙，风灵月影亦能！", "勤能補拙，風靈月影亦能！"),
         options = {
             {description="x1", data = 1},
             {description="x2", data = 2},
@@ -295,51 +294,51 @@ configuration_options = {
     },
 	{
         name = "is_tatsujin",
-        label = en_zh("Set Kenjutsu Level", "剑术大师"),
-        hover = en_zh("Set kenjutsu level at start", "直接成为剑术大师！"),
+        label = en_zh("Set Kenjutsu Level", "剑术大师", "劍術大師"),
+        hover = en_zh("Set kenjutsu level at start", "直接成为剑术大师！", "直接成為劍術大師！"),
         options = options_enable,
         default = false,
     },
-    AddTitle("Skill Keys 󰀈", "剑技按键 󰀈"),
+    AddTitle("Skill Keys 󰀈", "剑技按键 󰀈", "劍技按鍵 󰀈"),
 	{
         name = "enable_skill",
-        label = en_zh("Skill 󰀈", "角色技能 󰀈"),
-        hover = en_zh("Turn On or Off Character Skill.", "开启或者关闭角色技能") ,
+        label = en_zh("Skill 󰀈", "角色技能 󰀈", "角色技能 󰀈"),
+        hover = en_zh("Turn On or Off Character Skill.", "开启或者关闭角色技能", "開啟或者關閉角色技能") ,
         options = options_enable,
         default = true,
 	},
 	{
         name = "skill1_key",
-        label = en_zh("Skill1:Button", "技能1 按键"),
-        hover = en_zh("Skill1", "技能1"),
+        label = en_zh("Skill1:Button", "技能1 按键", "技能1 按鍵"),
+        hover = en_zh("Skill1", "技能1", "技能1"),
         default = "R",
         options = keylist,
     },
 	{
         name = "skill2_key",
-        label = en_zh("Skill2:Button", "技能2 按键"),
-        hover = en_zh("Skill2", "技能2"),
+        label = en_zh("Skill2:Button", "技能2 按键", "技能2 按鍵"),
+        hover = en_zh("Skill2", "技能2", "技能2"),
         default = "C",
         options = keylist,
     },
 	{
         name = "skill3_key",
-        label = en_zh("Skill3:Button", "技能3 按键"),
-        hover = en_zh("Skill3", "技能3"),
+        label = en_zh("Skill3:Button", "技能3 按键", "技能3 按鍵"),
+        hover = en_zh("Skill3", "技能3", "技能3"),
         default = "T",
         options = keylist,
     },
     {
         name = "skill4_key",
-        label = en_zh("Skill4:Button", "技能4 按键"),
-        hover = en_zh("Skill4", "技能4"),
+        label = en_zh("Skill4:Button", "技能4 按键", "技能4 按鍵"),
+        hover = en_zh("Skill4", "技能4", "技能4"),
         default = "H",
         options = keylist,
     },
 	{
         name = "counter_attack_cooldown_time",
-        label = en_zh("Set Skill Counter Cooldown time(s).", "设置反击技能冷却时间。"),
-        hover = en_zh("Set Skill Counter Cooldown time(s).", "设置反击技能冷却时间。"),
+        label = en_zh("Set Skill Counter Cooldown time(s).", "设置反击技能冷却时间。", "設定反擊技能冷卻時間。"),
+        hover = en_zh("Set Skill Counter Cooldown time(s).", "设置反击技能冷却时间。", "設定反擊技能冷卻時間。"),
         options = {
             {description="0.5", data = .5},
             {description="1", data = 1},
@@ -363,8 +362,8 @@ configuration_options = {
     },
 	{
         name = "skill1_cooldown_time",
-        label = en_zh("Skill 1 Cooldown time(s).", "技能1冷却时间。"),
-        hover = en_zh("Skill 1 Cooldown time(s).", "技能1冷却时间。"),
+        label = en_zh("Skill 1 Cooldown time(s).", "技能1冷却时间。", "技能1冷卻時間。"),
+        hover = en_zh("Skill 1 Cooldown time(s).", "技能1冷却时间。", "技能1冷卻時間。"),
         options = {
 			{description="5", data = 5},
             {description="10", data = 10},
@@ -384,8 +383,8 @@ configuration_options = {
     },
 	{
         name = "skill2_cooldown_time",
-        label = en_zh("Skill 2 Cooldown time(s).", "技能2冷却时间。"),
-        hover = en_zh("Skill 2 Cooldown time(s).", "技能2冷却时间。"),
+        label = en_zh("Skill 2 Cooldown time(s).", "技能2冷却时间。", "技能2冷卻時間。"),
+        hover = en_zh("Skill 2 Cooldown time(s).", "技能2冷却时间。", "技能2冷卻時間。"),
         options = {
 			{description="5", data = 5},
             {description="10", data = 10},
@@ -405,8 +404,8 @@ configuration_options = {
     },
 	{
         name = "skill3_cooldown_time",
-        label = en_zh("Skill 3 Cooldown time(s).", "技能3冷却时间。"),
-        hover = en_zh("Skill 3 Cooldown time(s).", "技能3冷却时间。"),
+        label = en_zh("Skill 3 Cooldown time(s).", "技能3冷却时间。", "技能3冷卻時間。"),
+        hover = en_zh("Skill 3 Cooldown time(s).", "技能3冷却时间。", "技能3冷卻時間。"),
         options = {
 			{description="5", data = 5},
             {description="10", data = 10},
@@ -426,8 +425,8 @@ configuration_options = {
     },
     {
         name = "skill4_cooldown_time",
-        label = en_zh("Skill 4 Cooldown time(s).", "技能4冷却时间。"),
-        hover = en_zh("Skill 4 Cooldown time(s).", "技能4冷却时间。"),
+        label = en_zh("Skill 4 Cooldown time(s).", "技能4冷却时间。", "技能4冷卻時間。"),
+        hover = en_zh("Skill 4 Cooldown time(s).", "技能4冷却时间。", "技能4冷卻時間。"),
         options = {
 			{description="5", data = 5},
             {description="10", data = 10},
@@ -447,8 +446,8 @@ configuration_options = {
     },
 	{
         name = "isshin_skill_cooldown_time",
-        label = en_zh("Tier 2 Skill Cooldown time(s).", "2级技能冷却时间"),
-        hover = en_zh("Tier 2 Skill Cooldown time(s).", "2级技能冷却时间"),
+        label = en_zh("Tier 2 Skill Cooldown time(s).", "2级技能冷却时间", "2級技能冷卻時間"),
+        hover = en_zh("Tier 2 Skill Cooldown time(s).", "2级技能冷却时间", "2級技能冷卻時間"),
         options = {
             {description="50", data = 50},
             {description="60", data = 60},
@@ -464,8 +463,8 @@ configuration_options = {
     },
 	{
         name = "ryusen_and_susanoo_skill_cooldown_time",
-        label = en_zh("Tier 3 Skill Cooldown time(s).", "3级技能冷却时间"),
-        hover = en_zh("Tier 3 Skill Cooldown time(s).", "3级技能冷却时间"),
+        label = en_zh("Tier 3 Skill Cooldown time(s).", "3级技能冷却时间", "3級技能冷卻時間"),
+        hover = en_zh("Tier 3 Skill Cooldown time(s).", "3级技能冷却时间", "3級技能冷卻時間"),
         options = {
             {description="90", data = 90},
             {description="120", data = 120},
@@ -478,46 +477,46 @@ configuration_options = {
         },
         default = 210,
     },
-    AddTitle("Other Keys 󰀮", "其它按键 󰀮"),
+    AddTitle("Other Keys 󰀮", "其它按键 󰀮", "其它按鍵 󰀮"),
     {
         name = "counter_attkack_key",
-        label = en_zh("Counter Attack Skill:Button", "反击技能 按键"),
-        hover = en_zh("Counter Attack", "反击技能"),
+        label = en_zh("Counter Attack Skill:Button", "反击技能 按键", "反擊技能 按鍵"),
+        hover = en_zh("Counter Attack", "反击技能", "反擊技能"),
         default = 122,
         options = keylist,
     },
 	{
         name = "quick_sheath_key",
-        label = en_zh("Quick Sheath Katana", "快速收拔刀 按键"),
-        hover = en_zh("Quick Sheath Katana", "快速收拔刀"),
+        label = en_zh("Quick Sheath Katana", "快速收拔刀 按键", "快速收拔刀 按鍵"),
+        hover = en_zh("Quick Sheath Katana", "快速收拔刀", "快速收拔刀"),
         default = 120,
         options = keylist,
     },
 	{
         name = "skill_cancel_key",
-        label = en_zh("Skill Cancel", "技能取消 按键"),
-        hover = en_zh("Cancel all skill", "技能取消"),
+        label = en_zh("Skill Cancel", "技能取消 按键", "技能取消 按鍵"),
+        hover = en_zh("Cancel all skill", "技能取消", "技能取消"),
         default = 118,
         options = keylist,
     },
     {
         name = "put_glasses_key",
-        label = en_zh("EyeGlasses 󰀅", "眼镜"),
-        hover = en_zh("wear eyeglasses.", "戴眼镜按键"),
+        label = en_zh("EyeGlasses 󰀅", "眼镜", "眼鏡"),
+        hover = en_zh("wear eyeglasses.", "戴眼镜按键", "戴眼鏡按鍵"),
         default = 111,
         options = keylist,
     },
 	{
         name = "change_hair_style_key",
-        label = en_zh("Change Hair Style 󰀖", "改变发型"),
-        hover = en_zh("Choose a beautiful hairstyle for your girl!", "为你的少女选择好看的发型！"),
+        label = en_zh("Change Hair Style 󰀖", "改变发型", "改變髮型"),
+        hover = en_zh("Choose a beautiful hairstyle for your girl!", "为你的少女选择好看的发型！", "為你的少女選擇好看的髮型！"),
         default = 108,
         options = keylist,
     },
 	{
         name = "level_check_key",
-        label = en_zh("Show Level  󰀙", "查看人物等级"),
-        hover = en_zh("This is the key use to Show level.", "查看人物等级按键"),
+        label = en_zh("Show Level  󰀙", "查看人物等级", "查看人物等級"),
+        hover = en_zh("This is the key use to Show level.", "查看人物等级按键", "查看人物等級按鍵"),
         default = 107,
         options = keylist,
     },
