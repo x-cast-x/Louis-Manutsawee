@@ -190,7 +190,7 @@ local function OnPickupFn(inst, picker, src_pos)
     inst.components.sanityaura.max_distsq = 0
 
     if inst.m_shadowhand_fx ~= nil then
-        inst.m_shadowhand_fx:ListenForEvent("animover", inst.m_shadowhand_fx.Remove)
+        inst.m_shadowhand_fx.Release(inst)
     end
 end
 
@@ -214,7 +214,8 @@ end
 
 -- m_shadowhand_fx
 -- willow_shadow_fire_explode
-local CANT_TAGS = {"FX", "NOCLICK", "INLIMBO"}
+local MUST_TAGS = {"_health"}
+local CANT_TAGS = {"FX", "NOCLICK", "INLIMBO", "_inventoryitem"}
 local function SpawnFxTask(inst)
     if not inst.components.inventoryitem:IsHeld() then
         local fused_shadeling_spawn_fx = SpawnPrefab("fused_shadeling_spawn_fx")
@@ -225,9 +226,10 @@ local function SpawnFxTask(inst)
         dreadstone_spawn_fx.entity:AddFollower()
         dreadstone_spawn_fx.Follower:FollowSymbol(inst.GUID)
 
+        local radius = 4
         local x, y, z = inst.Transform:GetWorldPosition()
-        local ents = TheSim:FindEntities(x, y, z, 4, nil, CANT_TAGS)
-        for k, v in pairs(ents) do
+        local Ents = TheSim:FindEntities(x, y, z, radius, MUST_TAGS, CANT_TAGS)
+        for k, v in pairs(Ents) do
             if v:HasTag("smallcreature") then
                 local sanity_lower = SpawnPrefab("sanity_lower")
                 local x, y, z = v.Transform:GetWorldPosition()
@@ -343,5 +345,7 @@ local function fn()
 
     return inst
 end
+
+table.insert(ALL_KATANA, "tokijin")
 
 return Prefab("tokijin", fn, assets, prefabs)
