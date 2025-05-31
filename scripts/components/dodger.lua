@@ -28,12 +28,23 @@ local Dodger = Class(function(self, inst)
     self.dodge_cooldown_time = TUNING.DEFAULT_DODGE_COOLDOWN_TIME
     self.last_dodge_time = GetTime()
 
-    inst:ListenForEvent("dodgetimedirty", GetLastDodgeTime)
-    inst:ListenForEvent("setowner", OnSetOwner)
+    if not TheWorld.ismastersim then
+        inst:ListenForEvent("dodgetimedirty", GetLastDodgeTime)
+        inst:ListenForEvent("setowner", OnSetOwner)
+    end
 end)
 
 function Dodger:SetCooldownTime(time)
-    self.dodge_cooldown_time = time
+    if TheWorld.ismastersim then
+        self.dodge_cooldown_time = time
+    end
+end
+
+function Dodger:OnRemoveFromEntity()
+    if not TheWorld.ismastersim then
+        self.inst:RemoveEventCallback("dodgetimedirty", GetLastDodgeTime)
+        self.inst:RemoveEventCallback("setowner", OnSetOwner)
+    end
 end
 
 return Dodger
