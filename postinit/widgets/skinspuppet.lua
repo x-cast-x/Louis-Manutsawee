@@ -4,8 +4,6 @@ local modname = modname
 local AssetUtil = require("utils/assetutil")
 GLOBAL.setfenv(1, GLOBAL)
 
-AssetUtil.LoadAnimAssets(modname, {Asset("ANIM", "anim/player_idles_bocchi.zip")})
-
 local balloon_color = {
     "blue",
     "green",
