@@ -61,11 +61,11 @@ local _StartAttack = Combat.StartAttack
 function Combat:StartAttack(...)
     _StartAttack(self, ...)
 
-    if self.afterstartattackfn ~= nil then
-        self.afterstartattackfn(self.inst)
+    if self.startattackfn ~= nil and self.forcefacing and self.target ~= nil and self.target:IsValid() then
+        self.startattackfn(self.inst, self.target)
     end
 end
 
-function Combat:SetAfterStartAttack(fn)
-    self.afterstartattackfn = fn
+function Combat:SetStartAttack(fn)
+    self.startattackfn = fn
 end
