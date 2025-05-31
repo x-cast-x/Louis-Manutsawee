@@ -10,23 +10,10 @@ if not folder_name:find("workshop-") then
 end
 
 version = "3.0"
-changelog = ""
--- en_zh([[
--- - Added 4 skins
--- - Added some content (explore by yourself)
--- - Optimize code
--- ]], [[
--- - 添加了4款皮肤
--- - 添加了一些内容(自行探索)
--- - 添加了汉化(不全, 慢慢优化)
--- - 优化代码
--- ]])
+description = en_zh("Version: ", "版本: ") .. version .. "\n" ..
+en_zh("- Original author:#ffffff", "原作者:ffffff")
 
-description = en_zh("Version: ", "版本: ") .. version ..
-en_zh("\n\nChanges:\n", "\n\n更新内容:\n") .. changelog .. "\n" ..
-en_zh("- Original author:#ffffff", "原作者:#ffffff")
-
-author = en_zh("Sydney", "悉尼")
+author = "Sydney"
 
 forumthread = ""
 
@@ -495,21 +482,21 @@ configuration_options = {
         name = "counter_attkack_key",
         label = en_zh("Counter Attack Skill:Button", "反击技能 按键"),
         hover = en_zh("Counter Attack", "反击技能"),
-        default = "Z",
+        default = 122,
         options = keylist,
     },
 	{
         name = "quick_sheath_key",
         label = en_zh("Quick Sheath Katana", "快速收拔刀 按键"),
         hover = en_zh("Quick Sheath Katana", "快速收拔刀"),
-        default = "X",
+        default = 120,
         options = keylist,
     },
 	{
         name = "skill_cancel_key",
         label = en_zh("Skill Cancel", "技能取消 按键"),
         hover = en_zh("Cancel all skill", "技能取消"),
-        default = "V",
+        default = 118,
         options = keylist,
     },
     {
@@ -530,7 +517,7 @@ configuration_options = {
         name = "level_check_key",
         label = en_zh("Show Level  󰀙", "查看人物等级"),
         hover = en_zh("This is the key use to Show level.", "查看人物等级按键"),
-        default = "P",
+        default = 107,
         options = keylist,
     },
 }
