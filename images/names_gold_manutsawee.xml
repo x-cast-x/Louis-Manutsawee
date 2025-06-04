@@ -1,1 +1,6 @@
-<Atlas><Texture filename="names_gold_manutsawee.tex" /><Elements><Element name="manutsawee.tex" u1="0.00048828125" u2="0.85498046875" v1="0.1533203125" v2="0.9990234375" /></Elements></Atlas>
+<Atlas>
+    <Texture filename="names_gold_manutsawee.tex"/>
+    <Elements>
+        <Element name="manutsawee.tex" u1="0" u2="0.86498046875" v1="0.5966796875" v2="1"/>
+    </Elements>
+</Atlas>
