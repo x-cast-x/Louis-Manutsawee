@@ -150,12 +150,6 @@ local keylist = {
     {description="9", data = 57},
 }
 
-local AddSkillKeyOption = function()
-    return {
-
-    }
-end
-
 configuration_options = {
 	AddTitle("Options", "设定", "設定"),
     {
@@ -294,8 +288,8 @@ configuration_options = {
     },
 	{
         name = "is_tatsujin",
-        label = en_zh("Set Kenjutsu Level", "剑术大师", "劍術大師"),
-        hover = en_zh("Set kenjutsu level at start", "直接成为剑术大师！", "直接成為劍術大師！"),
+        label = en_zh("Limiter", "限制器", "限制器"),
+        hover = en_zh("This is the secret to being powerful!", "解除限制器，这就是强大的秘诀！", "解除限制器，這就是強大的秘訣！"),
         options = options_enable,
         default = false,
     },
